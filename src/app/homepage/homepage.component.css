@@ -32,11 +32,10 @@ a{
   font-size: 22px;
 
 }
-li:hover{
-  transform: scale(1.2);
-}
+
 
 a:hover{
+  transform: scale(1.2);
   color: #FF9C00;
 }
 #MenuHeader{
@@ -55,7 +54,7 @@ a:hover{
 #Bottom-row{
   display: flex;
   translate: 2vh 3vh;
-  gap: 10vw;
+  gap: 1vw;
 }
 
 
