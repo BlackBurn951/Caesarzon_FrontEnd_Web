@@ -1,1 +1,8 @@
-/* You can add global styles to this file, and also import other style files */
+body{
+  margin: auto;
+  width: 100%;
+}
+@font-face {
+  font-family: 'FontGenerico';
+  src: url('assets/fonts/Sunny Spells Basic.ttf') format('truetype')
+}
