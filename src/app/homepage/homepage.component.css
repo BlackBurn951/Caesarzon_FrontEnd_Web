@@ -1,0 +1,79 @@
+
+header{
+  background: #634080; /*#FF9C00*/
+  height: 18vh;
+}
+
+.HeaderContainer{
+  display: flex;
+  flex-direction: column;
+  margin-right: 10%;
+}
+
+
+#Top-row{
+  display: flex;
+  align-content: center;
+  translate: 2vh 3vh;
+  gap: 10vw;
+}
+
+#SearchBar{
+  font-size: 16px;
+  width: 50vw;
+  height: 5vh;
+}
+
+a{
+  white-space: nowrap;
+  color: white;
+  text-decoration: none;
+  font-family: FontGenerico, serif;
+  font-size: 22px;
+
+}
+li:hover{
+  transform: scale(1.2);
+}
+
+a:hover{
+  color: #FF9C00;
+}
+#MenuHeader{
+  display: flex;
+  gap: 2vw;
+  list-style-type: none;
+
+}
+
+#MenuUtente{
+  display: flex;
+  gap: 2.5vw;
+  list-style-type: none;
+}
+
+#Bottom-row{
+  display: flex;
+  translate: 2vh 3vh;
+  gap: 10vw;
+}
+
+
+footer{
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background:  #352244;
+  height: 100px;
+}
+
+/*
+button{
+  background: #634080;
+}
+
+.a{
+  height: 100%;
+  width: 100%;
+  background: #634080;
+}*/
