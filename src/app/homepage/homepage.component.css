@@ -1,14 +1,10 @@
-
+/*
 header{
-  background: #634080; /*#FF9C00*/
+  background: #634080; #FF9C00
   height: 18vh;
 }
+*/
 
-.HeaderContainer{
-  display: flex;
-  flex-direction: column;
-  margin-right: 10%;
-}
 
 
 #Top-row{
@@ -18,9 +14,8 @@ header{
   gap: 10vw;
 }
 
-#SearchBar{
+.searchBar{
   font-size: 16px;
-  width: 50vw;
   height: 5vh;
 }
 
@@ -45,11 +40,6 @@ a:hover{
 
 }
 
-#MenuUtente{
-  display: flex;
-  gap: 2.5vw;
-  list-style-type: none;
-}
 
 #Bottom-row{
   display: flex;
@@ -66,13 +56,60 @@ footer{
   height: 100px;
 }
 
-/*
-button{
+.a{
+  height: 100%;
   background: #634080;
 }
 
-.a{
-  height: 100%;
-  width: 100%;
-  background: #634080;
-}*/
+.container{
+  display: grid;
+  grid-template-columns: 16rem 1fr 16rem;
+  grid-template-rows: auto 1fr auto;
+  grid-template-areas:
+      "header header header"
+      "nav content sidebar"
+      "footer footer footer";
+  min-height: 100%;
+}
+
+header{
+  grid-area: header;
+  background-color: #634080;
+}
+
+nav {
+  grid-area: nav;
+  background-color: #634080;
+}
+
+main{
+  grid-area: content;
+  background-color: #ab3b3b;
+}
+
+aside{
+  grid-area: sidebar;
+  background-color: #7c3c3c;
+}
+
+footer{
+  grid-area: footer;
+  background-color: #352244;
+}
+
+@media (max-width: 1024px) {
+  .container{
+    grid-template-columns: 1fr;
+    grid-template-rows: auto minmax(5rem, auto) 1fr minmax(5rem,auto) auto;
+    grid-template-areas:
+      "header"
+      "nav"
+      "content"
+      "sidebar"
+      "footer";
+  }
+  #image{
+    display: none;
+  }
+}
+
