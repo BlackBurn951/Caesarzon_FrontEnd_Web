@@ -1,6 +1,7 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {RegistrationComponent} from "../registration/registration.component";
 import {MatDialog} from "@angular/material/dialog";
+import {NavigationEnd, Router} from "@angular/router";
 
 
 @Component({
@@ -8,7 +9,7 @@ import {MatDialog} from "@angular/material/dialog";
   templateUrl: './homepage.component.html',
   styleUrl: './homepage.component.css'
 })
-export class HomepageComponent {
+export class HomepageComponent{
 
   isMenuOpen = false;
 
@@ -16,11 +17,10 @@ export class HomepageComponent {
 
   }
 
-  openRegistration(event: MouseEvent) {
-    event.preventDefault();
-    this.dialog.open(RegistrationComponent, {
-    });
+  openPopup() {
+    this.dialog.open(RegistrationComponent);
   }
+
 
 
   toggleMenu(): void {
