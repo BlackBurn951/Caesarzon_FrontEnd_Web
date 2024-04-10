@@ -1,0 +1,9 @@
+#RegistrationPanel {
+  background: #000000;
+  width: 40vw;
+  height: 60vh;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}

@@ -1,15 +1,19 @@
 import { Component } from '@angular/core';
-import {RouterOutlet} from "@angular/router";
+import {RegistrationComponent} from "../registration/registration.component";
+import {MatDialog} from "@angular/material/dialog";
+
 
 @Component({
   selector: 'app-homepage',
-  standalone: true,
-  imports: [
-    RouterOutlet
-  ],
   templateUrl: './homepage.component.html',
   styleUrl: './homepage.component.css'
 })
 export class HomepageComponent {
+  constructor(private dialog: MatDialog){
 
+  }
+  openRegistration() {
+    this.dialog.open(RegistrationComponent, {
+    });
+  }
 }
