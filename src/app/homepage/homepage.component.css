@@ -3,21 +3,8 @@ header{
   background: #634080; #FF9C00
   height: 18vh;
 }
-*/
 
 
-
-#Top-row{
-  display: flex;
-  align-content: center;
-  translate: 2vh 3vh;
-  gap: 10vw;
-}
-
-.searchBar{
-  font-size: 16px;
-  height: 5vh;
-}
 
 a{
   white-space: nowrap;
@@ -43,18 +30,9 @@ a:hover{
 
 #Bottom-row{
   display: flex;
-  translate: 2vh 3vh;
   gap: 1vw;
 }
 
-
-footer{
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  background:  #352244;
-  height: 100px;
-}
 
 .a{
   height: 100%;
@@ -92,10 +70,6 @@ aside{
   background-color: #7c3c3c;
 }
 
-footer{
-  grid-area: footer;
-  background-color: #352244;
-}
 
 @media (max-width: 1024px) {
   .container{
@@ -108,8 +82,111 @@ footer{
       "sidebar"
       "footer";
   }
-  #image{
+  #image {
     display: none;
+  }
+
+  #MenuHeader{
+    flex-direction: column;
+  }
+}*/
+
+/* Variables */
+
+
+/* Styles */
+header{
+  background: #634080;
+}
+
+#Top-row{
+  display: flex;
+  align-content: center;
+  gap: 10vw;
+}
+
+.searchBar{
+  font-size: 16px;
+  height: 5vh;
+}
+
+#my-first ul {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+#my-first .logotype a {
+  padding: 0 8px;
+  font-size: 1.4rem;
+  text-decoration: none;
+  color: #07c;
+}
+
+#my-first .burger {
+  padding: 0 10px;
+  border-left: 1px solid #eee;
+  display: none;
+  cursor: pointer;
+}
+
+#my-first .burger i {
+  color: #000000;
+  line-height: 60px;
+}
+
+@media (max-width: 1024px) {
+  #my-first .burger {
+    display: block;
   }
 }
 
+#my-first .menu {
+  display: flex;
+  align-items: center;
+}
+
+#my-first .menu2{
+  display: flex;
+  align-items: center;
+}
+@media (max-width: 1024px) {
+  #my-first .menu {
+    display: none;
+  }
+
+  #my-first .menu.is-open {
+    display: block;
+    position: absolute;
+    top: calc(60px + 2px);
+    background: #fff;
+    width: 100%;
+  }
+
+  #my-first .menu.is-open .menu-item {
+    border-bottom: 1px solid #cccccc;
+  }
+}
+
+#my-first .menu-item {
+  padding: 0 10px;
+  height: 60px;
+  line-height: 60px;
+  text-decoration: none;
+  display: block;
+  text-transform: uppercase;
+  font-size: 1.5rem;
+  font-family: FontGenerico, serif;
+  color: white;
+}
+
+footer{
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background:  #352244;
+  height: 100px;
+}
