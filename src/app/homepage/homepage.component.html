@@ -4,86 +4,74 @@
   <meta charset="UTF-8">
   <title>Homepage</title>
 </head>
-<body>
-<header>
-  <div id="Top-row">
-    <img id="logo" src="assets/images/Screenshot 2024-04-09 094124.png" >
+  <body class="container">
+    <header>
+      <div id="Top-row">
+        <img id="image" src="assets/images/Screenshot 2024-04-09 094124.png" >
 
-    <input id="SearchBar" type="text" placeholder="Cerca...">
-  </div>
-  <nav id="my-first">
-    <ul>
-      <li class="burger" (click)="toggleMenu()">
-        <i class="material-icons">{{ isMenuOpen ? "close" : "menu" }}</i>
-      </li>
-      <li class="menu" [class.is-open]="isMenuOpen">
-        <a href="#" class="menu-item">PRODOTTI DEL MOMENTO</a>
-        <a href="#" class="menu-item">NOVITA'</a>
-        <a href="#" class="menu-item">OFFERTE</a>
-        <a href="#" class="menu-item">PALLAVOLO</a>
-        <a href="#" class="menu-item">BASKET</a>
-        <a href="#" class="menu-item">TENNIS</a>
-        <a href="#" class="menu-item">ATLETICA</a>
-        <a href="#" class="menu-item">NUOTO</a>
-        <a href="#" class="menu-item">CALCIO</a>
-        <a href="#" class="menu-item">ARTI MARZIALI</a>
-        <a href="#" class="menu-item">CICLISMO</a>
-        <a href="#" class="menu-item">SCIISMO</a>
-        <a href="#" class="menu-item">BOXE</a>
-      </li>
+        <input id="SearchBar" type="text" placeholder="Cerca...">
+      </div>
 
-      <li class="menu2">
-        <button class="menu-item" (click)="openPopup()">ACCEDI</button>
-        <a href="#" class="menu-item">CARRELLO</a>
-      </li>
-    </ul>
-  </nav>
+      <div id="Bottom-row">
 
-</header>
-<section id="RegistrationPanel">
-  <p>CIAO</p>
-  <p>CIAO</p>
-  <p>CIAO</p>
-  <p>CIAO</p>
-  <p>CIAO</p>
-  <p>CIAO</p>
-  <p>CIAO</p>
-  <p>CIAO</p>
-  <p>CIAO</p>
-  <p>CIAO</p>
-  <p>CIAO</p>
-  <p>CIAO</p>
-  <p>CIAO</p>
-  <p>CIAO</p>
-  <p>CIAO</p>
-  <p>CIAO</p>
-  <p>CIAO</p>
-  <p>CIAO</p>
-  <p>CIAO</p>DD
-</section>
+        <ul id="MenuHeader">
+          <a href="#">PRODOTTI DEL MOMENTO</a>
+          <a href="#">NOVITA'</a>
+          <a href="#">OFFERTE</a>
+          <a href="#">PALLAVOLO</a>
+          <a href="#">BASKET</a>
+          <a href="#">TENNIS</a>
+          <a href="#">ATLETICA</a>
+          <a href="#">NUOTO</a>
+          <a href="#">CALCIO</a>
+          <a href="#">ARTI MARZIALI</a>
+          <a href="#">CICLISMO</a>
+          <a href="#">SCIISMO</a>
+          <a href="#">BOXE</a>
 
+        </ul>
 
-<footer>
-  <section id="FooterContainer">
-    <div class="ParagrafiFooter">
-      <ul>
-        <p>Per conoscerci meglio</p>
-        <a href="#" class="menu-item">Chi siamo</a>
-        <a href="#" class="menu-item">Cosa vendiamo</a>
-        <a href="#" class="menu-item">I nostri partner</a>
-      </ul>
-    </div>
+        <ul id="MenuUtente">
+          <a href="/registration">ACCEDI</a>
+          <a href="#">CARRELLO</a>
+        </ul>
+      </div>
+    </header>
+  </body>
+  <!--<header>
+    <section class="HeaderContainer">
+      <div id="Top-row">
+        <img src="assets/images/Screenshot 2024-04-09 094124.png" >
 
-    <div class="ParagrafiFooter">
-      <ul>
-        <p>Bisogno d'aiuto?</p>
-        <a href="#" class="menu-item">Visualizza o traccia gli ordini</a>
-        <a href="#" class="menu-item">Disabilità dispositivi</a>
-        <a href="#" class="menu-item">Email per asistenza</a>
-      </ul>
-    </div>
-  </section>
-</footer>
-</body>
+        <input id="SearchBar" type="text" placeholder="Cerca...">
+      </div>
 
+      <div id="Bottom-row">
+
+        <ul id="MenuHeader">
+          <a href="#">PRODOTTI DEL MOMENTO</a>
+          <a href="#">NOVITA'</a>
+          <a href="#">OFFERTE</a>
+          <a href="#">PALLAVOLO</a>
+          <a href="#">BASKET</a>
+          <a href="#">TENNIS</a>
+          <a href="#">ATLETICA</a>
+          <a href="#">NUOTO</a>
+          <a href="#">CALCIO</a>
+          <a href="#">ARTI MARZIALI</a>
+          <a href="#">CICLISMO</a>
+          <a href="#">SCIISMO</a>
+          <a href="#">BOXE</a>
+
+        </ul>
+
+        <ul id="MenuUtente">
+          <a href="/registration">ACCEDI</a>
+          <a href="#">CARRELLO</a>
+        </ul>
+      </div>
+    </section>
+  </header>
+
+  <footer></footer>-->
 </html>
