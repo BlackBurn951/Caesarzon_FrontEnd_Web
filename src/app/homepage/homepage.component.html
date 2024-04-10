@@ -4,74 +4,45 @@
   <meta charset="UTF-8">
   <title>Homepage</title>
 </head>
-  <body class="container">
-    <header>
-      <div id="Top-row">
-        <img id="image" src="assets/images/Screenshot 2024-04-09 094124.png" >
+<body>
+<header>
+  <div id="Top-row">
+    <img src="assets/images/Screenshot 2024-04-09 094124.png" >
 
-        <input id="SearchBar" type="text" placeholder="Cerca...">
-      </div>
+    <input id="SearchBar" type="text" placeholder="Cerca...">
+  </div>
+  <nav id="my-first">
+    <ul>
+      <li class="burger" (click)="toggleMenu()">
+        <i class="material-icons">{{ isMenuOpen ? "close" : "menu" }}</i>
+      </li>
+      <li class="menu" [class.is-open]="isMenuOpen">
+        <a href="#" class="menu-item">PRODOTTI DEL MOMENTO</a>
+        <a href="#" class="menu-item">NOVITA'</a>
+        <a href="#" class="menu-item">OFFERTE</a>
+        <a href="#" class="menu-item">PALLAVOLO</a>
+        <a href="#" class="menu-item">BASKET</a>
+        <a href="#" class="menu-item">TENNIS</a>
+        <a href="#" class="menu-item">ATLETICA</a>
+        <a href="#" class="menu-item">NUOTO</a>
+        <a href="#" class="menu-item">CALCIO</a>
+        <a href="#" class="menu-item">ARTI MARZIALI</a>
+        <a href="#" class="menu-item">CICLISMO</a>
+        <a href="#" class="menu-item">SCIISMO</a>
+        <a href="#" class="menu-item">BOXE</a>
+      </li>
 
-      <div id="Bottom-row">
+      <li class="menu2">
+        <a href="#" class="menu-item">ACCEDI</a>
+        <a href="#" class="menu-item">CARRELLO</a>
+      </li>
+    </ul>
+  </nav>
 
-        <ul id="MenuHeader">
-          <a href="#">PRODOTTI DEL MOMENTO</a>
-          <a href="#">NOVITA'</a>
-          <a href="#">OFFERTE</a>
-          <a href="#">PALLAVOLO</a>
-          <a href="#">BASKET</a>
-          <a href="#">TENNIS</a>
-          <a href="#">ATLETICA</a>
-          <a href="#">NUOTO</a>
-          <a href="#">CALCIO</a>
-          <a href="#">ARTI MARZIALI</a>
-          <a href="#">CICLISMO</a>
-          <a href="#">SCIISMO</a>
-          <a href="#">BOXE</a>
+</header>
+<footer>
 
-        </ul>
+</footer>
+</body>
 
-        <ul id="MenuUtente">
-          <a href="/registration">ACCEDI</a>
-          <a href="#">CARRELLO</a>
-        </ul>
-      </div>
-    </header>
-  </body>
-  <!--<header>
-    <section class="HeaderContainer">
-      <div id="Top-row">
-        <img src="assets/images/Screenshot 2024-04-09 094124.png"  alt="">
-
-        <input id="SearchBar" type="text" placeholder="Cerca...">
-      </div>
-
-      <div id="Bottom-row">
-
-        <ul id="MenuHeader">
-          <a href="#">PRODOTTI DEL MOMENTO</a>
-          <a href="#">NOVITA'</a>
-          <a href="#">OFFERTE</a>
-          <a href="#">PALLAVOLO</a>
-          <a href="#">BASKET</a>
-          <a href="#">TENNIS</a>
-          <a href="#">ATLETICA</a>
-          <a href="#">NUOTO</a>
-          <a href="#">CALCIO</a>
-          <a href="#">ARTI MARZIALI</a>
-          <a href="#">CICLISMO</a>
-          <a href="#">SCIISMO</a>
-          <a href="#">BOXE</a>
-
-        </ul>
-
-        <ul id="MenuUtente">
-          <a (click) = openRegistration()>ACCEDI</a>
-          <a href="#">CARRELLO</a>
-        </ul>
-      </div>
-    </section>
-  </header>
-
-  <footer></footer>-->
 </html>

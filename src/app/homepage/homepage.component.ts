@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {RegistrationComponent} from "../registration/registration.component";
 import {MatDialog} from "@angular/material/dialog";
 
@@ -9,11 +9,23 @@ import {MatDialog} from "@angular/material/dialog";
   styleUrl: './homepage.component.css'
 })
 export class HomepageComponent {
+
+  isMenuOpen = false;
+
   constructor(private dialog: MatDialog){
 
   }
-  openRegistration() {
+
+  openRegistration(event: MouseEvent) {
+    event.preventDefault();
     this.dialog.open(RegistrationComponent, {
     });
   }
+
+
+  toggleMenu(): void {
+    this.isMenuOpen = !this.isMenuOpen;
+  }
+
+
 }
