@@ -1,8 +1,9 @@
-import {RouterLink, RouterModule, RouterOutlet, Routes} from '@angular/router';
+
+import { AppComponent } from './app.component';
+import {Routes} from "@angular/router";
 import {HomepageComponent} from "./homepage/homepage.component";
 import {RegistrationComponent} from "./registration/registration.component";
 import {NgModule} from "@angular/core";
-import {MatDialogModule} from "@angular/material/dialog";
 
 
 export const routes: Routes = [
@@ -11,20 +12,11 @@ export const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [RegistrationComponent, HomepageComponent],
-  imports: [RouterModule.forRoot(routes),
-    RouterOutlet,
-    RouterLink,
-    MatDialogModule
+  declarations: [
+    HomepageComponent
   ],
-  exports: [
-    RouterModule
+  imports: [
   ],
+  providers: [],
 })
-
-
-export class AppRoutes{
-
-
-
-}
+export class AppModule { }
