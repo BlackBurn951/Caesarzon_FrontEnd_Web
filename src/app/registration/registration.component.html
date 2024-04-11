@@ -1,8 +1,58 @@
 <div class="popup-dialog">
   <section id="pop-up-content">
-    <h1 >Popup Dialog</h1>
-    <p>This is a popup dialog created using Angular Material.</p>
-    <button >ACCEDI</button>
+
+    <h1 id="accedi">Accedi</h1>
+    <button (click)="loginService.closePopup()" id="ics">X</button>
+
+    <div *ngIf="loginService.isLogin">
+      <div class="inputContainer" >
+        <div class="sectionLabelInput">
+          <label class="label_username" for="username">Username o E-mail</label>
+          <input type="text" class="username" name="username">
+        </div>
+        <div class="sectionLabelInput">
+          <label class="label_password" for="password">Password</label>
+          <input type="password" class="password" name="password" >
+        </div>
+        <a href="#">Hai dimenticato la password?</a>
+      </div>
+      <div class="regTxt">
+        <button >ACCEDI</button>
+        <a href="#" (click)="loginService.toggleLogin($event)">Sei nuovo su Caesarzon? Registrati.</a>
+      </div>
+    </div>
+
+    <div *ngIf="!loginService.isLogin">
+      <div class="inputContainer">
+        <div class="sectionLabelInput">
+          <label class="label_username" for="username">Username</label>
+          <input type="text" id="username" name="username">
+        </div>
+        <div class="sectionLabelInput">
+          <label class="label_username" for="email">E-mail</label>
+          <input type="text" id="email" name="email">
+        </div>
+        <div class="sectionLabelInput">
+          <label class="label_password" for="password">Password</label>
+          <input type="password" id="password" name="password" >
+        </div>
+        <div class="sectionLabelInput">
+          <label class="label_password" for="password">Conferma password</label>
+          <input type="password" id="repeatPassword" name="password" >
+        </div>
+      </div>
+      <div class="regTxt">
+        <button >REGISTRATI</button>
+        <a href="#" (click)="loginService.toggleLogin($event)">Hai già un account? Accedi.</a>
+      </div>
+    </div>
+
+
+
+
+
+
+
   </section>
 </div>
 

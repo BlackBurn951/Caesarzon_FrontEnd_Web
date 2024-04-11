@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import {MatDialog} from "@angular/material/dialog";
+import {LoginService} from "../loginService";
 
 @Component({
   selector: 'app-registration',
@@ -6,5 +8,9 @@ import { Component } from '@angular/core';
   styleUrl: './registration.component.css'
 })
 export class RegistrationComponent {
+
+  constructor(public loginService: LoginService) {
+  }
+
 
 }
