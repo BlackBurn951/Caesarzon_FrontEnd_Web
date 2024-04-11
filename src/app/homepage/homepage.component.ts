@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {RegistrationComponent} from "../registration/registration.component";
 import {MatDialog} from "@angular/material/dialog";
 import {NavigationEnd, Router} from "@angular/router";
+import {LoginService} from "../loginService";
 
 
 @Component({
@@ -13,14 +14,8 @@ export class HomepageComponent{
 
   isMenuOpen = false;
 
-  constructor(private dialog: MatDialog){
-
+  constructor(public loginService: LoginService) {
   }
-
-  openPopup() {
-    this.dialog.open(RegistrationComponent);
-  }
-
 
 
   toggleMenu(): void {
@@ -28,4 +23,5 @@ export class HomepageComponent{
   }
 
 
+  protected readonly LoginService = LoginService;
 }

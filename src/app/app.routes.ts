@@ -14,7 +14,8 @@ export const routes: Routes = [
 
 @NgModule({
   declarations: [
-    HomepageComponent
+    HomepageComponent,
+    RegistrationComponent
   ],
   imports: [
     NgIf
