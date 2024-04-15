@@ -66,14 +66,15 @@
       <li class="nav-item">
         <button class="menu-item btn btn-primary custom-btn" (click)="loginService.openPopup()">CARRELLO</button>
       </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Accedi</a>
+      </li>
     </ul>
   </div>
 
 
 </nav>
-
-
-<div class="container mt-4">
+<div class="container-fluid mt-4">
   <div class="row">
     <div class="col-md-3">
       <h4>Filtri</h4>
@@ -91,7 +92,10 @@
       </div>
       <h2>Prodotti in evidenza</h2>
       <div class="row">
-        <div class="col-md-4 mb-3">
+        <div class="col-md-2">
+          <img id="arrowLeft" class="arrow-image" src="assets/images/right-arrow.png">
+        </div>
+        <div class="col-md-3">
           <div class="card">
             <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
             <div class="card-body">
@@ -101,7 +105,8 @@
             </div>
           </div>
         </div>
-        <div class="col-md-4 mb-3">
+
+        <div class="col-md-3">
           <div class="card">
             <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
             <div class="card-body">
@@ -111,8 +116,9 @@
             </div>
           </div>
         </div>
-        <div class="col-md-4 mb-3">
+        <div class="col-md-3">
           <div class="card">
+
             <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
             <div class="card-body">
               <h5 class="card-title">Prodotto 3</h5>
@@ -120,6 +126,9 @@
               <a href="#" class="btn btn-primary">Dettagli</a>
             </div>
           </div>
+        </div>
+        <div class="col-md-2" id="arrowRight">
+          <img class="arrow-image" src="assets/images/right-arrow.png">
         </div>
       </div>
     </div>
