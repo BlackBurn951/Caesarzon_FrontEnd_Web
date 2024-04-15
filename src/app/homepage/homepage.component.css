@@ -1,3 +1,14 @@
+footer {
+  background-color: #f8f9fa;
+  padding: 20px 0;
+  text-align: center;
+}
+
+/* Stili per la barra di ricerca */
+.search-bar {
+  margin-bottom: 20px;
+}
+/*
 header{
   background: #634080;
   height: 16vh;
@@ -128,3 +139,4 @@ footer {
   transform: scale(1.2);
   color: #FF9C00;
 }
+*/
