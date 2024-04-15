@@ -23,6 +23,7 @@ export class LoginService {
 
   openPopup() {
     this.dialog.open(RegistrationComponent);
+    this.isLogin = true;
   }
 
   closePopup() {

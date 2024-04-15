@@ -1,0 +1,52 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.containerGenerale{
+  display: flex;
+}
+
+.container-fluid{
+  background-color: lightsalmon;
+}
+
+.container{
+  background-color: darkorchid;
+  max-width: 25%;
+}
+
+
+/* Stile per la griglia dei prodotti */
+.products {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
+/* Stile per ogni singolo prodotto */
+.product {
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  padding: 20px;
+  text-align: center;
+}
+
+/* Stile per l'immagine del prodotto */
+.product img {
+  max-width: 100%;
+  height: auto;
+}
+/* Stile per i filtri */
+.filters {
+  background-color: #f2f2f2;
+  padding: 20px;
+}
+
+.filter-item {
+  margin-bottom: 10px;
+}
+
+
