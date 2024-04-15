@@ -5,9 +5,10 @@ import {HomepageComponent} from "./homepage/homepage.component";
 import {RegistrationComponent} from "./registration/registration.component";
 import {ProductPageComponent} from "./product-page/product-page.component";
 import {NgModule} from "@angular/core";
-import {NgIf} from "@angular/common";
+import {NgClass, NgIf} from "@angular/common";
 import {LoginService} from "./loginService";
 import {ProductsListComponent} from "./products-list/products-list.component";
+
 
 
 export const routes: Routes = [
@@ -23,10 +24,10 @@ export const routes: Routes = [
     RegistrationComponent,
     ProductPageComponent
   ],
-  imports: [
-    NgIf,
-
-  ],
+    imports: [
+        NgIf,
+        NgClass
+    ],
   providers: [],
 })
 export class AppModule { }

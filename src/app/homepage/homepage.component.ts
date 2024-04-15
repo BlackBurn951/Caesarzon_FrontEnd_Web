@@ -24,8 +24,6 @@ export class HomepageComponent{
   }
 
 
-  protected readonly LoginService = LoginService;
-
   goToProductPage(event: Event) {
     this.router.navigate(['product-page'])
     event.preventDefault()
