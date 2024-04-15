@@ -4,6 +4,20 @@
   padding: 0;
 }
 
+.containerGenerale{
+  display: flex;
+}
+
+.container-fluid{
+  background-color: lightsalmon;
+}
+
+.container{
+  background-color: darkorchid;
+  max-width: 25%;
+}
+
+
 /* Stile per la griglia dei prodotti */
 .products {
   display: grid;
@@ -25,3 +39,14 @@
   max-width: 100%;
   height: auto;
 }
+/* Stile per i filtri */
+.filters {
+  background-color: #f2f2f2;
+  padding: 20px;
+}
+
+.filter-item {
+  margin-bottom: 10px;
+}
+
+
