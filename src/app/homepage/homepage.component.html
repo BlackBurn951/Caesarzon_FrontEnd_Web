@@ -1,93 +1,3 @@
-<!--<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Homepage</title>
-</head>
-<body>
-<header>
-  <div id="Top-row">
-    <img id="logo" src="assets/images/Screenshot 2024-04-09 094124.png" >
-
-    <input id="SearchBar" type="text" placeholder="Cerca...">
-  </div>
-  <nav id="my-first">
-    <ul>
-      <li class="burger" (click)="toggleMenu()">
-        <i class="material-icons">{{ isMenuOpen ? "close" : "menu" }}</i>
-      </li>
-      <li class="menu" [class.is-open]="isMenuOpen">
-        <a href="#" class="menu-item">PRODOTTI DEL MOMENTO</a>
-        <a href="#" class="menu-item">NOVITA'</a>
-        <a href="#" class="menu-item">OFFERTE</a>
-        <a href="#" class="menu-item">PALLAVOLO</a>
-        <a href="#" class="menu-item">BASKET</a>
-        <a href="#" class="menu-item">TENNIS</a>
-        <a href="#" class="menu-item">ATLETICA</a>
-        <a href="#" class="menu-item">NUOTO</a>
-        <a href="#" class="menu-item">CALCIO</a>
-        <a href="#" class="menu-item">ARTI MARZIALI</a>
-        <a href="#" class="menu-item">CICLISMO</a>
-        <a href="#" class="menu-item">SCIISMO</a>
-        <a href="#" class="menu-item">BOXE</a>
-      </li>
-
-      <li class="menu2">
-        <button class="menu-item" (click)="loginService.openPopup()">ACCEDI</button>
-        <a href="#" class="menu-item">CARRELLO</a>
-      </li>
-    </ul>
-  </nav>
-
-</header>
-<section id="RegistrationPanel">
-  <p>CIAO</p>
-  <p>CIAO</p>
-  <p>CIAO</p>
-  <p>CIAO</p>
-  <p>CIAO</p>
-  <p>CIAO</p>
-  <p>CIAO</p>
-  <p>CIAO</p>
-  <p>CIAO</p>
-  <p>CIAO</p>
-  <p>CIAO</p>
-  <p>CIAO</p>
-  <p>CIAO</p>
-  <p>CIAO</p>
-  <p>CIAO</p>
-  <p>CIAO</p>
-  <p>CIAO</p>
-  <p>CIAO</p>
-  <p>CIAO</p>DD
-</section>
-
-<footer>
-  <section id="FooterContainer">
-    <div class="ParagrafiFooter">
-      <ul>
-        <p>Per conoscerci meglio</p>
-        <a href="#" class="menu-item">Chi siamo</a>
-        <a href="#" class="menu-item">Cosa vendiamo</a>
-        <a href="#" class="menu-item">I nostri partner</a>
-      </ul>
-    </div>
-
-    <div class="ParagrafiFooter">
-      <ul>
-        <p>Bisogno d'aiuto?</p>
-        <a href="#" class="menu-item">Visualizza o traccia gli ordini</a>
-        <a href="#" class="menu-item">Disabilità dispositivi</a>
-        <a href="#" class="menu-item">Email per asistenza</a>
-      </ul>
-    </div>
-  </section>
-</footer>
-</body>
-
-</html>
--->
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -100,70 +10,6 @@
 </head>
 
 <body>
-
-<nav class="navbar navbar-expand-lg navbar-light custom-navbar">
-  <a class="navbar-brand" href="#">CAESARZON</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <a class="nav-link" href="#">Prodotti del momento <span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Novità</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Offerte</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Pallavolo</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Basket</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Tennis</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Atletica</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Nuoto</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Calcio</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Arti marziali</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Ciclismo</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Sciismo</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Boxe</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Accedi</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Lista dei desideri</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Carrello</a>
-      </li>
-    </ul>
-  </div>
-
-
-</nav>
-
 <div class="container mt-4">
   <div class="row">
     <div class="col-md-3">
@@ -216,13 +62,6 @@
     </div>
   </div>
 </div>
-
-<!-- Aggiungo il footer -->
-<footer>
-  <div class="container">
-    <p>© 2024 Il tuo E-commerce. Tutti i diritti riservati.</p>
-  </div>
-</footer>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
