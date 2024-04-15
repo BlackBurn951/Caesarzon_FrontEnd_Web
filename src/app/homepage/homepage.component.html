@@ -1,93 +1,3 @@
-<!--<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Homepage</title>
-</head>
-<body>
-<header>
-  <div id="Top-row">
-    <img id="logo" src="assets/images/Screenshot 2024-04-09 094124.png" >
-
-    <input id="SearchBar" type="text" placeholder="Cerca...">
-  </div>
-  <nav id="my-first">
-    <ul>
-      <li class="burger" (click)="toggleMenu()">
-        <i class="material-icons">{{ isMenuOpen ? "close" : "menu" }}</i>
-      </li>
-      <li class="menu" [class.is-open]="isMenuOpen">
-        <a href="#" class="menu-item">PRODOTTI DEL MOMENTO</a>
-        <a href="#" class="menu-item">NOVITA'</a>
-        <a href="#" class="menu-item">OFFERTE</a>
-        <a href="#" class="menu-item">PALLAVOLO</a>
-        <a href="#" class="menu-item">BASKET</a>
-        <a href="#" class="menu-item">TENNIS</a>
-        <a href="#" class="menu-item">ATLETICA</a>
-        <a href="#" class="menu-item">NUOTO</a>
-        <a href="#" class="menu-item">CALCIO</a>
-        <a href="#" class="menu-item">ARTI MARZIALI</a>
-        <a href="#" class="menu-item">CICLISMO</a>
-        <a href="#" class="menu-item">SCIISMO</a>
-        <a href="#" class="menu-item">BOXE</a>
-      </li>
-
-      <li class="menu2">
-        <button class="menu-item" (click)="loginService.openPopup()">ACCEDI</button>
-        <a href="#" class="menu-item">CARRELLO</a>
-      </li>
-    </ul>
-  </nav>
-
-</header>
-<section id="RegistrationPanel">
-  <p>CIAO</p>
-  <p>CIAO</p>
-  <p>CIAO</p>
-  <p>CIAO</p>
-  <p>CIAO</p>
-  <p>CIAO</p>
-  <p>CIAO</p>
-  <p>CIAO</p>
-  <p>CIAO</p>
-  <p>CIAO</p>
-  <p>CIAO</p>
-  <p>CIAO</p>
-  <p>CIAO</p>
-  <p>CIAO</p>
-  <p>CIAO</p>
-  <p>CIAO</p>
-  <p>CIAO</p>
-  <p>CIAO</p>
-  <p>CIAO</p>DD
-</section>
-
-<footer>
-  <section id="FooterContainer">
-    <div class="ParagrafiFooter">
-      <ul>
-        <p>Per conoscerci meglio</p>
-        <a href="#" class="menu-item">Chi siamo</a>
-        <a href="#" class="menu-item">Cosa vendiamo</a>
-        <a href="#" class="menu-item">I nostri partner</a>
-      </ul>
-    </div>
-
-    <div class="ParagrafiFooter">
-      <ul>
-        <p>Bisogno d'aiuto?</p>
-        <a href="#" class="menu-item">Visualizza o traccia gli ordini</a>
-        <a href="#" class="menu-item">Disabilità dispositivi</a>
-        <a href="#" class="menu-item">Email per asistenza</a>
-      </ul>
-    </div>
-  </section>
-</footer>
-</body>
-
-</html>
--->
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -100,7 +10,6 @@
 </head>
 
 <body>
-
 <nav class="navbar navbar-expand-lg navbar-light custom-navbar">
   <a class="navbar-brand" href="#">CAESARZON</a>
   <button class="navbar-toggler btn btn-primary custom-btn" type="button" (click)="toggleMenu()">
@@ -163,6 +72,7 @@
 
 </nav>
 
+
 <div class="container mt-4">
   <div class="row">
     <div class="col-md-3">
@@ -187,7 +97,7 @@
             <div class="card-body">
               <h5 class="card-title">Prodotto 1</h5>
               <p class="card-text">Descrizione breve del prodotto.</p>
-              <a href="#" class="btn btn-primary">Dettagli</a>
+              <a href="#" class="btn btn-primary" (click)="goToProductPage($event)">Dettagli</a>  <!-- lINK ALLA PAGINA PRODOTTO-->
             </div>
           </div>
         </div>
@@ -215,13 +125,6 @@
     </div>
   </div>
 </div>
-
-<!-- Aggiungo il footer -->
-<footer>
-  <div class="container">
-    <p>© 2024 Il tuo E-commerce. Tutti i diritti riservati.</p>
-  </div>
-</footer>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>

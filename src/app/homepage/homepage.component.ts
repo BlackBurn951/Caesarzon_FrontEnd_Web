@@ -3,6 +3,7 @@ import {RegistrationComponent} from "../registration/registration.component";
 import {MatDialog} from "@angular/material/dialog";
 import {NavigationEnd, Router} from "@angular/router";
 import {LoginService} from "../loginService";
+import {ProductPageComponent} from "../product-page/product-page.component";
 
 
 @Component({
@@ -14,7 +15,7 @@ export class HomepageComponent{
 
   isMenuOpen = false;
 
-  constructor(public loginService: LoginService) {
+  constructor(public loginService: LoginService, private router: Router) {
   }
 
 
@@ -23,4 +24,8 @@ export class HomepageComponent{
   }
 
 
+  goToProductPage(event: Event) {
+    this.router.navigate(['product-page'])
+    event.preventDefault()
+  }
 }
