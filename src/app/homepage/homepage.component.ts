@@ -23,5 +23,4 @@ export class HomepageComponent{
   }
 
 
-  protected readonly LoginService = LoginService;
 }
