@@ -4,6 +4,7 @@ import {Routes} from "@angular/router";
 import {HomepageComponent} from "./homepage/homepage.component";
 import {RegistrationComponent} from "./registration/registration.component";
 import {NgModule} from "@angular/core";
+import {NgIf} from "@angular/common";
 
 
 export const routes: Routes = [
@@ -13,9 +14,11 @@ export const routes: Routes = [
 
 @NgModule({
   declarations: [
-    HomepageComponent
+    HomepageComponent,
+    RegistrationComponent
   ],
   imports: [
+    NgIf
   ],
   providers: [],
 })

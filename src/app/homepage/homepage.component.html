@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!--<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -7,7 +7,7 @@
 <body>
 <header>
   <div id="Top-row">
-    <img src="assets/images/Screenshot 2024-04-09 094124.png" >
+    <img id="logo" src="assets/images/Screenshot 2024-04-09 094124.png" >
 
     <input id="SearchBar" type="text" placeholder="Cerca...">
   </div>
@@ -33,16 +33,172 @@
       </li>
 
       <li class="menu2">
-        <a href="#" class="menu-item">ACCEDI</a>
+        <button class="menu-item" (click)="loginService.openPopup()">ACCEDI</button>
         <a href="#" class="menu-item">CARRELLO</a>
       </li>
     </ul>
   </nav>
 
 </header>
-<footer>
+<section id="RegistrationPanel">
+  <p>CIAO</p>
+  <p>CIAO</p>
+  <p>CIAO</p>
+  <p>CIAO</p>
+  <p>CIAO</p>
+  <p>CIAO</p>
+  <p>CIAO</p>
+  <p>CIAO</p>
+  <p>CIAO</p>
+  <p>CIAO</p>
+  <p>CIAO</p>
+  <p>CIAO</p>
+  <p>CIAO</p>
+  <p>CIAO</p>
+  <p>CIAO</p>
+  <p>CIAO</p>
+  <p>CIAO</p>
+  <p>CIAO</p>
+  <p>CIAO</p>DD
+</section>
 
+<footer>
+  <section id="FooterContainer">
+    <div class="ParagrafiFooter">
+      <ul>
+        <p>Per conoscerci meglio</p>
+        <a href="#" class="menu-item">Chi siamo</a>
+        <a href="#" class="menu-item">Cosa vendiamo</a>
+        <a href="#" class="menu-item">I nostri partner</a>
+      </ul>
+    </div>
+
+    <div class="ParagrafiFooter">
+      <ul>
+        <p>Bisogno d'aiuto?</p>
+        <a href="#" class="menu-item">Visualizza o traccia gli ordini</a>
+        <a href="#" class="menu-item">Disabilità dispositivi</a>
+        <a href="#" class="menu-item">Email per asistenza</a>
+      </ul>
+    </div>
+  </section>
 </footer>
+</body>
+
+</html>
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Il tuo E-commerce</title>
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    /* Aggiungo stili personalizzati per il footer */
+    footer {
+      background-color: #f8f9fa;
+      padding: 20px 0;
+      text-align: center;
+    }
+
+    /* Stili per la barra di ricerca */
+    .search-bar {
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light custom-navbar">
+  <a class="navbar-brand" href="#">CAESARZON</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Prodotti</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Contatti</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-md-3">
+      <h4>Categorie</h4>
+      <ul class="list-group">
+        <li class="list-group-item">Elettronica</li>
+        <li class="list-group-item">Abbigliamento</li>
+        <li class="list-group-item">Casa e Giardino</li>
+        <li class="list-group-item">Sport</li>
+        <li class="list-group-item">Libri</li>
+      </ul>
+    </div>
+    <div class="col-md-9">
+      <!-- Aggiungo la barra di ricerca -->
+      <div class="search-bar">
+        <input type="text" class="form-control" placeholder="Cerca...">
+      </div>
+      <h2>Prodotti in evidenza</h2>
+      <div class="row">
+        <div class="col-md-4 mb-3">
+          <div class="card">
+            <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
+            <div class="card-body">
+              <h5 class="card-title">Prodotto 1</h5>
+              <p class="card-text">Descrizione breve del prodotto.</p>
+              <a href="#" class="btn btn-primary">Dettagli</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 mb-3">
+          <div class="card">
+            <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
+            <div class="card-body">
+              <h5 class="card-title">Prodotto 2</h5>
+              <p class="card-text">Descrizione breve del prodotto.</p>
+              <a href="#" class="btn btn-primary">Dettagli</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 mb-3">
+          <div class="card">
+            <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
+            <div class="card-body">
+              <h5 class="card-title">Prodotto 3</h5>
+              <p class="card-text">Descrizione breve del prodotto.</p>
+              <a href="#" class="btn btn-primary">Dettagli</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Aggiungo il footer -->
+<footer>
+  <div class="container">
+    <p>© 2024 Il tuo E-commerce. Tutti i diritti riservati.</p>
+  </div>
+</footer>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 
 </html>

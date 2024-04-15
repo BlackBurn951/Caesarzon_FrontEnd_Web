@@ -1,6 +1,8 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {RegistrationComponent} from "../registration/registration.component";
 import {MatDialog} from "@angular/material/dialog";
+import {NavigationEnd, Router} from "@angular/router";
+import {LoginService} from "../loginService";
 
 
 @Component({
@@ -8,18 +10,11 @@ import {MatDialog} from "@angular/material/dialog";
   templateUrl: './homepage.component.html',
   styleUrl: './homepage.component.css'
 })
-export class HomepageComponent {
+export class HomepageComponent{
 
   isMenuOpen = false;
 
-  constructor(private dialog: MatDialog){
-
-  }
-
-  openRegistration(event: MouseEvent) {
-    event.preventDefault();
-    this.dialog.open(RegistrationComponent, {
-    });
+  constructor(public loginService: LoginService) {
   }
 
 
@@ -28,4 +23,5 @@ export class HomepageComponent {
   }
 
 
+  protected readonly LoginService = LoginService;
 }
