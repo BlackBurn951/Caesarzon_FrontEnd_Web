@@ -2,10 +2,8 @@ body{
   margin: auto;
 
 }
+
 @font-face {
   font-family: 'FontGenerico';
   src: url('assets/fonts/Sunny Spells Basic.ttf') format('truetype')
 }
-
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

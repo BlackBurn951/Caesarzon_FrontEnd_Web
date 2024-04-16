@@ -21,19 +21,16 @@ export const routes: Routes = [
 @NgModule({
   declarations: [
     HomepageComponent,
-
-    RegistrationComponent
+    RegistrationComponent,
+    ProductPageComponent,
+    ProductsListComponent,
   ],
   imports: [
     NgIf,
     NgClass,
-    RegistrationComponent,
-    ProductPageComponent
+    NgIf,
+    NgClass
   ],
-    imports: [
-        NgIf,
-        NgClass
-    ],
   providers: [],
 })
 export class AppModule { }
