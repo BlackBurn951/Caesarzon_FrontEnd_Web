@@ -137,6 +137,24 @@ footer {
 }
 */
 
+.arrow-image{
+  width: 20px;
+  height: 20px;
+}
+
+
+#arrowRight{
+  margin-left: 110vh;
+  margin-top: -185px;
+}
+
+#arrowLeft{
+  transform: rotate(180deg);
+  margin-right: 110vh;
+  margin-top: 168px;
+}
+
+
 .custom-btn {
   border-color: black;
   background-color: #FF9C00;
@@ -152,3 +170,4 @@ footer {
   box-shadow: 0 0 5px 2px #000000; /* Cambia il colore e la dimensione dell'ombra qui */
 
 }
+

@@ -4,27 +4,76 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>E-commerce</title>
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-<div class="products">
-  <!-- Primo prodotto -->
-  <div class="product">
-    <img src="path_to_image.jpg" alt="Product 1">
-    <h2>Nome Prodotto 1</h2>
-    <p>Descrizione del prodotto 1</p>
-    <p>Prezzo: $XX.XX</p>
-  </div>
 
-  <!-- Secondo prodotto -->
-  <div class="product">
-    <img src="path_to_image.jpg" alt="Product 2">
-    <h2>Nome Prodotto 2</h2>
-    <p>Descrizione del prodotto 2</p>
-    <p>Prezzo: $XX.XX</p>
-  </div>
+<div class="containerGenerale">
+  <div class="container pt-5">
+    <!-- Filtri -->
+      <div class="filters">
+        <h2>Filtri</h2>
 
-  <!-- Aggiungi altri prodotti qui -->
-</div>
+        <!-- Filtro per range di prezzo -->
+        <div class="filter-item">
+          <label for="price-range">Range di prezzo:</label><br>
+          <input type="range" id="price-range" name="price-range" min="0" max="100" value="50">
+          <span id="price-value">€50</span>
+        </div>
+
+        <!-- Filtro per taglie -->
+        <div class="filter-item">
+          <label for="sizes">Taglie:</label><br>
+          <select id="sizes" name="sizes">
+            <option value="S">S</option>
+            <option value="M">M</option>
+            <option value="L">L</option>
+            <option value="XL">XL</option>
+          </select>
+        </div>
+
+        <!-- Filtro per valutazioni -->
+        <div class="filter-item">
+          <label for="ratings">Valutazioni:</label><br>
+          <select id="ratings" name="ratings">
+            <option value="1">1 stella</option>
+            <option value="2">2 stelle</option>
+            <option value="3">3 stelle</option>
+            <option value="4">4 stelle</option>
+            <option value="5">5 stelle</option>
+          </select>
+        </div>
+      </div>
+  </div>
+  <div class="container-fluid my-4" >
+     <div class="products">
+         <!-- Primo prodotto -->
+         <div class="product">
+           <img src="path_to_image.jpg" alt="Product 1">
+           <h2>Nome Prodotto 1</h2>
+           <p>Descrizione del prodotto 1</p>
+           <p>Prezzo: $XX.XX</p>
+         </div>
+
+         <!-- Secondo prodotto -->
+         <div class="product">
+           <img src="path_to_image.jpg" alt="Product 2">
+           <h2>Nome Prodotto 2</h2>
+           <p>Descrizione del prodotto 2</p>
+           <p>Prezzo: $XX.XX</p>
+         </div>
+
+         <div class="product">
+           <img src="path_to_image.jpg" alt="Product 3">
+           <h2>Nome Prodotto 3</h2>
+           <p>Descrizione del prodotto 3</p>
+           <p>Prezzo: $XX.XX</p>
+         </div>
+
+         <!-- Aggiungi altri prodotti qui -->
+       </div>
+    </div>
+  </div>
 </body>
 </html>
 
