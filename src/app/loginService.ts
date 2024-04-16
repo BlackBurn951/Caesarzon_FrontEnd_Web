@@ -10,7 +10,6 @@ export class LoginService {
 
   isLogin: boolean = true;
 
-
   constructor(private dialog: MatDialog){
 
   }
@@ -19,7 +18,6 @@ export class LoginService {
     event.preventDefault()
     this.isLogin = !this.isLogin;
   }
-
 
   openPopup() {
     this.dialog.open(RegistrationComponent);
