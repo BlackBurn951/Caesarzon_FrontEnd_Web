@@ -8,6 +8,7 @@ import {NgModule} from "@angular/core";
 import {NgClass, NgIf} from "@angular/common";
 import {LoginService} from "./loginService";
 import {ProductsListComponent} from "./products-list/products-list.component";
+import {ProductManagementComponent} from "./product-management/product-management.component";
 
 
 
@@ -15,7 +16,8 @@ export const routes: Routes = [
   {path: '', component: HomepageComponent},
   {path: 'registration', component: RegistrationComponent},
   {path: 'product-page', component: ProductPageComponent},
-  {path: 'products_list', component: ProductsListComponent}
+  {path: 'products_list', component: ProductsListComponent},
+  {path: 'product-management', component: ProductManagementComponent}
 ];
 
 @NgModule({
