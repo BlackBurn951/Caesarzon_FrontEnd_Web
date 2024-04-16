@@ -12,13 +12,8 @@ import {ProductPageComponent} from "../product-page/product-page.component";
 })
 
 export class HomepageComponent{
-  isMenuOpen = false;
 
-  constructor(public loginService: LoginService, private router: Router) {
-  }
-
-  toggleMenu(): void {
-    this.isMenuOpen = !this.isMenuOpen;
+  constructor(private router: Router) {
   }
 
   goToProductPage(event: Event) {
