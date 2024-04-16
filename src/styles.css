@@ -2,6 +2,7 @@ body{
   margin: auto;
 
 }
+
 @font-face {
   font-family: 'FontGenerico';
   src: url('assets/fonts/Sunny Spells Basic.ttf') format('truetype')
