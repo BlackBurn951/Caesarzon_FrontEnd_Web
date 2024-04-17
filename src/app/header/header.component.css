@@ -2,9 +2,9 @@
   margin-bottom: 20px;
 }
 
-
 header{
   background: #634080;
+
 }
 
 .custom-btns {
@@ -22,4 +22,10 @@ header{
 .custom-btns:active {
   background-color: #FF9C00 !important;
   box-shadow: 0 0 5px 2px #000000 !important;
+}
+
+.bottonis{
+  margin-left: 1vw;
+  display: flex;
+  gap:1vw;
 }

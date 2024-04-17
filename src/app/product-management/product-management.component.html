@@ -12,44 +12,108 @@
   <div class="container-fluid customContainer">
 
     <div class="container-fluid">
-      <div class="form-group">
-        <label for="nome">Nome prodotto:</label>
-        <input type="text" class="form-control" id="nome">
+      <div class="form-group gruppo d-flex flex-column align-items-center">
+        <label for="nome">Nome prodotto</label>
+        <input type="text" class="form-control gruppoInput" id="nome">
       </div>
-      <div class="form-group">
-        <label for="marca">Marca:</label>
-        <input type="text" class="form-control" id=marca>
+      <div class="form-group gruppo d-flex flex-column align-items-center">
+        <label for="marca">Marca</label>
+        <input type="text" class="form-control gruppoInput" id=marca>
       </div>
-      <div class="form-group">
-        <label for="descrizione">Descrizione:</label>
-        <input type="text" class="form-control" id="descrizione">
+      <div class="form-group gruppo d-flex flex-column align-items-center">
+        <label for="descrizione">Descrizione</label>
+        <textarea type="text" class="form-control gruppoInputDesc" id="descrizione"></textarea>
       </div>
-      <div class="form-group">
-        <label for="prezzo">Prezzo:</label>
-        <input type="text" class="form-control" id="prezzo">
+      <div class="form-group gruppo d-flex flex-column align-items-center">
+        <label for="prezzo">Prezzo</label>
+        <div class="d-flex flex-row align-items-center">
+          <input type="text" class="form-control gruppoInputPrezzo" id="prezzo" placeholder="€">
+        </div>
       </div>
+
+      <div class="form-group gruppo d-flex flex-column align-items-center">
+        <label for="coloreP">Quantità</label>
+        <input type="text" class="form-control gruppoInput" id="quantit">
+      </div>
+
+      <div class="form-group d-flex flex-column align-items-center">
+        <div class="gruppos d-flex flex-column align-items-center">
+          <label>Sconto iniziale</label>
+          <input type="text" class="form-control gruppoInputs" id="sconto" placeholder="%">
+        </div>
+      </div>
+
+
     </div>
 
 
 
-    <div class="container-fluid">
-      <div class="form-group">
-        <label for="coloreP">Colore primario:</label>
-        <input type="text" class="form-control" id=coloreP>
+    <div class="container-fluid d-flex flex-column align-items-center">
+
+      <div class="form-group gruppo d-flex flex-column align-items-center">
+        <label for="coloreP">Colore primario</label>
+        <input type="text" class="form-control gruppoInput" id=coloreP>
       </div>
-      <div class="form-group">
-        <label for="coloreS">Colore secondario:</label>
-        <input type="text" class="form-control" id="coloreS">
+
+      <div class="form-group gruppo d-flex flex-column align-items-center">
+        <label for="coloreS">Colore secondario</label>
+        <input type="text" class="form-control gruppoInput" id="coloreS">
       </div>
-      <div class="form-group">
-        <label for="scontato">Scontato:</label>
-        <input type="checkbox" id="scontato">
-        <select id="sconto">
-          <option value="15">15%</option>
-          <option value="20">20%</option>
-          <option value="25">25%</option>
-        </select>
+
+      <div class="form-group gruppo d-flex flex-row align-items-center">
+        <div class="form-group gruppo d-flex flex-column align-items-center">
+          <label for="coloreP">Taglia</label>
+          <select name="quantità">
+            <option value="none">None</option>
+            <option value="XXS">XXS</option>
+            <option value="XS">XS</option>
+            <option value="S">S</option>
+            <option value="M">M</option>
+            <option value="L">L</option>
+            <option value="XL">XL</option>
+            <option value="XXL">XXL</option>
+          </select>
+        </div>
+
+        <div class="form-group gruppo d-flex flex-column align-items-center">
+          <label for="coloreP">Sport</label>
+          <select name="sport">
+            <option value="calcio">Calcio</option>
+            <option value="pallavolo">Pallavolo</option>
+            <option value="basket">Basket</option>
+            <option value="">S</option>
+            <option value="M">M</option>
+            <option value="L">L</option>
+            <option value="XL">XL</option>
+            <option value="XXL">XXL</option>
+          </select>
+        </div>
+
+        <div class="form-group gruppo d-flex flex-column align-items-center">
+          <label for="coloreP">Categoria</label>
+          <select name="categoria">
+            <option value="abbigliamento">Abbigliamento</option>
+            <option value="attrezzature">Attrezzatura</option>
+          </select>
+        </div>
       </div>
+
+
+      <div class="col-md d-flex flex-column align-items-center">
+        <label>Carica immagini</label>
+
+        <div class="col1Foto">
+            <button type="button" class="bottoneFoto"></button>
+            <button type="button" class="bottoneFoto"></button>
+        </div>
+
+        <div class="col2Foto">
+            <button type="button" class="bottoneFoto"></button>
+            <button type="button" class="bottoneFoto"></button>
+        </div>
+      </div>
+
+
     </div>
 
   </div>
