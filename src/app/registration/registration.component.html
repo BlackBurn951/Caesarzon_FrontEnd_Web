@@ -8,10 +8,12 @@
 </head>
 <body>
 
-<div class="container-fluid">
+<div class="container-fluid regLog">
   <form *ngIf="loginService.isLogin" >
     <div class="form-group">
-      <h2>Accedi</h2>
+      <div class="d-flex flex-column align-items-center">
+        <h1 class="accediLabel">Accedi</h1>
+      </div>
       <button (click)="loginService.closePopup()" class="btn btn-primary ics">X</button>
     </div>
     <div class="form-group">
@@ -39,7 +41,9 @@
   </form>
 
   <form *ngIf="!loginService.isLogin">
-    <h2>Registrati</h2>
+    <div class="d-flex flex-column align-items-center">
+      <h1 class="accediLabel">Registrati</h1>
+    </div>
     <button (click)="loginService.closePopup()"  class="btn btn-primary ics">X</button>
     <div class="form-group">
       <label for="usernameR">Username:</label>
