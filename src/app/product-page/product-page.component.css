@@ -1,0 +1,14 @@
+#left-col-container{
+  display: flex;
+  gap: 2%;
+}
+
+#image-array{
+  display: flex;
+  flex-direction: column;
+}
+
+.little-image{
+  margin-bottom: 2%;
+  padding: 0 0 0 0;
+}
