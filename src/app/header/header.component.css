@@ -7,13 +7,10 @@ header{
   background: #634080;
 }
 
-
-
 .custom-btns {
   border-color: black;
   background-color: #FF9C00;
   color: #ffffff;
-  width: 8vw;
 }
 
 .custom-btns:hover,
