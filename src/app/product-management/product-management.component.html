@@ -25,23 +25,20 @@
         <textarea type="text" class="form-control gruppoInputDesc" id="descrizione"></textarea>
       </div>
       <div class="form-group gruppo d-flex flex-column align-items-center">
-        <label for="prezzo">Prezzo</label>
-        <div class="d-flex flex-row align-items-center">
-          <input type="text" class="form-control gruppoInputPrezzo" id="prezzo" placeholder="€">
-        </div>
+        <label for="sconto">Sconto iniziale</label>
+        <input type="number" class="form-control gruppoInputs" id="sconto" placeholder="%">
       </div>
 
       <div class="form-group gruppo d-flex flex-column align-items-center">
-        <label for="coloreP">Quantità</label>
-        <input type="text" class="form-control gruppoInput" id="quantit">
+        <label for="quantita">Quantità</label>
+        <input type="number" class="form-control gruppoInputs" id="quantita">
       </div>
 
-      <div class="form-group d-flex flex-column align-items-center">
-        <div class="gruppos d-flex flex-column align-items-center">
-          <label>Sconto iniziale</label>
-          <input type="text" class="form-control gruppoInputs" id="sconto" placeholder="%">
-        </div>
+      <div class="form-group gruppo d-flex flex-column align-items-center">
+        <label for="prezzo">Prezzo</label>
+        <input type="number" class="form-control gruppoInputPrezzo" id="prezzo" placeholder="€" >
       </div>
+
 
 
     </div>
@@ -63,7 +60,7 @@
       <div class="form-group gruppo d-flex flex-row align-items-center">
         <div class="form-group gruppo d-flex flex-column align-items-center">
           <label for="coloreP">Taglia</label>
-          <select name="quantità">
+          <select name="quantità" class="form-select selectionIn">
             <option value="none">None</option>
             <option value="XXS">XXS</option>
             <option value="XS">XS</option>
@@ -77,20 +74,21 @@
 
         <div class="form-group gruppo d-flex flex-column align-items-center">
           <label for="coloreP">Sport</label>
-          <select name="sport">
+          <select name="sport" class="form-select selectionIn">
             <option value="calcio">Calcio</option>
             <option value="pallavolo">Pallavolo</option>
             <option value="basket">Basket</option>
-            <option value="">S</option>
-            <option value="M">M</option>
-            <option value="L">L</option>
-            <option value="XL">XL</option>
-            <option value="XXL">XXL</option>
+            <option value="tennis">Tennis</option>
+            <option value="nuoto">Nuoto</option>
+            <option value="arti marziali">Arti marziali</option>
+            <option value="ciclismo">Ciclismo</option>
+            <option value="sciismo">Sciismo</option>
+            <option value="boxe">Boxe</option>
           </select>
         </div>
 
         <div class="form-group gruppo d-flex flex-column align-items-center">
-          <label for="coloreP">Categoria</label>
+          <label class="form-select selectionIn">Categoria</label>
           <select name="categoria">
             <option value="abbigliamento">Abbigliamento</option>
             <option value="attrezzature">Attrezzatura</option>
@@ -118,13 +116,21 @@
 
   </div>
 
+  <div *ngIf="form['quantita'].invalid && (form['quantita'].dirty || form['quantita'].touched)">
+    <div *ngIf="form['quantita'].errors && form['quantita'].errors?.['required']">Quantità è richiesta.</div>
+    <div *ngIf="form['quantita'].errors && (form['quantita'].errors?.['min'] || form['quantita'].errors?.['max'])">Inserisci una quantità valida.</div>
+  </div>
+
+
+
+
   <div class="row customButtonContainer">
     <div class="col-md d-flex flex-column align-items-center">
       <button class="menu-item btn btn-primary custom-btn bottoneA">Gestisci prodotti</button>
     </div>
 
     <div class="col-md d-flex flex-column align-items-center">
-      <button class="menu-item btn btn-primary custom-btn bottoneA">Aggiungi prodotto</button>
+      <button type="submit" class="menu-item btn btn-primary custom-btn bottoneA" [disabled]="prodottoForm.invalid" [class.disabled]="prodottoForm.invalid">Aggiungi prodotto</button>
     </div>
   </div>
 

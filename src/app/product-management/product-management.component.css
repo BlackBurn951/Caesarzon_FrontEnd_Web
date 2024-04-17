@@ -22,7 +22,9 @@ body{
   width: 20vw;
   text-align: center;
 }
-
+.selectionIn{
+  text-align: center;
+}
 .bottoneA{
   margin-top:5vh;
 }
@@ -49,4 +51,7 @@ textarea{
   height: 30vh;
 }
 
-
+.disabled .bottoneA {
+  background-color: #ccc; /* Cambia questo colore in base al colore desiderato */
+  cursor: not-allowed
+}
