@@ -1,30 +1,31 @@
-@font-face {
-  font-family: 'FontGenerico';
-  src: url('assets/fonts/Sunny Spells Basic.ttf') format('truetype')
+.search-bar {
+  margin-bottom: 20px;
 }
 
+header{
+  background: #634080;
 
+}
 
-.custom-btn {
+.custom-btns {
   border-color: black;
   background-color: #FF9C00;
   color: #ffffff;
 }
 
-.custom-btn:hover,
-.custom-btn:focus{
+.custom-btns:hover,
+.custom-btns:focus{
   background-color: #a96c00 !important;
   box-shadow: 0 0 5px 2px #000000 !important;
 }
 
-.custom-btn:active {
+.custom-btns:active {
   background-color: #FF9C00 !important;
   box-shadow: 0 0 5px 2px #000000 !important;
 }
 
-.form-control:focus{
-  box-shadow: 0 0 5px 2px #000000;
-
+.bottonis{
+  margin-left: 1vw;
+  display: flex;
+  gap:1vw;
 }
-
-

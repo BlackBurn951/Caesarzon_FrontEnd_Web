@@ -1,0 +1,111 @@
+.container-fluid{
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 70%;
+  max-width: 400px;
+  background-color: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+
+@media (min-width: 1000px) {
+  .container-fluid {
+    width: 50%;
+  }
+}
+
+.ics:active {
+  background-color: #FF9C00 !important;
+  box-shadow: 0 0 5px 2px #000000 !important;
+}
+
+
+
+#pop-up-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+
+
+
+.popup-dialog button {
+  margin-top: 10px;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  background-color: #FF9C00;
+  color: white;
+  cursor: pointer;
+}
+
+.popup-dialog button:hover {
+  background-color: #b06e01;
+}
+
+
+.ics {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  border-color: black;
+  background-color: #FF9C00;
+  color: #ffffff;
+  width: 2%;
+  height: 7%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.ics:focus {
+  background-color: #FF9C00;
+  box-shadow: 0 0 5px 2px #000000; /* Cambia il colore e la dimensione dell'ombra qui */
+
+}
+
+.ics:hover {
+  background-color: #a96c00;
+
+}
+
+
+
+.inputContainer{
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  gap: 2vh;
+}
+
+.sectionLabelInput{
+  display: flex;
+  flex-direction: column;
+}
+
+.inputContainer input{
+  width: 18vw;
+  height: 4vh;
+}
+
+.regTxt{
+  display: flex;
+  flex-direction: column;
+  gap: 2vh;
+  align-items: center;
+}
+
+.accediLabel {
+  font-size: 2rem;
+}
+
+.regLog{
+  border: 1px solid #08090B;
+  border-radius: 1.5vh;
+}
+

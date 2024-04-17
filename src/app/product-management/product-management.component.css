@@ -1,0 +1,52 @@
+body{
+  margin-right: 1.5%;
+}
+.customContainer{
+  margin-top:5vh;
+  display: flex;
+}
+
+.customButtonContainer{
+  margin-bottom: 5vh;
+}
+.gruppo{
+  text-align: center;
+  gap: 2vh;
+}
+
+.gruppos{
+  display: flex;
+  gap: 2vh;
+}
+.gruppoInputs{
+  width: 20vw;
+  text-align: center;
+}
+
+.bottoneA{
+  margin-top:5vh;
+}
+
+.gruppoInput{
+  width: 40vw;
+  text-align: center;
+}
+
+.gruppoInputDesc{
+  width: 40vw;
+  height: 25vh;
+}
+textarea{
+  resize: none;
+}
+.gruppoInputPrezzo{
+  width:20vw;
+  text-align: center;
+}
+
+.bottoneFoto{
+  width: 20vw;
+  height: 30vh;
+}
+
+
