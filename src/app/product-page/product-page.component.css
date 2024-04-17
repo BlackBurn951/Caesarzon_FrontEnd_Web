@@ -12,3 +12,23 @@
   margin-bottom: 2%;
   padding: 0 0 0 0;
 }
+
+#product-name{
+
+}
+
+#product-descr{
+
+}
+
+.buy-section{
+  padding-left: 8%;
+  padding-right: 8%;
+  background-color: rgba(99, 64, 128, 0.7);
+  width: 22vw;
+  height: 55vh;
+}
+
+.btn-custom{
+  align-self: center;
+}
