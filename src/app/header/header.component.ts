@@ -10,7 +10,7 @@ import {Router} from "@angular/router";
     NgClass
   ],
   templateUrl: './header.component.html',
-  styleUrl: './header.component.css'
+  styleUrls: ['./header.component.css', '../../styles.css']
 })
 export class HeaderComponent {
 
