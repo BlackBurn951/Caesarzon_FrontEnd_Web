@@ -1,3 +1,28 @@
 .search-bar {
   margin-bottom: 20px;
 }
+
+
+header{
+  background: #634080;
+}
+
+
+
+.custom-btns {
+  border-color: black;
+  background-color: #FF9C00;
+  color: #ffffff;
+  width: 8vw;
+}
+
+.custom-btns:hover,
+.custom-btns:focus{
+  background-color: #a96c00 !important;
+  box-shadow: 0 0 5px 2px #000000 !important;
+}
+
+.custom-btns:active {
+  background-color: #FF9C00 !important;
+  box-shadow: 0 0 5px 2px #000000 !important;
+}

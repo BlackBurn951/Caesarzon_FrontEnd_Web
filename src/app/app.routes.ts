@@ -1,14 +1,13 @@
 
-import { AppComponent } from './app.component';
 import {Routes} from "@angular/router";
 import {HomepageComponent} from "./homepage/homepage.component";
 import {RegistrationComponent} from "./registration/registration.component";
 import {ProductPageComponent} from "./product-page/product-page.component";
 import {NgModule} from "@angular/core";
 import {NgClass, NgIf} from "@angular/common";
-import {LoginService} from "./loginService";
 import {ProductsListComponent} from "./products-list/products-list.component";
 import {ProductManagementComponent} from "./product-management/product-management.component";
+import {HeaderComponent} from "./header/header.component";
 
 
 
@@ -26,12 +25,11 @@ export const routes: Routes = [
     RegistrationComponent,
     ProductPageComponent,
     ProductsListComponent,
+    ProductManagementComponent
   ],
   imports: [
     NgIf,
     NgClass,
-    NgIf,
-    NgClass
   ],
   providers: [],
 })

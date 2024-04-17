@@ -6,3 +6,29 @@ body{
   font-family: 'FontGenerico';
   src: url('assets/fonts/Sunny Spells Basic.ttf') format('truetype')
 }
+
+
+
+.custom-btn {
+  border-color: black;
+  background-color: #FF9C00;
+  color: #ffffff;
+}
+
+.custom-btn:hover,
+.custom-btn:focus{
+  background-color: #a96c00 !important;
+  box-shadow: 0 0 5px 2px #000000 !important;
+}
+
+.custom-btn:active {
+  background-color: #FF9C00 !important;
+  box-shadow: 0 0 5px 2px #000000 !important;
+}
+
+.form-control:focus{
+  box-shadow: 0 0 5px 2px #000000;
+
+}
+
+

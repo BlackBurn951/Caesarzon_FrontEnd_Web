@@ -4,7 +4,8 @@ import {LoginService} from "../loginService";
 @Component({
   selector: 'app-registration',
   templateUrl: './registration.component.html',
-  styleUrl: './registration.component.css'
+  styleUrls: ['./registration.component.css', '../../styles.css']
+
 })
 export class RegistrationComponent {
 

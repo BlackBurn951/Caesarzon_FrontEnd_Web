@@ -9,47 +9,59 @@
 <body>
 
 <section>
-  <div>
-    <div class="form-group">
-      <label for="nome">Nome prodotto:</label>
-      <input type="text" class="form-control" id="nome">
+  <div class="container-fluid customContainer">
+
+    <div class="container-fluid">
+      <div class="form-group">
+        <label for="nome">Nome prodotto:</label>
+        <input type="text" class="form-control" id="nome">
+      </div>
+      <div class="form-group">
+        <label for="marca">Marca:</label>
+        <input type="text" class="form-control" id=marca>
+      </div>
+      <div class="form-group">
+        <label for="descrizione">Descrizione:</label>
+        <input type="text" class="form-control" id="descrizione">
+      </div>
+      <div class="form-group">
+        <label for="prezzo">Prezzo:</label>
+        <input type="text" class="form-control" id="prezzo">
+      </div>
     </div>
-    <div class="form-group">
-      <label for="marca">Marca:</label>
-      <input type="text" class="form-control" id=marca>
+
+
+
+    <div class="container-fluid">
+      <div class="form-group">
+        <label for="coloreP">Colore primario:</label>
+        <input type="text" class="form-control" id=coloreP>
+      </div>
+      <div class="form-group">
+        <label for="coloreS">Colore secondario:</label>
+        <input type="text" class="form-control" id="coloreS">
+      </div>
+      <div class="form-group">
+        <label for="scontato">Scontato:</label>
+        <input type="checkbox" id="scontato">
+        <select id="sconto">
+          <option value="15">15%</option>
+          <option value="20">20%</option>
+          <option value="25">25%</option>
+        </select>
+      </div>
     </div>
-    <div class="form-group">
-      <label for="descrizione">Descrizione:</label>
-      <input type="text" class="form-control" id="descrizione">
-    </div>
-    <div class="form-group">
-      <label for="prezzo">Prezzo:</label>
-      <input type="text" class="form-control" id="prezzo">
-    </div>
+
   </div>
 
-
-
-  <div>
-    <div class="form-group">
-      <label for="coloreP">Colore primario:</label>
-      <input type="text" class="form-control" id=coloreP>
-    </div>
-    <div class="form-group">
-      <label for="coloreS">Colore secondario:</label>
-      <input type="text" class="form-control" id="coloreS">
-    </div>
-    <div class="form-group">
-      <label for="scontato">Scontato:</label>
-      <input type="checkbox" class="form-control" id="scontato">
-      <select id="sconto">
-        <option value="15">15%</option>
-        <option value="20">20%</option>
-        <option value="25">25%</option>
-      </select>
+  <div class="row customButtonContainer">
+    <div class="col-md d-flex flex-column align-items-center">
+      <button class="menu-item btn btn-primary custom-btn bottoneA">Gestisci prodotti</button>
     </div>
 
-
+    <div class="col-md d-flex flex-column align-items-center">
+      <button class="menu-item btn btn-primary custom-btn bottoneA">Aggiungi prodotto</button>
+    </div>
   </div>
 
 
