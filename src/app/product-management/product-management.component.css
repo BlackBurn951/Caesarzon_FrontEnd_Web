@@ -5,33 +5,56 @@ body{
   margin-top:5vh;
   display: flex;
 }
-
 .customButtonContainer{
   margin-bottom: 5vh;
 }
 .gruppo{
   text-align: center;
-  gap: 2vh;
 }
 
 .gruppos{
   display: flex;
-  gap: 2vh;
+  gap: 10vh;
 }
 .gruppoInputs{
   width: 20vw;
   text-align: center;
+  margin-bottom: 2vh;
+
 }
+
 .selectionIn{
+  margin-bottom: 2vh;
+
+}
+
+option{
   text-align: center;
 }
+
 .bottoneA{
   margin-top:5vh;
 }
+.bottoniImage{
+  display: flex;
+  justify-content: center;
+  gap: 3vw;
+  margin-bottom: 3vh;
+}
+
 
 .gruppoInput{
   width: 40vw;
   text-align: center;
+  margin-bottom: 2vh;
+
+}
+
+.gruppoColor{
+  width: 3vw;
+  height: 4vh;
+  margin-bottom: 2vh;
+
 }
 
 .gruppoInputDesc{
@@ -41,17 +64,52 @@ body{
 textarea{
   resize: none;
 }
-.gruppoInputPrezzo{
-  width:20vw;
-  text-align: center;
+
+.error-message {
+   color: #ff0a00;
+   position: absolute;
+   margin-top: -1vh;
+}
+.err{
+  font-weight: normal;
+}
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
 }
 
-.bottoneFoto{
-  width: 20vw;
-  height: 30vh;
+.grid-item {
+  width: 300px;
+  height: 200px;
+  background-color: #f5f5f5;
+  border: 1px solid #ccc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.disabled .bottoneA {
-  background-color: #ccc; /* Cambia questo colore in base al colore desiderato */
-  cursor: not-allowed
+
+#labelFoto{
+  cursor: pointer;
+  border: #1a1e21 1px solid;
+}
+
+.o{
+  margin-top: 1vh;
+  margin-bottom: 1vh;
+}
+
+label{
+  font-weight: bold;
+}
+
+@media (max-width: 600px) {
+  .grid-item {
+    flex-basis: 100%;
+  }
+}
+
+.grid-item img {
+  max-width: 50%;
+  max-height: 50%;
 }

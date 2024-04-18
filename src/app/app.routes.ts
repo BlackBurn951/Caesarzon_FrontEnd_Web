@@ -4,11 +4,11 @@ import {HomepageComponent} from "./homepage/homepage.component";
 import {RegistrationComponent} from "./registration/registration.component";
 import {ProductPageComponent} from "./product-page/product-page.component";
 import {NgModule} from "@angular/core";
-import {NgClass, NgIf} from "@angular/common";
+import {NgClass, NgForOf, NgIf} from "@angular/common";
 import {ProductsListComponent} from "./products-list/products-list.component";
 import {ProductManagementComponent} from "./product-management/product-management.component";
-import {HeaderComponent} from "./header/header.component";
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {ColorPickerModule, ColorPickerService} from "ngx-color-picker";
 
 
 
@@ -28,11 +28,15 @@ export const routes: Routes = [
     ProductsListComponent,
     ProductManagementComponent
   ],
-    imports: [
-        NgIf,
-        NgClass,
-        FormsModule,
-    ],
-  providers: [],
+  imports: [
+    NgIf,
+    NgClass,
+    FormsModule,
+    NgForOf,
+    ReactiveFormsModule,
+    FormsModule,
+  ],
+  providers: [
+  ],
 })
 export class AppModule { }
