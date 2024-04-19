@@ -1,20 +1,4 @@
-.container-fluid{
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 70%;
-  max-width: 400px;
-  background-color: white;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  z-index: 1000;
-}
 
-@media (min-width: 1000px) {
-  .container-fluid {
-    width: 50%;
-  }
-}
 
 .ics:active {
   background-color: #FF9C00 !important;
@@ -67,7 +51,7 @@
 .ics:focus {
   border-color: black;
   background-color: #FF9C00;
-  box-shadow: 0 0 3px 1px #000000; 
+  box-shadow: 0 0 3px 1px #000000;
 
 }
 
@@ -109,5 +93,63 @@
 .regLog{
   border: 1px solid #08090B;
   border-radius: 1.5vh;
+
 }
 
+.error-message {
+  color: #ff0a00;
+  position: absolute;
+
+}
+
+.tasti{
+  margin-top: 3vh;
+}
+.err{
+  font-weight: normal;
+}
+
+
+
+.container-fluidos {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 70%;
+  max-width: 35%;
+  max-height: 80vh;
+  overflow-y: auto;
+  background-color: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+
+
+.inputRA {
+  width: 25vw;
+}
+
+.formos{
+  margin: 10px;
+}
+
+@media (min-width: 1000px) {
+  .container-fluid {
+    width: 50%;
+  }
+}
+
+
+.first-column{
+  margin-right: 1vw;
+
+}
+
+.second-column {
+  margin-left: 1vw;
+}
+
+.inputRA input {
+  max-width: 100%;
+}
