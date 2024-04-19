@@ -31,4 +31,11 @@ export class HeaderComponent {
   goToShoppingCart() {
     this.router.navigate(['shopping-cart'])
   }
+
+    protected readonly open = open;
+
+  openPersonalData(event: Event) {
+    this.router.navigate(['personal-data']);
+    event.preventDefault()
+  }
 }
