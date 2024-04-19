@@ -74,12 +74,8 @@
         <div class="form-group formos">
           <label for="passwordR">Password:</label>
           <input type="password" class="form-control inputRA" id="passwordR" formControlName="password">
-          <div *ngIf="formService.campoNonCorretto('formRegistrazione.password')" class="error-messageS" maxlength="16">
-            La password deve contenere:<br>
-            - Almeno 8 caratteri (massimo 16);<br>
-            - Almeno una lettera maiuscola ed una minuscola;<br>
-            - Almeno un numero;<br>
-            - Almeno un carattere speciale fra i seguenti:(!&#64;$#%^&*()_+).
+          <div *ngIf="formService.campoNonCorretto('formRegistrazione.password')" class="error-message" >
+            Formato incorretto: es. CiaoCiao69!
           </div>
         </div>
         <div class="form-group formos">
