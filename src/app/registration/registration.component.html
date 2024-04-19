@@ -8,19 +8,19 @@
 </head>
 <body>
 
-<div class="container-fluid regLog">
-  <form *ngIf="loginService.isLogin" >
+<div class="container-fluidos regLog">
+  <form [formGroup]="formCaesarzon" *ngIf="loginService.isLogin" >
     <div class="form-group">
       <div class="d-flex flex-column align-items-center">
         <h1 class="accediLabel">Accedi</h1>
       </div>
       <button (click)="loginService.closePopup()" class="btn btn-dark ics">X</button>
     </div>
-    <div class="form-group">
+    <div class="form-group formos">
       <label for="usernameL">Username o e-mail:</label>
       <input type="text" class="form-control" id="usernameL">
     </div>
-    <div class="form-group">
+    <div class="form-group formos">
       <label for="passwordR">Password:</label>
       <input type="text" class="form-control" id="passwordL">
       <a href="#">Hai dimenticato la password?</a>
@@ -33,41 +33,77 @@
       <button type="submit" class="btn btn-dark custom-btn" >Accedi</button>
     </div>
 
-    <div class="form-group">
-      <a href="#" (click)="loginService.toggleLogin($event)">Sei nuovo su Caesarzon? Registrati.</a>
+    <div class="form-group formos">
+      <a href="#" (click)="loginService.toggleLogin($event); cambiaLarghezza(1)" id="registrati-link">Sei nuovo su Caesarzon? Registrati.</a>
     </div>
 
 
   </form>
 
-  <form *ngIf="!loginService.isLogin">
+  <form [formGroup]="formCaesarzon" *ngIf="!loginService.isLogin" (ngSubmit)="registrati()">
     <div class="d-flex flex-column align-items-center">
       <h1 class="accediLabel">Registrati</h1>
     </div>
     <button (click)="loginService.closePopup()"  class="btn btn-dark ics">X</button>
-    <div class="form-group">
-      <label for="usernameR">Username:</label>
-      <input type="text" class="form-control" id=usernameR>
+
+
+    <div class="d-flex flex-row align-items-center" formGroupName="formRegistrazione" >
+      <div class="d-flex flex-column align-items-center first-column">
+        <div class="form-group formos">
+          <label for="usernameR">Username:</label>
+          <input type="text" class="form-control inputRA" id="usernameR" formControlName="username">
+        </div>
+        <div class="form-group formos">
+          <label for="nome">Nome:</label>
+          <input type="text" class="form-control inputRA" id=nome formControlName="nome">
+        </div>
+        <div class="form-group formos">
+          <label for="cognome">Cognome:</label>
+          <input type="text" class="form-control inputRA" id=cognome formControlName="cognome">
+        </div>
+      </div>
+
+      <div class="d-flex flex-column align-items-center second-column">
+        <div class="form-group formos">
+          <label for="email">E-mail:</label>
+          <input type="text" class="form-control inputRA" id=email formControlName="email">
+          <div *ngIf="formService.campoNonCorretto('formRegistrazione.email')" class="error-message">
+            <label class="err"> Il formato dell' e-mail non è corretto.</label>
+          </div>
+        </div>
+        <div class="form-group formos">
+          <label for="passwordR">Password:</label>
+          <input type="password" class="form-control inputRA" id="passwordR" formControlName="password">
+          <div *ngIf="formService.campoNonCorretto('formRegistrazione.password')" class="error-messageS" maxlength="16">
+            La password deve contenere:<br>
+            - Almeno 8 caratteri (massimo 16);<br>
+            - Almeno una lettera maiuscola ed una minuscola;<br>
+            - Almeno un numero;<br>
+            - Almeno un carattere speciale fra i seguenti:(!&#64;$#%^&*()_+).
+          </div>
+        </div>
+        <div class="form-group formos">
+          <label for="passwordR">Conferma password:</label>
+          <input type="password" class="form-control inputRA" id="passwordRC" formControlName="confermaPassword" maxlength="16" (input)="comparaPassword()">
+          <div *ngIf="passwordDifferenti" class="error-message">
+            Le password non corrispondono.
+          </div>
+        </div>
+
+      </div>
+
+
     </div>
-    <div class="form-group">
-      <label for="email">E-mail:</label>
-      <input type="text" class="form-control" id=email>
-    </div>
-    <div class="form-group">
-      <label for="passwordR">Password:</label>
-      <input type="text" class="form-control" id="passwordR">
-    </div>
-    <div class="form-group">
-      <label for="passwordR">Conferma password:</label>
-      <input type="text" class="form-control" id="passwordRC">
-    </div>
+
+
+
 
     <div class="d-flex flex-column align-items-center">
-      <button type="submit" class="btn btn-dark custom-btn" >Registrati</button>
+      <button type="submit" class="btn btn-dark custom-btn tasti" >Registrati</button>
     </div>
 
-    <div class="form-group">
-      <a href="#" (click)="loginService.toggleLogin($event)">Hai già un account? Accedi.</a>
+    <div class="form-group formos">
+      <a href="#" (click)="loginService.toggleLogin($event); cambiaLarghezza(104)">Hai già un account? Accedi.</a>
     </div>
 
 

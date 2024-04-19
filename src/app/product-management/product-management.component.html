@@ -32,7 +32,7 @@
             <label for="sconto">Sconto iniziale</label>
             <div>
               <input type="number" class="form-control gruppoInputs" id="sconto" formControlName="sconto" placeholder="%">
-              <div *ngIf="campoNonCorretto('formDeiProdotti.sconto')" class="error-message">
+              <div *ngIf="formService.campoNonCorretto('formDeiProdotti.sconto')" class="error-message">
                 <label class="err">Lo sconto iniziale può essere massimo del 50%.</label>
               </div>
             </div>
@@ -43,7 +43,7 @@
             <label for="quantita">Quantità</label>
             <div>
               <input type="number" class="form-control gruppoInputs" id="quantita" formControlName="quantita">
-              <div *ngIf="campoNonCorretto('formDeiProdotti.quantita')" class="error-message">
+              <div *ngIf="formService.campoNonCorretto('formDeiProdotti.quantita')" class="error-message">
                 <label class="err">La quantità non può superare i 200 pezzi.</label>
               </div>
             </div>
@@ -53,7 +53,7 @@
             <label for="prezzo">Prezzo</label>
             <div>
               <input type="number" class="form-control gruppoInputs" id="prezzo" formControlName="prezzo" placeholder="€" >
-              <div *ngIf="campoNonCorretto('formDeiProdotti.prezzo')" class="error-message">
+              <div *ngIf="formService.campoNonCorretto('formDeiProdotti.prezzo')" class="error-message">
                 <label class="err">Il prezzo non può superare 1.000.000 €</label>
               </div>
             </div>
@@ -67,8 +67,8 @@
           <div class="form-group gruppo d-flex flex-column align-items-center">
             <label for="coloreP">Colore primario</label>
             <div class="d-flex flex-row align-items-center">
-              <input type="color" class="gruppoColor" id="color1" (change)="updatePrimaryTone($event)">
-              <input type="text" class="form-control gruppoInputs" id="coloreP" formControlName="coloreP" placeholder="{{primaryTone}}" readonly>
+              <input type="color" class="gruppoColor" id="color1" (change)="updateTone($event, 1)">
+              <input type="text" class="form-control gruppoInputs" id="coloreP" formControlName="coloreP" placeholder="{{tone}}" readonly>
             </div>
 
           </div>
@@ -78,8 +78,8 @@
           <div class="form-group gruppo d-flex flex-column align-items-center">
             <label for="coloreS">Colore secondario</label>
             <div class="d-flex flex-row align-items-center">
-              <input type="color" class="gruppoColor" id="color2" (change)="updateSecondaryTone($event)">
-              <input type="text" class="form-control gruppoInputs" id="coloreS" formControlName="coloreS" placeholder="{{secondaryTone}}" readonly>
+              <input type="color" class="gruppoColor" id="color2" (change)="updateTone($event, 104)">
+              <input type="text" class="form-control gruppoInputs" id="coloreS" formControlName="coloreS" placeholder="{{tone}}" readonly>
             </div>
           </div>
 

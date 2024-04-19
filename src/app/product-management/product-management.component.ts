@@ -1,6 +1,7 @@
 import { Component} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {PopupService} from "../popUpService";
+import {FormService} from "../formService";
 
 @Component({
   selector: 'app-product-management',
@@ -8,60 +9,35 @@ import {PopupService} from "../popUpService";
   styleUrls: ['./product-management.component.css', '../../styles.css']
 })
 export class ProductManagementComponent{
-  primaryTone: string = 'NON SELEZIONATO';
-  secondaryTone: string = 'NON SELEZIONATO';
+  tone: string = 'NON SELEZIONATO';
 
   protected formCaesarzon!: FormGroup;
+
   imageUrls: (string | null)[] = [null, null, null, null];
 
-
-  constructor(private fb: FormBuilder, private popUpService: PopupService) {
-    this.createForm();
+  constructor(public formService: FormService, private popUpService: PopupService) {
+    this.formCaesarzon = formService.getForm();
   }
 
-  createForm() {
-    this.formCaesarzon = this.fb.group({
-      formDeiProdotti: this.buildFormProdotti()
-    })
-
-  }
-  updatePrimaryTone(event: any) {
+  updateTone(event: any, num: number) {
     const selectedColor = event.target.value;
     const colorName = this.convertColorToPrimaryTone(selectedColor);
-    this.primaryTone = colorName;
-    this.formCaesarzon.get('formDeiProdotti.coloreP')?.setValue(colorName);
+    this.tone = colorName;
+    if(num === 1){
+      this.formCaesarzon.get('formDeiProdotti.coloreP')?.setValue(colorName);
+    }else{
+      this.formCaesarzon.get('formDeiProdotti.coloreS')?.setValue(colorName);
+    }
+
   }
 
-  updateSecondaryTone(event: any) {
-    const selectedColor = event.target.value;
-    const colorName = this.convertColorToPrimaryTone(selectedColor);
-    this.secondaryTone = colorName;
-    this.formCaesarzon.get('formDeiProdotti.coloreS')?.setValue(colorName);
-  }
 
-  private buildFormProdotti():FormGroup{
-    return this.fb.group({
-      nome: ['', Validators.required],
-      marca: ['', Validators.required],
-      descrizione: ['', Validators.required],
-      sconto: ['', [Validators.required, Validators.min(0), Validators.max(50)]],
-      quantita: ['', [Validators.required, Validators.min(0), Validators.max(200)]],
-      prezzo: ['', [Validators.required, Validators.min(0), Validators.max(1000000)]],
-      coloreP: ['', Validators.required],
-      coloreS: ['', Validators.required],
-      taglia: ['none', Validators.required],
-      sport: ['', Validators.required],
-      categoria: ['', Validators.required]
-    });
-  }
-  printFormValues() {
-    console.log('Valori del form:', this.formCaesarzon.value);
-  }
   aggiungiProdotto() {
     this.popUpService.updateStringa("FUN-ZIO-NOOOOOOOOOOOO!");
     this.popUpService.apriPopUp()
-    this.printFormValues()
   }
+
+
   areImagesUploaded(): boolean {
     const category = this.formCaesarzon.get('formDeiProdotti.categoria')?.value;
     const size = this.formCaesarzon.get('formDeiProdotti.taglia')?.value;
@@ -73,9 +49,6 @@ export class ProductManagementComponent{
     }
   }
 
-  get form() {
-    return this.formCaesarzon.controls;
-  }
 
   handleFileInput(event: any, index: number) {
     const file = event.target.files[0];
@@ -110,15 +83,6 @@ export class ProductManagementComponent{
     event.preventDefault();
   }
 
-  deleteImage(index: number) {
-    this.imageUrls[index] = null;
-  }
-
-
-  campoNonCorretto(fieldName: string) {
-    const fieldControl = this.formCaesarzon.get(fieldName);
-    return fieldControl?.invalid && (fieldControl?.dirty || fieldControl?.touched);
-  }
 
 
   convertColorToPrimaryTone(color: string): string {
