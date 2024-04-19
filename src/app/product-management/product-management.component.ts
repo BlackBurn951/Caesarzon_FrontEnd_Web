@@ -8,8 +8,8 @@ import {PopupService} from "../popUpService";
   styleUrls: ['./product-management.component.css', '../../styles.css']
 })
 export class ProductManagementComponent{
-  primaryTone: string = 'NON SELEZIONATA';
-  secondaryTone: string = 'NON SELEZIONATA';
+  primaryTone: string = 'NON SELEZIONATO';
+  secondaryTone: string = 'NON SELEZIONATO';
 
   protected formCaesarzon!: FormGroup;
   imageUrls: (string | null)[] = [null, null, null, null];
@@ -29,14 +29,14 @@ export class ProductManagementComponent{
     const selectedColor = event.target.value;
     const colorName = this.convertColorToPrimaryTone(selectedColor);
     this.primaryTone = colorName;
-    this.formCaesarzon.get('coloreP')?.setValue(colorName);
+    this.formCaesarzon.get('formDeiProdotti.coloreP')?.setValue(colorName);
   }
 
   updateSecondaryTone(event: any) {
     const selectedColor = event.target.value;
     const colorName = this.convertColorToPrimaryTone(selectedColor);
     this.secondaryTone = colorName;
-    this.formCaesarzon.get('coloreS')?.setValue(colorName);
+    this.formCaesarzon.get('formDeiProdotti.coloreS')?.setValue(colorName);
   }
 
   private buildFormProdotti():FormGroup{
@@ -79,18 +79,25 @@ export class ProductManagementComponent{
 
   handleFileInput(event: any, index: number) {
     const file = event.target.files[0];
+    const maxSize = 3 * 1024 * 1024; // 6 MB
+
     if (file) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        const imageUrl = reader.result as string;
-        if (!this.imageUrls.includes(imageUrl)) {
-          this.imageUrls[index] = imageUrl;
-        } else {
-          this.popUpService.updateStringa("Immagine già caricata!");
-          this.popUpService.apriPopUp();
-        }
-      };
-      reader.readAsDataURL(file);
+      if (file.size > maxSize) {
+        this.popUpService.updateStringa("La dimensione massima del file è di 6 MB.");
+        this.popUpService.apriPopUp();
+      } else {
+        const reader = new FileReader();
+        reader.onload = () => {
+          const imageUrl = reader.result as string;
+          if (!this.imageUrls.includes(imageUrl)) {
+            this.imageUrls[index] = imageUrl;
+          } else {
+            this.popUpService.updateStringa("Immagine già caricata!");
+            this.popUpService.apriPopUp();
+          }
+        };
+        reader.readAsDataURL(file);
+      }
     }
   }
 
