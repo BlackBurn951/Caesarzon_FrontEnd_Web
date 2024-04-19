@@ -9,6 +9,7 @@ import {ProductsListComponent} from "./products-list/products-list.component";
 import {ProductManagementComponent} from "./product-management/product-management.component";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {ShoppingCartComponent} from "./shopping-cart/shopping-cart.component";
+import {PersonalDataComponent} from "./personal-data/personal-data.component";
 
 
 export const routes: Routes = [
@@ -17,7 +18,8 @@ export const routes: Routes = [
   {path: 'product-page', component: ProductPageComponent},
   {path: 'products_list', component: ProductsListComponent},
   {path: 'product-management', component: ProductManagementComponent},
-  {path: 'shopping-cart', component: ShoppingCartComponent}
+  {path: 'shopping-cart', component: ShoppingCartComponent},
+  {path: 'personal-data', component: PersonalDataComponent}
 ];
 
 @NgModule({
@@ -27,7 +29,8 @@ export const routes: Routes = [
     ProductPageComponent,
     ProductsListComponent,
     ProductManagementComponent,
-    ShoppingCartComponent
+    ShoppingCartComponent,
+    PersonalDataComponent
   ],
   imports: [
     NgIf,
