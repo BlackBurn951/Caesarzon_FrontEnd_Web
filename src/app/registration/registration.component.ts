@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import {LoginService} from "../loginService";
+import {NgIf} from "@angular/common";
 
 @Component({
   selector: 'app-registration',
