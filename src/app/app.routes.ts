@@ -4,12 +4,11 @@ import {HomepageComponent} from "./homepage/homepage.component";
 import {RegistrationComponent} from "./registration/registration.component";
 import {ProductPageComponent} from "./product-page/product-page.component";
 import {NgModule} from "@angular/core";
-import {NgClass, NgIf} from "@angular/common";
+import {NgClass, NgForOf, NgIf} from "@angular/common";
 import {ProductsListComponent} from "./products-list/products-list.component";
 import {ProductManagementComponent} from "./product-management/product-management.component";
-import {HeaderComponent} from "./header/header.component";
-import {FormsModule} from "@angular/forms";
-
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {ShoppingCartComponent} from "./shopping-cart/shopping-cart.component";
 
 
 export const routes: Routes = [
@@ -17,7 +16,8 @@ export const routes: Routes = [
   {path: 'registration', component: RegistrationComponent},
   {path: 'product-page', component: ProductPageComponent},
   {path: 'products_list', component: ProductsListComponent},
-  {path: 'product-management', component: ProductManagementComponent}
+  {path: 'product-management', component: ProductManagementComponent},
+  {path: 'shopping-cart', component: ShoppingCartComponent}
 ];
 
 @NgModule({
@@ -26,13 +26,18 @@ export const routes: Routes = [
     RegistrationComponent,
     ProductPageComponent,
     ProductsListComponent,
-    ProductManagementComponent
+    ProductManagementComponent,
+    ShoppingCartComponent
   ],
-    imports: [
-        NgIf,
-        NgClass,
-        FormsModule,
-    ],
-  providers: [],
+  imports: [
+    NgIf,
+    NgClass,
+    FormsModule,
+    NgForOf,
+    ReactiveFormsModule,
+    FormsModule,
+  ],
+  providers: [
+  ],
 })
 export class AppModule { }
