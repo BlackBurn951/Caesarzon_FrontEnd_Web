@@ -8,8 +8,6 @@ import {NgClass, NgForOf, NgIf} from "@angular/common";
 import {ProductsListComponent} from "./products-list/products-list.component";
 import {ProductManagementComponent} from "./product-management/product-management.component";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {ColorPickerModule, ColorPickerService} from "ngx-color-picker";
-
 
 
 export const routes: Routes = [
