@@ -10,62 +10,60 @@
 </head>
 
 <body>
-<div class="container mt-4">
+
+<div class="container-fluid mt-4">
   <div class="row">
-    <div class="col-md-3">
-      <h4>Filtri</h4>
-      <ul class="list-group">
-        <li class="list-group-item">Recensioni</li>
-        <li class="list-group-item">Prezzo</li>
-        <li class="list-group-item">Colore</li>
-        <li class="list-group-item">Ecc</li>
-      </ul>
-    </div>
-    <div class="col-md-9">
+    <div class="col-md-12">
       <!-- Aggiungo la barra di ricerca -->
       <div class="search-bar">
         <input type="text" class="form-control" placeholder="Cerca...">
       </div>
       <h2>Prodotti in evidenza</h2>
       <div class="row">
-        <div class="col-md-4 mb-3">
+        <div class="col-md-2">
+          <img id="arrowLeft" class="arrow-image" src="assets/images/right-arrow.png">
+        </div>
+        <div class="col-md-3">
           <div class="card">
             <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
             <div class="card-body">
               <h5 class="card-title">Prodotto 1</h5>
               <p class="card-text">Descrizione breve del prodotto.</p>
-              <a href="#" class="btn btn-primary" (click)="goToProductPage($event)">Dettagli</a>  <!-- lINK ALLA PAGINA PRODOTTO-->
+              <a href="#" class="btn btn-dark" (click)="goToProductPage($event)">Dettagli</a>  <!-- lINK ALLA PAGINA PRODOTTO-->
             </div>
           </div>
         </div>
-        <div class="col-md-4 mb-3">
+
+        <div class="col-md-3">
           <div class="card">
             <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
             <div class="card-body">
               <h5 class="card-title">Prodotto 2</h5>
               <p class="card-text">Descrizione breve del prodotto.</p>
-              <a href="#" class="btn btn-primary">Dettagli</a>
+              <a href="#" class="btn btn-dark">Dettagli</a>
             </div>
           </div>
         </div>
-        <div class="col-md-4 mb-3">
+        <div class="col-md-3">
           <div class="card">
+
             <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
             <div class="card-body">
               <h5 class="card-title">Prodotto 3</h5>
               <p class="card-text">Descrizione breve del prodotto.</p>
-              <a href="#" class="btn btn-primary">Dettagli</a>
+              <a href="#" class="btn btn-dark">Dettagli</a>
             </div>
           </div>
+        </div>
+        <div class="col-md-2" id="arrowRight">
+          <img class="arrow-image" src="assets/images/right-arrow.png">
         </div>
       </div>
     </div>
   </div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 </body>
 
 </html>

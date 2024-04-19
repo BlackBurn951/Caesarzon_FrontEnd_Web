@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>E-commerce</title>
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+  <section>
+    <form [formGroup]="formCaesarzon" (ngSubmit)="aggiungiProdotto()">
+
+      <div class="container-fluid customContainer" formGroupName="formDeiProdotti">
+
+        <div class="container-fluid d-flex flex-column align-items-center">
+
+          <div class="form-group gruppo d-flex flex-column align-items-center">
+            <label for="nome">Nome prodotto</label>
+            <input type="text" class="form-control gruppoInput" id="nome" formControlName="nome" maxlength="30">
+          </div>
+          <div class="form-group gruppo d-flex flex-column align-items-center">
+            <label for="marca">Marca</label>
+            <input type="text" class="form-control gruppoInput" id=marca formControlName="marca" maxlength="30">
+          </div>
+          <div class="form-group gruppo d-flex flex-column align-items-center">
+            <label for="descrizione">Descrizione</label>
+            <textarea type="text" class="form-control gruppoInputDesc" id="descrizione" formControlName="descrizione" maxlength="1000"></textarea>
+          </div>
+
+          <div class="form-group gruppo d-flex flex-column align-items-center">
+            <label for="sconto">Sconto iniziale</label>
+            <div>
+              <input type="number" class="form-control gruppoInputs" id="sconto" formControlName="sconto" placeholder="%">
+              <div *ngIf="campoNonCorretto('formDeiProdotti.sconto')" class="error-message">
+                <label class="err">Lo sconto iniziale può essere massimo del 50%.</label>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="form-group gruppo d-flex flex-column align-items-center">
+            <label for="quantita">Quantità</label>
+            <div>
+              <input type="number" class="form-control gruppoInputs" id="quantita" formControlName="quantita">
+              <div *ngIf="campoNonCorretto('formDeiProdotti.quantita')" class="error-message">
+                <label class="err">La quantità non può superare i 200 pezzi.</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group gruppo d-flex flex-column align-items-center">
+            <label for="prezzo">Prezzo</label>
+            <div>
+              <input type="number" class="form-control gruppoInputs" id="prezzo" formControlName="prezzo" placeholder="€" >
+              <div *ngIf="campoNonCorretto('formDeiProdotti.prezzo')" class="error-message">
+                <label class="err">Il prezzo non può superare 1.000.000 €</label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+        <div class="container-fluid d-flex flex-column align-items-center">
+
+          <div class="form-group gruppo d-flex flex-column align-items-center">
+            <label for="coloreP">Colore primario</label>
+            <div class="d-flex flex-row align-items-center">
+              <input type="color" class="gruppoColor" id="color1" (change)="updatePrimaryTone($event)">
+              <input type="text" class="form-control gruppoInput" id="coloreP" formControlName="coloreP" placeholder="La tonalità principale selezionata è: {{primaryTone}}" readonly>
+            </div>
+
+          </div>
+
+
+
+          <div class="form-group gruppo d-flex flex-column align-items-center">
+            <label for="coloreS">Colore secondario</label>
+            <div class="d-flex flex-row align-items-center">
+              <input type="color" class="gruppoColor" id="color2" (change)="updateSecondaryTone($event)">
+              <input type="text" class="form-control gruppoInput" id="coloreS" formControlName="coloreS" placeholder="La tonalità principale selezionata è: {{secondaryTone}}" readonly>
+            </div>
+          </div>
+
+          <div class="form-group gruppos d-flex flex-row align-items-center">
+            <div class="d-flex flex-column align-items-center">
+              <label for="taglia">Taglia</label>
+              <select name="taglia" class="form-select selectionIn btn btn-dark custom-bln" id="taglia" formControlName="taglia">
+                <option value="none">None</option>
+                <option value="XXS">XXS</option>
+                <option value="XS">XS</option>
+                <option value="S">S</option>
+                <option value="M">M</option>
+                <option value="L">L</option>
+                <option value="XL">XL</option>
+                <option value="XXL">XXL</option>
+              </select>
+            </div>
+
+            <div class="d-flex flex-column align-items-center">
+              <label for="sport">Sport</label>
+              <select name="sport" class="form-select selectionIn btn btn-dark custom-bln" id="sport" formControlName="sport">
+                <option value="calcio">Calcio</option>
+                <option value="pallavolo">Pallavolo</option>
+                <option value="basket">Basket</option>
+                <option value="tennis">Tennis</option>
+                <option value="nuoto">Nuoto</option>
+                <option value="arti marziali">Arti marziali</option>
+                <option value="ciclismo">Ciclismo</option>
+                <option value="sciismo">Sciismo</option>
+                <option value="boxe">Boxe</option>
+              </select>
+            </div>
+
+            <div class="d-flex flex-column align-items-center">
+              <label for="categoria">Categoria</label>
+              <select name="categoria" class="form-select selectionIn btn btn-dark custom-bln" id="categoria" formControlName="categoria">
+                <option value="abbigliamento">Abbigliamento</option>
+                <option value="attrezzature">Attrezzatura</option>
+              </select>
+            </div>
+
+          </div>
+
+          <div class="container-fluid d-flex flex-column align-items-center">
+            <h1>Carica immagini</h1>
+              <div class="container">
+                <div class="row">
+                  <ng-container *ngFor="let index of [0, 1, 2, 3]">
+                    <div class="col-md-6 d-flex flex-column align-items-center">
+                      <div class="grid-item">
+                        <label class="grid-label d-flex flex-column align-items-center" for="file-input{{index}}" (click)="openFileInput($event, index)">
+                          <img *ngIf="imageUrls[index]" [src]="imageUrls[index]" alt="Uploaded Image">
+                          <span class="btn btn-dark custom-btn" *ngIf="!imageUrls[index]">Scegli file</span>
+                        </label>
+                          <input type="file" id="file-input{{index}}" accept="image/*" style="display: none" (change)="handleFileInput($event, index)">
+                      </div>
+                      <span class="btn btn-dark custom-btn d-flex flex-column align-items-center o" *ngIf="imageUrls[index]" (click)="openFileInput($event, index)">Scegli un altro file</span>
+                    </div>
+                  </ng-container>
+                </div>
+              </div>
+          </div>
+        </div>
+
+
+
+      </div>
+
+      <div class="row customButtonContainer">
+        <div class="col-md d-flex flex-column align-items-center">
+          <button class="menu-item btn btn-dark custom-btn bottoneA">Gestisci prodotti</button>
+        </div>
+
+        <div class="col-md d-flex flex-column align-items-center">
+          <button type="submit" class="menu-item btn btn-dark custom-btn bottoneA" [disabled]="!formCaesarzon.valid || !areImagesUploaded()">Aggiungi prodotto</button>
+        </div>
+      </div>
+    </form>
+  </section>
+</body>
+
+</html>

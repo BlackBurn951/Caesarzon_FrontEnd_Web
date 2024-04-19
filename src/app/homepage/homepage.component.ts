@@ -5,26 +5,16 @@ import {NavigationEnd, Router} from "@angular/router";
 import {LoginService} from "../loginService";
 import {ProductPageComponent} from "../product-page/product-page.component";
 
-
 @Component({
   selector: 'app-homepage',
   templateUrl: './homepage.component.html',
-  styleUrl: './homepage.component.css'
+  styleUrls: ['./homepage.component.css']
 })
+
 export class HomepageComponent{
 
-  isMenuOpen = false;
-
-  constructor(public loginService: LoginService, private router: Router) {
+  constructor(private router: Router) {
   }
-
-
-  toggleMenu(): void {
-    this.isMenuOpen = !this.isMenuOpen;
-  }
-
-
-  protected readonly LoginService = LoginService;
 
   goToProductPage(event: Event) {
     this.router.navigate(['product-page'])

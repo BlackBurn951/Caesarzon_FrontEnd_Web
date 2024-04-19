@@ -1,58 +1,84 @@
-<div class="popup-dialog">
-  <section id="pop-up-content">
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
 
-    <h1 id="accedi">Accedi</h1>
-    <button (click)="loginService.closePopup()" id="ics">X</button>
-
-    <div *ngIf="loginService.isLogin">
-      <div class="inputContainer" >
-        <div class="sectionLabelInput">
-          <label class="label_username" for="username">Username o E-mail</label>
-          <input type="text" class="username" name="username">
-        </div>
-        <div class="sectionLabelInput">
-          <label class="label_password" for="password">Password</label>
-          <input type="password" class="password" name="password" >
-        </div>
-        <a href="#">Hai dimenticato la password?</a>
+<div class="container-fluid regLog">
+  <form *ngIf="loginService.isLogin" >
+    <div class="form-group">
+      <div class="d-flex flex-column align-items-center">
+        <h1 class="accediLabel">Accedi</h1>
       </div>
-      <div class="regTxt">
-        <button >ACCEDI</button>
-        <a href="#" (click)="loginService.toggleLogin($event)">Sei nuovo su Caesarzon? Registrati.</a>
-      </div>
+      <button (click)="loginService.closePopup()" class="btn btn-dark ics">X</button>
     </div>
+    <div class="form-group">
+      <label for="usernameL">Username o e-mail:</label>
+      <input type="text" class="form-control" id="usernameL">
+    </div>
+    <div class="form-group">
+      <label for="passwordR">Password:</label>
+      <input type="text" class="form-control" id="passwordL">
+      <a href="#">Hai dimenticato la password?</a>
 
-    <div *ngIf="!loginService.isLogin">
-      <div class="inputContainer">
-        <div class="sectionLabelInput">
-          <label class="label_username" for="username">Username</label>
-          <input type="text" id="username" name="username">
-        </div>
-        <div class="sectionLabelInput">
-          <label class="label_username" for="email">E-mail</label>
-          <input type="text" id="email" name="email">
-        </div>
-        <div class="sectionLabelInput">
-          <label class="label_password" for="password">Password</label>
-          <input type="password" id="password" name="password" >
-        </div>
-        <div class="sectionLabelInput">
-          <label class="label_password" for="password">Conferma password</label>
-          <input type="password" id="repeatPassword" name="password" >
-        </div>
-      </div>
-      <div class="regTxt">
-        <button >REGISTRATI</button>
-        <a href="#" (click)="loginService.toggleLogin($event)">Hai già un account? Accedi.</a>
-      </div>
     </div>
 
 
 
+    <div class="d-flex flex-column align-items-center">
+      <button type="submit" class="btn btn-dark custom-btn" >Accedi</button>
+    </div>
+
+    <div class="form-group">
+      <a href="#" (click)="loginService.toggleLogin($event)">Sei nuovo su Caesarzon? Registrati.</a>
+    </div>
 
 
+  </form>
+
+  <form *ngIf="!loginService.isLogin">
+    <div class="d-flex flex-column align-items-center">
+      <h1 class="accediLabel">Registrati</h1>
+    </div>
+    <button (click)="loginService.closePopup()"  class="btn btn-dark ics">X</button>
+    <div class="form-group">
+      <label for="usernameR">Username:</label>
+      <input type="text" class="form-control" id=usernameR>
+    </div>
+    <div class="form-group">
+      <label for="email">E-mail:</label>
+      <input type="text" class="form-control" id=email>
+    </div>
+    <div class="form-group">
+      <label for="passwordR">Password:</label>
+      <input type="text" class="form-control" id="passwordR">
+    </div>
+    <div class="form-group">
+      <label for="passwordR">Conferma password:</label>
+      <input type="text" class="form-control" id="passwordRC">
+    </div>
+
+    <div class="d-flex flex-column align-items-center">
+      <button type="submit" class="btn btn-dark custom-btn" >Registrati</button>
+    </div>
+
+    <div class="form-group">
+      <a href="#" (click)="loginService.toggleLogin($event)">Hai già un account? Accedi.</a>
+    </div>
 
 
-  </section>
+  </form>
+
 </div>
 
+<!-- Collegamento a Bootstrap JS e JQuery (opzionale) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>
