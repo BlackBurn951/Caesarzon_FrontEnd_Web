@@ -153,3 +153,19 @@
 .inputRA input {
   max-width: 100%;
 }
+
+.password-input-container {
+  position: relative;
+}
+
+.password-input-container input {
+  padding-right: 2.5rem; /* Spazio per l'icona */
+}
+
+.password-input-container .toggle-password {
+  position: absolute;
+  top: 50%;
+  right: 0.5rem; /* Distanza dall'estremità destra */
+  transform: translateY(-50%);
+  cursor: pointer;
+}

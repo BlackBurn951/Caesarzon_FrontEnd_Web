@@ -9,12 +9,12 @@ import {ProductsListComponent} from "./products-list/products-list.component";
 import {ProductManagementComponent} from "./product-management/product-management.component";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {ColorPickerModule, ColorPickerService} from "ngx-color-picker";
+import {ReviewComponent} from "./review/review.component";
 
 
 
 export const routes: Routes = [
   {path: '', component: HomepageComponent},
-  {path: 'registration', component: RegistrationComponent},
   {path: 'product-page', component: ProductPageComponent},
   {path: 'products_list', component: ProductsListComponent},
   {path: 'product-management', component: ProductManagementComponent}
@@ -26,7 +26,8 @@ export const routes: Routes = [
     RegistrationComponent,
     ProductPageComponent,
     ProductsListComponent,
-    ProductManagementComponent
+    ProductManagementComponent,
+    ReviewComponent
   ],
   imports: [
     NgIf,

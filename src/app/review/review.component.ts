@@ -1,12 +1,25 @@
 import { Component } from '@angular/core';
+import {PopupService} from "../popUpService";
 
 @Component({
   selector: 'app-review',
-  standalone: true,
-  imports: [],
   templateUrl: './review.component.html',
-  styleUrl: './review.component.css'
+  styleUrls: ['./review.component.css', "../../styles.css"]
 })
 export class ReviewComponent {
+
+  rating: number = 1;
+
+  descrizione: string = ''; 
+
+
+  constructor(public popupService: PopupService) {
+  }
+
+  rate(rating: number) {
+    this.rating = rating;
+  }
+
+
 
 }
