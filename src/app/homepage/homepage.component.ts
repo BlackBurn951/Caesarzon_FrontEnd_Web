@@ -12,6 +12,7 @@ import {ProductPageComponent} from "../product-page/product-page.component";
 })
 
 
+
 export class HomepageComponent {
   products: any[] = [];
   constructor(private router: Router) {
