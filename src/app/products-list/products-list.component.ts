@@ -14,4 +14,9 @@ export class ProductsListComponent {
   goToHomepage(id: number) {
     this.router.navigate(['/homepage/']);
   }
+
+  reload(event: Event): void {
+    window.location.reload()
+    event.preventDefault()
+  }
 }
