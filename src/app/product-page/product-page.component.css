@@ -1,0 +1,38 @@
+#left-col-container{
+  display: flex;
+  gap: 2%;
+}
+
+#image-array{
+  display: flex;
+  flex-direction: column;
+}
+
+.little-image{
+  margin-bottom: 2%;
+  padding: 0 0 0 0;
+}
+
+#product-name{
+
+}
+
+#product-descr{
+
+}
+
+#quantity{
+  width: 35%;
+  text-align: center;
+}
+
+.buy-section{
+  padding-left: 8%;
+  padding-right: 8%;
+  background-color: rgba(99, 64, 128, 0.7);
+  width: 85%;
+  height: 88%;
+  border: black;
+  border-style: solid;
+}
+

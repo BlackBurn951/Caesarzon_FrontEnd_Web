@@ -27,4 +27,8 @@ export class HeaderComponent {
   goToProductManagement() {
     this.router.navigate(['product-management']);
   }
+
+  goToShoppingCart() {
+    this.router.navigate(['shopping-cart'])
+  }
 }

@@ -29,6 +29,22 @@
 
 }
 
+.custom-btb {
+  border-color: black;
+  background-color: #ffc875;
+  color: #ffffff;
+}
+.custom-btb:hover,
+.custom-btb:focus{
+  border-color: black;
+  background-color: #a96c00 !important;
+  box-shadow: 0 0  #000000 !important;
+}
+.custom-btb:active {
+  border-color: black;
+  background-color: #FF9C00 !important;
+  box-shadow: 0 0 3px 1px #000000 !important;
+}
 
 .custom-bln {
   border-color: black;
