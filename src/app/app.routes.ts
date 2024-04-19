@@ -9,6 +9,7 @@ import {ProductsListComponent} from "./products-list/products-list.component";
 import {ProductManagementComponent} from "./product-management/product-management.component";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {ShoppingCartComponent} from "./shopping-cart/shopping-cart.component";
+import {ReviewComponent} from "./review/review.component";
 import {PersonalDataComponent} from "./personal-data/personal-data.component";
 
 
@@ -30,6 +31,7 @@ export const routes: Routes = [
     ProductsListComponent,
     ProductManagementComponent,
     ShoppingCartComponent,
+    ReviewComponent
     PersonalDataComponent
   ],
   imports: [
