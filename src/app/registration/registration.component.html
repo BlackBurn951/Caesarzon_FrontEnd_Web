@@ -8,11 +8,13 @@
 </head>
 <body>
 
-<div class="container-fluid">
+<div class="container-fluid regLog">
   <form *ngIf="loginService.isLogin" >
     <div class="form-group">
-      <h2>Accedi</h2>
-      <button (click)="loginService.closePopup()" class="btn btn-primary ics">X</button>
+      <div class="d-flex flex-column align-items-center">
+        <h1 class="accediLabel">Accedi</h1>
+      </div>
+      <button (click)="loginService.closePopup()" class="btn btn-dark ics">X</button>
     </div>
     <div class="form-group">
       <label for="usernameL">Username o e-mail:</label>
@@ -28,7 +30,7 @@
 
 
     <div class="d-flex flex-column align-items-center">
-      <button type="submit" class="btn btn-primary custom-btn" >Accedi</button>
+      <button type="submit" class="btn btn-dark custom-btn" >Accedi</button>
     </div>
 
     <div class="form-group">
@@ -39,8 +41,10 @@
   </form>
 
   <form *ngIf="!loginService.isLogin">
-    <h2>Registrati</h2>
-    <button (click)="loginService.closePopup()"  class="btn btn-primary ics">X</button>
+    <div class="d-flex flex-column align-items-center">
+      <h1 class="accediLabel">Registrati</h1>
+    </div>
+    <button (click)="loginService.closePopup()"  class="btn btn-dark ics">X</button>
     <div class="form-group">
       <label for="usernameR">Username:</label>
       <input type="text" class="form-control" id=usernameR>
@@ -59,7 +63,7 @@
     </div>
 
     <div class="d-flex flex-column align-items-center">
-      <button type="submit" class="btn btn-primary custom-btn" >Registrati</button>
+      <button type="submit" class="btn btn-dark custom-btn" >Registrati</button>
     </div>
 
     <div class="form-group">
