@@ -17,6 +17,7 @@ export class LoginService {
   toggleLogin(event: Event) {
     event.preventDefault()
     this.isLogin = !this.isLogin;
+
   }
 
   openPopup() {
