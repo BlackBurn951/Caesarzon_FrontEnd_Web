@@ -38,4 +38,6 @@ export class HeaderComponent {
     this.router.navigate(['personal-data']);
     event.preventDefault()
   }
+
+
 }
