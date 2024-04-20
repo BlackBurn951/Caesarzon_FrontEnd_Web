@@ -25,4 +25,9 @@ export class UserManagementContainerComponent {
     event.preventDefault()
   }
 
+  openHelpRequest(event: Event) {
+    this.router.navigate(['help-request']);
+    event.preventDefault()
+  }
+
 }

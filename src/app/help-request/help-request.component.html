@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>E-commerce</title>
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<section class="d-flex flex-row align-items-center">
+  <div class="container">
+    <app-user-management-container></app-user-management-container>
+  </div>
+  <div class="container-fluid d-flex flex-column align-items-left">
+
+    <div class="container-fluid d-flex flex-row align-items-center">
+      <div class="container-fluid d-flex flex-column align-items-center aldo">
+        <div class="form-group d-flex flex-column align-items-center">
+          <label>Motivazione:</label>
+          <select name="where">
+            <option>Ordine</option>
+            <option>Spedizione</option>
+            <option>Resi e rimborsi</option>
+            <option>Domande sui prodotti</option>
+            <option>Assistenza post-vendita</option>
+            <option>Problemi tecnici</option>
+            <option>Modifiche dell'account</option>
+            <option>Promozioni e sconti</option>
+            <option>Feedback e suggerimenti</option>
+            <option>Assistenza personalizzata</option>
+          </select>
+        </div>
+        <div class="form-group d-flex flex-column align-items-center">
+          <label>Oggetto:</label>
+          <input type="text" id="oggetto" maxlength="50" style="width: 300px;"> <!-- Imposta la larghezza a 300px -->
+        </div>
+        <div class="form-group d-flex flex-column align-items-center">
+          <label>Descrizione:</label>
+          <textarea id="descrizione" rows="6" cols="50" maxlength="500"></textarea>
+        </div>
+      </div>
+    </div>
+    <div>
+      <button type="button" class="btn btn-primary">Invia</button>
+    </div>
+  </div>
+</section>
+</body>
+</html>
