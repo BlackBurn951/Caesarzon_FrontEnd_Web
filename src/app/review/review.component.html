@@ -1,1 +1,44 @@
-<p>review works!</p>
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Review</title>
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="container-fluidos regLog">
+    <div class="form-group">
+      <div class="d-flex flex-column align-items-center">
+        <h1 class="accediLabel">Condividi la tua esperienza!</h1>
+      </div>
+      <button (click)="popupService.closePopup()" class="btn btn-dark ics">X</button>
+      <div class="d-flex flex-column align-items-center">
+        <div class="stars">
+          <span class="star" (click)="rate(1)" [ngClass]="{'filled': rating >= 1}">★</span>
+          <span class="star" (click)="rate(2)" [ngClass]="{'filled': rating >= 2}">★</span>
+          <span class="star" (click)="rate(3)" [ngClass]="{'filled': rating >= 3}">★</span>
+          <span class="star" (click)="rate(4)" [ngClass]="{'filled': rating >= 4}">★</span>
+          <span class="star" (click)="rate(5)" [ngClass]="{'filled': rating == 5}">★</span>
+        </div>
+      </div>
+
+
+      <input type="hidden" id="rating" name="rating" [value]="rating">
+    </div>
+
+
+    <div class="form-group gruppo d-flex flex-column align-items-center">
+      <label for="descrizione">Descrizione</label>
+      <textarea class="form-control gruppoInputDesc" id="descrizione" maxlength="1000" [(ngModel)]="descrizione"></textarea>
+    </div>
+
+    <div class="d-flex flex-column align-items-center">
+      <button type="submit" class="btn btn-dark custom-btn al" >Invia</button>
+    </div>
+</div>
+
+
+</body>
+</html>
