@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+/*import { Component } from '@angular/core';
 import {GetUserData} from "../getUserData";
 
 @Component({
@@ -12,3 +12,4 @@ export class PaymentFirstPageComponent {
   }
 
 }
+*/
