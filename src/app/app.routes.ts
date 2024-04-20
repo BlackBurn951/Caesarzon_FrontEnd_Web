@@ -38,8 +38,6 @@ export const routes: Routes = [
     ShoppingCartComponent,
     ReviewComponent,
     ReportsComponent
-    PersonalDataComponent,
-    PaymentFirstPageComponent
   ],
   imports: [
     NgIf,
@@ -49,6 +47,8 @@ export const routes: Routes = [
     ReactiveFormsModule,
     FormsModule,
     FooterComponent,
+    PersonalDataComponent,
+    PaymentFirstPageComponent,
     PersonalDataComponent,
     PaymentFirstPageComponent,
   ],

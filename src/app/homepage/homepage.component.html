@@ -7,17 +7,39 @@
   <title>Il tuo E-commerce</title>
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
-
 <body>
+<div class="search-container">
+  <input type="text" placeholder="Cerca...">
+  <button type="submit">Cerca</button>
+</div>
   <div class="container">
-    <div class="slider-wrapper">
-      <button id="prev-slide" class="slide-button material-symbol-rounded" (click)="initSlider()"><img class="arrowImage" src="assets/images/left-arrow.png"></button>
+    <div class="container text-center"><h1>NOVITA'</h1></div>
+    <div class="slider-wrapper" id="slideWrapper0">
         <div class="card-list">
+          <button class="slide-button material-symbol-rounded slide-button-left" (click)="initSlider('prev','slideWrapper0')"><img class="arrowImage" src="assets/images/left-arrow.png"></button>
+          <div class="card">
+            <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
+            <div class="card-body">
+              <h2 class="card-title">{{products[0].name}}</h2>
+              <div class="container">
+                <div *ngIf="showDetails">
+                  <h4>{{products[0].description}}</h4>
+                </div>
+                <a href="#" class="btn btn-primary mt-2" (click)="toggleDetails()">Dettagli</a>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
+            <div class="card-body">
+              <h5 class="card-title">{{products[0].name}}</h5>
+              <a href="#" class="btn btn-primary" (click)="goToProductPage($event)">Dettagli</a>
+            </div>
+          </div>
           <div class="card">
             <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
             <div class="card-body">
               <h5 class="card-title">Prodotto 1</h5>
-              <p class="card-text">Descrizione breve del prodotto.</p>
               <a href="#" class="btn btn-primary" (click)="goToProductPage($event)">Dettagli</a>
             </div>
           </div>
@@ -32,7 +54,7 @@
           <div class="card">
             <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
             <div class="card-body">
-              <h5 class="card-title">Prodotto 1</h5>
+              <h5 class="card-title">prod 1</h5>
               <p class="card-text">Descrizione breve del prodotto.</p>
               <a href="#" class="btn btn-primary" (click)="goToProductPage($event)">Dettagli</a>
             </div>
@@ -45,26 +67,123 @@
               <a href="#" class="btn btn-primary" (click)="goToProductPage($event)">Dettagli</a>
             </div>
           </div>
-          <div class="card">
-            <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
-            <div class="card-body">
-              <h5 class="card-title">Prodotto 1</h5>
-              <p class="card-text">Descrizione breve del prodotto.</p>
-              <a href="#" class="btn btn-primary" (click)="goToProductPage($event)">Dettagli</a>
-            </div>
-          </div>
-          <div class="card">
-            <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
-            <div class="card-body">
-              <h5 class="card-title">Prodotto 1</h5>
-              <p class="card-text">Descrizione breve del prodotto.</p>
-              <a href="#" class="btn btn-primary" (click)="goToProductPage($event)">Dettagli</a>
+          <button class="slide-button material-symbol-rounded slide-button-right" (click)="initSlider('next','slideWrapper0')"><img class="arrowImage" src="assets/images/right-arrow.png"></button>
+        </div>
+    </div>
+    <div class="container text-center"><h1>OFFERTE</h1></div>
+    <div class="slider-wrapper" id="slideWrapper1">
+      <button class="slide-button material-symbol-rounded slide-button-left" (click)="initSlider('prev','slideWrapper1')"><img class="arrowImage" src="assets/images/left-arrow.png"></button>
+      <div class="card-list">
+        <div class="card">
+          <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h2 class="card-title">{{products[0].name}}</h2>
+            <div class="container">
+              <div *ngIf="showDetails">
+                <h4>{{products[0].description}}</h4>
+              </div>
+              <a href="#" class="btn btn-primary mt-2" (click)="toggleDetails()">Dettagli</a>
             </div>
           </div>
         </div>
-        <button id="next-slide" class="slide-button material-symbol-rounded" (click)="initSlider()"><img class="arrowImage" src="assets/images/right-arrow.png"></button>
+        <div class="card">
+          <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">{{products[0].name}}</h5>
+            <a href="#" class="btn btn-primary" (click)="goToProductPage($event)">Dettagli</a>
+          </div>
+        </div>
+        <div class="card">
+          <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">Prodotto 1</h5>
+            <a href="#" class="btn btn-primary" (click)="goToProductPage($event)">Dettagli</a>
+          </div>
+        </div>
+        <div class="card">
+          <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">Prodotto 1</h5>
+            <p class="card-text">Descrizione breve del prodotto.</p>
+            <a href="#" class="btn btn-primary" (click)="goToProductPage($event)">Dettagli</a>
+          </div>
+        </div>
+        <div class="card">
+          <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">prod 1</h5>
+            <p class="card-text">Descrizione breve del prodotto.</p>
+            <a href="#" class="btn btn-primary" (click)="goToProductPage($event)">Dettagli</a>
+          </div>
+        </div>
+        <div class="card">
+          <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">Prodotto 1</h5>
+            <p class="card-text">Descrizione breve del prodotto.</p>
+            <a href="#" class="btn btn-primary" (click)="goToProductPage($event)">Dettagli</a>
+          </div>
+        </div>
       </div>
+      <button class="slide-button material-symbol-rounded slide-button-right"  (click)="initSlider('next','slideWrapper1')"><img class="arrowImage" src="assets/images/right-arrow.png"></button>
+    </div>
+    <div class="container text-center"><h1>PRODOTTI DEL MOMENTO</h1></div>
+    <div class="slider-wrapper" id="slideWrapper2">
+      <button class="slide-button material-symbol-rounded slide-button-left" (click)="initSlider('prev','slideWrapper2')"><img class="arrowImage" src="assets/images/left-arrow.png"></button>
+      <div class="card-list">
+        <div class="card">
+          <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h2 class="card-title">{{products[0].name}}</h2>
+            <div class="container">
+              <div *ngIf="showDetails">
+                <h4>{{products[0].description}}</h4>
+              </div>
+              <a href="#" class="btn btn-primary mt-2" (click)="toggleDetails()">Dettagli</a>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">{{products[0].name}}</h5>
+            <a href="#" class="btn btn-primary" (click)="goToProductPage($event)">Dettagli</a>
+          </div>
+        </div>
+        <div class="card">
+          <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">Prodotto 1</h5>
+            <a href="#" class="btn btn-primary" (click)="goToProductPage($event)">Dettagli</a>
+          </div>
+        </div>
+        <div class="card">
+          <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">Prodotto 1</h5>
+            <p class="card-text">Descrizione breve del prodotto.</p>
+            <a href="#" class="btn btn-primary" (click)="goToProductPage($event)">Dettagli</a>
+          </div>
+        </div>
+        <div class="card">
+          <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">prod 1</h5>
+            <p class="card-text">Descrizione breve del prodotto.</p>
+            <a href="#" class="btn btn-primary" (click)="goToProductPage($event)">Dettagli</a>
+          </div>
+        </div>
+        <div class="card">
+          <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">Prodotto 1</h5>
+            <p class="card-text">Descrizione breve del prodotto.</p>
+            <a href="#" class="btn btn-primary" (click)="goToProductPage($event)">Dettagli</a>
+          </div>
+        </div>
+      </div>
+      <button class="slide-button material-symbol-rounded slide-button-right"  (click)="initSlider('next','slideWrapper2')"><img class="arrowImage" src="assets/images/right-arrow.png"></button>
+    </div>
   </div>
-
 </body>
 </html>
