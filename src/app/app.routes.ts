@@ -37,8 +37,7 @@ export const routes: Routes = [
     ProductManagementComponent,
     ShoppingCartComponent,
     ReviewComponent,
-    ReportsComponent
-    PersonalDataComponent,
+    ReportsComponent,
     PaymentFirstPageComponent
   ],
   imports: [
@@ -50,7 +49,7 @@ export const routes: Routes = [
     FormsModule,
     FooterComponent,
     PersonalDataComponent,
-    PaymentFirstPageComponent,
+    PersonalDataComponent,
   ],
   providers: [],
   exports: [
