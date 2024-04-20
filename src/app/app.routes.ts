@@ -41,6 +41,7 @@ export const routes: Routes = [
     ShoppingCartComponent,
     ReviewComponent,
     ReportsComponent,
+    PaymentFirstPageComponent,
     FriendsPopupComponent
   ],
   imports: [
@@ -49,13 +50,9 @@ export const routes: Routes = [
     FormsModule,
     NgForOf,
     ReactiveFormsModule,
-    FormsModule,
     FooterComponent,
     PersonalDataComponent,
     PaymentFirstPageComponent,
-    PersonalDataComponent,
-    PaymentFirstPageComponent,
-    FooterComponent
   ],
   providers: [],
   exports: [

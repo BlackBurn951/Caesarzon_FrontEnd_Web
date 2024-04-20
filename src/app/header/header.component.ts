@@ -4,6 +4,7 @@ import {Router} from "@angular/router";
 import {PopupService} from "../popUpService";
 import {GetUserData} from "../getUserData";
 
+// @ts-ignore
 @Component({
   selector: 'app-header',
   standalone: true,
@@ -18,6 +19,8 @@ export class HeaderComponent {
 
 
   isMenuOpen = false;
+  showSportsDropdown: boolean = false;
+  showMusicDropdown: boolean = false;
 
   constructor(public popupService:PopupService, private router: Router, public userData: GetUserData){
 
@@ -41,6 +44,5 @@ export class HeaderComponent {
     this.router.navigate(['personal-data']);
     event.preventDefault()
   }
-
 
 }

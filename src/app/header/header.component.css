@@ -31,3 +31,46 @@ header{
   display: flex;
   gap:1vw;
 }
+
+.navbar {
+  background-color: #634080;
+}
+
+.navbar-nav {
+  display: flex;
+  list-style: none;
+  padding: 0;
+}
+
+.nav-item {
+  margin: 0 10px;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: #fff;
+  padding: 10px;
+}
+
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  background-color: #634080;
+  padding: 10px;
+}
+
+.dropdown-menu a {
+  display: block;
+  color: #fff;
+  text-decoration: none;
+}
+
+.dropdown-menu a:hover {
+  background-color: #FF9C00;
+}
+
+.dropdown:hover .dropdown-menu {
+  display: block;
+}
+
+
