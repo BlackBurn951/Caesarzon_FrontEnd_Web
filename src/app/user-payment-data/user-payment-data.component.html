@@ -7,19 +7,73 @@
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-<section class="d-flex flex-row align-items-center">
-  <div class="container">
+<section class="d-flex flex-row align-items-center aldo">
+  <div class="container-fluid cont">
     <app-user-management-container></app-user-management-container>
   </div>
 
 
 
+  <div class="container-fluid d-flex flex-row align-items-center">
+
+    <div class="container-fluid d-flex flex-column align-items-center">
 
 
+      <div class="form-group d-flex flex-column align-items-center">
+        <label for="selectCard">Seleziona la tua carta di credito:</label>
+        <p></p>
+        <select class="form-select" id="selectCard">
+          <option value="card1">Carta 1</option>
+          <option value="card2">Carta 2</option>
+          <option value="card3">Carta 3</option>
+          <option value="card4">Carta 4</option>
+        </select>
+      </div>
+
+      <section class="form-group d-flex flex-column align-items-center">
+        <div class="row">
+
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="cardNumber">Numero della carta:</label>
+              <input type="text" class="form-control" id="cardNumber" maxlength="30" placeholder="{{getUserData.getCardInformation()}}" [readonly]="!inputAbilitato">
+            </div>
+
+            <div class="form-group">
+              <label for="cardHolderName">Titolare della carta:</label>
+              <input type="text" class="form-control" id="cardHolderName" maxlength="30" placeholder="{{getUserData.getCardInformation()}}" [readonly]="!inputAbilitato">
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="expirationDate">Data di scadenza:</label>
+              <input type="text" class="form-control" id="expirationDate" maxlength="30" placeholder="{{getUserData.getCardInformation()}}" [readonly]="!inputAbilitato">
+            </div>
+            <div class="form-group">
+              <label for="cvv">Codice di sicurezza (CVV):</label>
+              <input type="text" class="form-control" id="cvv" maxlength="30" placeholder="{{getUserData.getCardInformation()}}" [readonly]="!inputAbilitato">
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <div class="row mb-3">
+        <button type="button" class="btn btn-primary mr-5" (click)="abilitaInput()">Aggiungi nuova carta</button>
+        <button type="button" class="btn btn-primary" (click)="abilitaInput()">{{testoButton}}</button>
+      </div>
+
+    </div>
+
+  </div>
 
 </section>
 
 
 </body>
+<footer>
+  <app-footer></app-footer>
+</footer>
 
 </html>
