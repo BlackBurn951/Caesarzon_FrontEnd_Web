@@ -9,6 +9,8 @@ import { card } from "./utils/card";
 
 export class GetUserData implements OnInit{
 
+  isLogged = false;
+
   user!: user;
   addresses!: address[];
   card!: card;

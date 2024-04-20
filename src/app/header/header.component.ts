@@ -1,22 +1,25 @@
 import { Component } from '@angular/core';
-import {NgClass} from "@angular/common";
+import {NgClass, NgIf} from "@angular/common";
 import {Router} from "@angular/router";
 import {PopupService} from "../popUpService";
+import {GetUserData} from "../getUserData";
 
 @Component({
   selector: 'app-header',
   standalone: true,
   imports: [
-    NgClass
+    NgClass,
+    NgIf
   ],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css', '../../styles.css']
 })
 export class HeaderComponent {
 
+
   isMenuOpen = false;
 
-  constructor(public popupService:PopupService, private router: Router){
+  constructor(public popupService:PopupService, private router: Router, public userData: GetUserData){
 
   }
 

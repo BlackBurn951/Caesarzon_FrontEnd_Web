@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import {FormGroup} from "@angular/forms";
 import {FormService} from "../formService";
 import {PopupService} from "../popUpService";
+import {GetUserData} from "../getUserData";
 
 @Component({
   selector: 'app-registration',
@@ -18,7 +19,7 @@ export class RegistrationComponent {
   passwordDifferenti: boolean = false;
 
 
-  constructor(public formService: FormService, public popupService: PopupService) {
+  constructor(public formService: FormService, public popupService: PopupService, private userData: GetUserData) {
     this.formCaesarzon = formService.getForm();
 
   }
@@ -56,4 +57,9 @@ export class RegistrationComponent {
     }
   }
 
+  doLogin(event: Event) {
+      this.userData.isLogged = true;
+      this.popupService.closePopup()
+      event.preventDefault()
+  }
 }

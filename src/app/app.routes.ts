@@ -14,6 +14,7 @@ import {ReportsComponent} from "./reports/reports.component";
 import {FooterComponent} from "./footer/footer.component";
 import {UserPaymentDataComponent} from "./user-payment-data/user-payment-data.component";
 import {PaymentFirstPageComponent} from "./payment-first-page/payment-first-page.component";
+import {FriendsPopupComponent} from "./friends-popup/friends-popup.component";
 
 
 export const routes: Routes = [
@@ -37,9 +38,9 @@ export const routes: Routes = [
     ProductManagementComponent,
     ShoppingCartComponent,
     ReviewComponent,
-    ReportsComponent
-    PersonalDataComponent,
-    PaymentFirstPageComponent
+    ReportsComponent,
+    PaymentFirstPageComponent,
+    FriendsPopupComponent
   ],
   imports: [
     NgIf,
@@ -48,9 +49,7 @@ export const routes: Routes = [
     NgForOf,
     ReactiveFormsModule,
     FormsModule,
-    FooterComponent,
-    PersonalDataComponent,
-    PaymentFirstPageComponent,
+    FooterComponent
   ],
   providers: [],
   exports: [
