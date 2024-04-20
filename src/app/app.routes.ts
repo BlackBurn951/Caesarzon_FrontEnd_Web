@@ -1,4 +1,3 @@
-
 import {Routes} from "@angular/router";
 import {HomepageComponent} from "./homepage/homepage.component";
 import {RegistrationComponent} from "./registration/registration.component";
@@ -11,6 +10,9 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {ShoppingCartComponent} from "./shopping-cart/shopping-cart.component";
 import {ReviewComponent} from "./review/review.component";
 import {PersonalDataComponent} from "./personal-data/personal-data.component";
+import {ReportsComponent} from "./reports/reports.component";
+import {FooterComponent} from "./footer/footer.component";
+import {UserPaymentDataComponent} from "./user-payment-data/user-payment-data.component";
 
 
 export const routes: Routes = [
@@ -20,7 +22,8 @@ export const routes: Routes = [
   {path: 'products_list', component: ProductsListComponent},
   {path: 'product-management', component: ProductManagementComponent},
   {path: 'shopping-cart', component: ShoppingCartComponent},
-  {path: 'personal-data', component: PersonalDataComponent}
+  {path: 'personal-data', component: PersonalDataComponent},
+  {path: 'payment-data', component: UserPaymentDataComponent},
 ];
 
 @NgModule({
@@ -31,8 +34,8 @@ export const routes: Routes = [
     ProductsListComponent,
     ProductManagementComponent,
     ShoppingCartComponent,
-    ReviewComponent
-    PersonalDataComponent
+    ReviewComponent,
+    ReportsComponent
   ],
   imports: [
     NgIf,
@@ -41,8 +44,11 @@ export const routes: Routes = [
     NgForOf,
     ReactiveFormsModule,
     FormsModule,
+    FooterComponent,
+    PersonalDataComponent,
   ],
-  providers: [
-  ],
+  providers: [],
+  exports: [
+  ]
 })
 export class AppModule { }
