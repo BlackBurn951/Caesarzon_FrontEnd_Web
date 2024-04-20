@@ -1,0 +1,39 @@
+.addressInfo{
+  background-color: black;
+  width: 35vw;
+}
+
+.form{
+  gap: 10vh;
+  margin-top: 10vh;
+  margin-bottom: 5vh;
+}
+
+.form-control{
+  max-width: 60vh;
+}
+
+.btn{
+  margin: 4vh 5vh 10vh 0;
+  padding: 1vh;
+  border: 2px solid black;
+  border-radius: 1vh;
+  background-color: #3498db;
+  color: white;
+  cursor: pointer;
+  transition: box-shadow 0.3s ease;
+}
+
+.finalButton {
+  bottom: 20px;
+  right: 20px;
+  margin: 4vh 5vh 10vh 0;
+  padding: 1vh;
+  border: 2px solid black;
+  border-radius: 1vh;
+}
+.finalButton .container {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10vh;
+}
