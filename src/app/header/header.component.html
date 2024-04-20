@@ -18,10 +18,10 @@
     <div class="collapse navbar-collapse" [ngClass]="{'show': isMenuOpen}" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item">
-          <a class="nav-link text-light" href="#">Prodotti del momento <span class="sr-only">(current)</span></a>
+          <a class="nav-link text-light" href="#" (click)="openPersonalData($event)">Prodotti del momento <span class="sr-only">(current)</span></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-light" href="#">Novità</a>
+          <a class="nav-link text-light"href="#">Novità</a>
         </li>
         <li class="nav-item">
           <a class="nav-link text-light" href="#">Offerte</a>
@@ -55,10 +55,10 @@
         </li>
         <div class="bottonis">
           <li class="nav-item ">
-            <button class="menu-item btn btn-dark custom-btns" (click)="loginService.openPopup()">Accedi</button>
+            <button class="menu-item btn btn-dark custom-btns" (click)="popupService.openPopupLoginRegistration()">Accedi</button>
           </li>
           <li class="nav-item">
-            <button class="menu-item btn btn-dark custom-btns" (click)="goToShoppingCart()">Carrello</button>
+            <button class="menu-item btn btn-dark custom-btns" (click)="popupService.openPopupReport()">Carrello</button>
           </li>
         </div>
 

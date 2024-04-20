@@ -1,0 +1,17 @@
+.btn i {
+  padding: 10px 20px;
+
+  font-size: 40px;
+}
+
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 150px; /* Imposta la larghezza desiderata per tutti i bottoni */
+  height: 50px; /* Imposta l'altezza desiderata per tutti i bottoni */
+  margin-bottom: 10px; /* Aggiunge un margine inferiore tra i bottoni */
+}
+.btn i {
+  margin-right: 10px; /* Aggiunge un margine a destra all'icona */
+}

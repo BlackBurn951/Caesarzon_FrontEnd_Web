@@ -9,12 +9,12 @@
 <body>
 
 <div class="container-fluidos regLog">
-  <form [formGroup]="formCaesarzon" *ngIf="loginService.isLogin" >
+  <form [formGroup]="formCaesarzon" *ngIf="popupService.isLogin" >
     <div class="form-group">
       <div class="d-flex flex-column align-items-center">
         <h1 class="accediLabel">Accedi</h1>
       </div>
-      <button (click)="loginService.closePopup()" class="btn btn-dark ics">X</button>
+      <button (click)="popupService.closePopup()" class="btn btn-dark ics">X</button>
     </div>
     <div class="form-group formos">
       <label for="usernameL">Username o e-mail:</label>
@@ -22,8 +22,15 @@
     </div>
     <div class="form-group formos">
       <label for="passwordR">Password:</label>
-      <input type="text" class="form-control" id="passwordL">
-      <a href="#">Hai dimenticato la password?</a>
+      <div class="password-input-container">
+      <input type="password" class="form-control" id="password" >
+        <span class="toggle-password" (click)="togglePassword('password')">
+          <img class="iconaOcchio" src="assets/images/icons/view.png" *ngIf="mostraPassword['password']" alt="" width="20">
+          <img class="iconaOcchio" src="assets/images/icons/hide.png" *ngIf="!mostraPassword['password']" alt="" width="20">
+        </span>
+      </div>
+
+      <a href="#">Ho dimenticato la password.</a>
 
     </div>
 
@@ -34,17 +41,17 @@
     </div>
 
     <div class="form-group formos">
-      <a href="#" (click)="loginService.toggleLogin($event); cambiaLarghezza(1)" id="registrati-link">Sei nuovo su Caesarzon? Registrati.</a>
+      <a href="#" (click)="popupService.toggleLogin($event); cambiaLarghezza(1)" id="registrati-link">Sei nuovo su Caesarzon? Registrati.</a>
     </div>
 
 
   </form>
 
-  <form [formGroup]="formCaesarzon" *ngIf="!loginService.isLogin" (ngSubmit)="registrati()">
+  <form [formGroup]="formCaesarzon" *ngIf="!popupService.isLogin" (ngSubmit)="registrati()">
     <div class="d-flex flex-column align-items-center">
       <h1 class="accediLabel">Registrati</h1>
     </div>
-    <button (click)="loginService.closePopup()"  class="btn btn-dark ics">X</button>
+    <button (click)="popupService.closePopup()"  class="btn btn-dark ics">X</button>
 
 
     <div class="d-flex flex-row align-items-center" formGroupName="formRegistrazione" >
@@ -71,16 +78,30 @@
             <label class="err"> Il formato dell' e-mail non è corretto.</label>
           </div>
         </div>
+
         <div class="form-group formos">
           <label for="passwordR">Password:</label>
-          <input type="password" class="form-control inputRA" id="passwordR" formControlName="password">
+          <div class="password-input-container">
+            <input type="password" class="form-control inputRA" id="passwordR" formControlName="password">
+            <span class="toggle-password" (click)="togglePassword('passwordR')">
+              <img class="iconaOcchio" src="assets/images/icons/view.png" *ngIf="mostraPassword['passwordR']" alt="" width="20">
+              <img class="iconaOcchio" src="assets/images/icons/hide.png" *ngIf="!mostraPassword['passwordR']" alt="" width="20">
+            </span>
+          </div>
           <div *ngIf="formService.campoNonCorretto('formRegistrazione.password')" class="error-message" >
             Formato incorretto: es. CiaoCiao69!
           </div>
         </div>
+
         <div class="form-group formos">
           <label for="passwordR">Conferma password:</label>
-          <input type="password" class="form-control inputRA" id="passwordRC" formControlName="confermaPassword" maxlength="16" (input)="comparaPassword()">
+          <div class="password-input-container">
+            <input type="password" class="form-control inputRA" id="passwordCR" formControlName="confermaPassword" maxlength="16" (input)="comparaPassword()">
+            <span class="toggle-password" (click)="togglePassword('passwordCR')">
+              <img class="iconaOcchio" src="assets/images/icons/view.png" *ngIf="mostraPassword['passwordCR']" alt="" width="20">
+              <img class="iconaOcchio" src="assets/images/icons/hide.png" *ngIf="!mostraPassword['passwordCR']" alt="" width="20">
+            </span>
+          </div>
           <div *ngIf="passwordDifferenti" class="error-message">
             Le password non corrispondono.
           </div>
@@ -95,11 +116,11 @@
 
 
     <div class="d-flex flex-column align-items-center">
-      <button type="submit" class="btn btn-dark custom-btn tasti" >Registrati</button>
+      <button type="submit" class="btn btn-dark custom-btn tasti">Registrati</button>
     </div>
 
     <div class="form-group formos">
-      <a href="#" (click)="loginService.toggleLogin($event); cambiaLarghezza(104)">Hai già un account? Accedi.</a>
+      <a href="#" (click)="popupService.toggleLogin($event); cambiaLarghezza(104)">Hai già un account? Accedi.</a>
     </div>
 
 
@@ -107,10 +128,6 @@
 
 </div>
 
-<!-- Collegamento a Bootstrap JS e JQuery (opzionale) -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 </body>
 </html>
