@@ -26,7 +26,45 @@
   text-align: center;
 }
 
-.table-row{
-  padding-bottom: 10%;
+
+#review-histogram{
+  margin-bottom: 10%;
 }
 
+.buy-section{
+  padding-left: 8%;
+  padding-right: 8%;
+  background-color: #F7F7F7;
+  width: 85%;
+  height: 88%;
+  border: 1px solid black;
+}
+
+.btn-buy {
+  border-color: black;
+  background-color: #FF4800;
+  color: #ffffff;
+}
+.btn-buy:hover,
+.btn-buy:focus{
+  border-color: black;
+  background-color: #a96c00 !important;
+  box-shadow: 0 0  #000000 !important;
+}
+.btn-buy:active {
+  border-color: black;
+  background-color: #FF9C00 !important;
+  box-shadow: 0 0 3px 1px #000000 !important;
+}
+
+.btn-custom{
+  border-color: black;
+  background-color: #FF9C00;
+  color: #ffffff;
+}
+.btn-custom:hover,
+.btn-custom:focus{
+  border-color: black;
+  background-color: #a96c00 !important;
+  box-shadow: 0 0  #000000 !important;
+}

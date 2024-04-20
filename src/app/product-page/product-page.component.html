@@ -63,11 +63,15 @@
               </div>
 
               <div class="row d-flex flex-column align-items-center">
-                <button type="button" class="btn-dark custom-btn mb-2">Acquista</button>
+                <button type="button" class="btn btn-dark btn-buy mb-2">Acquista</button>
               </div>
 
               <div class="row d-flex flex-column align-items-center">
-                <button type="button" class="btn-dark custom-btb">Aggiungi al carrello</button>
+                <button type="button" class="btn btn-dark btn-custom mb-2">Aggiungi al carrello</button>
+              </div>
+
+              <div class="row d-flex flex-column align-items-center">
+                <button type="button" class="btn btn-dark btn-custom">Aggiungi alla lista desideri</button>
               </div>
 
               <div class="row pt-4 pl-2">
@@ -80,7 +84,7 @@
     </div>
   </div>
 
-  <div class="container mt-5 pt-5 pl-0 pr-0">  <!--SEZIONE RECENSIONI -->
+  <div class="container mt-5 pt-5 pl-5 pr-5">  <!--SEZIONE RECENSIONI -->
     <div class="row">
 
       <div class="col">  <!--SEZIONE MEDIA-->
@@ -100,31 +104,31 @@
           <table id="review-histogram">
             <tr>
               <td>5 stelle</td>
-              <td><canvas id="5-star-graph" width="150" height="25"></canvas></td>
+              <td><canvas id="5-star-graph" width="200" height="25"></canvas></td>
               <td id="5-star-perc">75%</td>
             </tr>
 
             <tr>
               <td>4 stelle</td>
-              <td><canvas id="4-star-graph"></canvas></td>
+              <td><canvas id="4-star-graph" width="200" height="25"></canvas></td>
               <td id="4-star-perc"></td>
             </tr>
 
             <tr>
               <td>3 stelle</td>
-              <td><canvas id="3-star-graph"></canvas></td>
+              <td><canvas id="3-star-graph" width="200" height="25"></canvas></td>
               <td id="3-star-perc"></td>
             </tr>
 
             <tr>
               <td>2 stelle</td>
-              <td><canvas id="2-star-graph"></canvas></td>
+              <td><canvas id="2-star-graph" width="200" height="25"></canvas></td>
               <td id="2-star-perc"></td>
             </tr>
 
             <tr>
               <td>1 stelle</td>
-              <td><canvas id="1-star-graph"></canvas></td>
+              <td><canvas id="1-star-graph" width="200" height="25"></canvas></td>
               <td id="1-star-perc"></td>
             </tr>
           </table>
@@ -145,7 +149,7 @@
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
                 <footer class="blockquote-footer">
                   Publicato in data: <cite title="Source Title">24/02/2024</cite>
-                  <button class="btn-danger ml-2">Segnala</button>
+                  <button class="btn btn-danger ml-2">Segnala</button>
                 </footer>
               </blockquote>
             </div>
@@ -164,7 +168,7 @@
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
                 <footer class="blockquote-footer">
                   Publicato in data: <cite title="Source Title">24/02/2024</cite>
-                  <button class="btn-danger ml-2">Segnala</button>
+                  <button class="btn btn-danger ml-2">Segnala</button>
                 </footer>
               </blockquote>
             </div>
@@ -183,7 +187,7 @@
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
                 <footer class="blockquote-footer">
                   Publicato in data: <cite title="Source Title">24/02/2024</cite>
-                  <button class="btn-danger ml-2">Segnala</button>
+                  <button class="btn btn-danger ml-2">Segnala</button>
                 </footer>
               </blockquote>
             </div>
@@ -192,8 +196,8 @@
         </div>
 
         <div class="row mt-2">
-            <button class="btn-primary mr-2">Up</button>
-            <button class="btn-primary">Down</button>
+            <button class="btn btn-primary mr-2">Up</button>
+            <button class="btn btn-primary">Down</button>
         </div>
       </div>
 
