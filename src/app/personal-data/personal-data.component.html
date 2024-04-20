@@ -7,30 +7,38 @@
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-<section class="d-flex flex-row align-items-center">
+<section class="d-flex flex-row align-items-center aldo">
   <div class="container-fluid cont">
     <app-user-management-container></app-user-management-container>
   </div>
 
+
+
   <div class="container-fluid d-flex flex-column align-items-center">
 
     <div class="container-fluid d-flex flex-row align-items-center">
-      <div class="container-fluid d-flex flex-column align-items-center aldo">
+
+      <div class="container-fluid d-flex flex-column align-items-center">
+
         <div class="form-group d-flex flex-column align-items-center">
           <label for="nome">Nome:</label>
           <input type="text" id="nome" maxlength="30" placeholder="{{nome}}" [readonly]="!inputAbilitato">
         </div>
+
         <div class="form-group d-flex flex-column align-items-center">
           <label for="cognome">Cognome:</label>
           <input type="text" id="cognome" maxlength="30" placeholder="{{cognome}}" [readonly]="!inputAbilitato">
         </div>
+
         <div class="form-group d-flex flex-column align-items-center">
           <label for="username">Username:</label>
           <input type="text" id="username" maxlength="30" placeholder="{{username}}" [readonly]="!inputAbilitato">
         </div>
+
       </div>
 
-      <div class="container-fluid d-flex flex-column align-items-center aldo">
+      <div class="container-fluid d-flex flex-column align-items-center">
+
         <div class="form-group d-flex flex-column align-items-center">
           <label for="email">Email:</label>
           <input type="text" id="email" maxlength="30" placeholder="{{email}}" [readonly]="!inputAbilitato">
@@ -43,7 +51,9 @@
           <label for="password">Password:</label>
           <input type="password" id="password" maxlength="30" placeholder="{{password}}" [readonly]="!inputAbilitato">
         </div>
+
       </div>
+
     </div>
 
     <div>
@@ -59,5 +69,9 @@
 
 
 </body>
+
+<footer>
+  <app-footer></app-footer>
+</footer>
 
 </html>

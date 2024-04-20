@@ -15,6 +15,7 @@ import {FooterComponent} from "./footer/footer.component";
 import {UserPaymentDataComponent} from "./user-payment-data/user-payment-data.component";
 import {PaymentFirstPageComponent} from "./payment-first-page/payment-first-page.component";
 import {FriendsPopupComponent} from "./friends-popup/friends-popup.component";
+import {UserAddressDataComponent} from "./user-address-data/user-address-data.component";
 
 
 export const routes: Routes = [
@@ -27,6 +28,7 @@ export const routes: Routes = [
   {path: 'personal-data', component: PersonalDataComponent},
   {path: 'payment-data', component: UserPaymentDataComponent},
   {path: 'payment-first-page', component: PaymentFirstPageComponent},
+  {path: 'address-data', component: UserAddressDataComponent},
 ];
 
 @NgModule({
@@ -39,7 +41,6 @@ export const routes: Routes = [
     ShoppingCartComponent,
     ReviewComponent,
     ReportsComponent,
-    PaymentFirstPageComponent,
     FriendsPopupComponent
   ],
   imports: [
