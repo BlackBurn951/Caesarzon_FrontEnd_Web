@@ -21,7 +21,7 @@
           <a class="nav-link text-light" href="#" (click)="openPersonalData($event)">Prodotti del momento <span class="sr-only">(current)</span></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-light"href="#">Novità</a>
+          <a class="nav-link text-light" href="#">Novità</a>
         </li>
         <li class="nav-item">
           <a class="nav-link text-light" href="#">Offerte</a>
@@ -53,12 +53,23 @@
         <li class="nav-item">
           <a class="nav-link text-light" href="#">Boxe</a>
         </li>
-        <div class="bottonis">
+        <div *ngIf="!userData.isLogged" class="bottonis">
           <li class="nav-item ">
             <button class="menu-item btn btn-dark custom-btns" (click)="popupService.openPopupLoginRegistration()">Accedi</button>
           </li>
           <li class="nav-item">
-            <button class="menu-item btn btn-dark custom-btns" (click)="goToShoppingCart()">Carrello</button>
+            <button class="menu-item btn btn-dark custom-btns" (click)="popupService.openPopupFriends()">Carrello</button>
+          </li>
+        </div>
+        <div *ngIf="userData.isLogged" class="bottonis">
+          <li class="nav-item ">
+            <button class="menu-item btn btn-dark custom-btns" (click)="popupService.openPopupLoginRegistration()">Profilo</button>
+          </li>
+          <li class="nav-item">
+            <button class="menu-item btn btn-dark custom-btns" (click)="popupService.openPopupReport()">Carrello</button>
+          </li>
+          <li class="nav-item">
+            <button class="menu-item btn btn-dark custom-btns" (click)="popupService.openPopupReport()">Amici</button>
           </li>
         </div>
 
