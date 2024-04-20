@@ -4,6 +4,7 @@ import {BehaviorSubject} from "rxjs";
 import {WarningMessageComponent} from "./warning-message/warning-message.component";
 import {RegistrationComponent} from "./registration/registration.component";
 import {ReviewComponent} from "./review/review.component";
+import {ReportsComponent} from "./reports/reports.component";
 
 @Injectable({
   providedIn: 'root',
@@ -41,6 +42,11 @@ export class PopupService {
 
   openPopupReview() {
     this.dialog.open(ReviewComponent);
+    this.isLogin = true;
+  }
+
+  openPopupReport() {
+    this.dialog.open(ReportsComponent);
     this.isLogin = true;
   }
 
