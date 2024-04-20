@@ -13,6 +13,7 @@ import {PersonalDataComponent} from "./personal-data/personal-data.component";
 import {ReportsComponent} from "./reports/reports.component";
 import {FooterComponent} from "./footer/footer.component";
 import {UserPaymentDataComponent} from "./user-payment-data/user-payment-data.component";
+import {PaymentFirstPageComponent} from "./payment-first-page/payment-first-page.component";
 
 
 export const routes: Routes = [
@@ -24,6 +25,7 @@ export const routes: Routes = [
   {path: 'shopping-cart', component: ShoppingCartComponent},
   {path: 'personal-data', component: PersonalDataComponent},
   {path: 'payment-data', component: UserPaymentDataComponent},
+  {path: 'payment-first-page', component: PaymentFirstPageComponent},
 ];
 
 @NgModule({
@@ -36,6 +38,8 @@ export const routes: Routes = [
     ShoppingCartComponent,
     ReviewComponent,
     ReportsComponent
+    PersonalDataComponent,
+    PaymentFirstPageComponent
   ],
   imports: [
     NgIf,
@@ -46,6 +50,7 @@ export const routes: Routes = [
     FormsModule,
     FooterComponent,
     PersonalDataComponent,
+    PaymentFirstPageComponent,
   ],
   providers: [],
   exports: [
