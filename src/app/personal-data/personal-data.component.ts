@@ -1,9 +1,17 @@
 import {Component, OnInit} from '@angular/core';
+import {NgClass} from "@angular/common";
+import {AppModule} from "../app.routes";
+import {UserManagementContainerComponent} from "../user-management-container/user-management-container.component";
 
 @Component({
   selector: 'app-personal-data',
+  standalone: true,
+  imports: [
+    NgClass,
+    UserManagementContainerComponent
+  ],
   templateUrl: './personal-data.component.html',
-  styleUrl: './personal-data.component.css'
+  styleUrls: ['./personal-data.component.css', '../../styles.css']
 })
 export class PersonalDataComponent implements OnInit{
 
@@ -24,6 +32,7 @@ export class PersonalDataComponent implements OnInit{
   }
 
   ngOnInit(): void {
+
   }
 
   abilitaInput(): void{
