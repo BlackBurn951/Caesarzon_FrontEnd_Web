@@ -49,6 +49,11 @@ export const routes: Routes = [
     NgForOf,
     ReactiveFormsModule,
     FormsModule,
+    FooterComponent,
+    PersonalDataComponent,
+    PaymentFirstPageComponent,
+    PersonalDataComponent,
+    PaymentFirstPageComponent,
     FooterComponent
   ],
   providers: [],
