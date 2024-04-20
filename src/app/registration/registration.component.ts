@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import {LoginService} from "../loginService";
 import {FormGroup} from "@angular/forms";
 import {FormService} from "../formService";
+import {PopupService} from "../popUpService";
 
 @Component({
   selector: 'app-registration',
@@ -13,11 +13,12 @@ export class RegistrationComponent {
 
   protected formCaesarzon!: FormGroup;
 
+  mostraPassword: { [key: string]: boolean } = { password: false, confermaPassword: false };
+
   passwordDifferenti: boolean = false;
 
 
-
-  constructor(public formService: FormService, public loginService: LoginService) {
+  constructor(public formService: FormService, public popupService: PopupService) {
     this.formCaesarzon = formService.getForm();
 
   }
@@ -43,5 +44,16 @@ export class RegistrationComponent {
     this.passwordDifferenti = confermaPasswordValue !== passwordValue;
   }
 
+
+  togglePassword(fieldName: string) {
+    const passwordField = document.getElementById(fieldName) as HTMLInputElement;
+    this.mostraPassword[fieldName] = !this.mostraPassword[fieldName];
+
+    if (this.mostraPassword[fieldName]) {
+      passwordField.type = 'text';
+    } else {
+      passwordField.type = 'password';
+    }
+  }
 
 }

@@ -26,13 +26,7 @@
   text-align: center;
 }
 
-.buy-section{
-  padding-left: 8%;
-  padding-right: 8%;
-  background-color: rgba(99, 64, 128, 0.7);
-  width: 85%;
-  height: 88%;
-  border: black;
-  border-style: solid;
+.table-row{
+  padding-bottom: 10%;
 }
 

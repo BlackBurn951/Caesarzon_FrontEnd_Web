@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import {LoginService} from "../loginService";
 import {NgClass} from "@angular/common";
 import {Router} from "@angular/router";
+import {PopupService} from "../popUpService";
 
 @Component({
   selector: 'app-header',
@@ -16,7 +16,7 @@ export class HeaderComponent {
 
   isMenuOpen = false;
 
-  constructor(public loginService: LoginService, private router: Router){
+  constructor(public popupService:PopupService, private router: Router){
 
   }
 
@@ -38,4 +38,6 @@ export class HeaderComponent {
     this.router.navigate(['personal-data']);
     event.preventDefault()
   }
+
+
 }

@@ -1,5 +1,5 @@
 import { Component} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {FormGroup} from "@angular/forms";
 import {PopupService} from "../popUpService";
 import {FormService} from "../formService";
 
@@ -13,7 +13,8 @@ export class ProductManagementComponent{
 
   protected formCaesarzon!: FormGroup;
 
-  imageUrls: (string | null)[] = [null, null, null, null];
+  imageUrls: (any | null)[] = [null, null, null, null];
+
 
   constructor(public formService: FormService, private popUpService: PopupService) {
     this.formCaesarzon = formService.getForm();
