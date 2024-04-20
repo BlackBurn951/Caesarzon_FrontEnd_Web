@@ -19,9 +19,16 @@ export class UserManagementContainerComponent {
 
   }
 
-
+  openPersonalData(event: Event) {
+    this.router.navigate(['personal-data']);
+    event.preventDefault()
+  }
   openPaymentData(event: Event) {
     this.router.navigate(['payment-data']);
+    event.preventDefault()
+  }
+  openAddressData(event: Event) {
+    this.router.navigate(['address-data']);
     event.preventDefault()
   }
 

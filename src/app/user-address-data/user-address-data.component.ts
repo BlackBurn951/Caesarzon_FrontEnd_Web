@@ -1,19 +1,19 @@
 import { Component } from '@angular/core';
+import {FooterComponent} from "../footer/footer.component";
 import {UserManagementContainerComponent} from "../user-management-container/user-management-container.component";
 import {GetUserData} from "../getUserData";
-import {FooterComponent} from "../footer/footer.component";
 
 @Component({
-  selector: 'app-user-payment-data',
+  selector: 'app-user-address-data',
   standalone: true,
-  imports: [
-    UserManagementContainerComponent,
-    FooterComponent
-  ],
-  templateUrl: './user-payment-data.component.html',
-  styleUrls: ['./user-payment-data.component.css', '../../styles.css']
+    imports: [
+        FooterComponent,
+        UserManagementContainerComponent
+    ],
+  templateUrl: './user-address-data.component.html',
+  styleUrl: './user-address-data.component.css'
 })
-export class UserPaymentDataComponent {
+export class UserAddressDataComponent {
 
   inputAbilitato: boolean = false;
 
@@ -26,5 +26,4 @@ export class UserPaymentDataComponent {
     this.inputAbilitato = !this.inputAbilitato;
     this.testoButton = this.inputAbilitato ? "Salva modifiche" : "Modifica";
   }
-
 }

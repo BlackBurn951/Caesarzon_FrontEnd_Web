@@ -16,6 +16,8 @@ import {UserPaymentDataComponent} from "./user-payment-data/user-payment-data.co
 import {PaymentFirstPageComponent} from "./payment-first-page/payment-first-page.component";
 import {HelpRequestComponent} from "./help-request/help-request.component";
 import {UserManagementContainerComponent} from "./user-management-container/user-management-container.component";
+import {FriendsPopupComponent} from "./friends-popup/friends-popup.component";
+import {UserAddressDataComponent} from "./user-address-data/user-address-data.component";
 
 
 export const routes: Routes = [
@@ -29,6 +31,7 @@ export const routes: Routes = [
   {path: 'payment-data', component: UserPaymentDataComponent},
   {path: 'payment-first-page', component: PaymentFirstPageComponent},
   {path: 'help-request', component: HelpRequestComponent}
+  {path: 'address-data', component: UserAddressDataComponent},
 ];
 
 @NgModule({
@@ -41,7 +44,8 @@ export const routes: Routes = [
     ShoppingCartComponent,
     ReviewComponent,
     ReportsComponent,
-    PaymentFirstPageComponent
+    PaymentFirstPageComponent,
+    FriendsPopupComponent
   ],
   imports: [
     NgIf,
@@ -49,7 +53,6 @@ export const routes: Routes = [
     FormsModule,
     NgForOf,
     ReactiveFormsModule,
-    FormsModule,
     FooterComponent,
     PersonalDataComponent,
     UserManagementContainerComponent
