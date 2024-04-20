@@ -5,6 +5,7 @@ import {WarningMessageComponent} from "./warning-message/warning-message.compone
 import {RegistrationComponent} from "./registration/registration.component";
 import {ReviewComponent} from "./review/review.component";
 import {ReportsComponent} from "./reports/reports.component";
+import {FriendsPopupComponent} from "./friends-popup/friends-popup.component";
 
 @Injectable({
   providedIn: 'root',
@@ -47,6 +48,11 @@ export class PopupService {
 
   openPopupReport() {
     this.dialog.open(ReportsComponent);
+    this.isLogin = true;
+  }
+
+  openPopupFriends() {
+    this.dialog.open(FriendsPopupComponent);
     this.isLogin = true;
   }
 
