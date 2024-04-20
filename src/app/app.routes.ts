@@ -31,7 +31,7 @@ export const routes: Routes = [
     ProductsListComponent,
     ProductManagementComponent,
     ShoppingCartComponent,
-    ReviewComponent
+    ReviewComponent,
     PersonalDataComponent
   ],
   imports: [
