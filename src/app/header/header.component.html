@@ -8,6 +8,7 @@
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 
 </head>
+
 <header>
   <nav class="navbar navbar-expand-lg navbar-light custom-navbar">
     <a class="navbar-brand text-light" href="#">CAESARZON</a>
@@ -26,32 +27,88 @@
         <li class="nav-item">
           <a class="nav-link text-light" href="#">Offerte</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link text-light" href="#">Pallavolo</a>
+        <li class="nav-item dropdown">
+          <a class="nav-link text-light dropdown-toggle" href="#" id="pallavolo" role="button" aria-haspopup="true" aria-expanded="false">
+            Pallavolo
+          </a>
+          <div class="dropdown-menu" aria-labelledby="pallavolo">
+            <a class="dropdown-item" href="#">Abbigliamento</a>
+            <a class="dropdown-item" href="#">Attrezzatura</a>
+          </div>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link text-light dropdown-toggle" href="#" id="basket" role="button" aria-haspopup="true" aria-expanded="false">
+            Basket
+          </a>
+          <div class="dropdown-menu" aria-labelledby="basket">
+            <a class="dropdown-item" href="#">Abbigliamento</a>
+            <a class="dropdown-item" href="#">Attrezzatura</a>
+          </div>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link text-light dropdown-toggle" href="#" id="Tennis" role="button" aria-haspopup="true" aria-expanded="false">
+            Tennis
+          </a>
+          <div class="dropdown-menu" aria-labelledby="Tennis">
+            <a class="dropdown-item" href="#">Abbigliamento</a>
+            <a class="dropdown-item" href="#">Attrezzatura</a>
+          </div>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link text-light dropdown-toggle" href="#" id="Nuoto" role="button" aria-haspopup="true" aria-expanded="false">
+            Nuoto
+          </a>
+          <div class="dropdown-menu" aria-labelledby="Nuoto">
+            <a class="dropdown-item" href="#">Abbigliamento</a>
+            <a class="dropdown-item" href="#">Attrezzatura</a>
+          </div>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link text-light dropdown-toggle" href="#" id="Calcio" role="button" aria-haspopup="true" aria-expanded="false">
+            Calcio
+          </a>
+          <div class="dropdown-menu" aria-labelledby="Calcio">
+            <a class="dropdown-item" href="#">Abbigliamento</a>
+            <a class="dropdown-item" href="#">Attrezzatura</a>
+          </div>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link text-light dropdown-toggle" href="#" id="ArtiMarziali" role="button" aria-haspopup="true" aria-expanded="false">
+            Arti marziali
+          </a>
+          <div class="dropdown-menu" aria-labelledby="ArtiMarziali">
+            <a class="dropdown-item" href="#">Boxe</a>
+            <a class="dropdown-item" href="#">Karate</a>
+            <a class="dropdown-item" href="#">Muay Thai</a>
+            <a class="dropdown-item" href="#">Judo</a>
+            <a class="dropdown-item" href="#">Lotta</a>
+          </div>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link text-light dropdown-toggle" href="#" id="Ciclismo" role="button" aria-haspopup="true" aria-expanded="false">
+            Ciclismo
+          </a>
+          <div class="dropdown-menu" aria-labelledby="Ciclismo">
+            <a class="dropdown-item" href="#">Abbigliamento</a>
+            <a class="dropdown-item" href="#">Attrezzatura</a>
+          </div>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link text-light dropdown-toggle" href="#" id="Sciismo" role="button" aria-haspopup="true" aria-expanded="false">
+            Sciismo
+          </a>
+          <div class="dropdown-menu" aria-labelledby="Sciismo">
+            <a class="dropdown-item" href="#">Abbigliamento</a>
+            <a class="dropdown-item" href="#">Attrezzatura</a>
+          </div>
+        </li>
+      </ul>
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item ">
+          <button class="menu-item btn btn-dark custom-btns" (click)="popupService.openPopupLoginRegistration()">Accedi</button>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-light" href="#">Basket</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-light" href="#">Tennis</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-light" href="#">Nuoto</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-light" href="#">Calcio</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-light" href="#">Arti marziali</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-light" href="#">Ciclismo</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-light" href="#">Sciismo</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-light" href="#">Boxe</a>
+          <button class="menu-item btn btn-dark custom-btns" (click)="popupService.openPopupReport()">Carrello</button>
         </li>
         <div *ngIf="!userData.isLogged" class="bottonis">
           <li class="nav-item ">
@@ -72,10 +129,9 @@
             <button class="menu-item btn btn-dark custom-btns" (click)="popupService.openPopupReport()">Amici</button>
           </li>
         </div>
-
       </ul>
     </div>
   </nav>
-
-
 </header>
+
+</html>
