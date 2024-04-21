@@ -5,6 +5,7 @@
   min-height: 100vh;
 }
 .container{
+  margin-top: 2%;
   max-width: 1200px;
   width: 95%;
 }
@@ -32,12 +33,12 @@
   height: 30px;
   margin-left: 5%;
 }
-
-.slider-wrapper .slide-button#prev-slide{
+/*esce pazzo qui*/
+.slider-wrapper .slide-button-left{
   left: -20px;
 }
 
-.slider-wrapper .slide-button#next-slide{
+.slider-wrapper .slide-button-right{
   right: -20px;
 }
 .slider-wrapper .card-list{
@@ -57,3 +58,64 @@
   margin-left: 22%;
   margin-top: 15%;
 }
+
+/* Rendi il bottone "Dettagli" responsivo */
+.btn-primary {
+  display: block; /* Assicura che il pulsante sia un blocco per occupare l'intera larghezza del contenitore */
+  width: 60%; /* Imposta la larghezza al 100% per adattarsi al contenitore genitore */
+}
+
+/* Rendi la descrizione responsiva */
+.card-body {
+  max-width: 100%; /* Imposta la larghezza massima al 100% per adattarsi al contenitore genitore */
+}
+
+.card-title {
+  font-size: 1rem; /* Imposta una dimensione del titolo della card responsiva */
+}
+
+.card-body > .container {
+  width: 100%; /* Assicura che il contenitore della descrizione occupi l'intera larghezza della card */
+}
+
+/* Stile per la barra di ricerca */
+.search-container {
+  display: flex;
+  margin: 20px;
+}
+
+.search-container input[type=text] {
+  padding: 10px;
+  width: 35%;
+  border: 1px solid #ccc;
+  border-radius: 5px 0 0 5px;
+  outline: none;
+  margin-left: 31%;
+}
+
+.search-container button {
+  padding: 10px 15px;
+  background: #007bff;
+  color: white;
+  border: 1px solid #007bff;
+  border-radius: 0 5px 5px 0;
+  cursor: pointer;
+}
+
+.search-container button:hover {
+  background: #0056b3;
+}
+
+/* Stili per il responsive design */
+@media screen and (max-width: 600px) {
+  .search-container{
+    margin-right: 25%;
+  }
+  .search-container input[type=text] {
+    width: 50%;
+  }
+  .search-container button {
+    width: 30%;
+  }
+}
+

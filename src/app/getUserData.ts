@@ -9,6 +9,8 @@ import { card } from "./utils/card";
 
 export class GetUserData implements OnInit{
 
+  isLogged = false;
+
   user!: user;
   addresses!: address[];
   card!: card;
@@ -20,6 +22,8 @@ export class GetUserData implements OnInit{
   }
 
   ngOnInit(): void {
+    let user1!:user;
+    this.user = new user(user1);
   }
 
   getUser(): void{
@@ -30,5 +34,5 @@ export class GetUserData implements OnInit{
   }
   getCardInformation():void {
 
-}
+  }
 }

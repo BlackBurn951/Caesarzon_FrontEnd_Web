@@ -1,1 +1,73 @@
-<p>friends-popup works!</p>
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+</head>
+
+<body>
+<div class="container-fluidos regLog">
+  <div class="form-group d-flex flex-column align-items-center">
+    <div class="d-flex flex-row align-items-center">
+      <button class="btn btn-dark custom-btn mr-2 mt-2" (click)="changeSection(0, 'Cerca utenti')">Cerca utenti</button>
+      <button class="btn btn-dark custom-btn mr-2 mt-2" (click)="changeSection(1, 'Seguiti')">Seguiti</button>
+      <button class="btn btn-dark custom-btn mt-2" (click)="changeSection(2, 'Amici')">Amici</button>
+    </div>
+    <h1 class="mt-2">{{sectionLabel}}</h1>
+    <button (click)="popUpService.closePopup()" class="btn btn-dark ics">X</button>
+
+  </div>
+
+  <div class="d-flex flex-column align-items-center">
+    <input class="mb-2 barraRicerca" type="text" placeholder="Cerca">
+
+    <div class="table-container">
+
+      <div *ngIf="section === 0" class="table-row">
+        <div *ngFor="let user of users">
+          <div class="table-cell mb-2">
+            <img class="mr-2" [src]="user.imgPath" alt="Foto">
+            <label>{{ user.name }}</label>
+            <button class="btn btn-dark custom-btn mr-1 mt-1 mb-1 ml-1"><i class="fas fa-user-plus"></i></button>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="section === 1" class="table-row">
+        <div *ngFor="let user of usersFollow">
+          <div class="table-cell mb-2">
+            <img class="mr-2" [src]="user.imgPath" alt="Foto">
+            <label>{{ user.name }}</label>
+            <div>
+              <button class="btn btn-dark custom-btn ml-1 mt-1 mb-1"><i class="fas fa-heart"></i></button>
+              <button class="btn btn-danger buut mr-1 ml-1 mt-1 mb-1 mr-1"><i class="fas fa-user-minus"></i></button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="section === 2" class="table-row">
+        <div *ngFor="let user of usersFriend">
+          <div class="table-cell mb-2">
+            <img class="mr-2" [src]="user.imgPath" alt="Foto">
+            <label>{{ user.name }}</label>
+            <button class="btn btn-danger buut  mr-1 mt-1 mb-1 ml-1"><i class="fas fa-user-minus"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+</div>
+
+
+</body>
+
+
+</html>
