@@ -8,61 +8,70 @@
 </head>
 <body>
 <section class="d-flex flex-row align-items-center aldo">
-  <div class="container-fluid cont">
+  <div class="ml-4">
     <app-user-management-container></app-user-management-container>
   </div>
 
-  <div class="container-fluid d-flex flex-row align-items-center">
+
+
 
     <div class="container-fluid d-flex flex-column align-items-center">
 
+
       <div class="form-group d-flex flex-column align-items-center">
-        <label for="selectCard">Seleziona l'indirizzo:</label>
+        <label for="selectCard">Seleziona la tua carta di credito:</label>
         <p></p>
         <select class="form-select" id="selectCard">
-          <option value="card1">Indirizzo 1</option>
-          <option value="card2">Indirizzo 2</option>
-          <option value="card3">Indirizzo 3</option>
-          <option value="card4">Indirizzo 4</option>
+          <option value="card1">Carta 1</option>
+          <option value="card2">Carta 2</option>
+          <option value="card3">Carta 3</option>
+          <option value="card4">Carta 4</option>
         </select>
+
+
       </div>
 
       <section class="form-group d-flex flex-column align-items-center">
         <div class="row">
 
           <div class="col-md-6">
+
             <div class="form-group">
-              <label for="street">Via:</label>
-              <input type="text" class="form-control" id="street" maxlength="30" placeholder="{{getUserData.getAddresses()}}" [readonly]="!inputAbilitato">
+              <label for="cardHolderName">Nome strada:</label>
+              <input type="text" class="form-control" id="cardHolderName" maxlength="30" placeholder="{{getUserData.getCardInformation()}}" [readonly]="!inputAbilitato">
             </div>
             <div class="form-group">
-              <label for="city">Città:</label>
-              <input type="text" class="form-control" id="city" maxlength="30" placeholder="{{getUserData.getAddresses()}}" [readonly]="!inputAbilitato">
+              <label for="cvv">Codice postale (CAP):</label>
+              <input type="text" class="form-control" id="cvv" maxlength="30" placeholder="{{getUserData.getCardInformation()}}" [readonly]="!inputAbilitato">
             </div>
             <div class="form-group">
-              <label for="numCivico">Numero civico:</label>
-              <input type="text" class="form-control" id="numCivico" maxlength="30" placeholder="{{getUserData.getAddresses()}}" [readonly]="!inputAbilitato">
+              <label for="cvv">Provincia:</label>
+              <input type="text" class="form-control" id="cvv" maxlength="30" placeholder="{{getUserData.getCardInformation()}}" [readonly]="!inputAbilitato">
             </div>
           </div>
 
           <div class="col-md-6">
             <div class="form-group">
-              <label for="regione">Regione:</label>
-              <input type="text" class="form-control" id="regione" maxlength="30" placeholder="{{getUserData.getAddresses()}}" [readonly]="!inputAbilitato">
+              <label for="expirationDate">N° civico:</label>
+              <input type="text" class="form-control" id="expirationDate" maxlength="30" placeholder="{{getUserData.getCardInformation()}}" [readonly]="!inputAbilitato">
             </div>
             <div class="form-group">
-              <label for="CAP">Codice postale (CAP):</label>
-              <input type="text" class="form-control" id="CAP" maxlength="30" placeholder="{{getUserData.getAddresses()}}" [readonly]="!inputAbilitato">
+              <label for="cvv">Città:</label>
+              <input type="text" class="form-control" id="cvv" maxlength="30" placeholder="{{getUserData.getCardInformation()}}" [readonly]="!inputAbilitato">
             </div>
             <div class="form-group">
-              <label for="provincia">Provincia:</label>
-              <input type="text" class="form-control" id="provincia" maxlength="30" placeholder="{{getUserData.getAddresses()}}" [readonly]="!inputAbilitato">
+              <label for="cvv">Regione:</label>
+              <input type="text" class="form-control" id="cvv" maxlength="30" placeholder="{{getUserData.getCardInformation()}}" [readonly]="!inputAbilitato">
             </div>
           </div>
 
-
         </div>
       </section>
+
+      <div class="form-group">
+        <label for="cardNumber">Tipologia strada:</label>
+        <input type="text" class="form-control" id="cardNumber" maxlength="30" placeholder="{{getUserData.getCardInformation()}}" [readonly]="!inputAbilitato">
+      </div>
 
       <div class="row mb-3">
         <button type="button" class="btn btn-primary mr-5" (click)="abilitaInput()">Aggiungi nuovo indirizzo</button>
@@ -71,7 +80,6 @@
 
     </div>
 
-  </div>
 
 </section>
 
