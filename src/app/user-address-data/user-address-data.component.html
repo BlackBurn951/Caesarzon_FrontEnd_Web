@@ -20,7 +20,6 @@
 
       <div class="form-group d-flex flex-column align-items-center">
         <label for="selectCard">Seleziona la tua carta di credito:</label>
-        <p></p>
         <select class="form-select" id="selectCard">
           <option value="card1">Carta 1</option>
           <option value="card2">Carta 2</option>
@@ -32,34 +31,43 @@
       </div>
 
       <section class="form-group d-flex flex-column align-items-center">
-        <div class="row">
+        <div class="d-flex flex-column align-items-center">
 
-          <div class="col-md-6">
+          <div class="d-flex flex-row align-items-center">
+            <div class="form-group ml-3 d-flex flex-column">
+              <label for="cardHolderName">Tipo strada:</label>
+              <select class="form-select selectionIn btn btn-dark custom-bln" id="selectCard" [disabled]="!inputAbilitato">
+                <option value="card1">Via</option>
+                <option value="card2">Borgo</option>
+                <option value="card3">Piazza</option>
+                <option value="card4">Carta 4</option>
+              </select>
+            </div>
 
-            <div class="form-group">
-              <label for="cardHolderName">Nome strada:</label>
-              <input type="text" class="form-control" id="cardHolderName" maxlength="30" placeholder="{{getUserData.getCardInformation()}}" [readonly]="!inputAbilitato">
+            <div class="form-group ml-3">
+                <label for="cardHolderName">Nome strada:</label>
+                <input type="text" class="form-control" id="cardHolderName" maxlength="30" placeholder="{{getUserData.getCardInformation()}}" [readonly]="!inputAbilitato">
             </div>
-            <div class="form-group">
-              <label for="cvv">Codice postale (CAP):</label>
-              <input type="text" class="form-control" id="cvv" maxlength="30" placeholder="{{getUserData.getCardInformation()}}" [readonly]="!inputAbilitato">
+            <div class="form-group ml-3">
+              <label for="cap">Codice postale (CAP):</label>
+              <input type="text" class="form-control" id="cap" maxlength="30" placeholder="{{getUserData.getCardInformation()}}" [readonly]="!inputAbilitato">
             </div>
-            <div class="form-group">
-              <label for="cvv">Provincia:</label>
-              <input type="text" class="form-control" id="cvv" maxlength="30" placeholder="{{getUserData.getCardInformation()}}" [readonly]="!inputAbilitato">
+            <div class="form-group ml-3">
+              <label for="prov">Provincia:</label>
+              <input type="text" class="form-control" id="prov" maxlength="30" placeholder="{{getUserData.getCardInformation()}}" [readonly]="!inputAbilitato">
             </div>
           </div>
 
-          <div class="col-md-6">
+          <div class="d-flex flex-row align-items-center">
             <div class="form-group">
               <label for="expirationDate">N° civico:</label>
               <input type="text" class="form-control" id="expirationDate" maxlength="30" placeholder="{{getUserData.getCardInformation()}}" [readonly]="!inputAbilitato">
             </div>
-            <div class="form-group">
+            <div class="form-group ml-3">
               <label for="cvv">Città:</label>
               <input type="text" class="form-control" id="cvv" maxlength="30" placeholder="{{getUserData.getCardInformation()}}" [readonly]="!inputAbilitato">
             </div>
-            <div class="form-group">
+            <div class="form-group ml-3">
               <label for="cvv">Regione:</label>
               <input type="text" class="form-control" id="cvv" maxlength="30" placeholder="{{getUserData.getCardInformation()}}" [readonly]="!inputAbilitato">
             </div>
@@ -68,10 +76,6 @@
         </div>
       </section>
 
-      <div class="form-group">
-        <label for="cardNumber">Tipologia strada:</label>
-        <input type="text" class="form-control" id="cardNumber" maxlength="30" placeholder="{{getUserData.getCardInformation()}}" [readonly]="!inputAbilitato">
-      </div>
 
       <div class="row mb-3">
         <button type="button" class="btn btn-primary mr-5" (click)="abilitaInput()">Aggiungi nuovo indirizzo</button>

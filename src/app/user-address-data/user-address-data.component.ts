@@ -11,7 +11,7 @@ import {GetUserData} from "../getUserData";
         UserManagementContainerComponent
     ],
   templateUrl: './user-address-data.component.html',
-  styleUrl: './user-address-data.component.css'
+  styleUrls: ['./user-address-data.component.css', '../../styles.css']
 })
 export class UserAddressDataComponent {
 
