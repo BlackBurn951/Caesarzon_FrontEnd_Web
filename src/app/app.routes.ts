@@ -30,7 +30,7 @@ export const routes: Routes = [
   {path: 'personal-data', component: PersonalDataComponent},
   {path: 'payment-data', component: UserPaymentDataComponent},
   {path: 'payment-first-page', component: PaymentFirstPageComponent},
-  {path: 'help-request', component: HelpRequestComponent}
+  {path: 'help-request', component: HelpRequestComponent},
   {path: 'address-data', component: UserAddressDataComponent},
 ];
 
@@ -44,7 +44,6 @@ export const routes: Routes = [
     ShoppingCartComponent,
     ReviewComponent,
     ReportsComponent,
-    PaymentFirstPageComponent,
     FriendsPopupComponent
   ],
   imports: [

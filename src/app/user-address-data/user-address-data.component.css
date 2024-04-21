@@ -5,8 +5,14 @@
 
 .aldo{
   gap: 4vh;
-  margin-top: 3%;
+  margin-top: 2%;
 }
+
+select[disabled] {
+
+  background-color: #f2f2f2;
+}
+
 
 footer {
   background-color: #352244;
