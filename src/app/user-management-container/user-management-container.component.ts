@@ -3,6 +3,7 @@ import {ReactiveFormsModule} from "@angular/forms";
 import {PersonalDataComponent} from "../personal-data/personal-data.component";
 import {NgClass} from "@angular/common";
 import {Router} from "@angular/router";
+import {PopupService} from "../popUpService";
 
 @Component({
   selector: 'app-user-management-container',
@@ -15,12 +16,17 @@ import {Router} from "@angular/router";
 })
 export class UserManagementContainerComponent {
 
-  constructor(private router:Router) {
+  constructor(private router:Router, public popUpService: PopupService) {
 
   }
 
   openPersonalData(event: Event) {
     this.router.navigate(['personal-data']);
+    event.preventDefault()
+  }
+
+  openWishList(event: Event) {
+    this.router.navigate(['wish-list']);
     event.preventDefault()
   }
   openPaymentData(event: Event) {
@@ -29,6 +35,11 @@ export class UserManagementContainerComponent {
   }
   openAddressData(event: Event) {
     this.router.navigate(['address-data']);
+    event.preventDefault()
+  }
+
+  openHelpRequest(event: Event) {
+    this.router.navigate(['help-request']);
     event.preventDefault()
   }
 

@@ -1,0 +1,15 @@
+.scroll-row{
+  overflow: auto;
+  overflow-x: hidden;
+}
+.left-containers{
+  background-color: #F7F7F7;
+  border: 1px solid black;
+}
+
+.product-row{
+  border: 1px solid black;
+}
+.scroll-row{
+  height: 50%;
+}
