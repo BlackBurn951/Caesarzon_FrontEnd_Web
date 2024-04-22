@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import {GetUserData} from "../getUserData";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-payment-first-page',
@@ -12,12 +13,16 @@ export class PaymentFirstPageComponent {
   private testButton: string | undefined;
   testoButton!: string;
 
-  constructor(protected getUserData: GetUserData) {
+  constructor(protected getUserData: GetUserData, private router: Router) {
 
   }
   abilitaInput(): void{
     this.inputAbilitato = !this.inputAbilitato;
     this.testButton = this.inputAbilitato ? "Salva modifiche" : "Modifica";
+  }
+
+  goBackToCart() {
+    this.router.navigate(['shopping-cart']);
   }
 }
 
