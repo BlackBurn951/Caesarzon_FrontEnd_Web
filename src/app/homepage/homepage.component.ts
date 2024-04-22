@@ -64,10 +64,9 @@ export class HomepageComponent {
   }
 
 
-
-  goToProductPage(event: MouseEvent) {
+    goToProductPage(event: Event) {
     this.router.navigate(['product-page'])
-    event.preventDefault()
+      event.preventDefault();
   }
 
   nextData(id: string) {
