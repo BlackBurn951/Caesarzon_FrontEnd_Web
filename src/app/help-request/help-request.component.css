@@ -1,8 +1,19 @@
-textarea{
-  resize: none;
-}
 
 .aldo{
-  gap: 5vh;
-  margin-top: 10vh;
+  gap: 4vh;
+  margin-top: 2%;
+}
+
+footer {
+  background-color: #352244;
+  text-align: center;
+  color: white;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
+#descrizione{
+  resize: none;
+  max-height: 20vh;
 }

@@ -118,25 +118,6 @@
 
           </div>
 
-          <div class="container-fluid d-flex flex-column align-items-center">
-            <h1 id="caricaImg">Carica immagini</h1>
-              <div class="container">
-                <div class="row">
-                  <ng-container *ngFor="let index of [0, 1, 2, 3]">
-                    <div class="col-md-6 d-flex flex-column align-items-center">
-                      <div class="grid-item">
-                        <label class="grid-label d-flex flex-column align-items-center" for="file-input{{index}}" (click)="openFileInput($event, index)">
-                          <img *ngIf="imageUrls[index]" [src]="imageUrls[index]" alt="Uploaded Image">
-                          <span class="btn btn-dark custom-btn" *ngIf="!imageUrls[index]">Scegli file</span>
-                        </label>
-                          <input type="file" id="file-input{{index}}" accept="image/png, image/jpeg" style="display: none" (change)="handleFileInput($event, index)">
-                      </div>
-                      <span class="btn btn-dark custom-btn d-flex flex-column align-items-center o" *ngIf="imageUrls[index]" (click)="openFileInput($event, index)">Scegli un altro file</span>
-                    </div>
-                  </ng-container>
-                </div>
-              </div>
-          </div>
         </div>
 
 
