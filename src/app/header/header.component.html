@@ -22,13 +22,13 @@
           <a class="nav-link text-light" href="#" (click)="openPersonalData($event)">Prodotti del momento <span class="sr-only">(current)</span></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-light" href="#">Novità</a>
+          <a class="nav-link text-light" href="#" (click)="openAdminArea($event)">Novità</a>
         </li>
         <li class="nav-item">
           <a class="nav-link text-light" href="#">Offerte</a>
         </li>
         <li class="nav-item dropdown">
-          <a class="nav-link text-light dropdown-toggle" href="#" id="pallavolo" role="button" aria-haspopup="true" aria-expanded="false">
+          <a class="nav-link text-light dropdown-toggle" href="#" id="atletica" role="button" aria-haspopup="true" aria-expanded="false">
             Atletica
           </a>
           <div class="dropdown-menu" aria-labelledby="pallavolo">
@@ -37,7 +37,6 @@
           </div>
         </li>
         <li class="nav-item dropdown">
-          <a class="nav-link text-light dropdown-toggle" href="#" id="pallavolo" role="button" aria-haspopup="true" aria-expanded="false">
           <a class="nav-link text-light dropdown-toggle" href="#" id="pallavolo" role="button" aria-haspopup="true" aria-expanded="false" (click)="goToProductPage($event)">
             Pallavolo
           </a>
@@ -114,14 +113,6 @@
         </li>
       </ul>
       <ul class="navbar-nav ml-auto">
-        <div *ngIf="!userData.isLogged" class="bottonis">
-          <li class="nav-item ">
-            <button class="menu-item btn btn-dark custom-btns" (click)="popupService.openPopupLoginRegistration()">Accedi</button>
-          </li>
-          <li class="nav-item">
-            <button class="menu-item btn btn-dark custom-btns" (click)="goToShoppingCart()">Carrello</button>
-          </li>
-        </div>
         <div *ngIf="userData.isLogged" class="bottonis">
           <li class="nav-item ">
             <button class="menu-item btn btn-dark custom-btns" (click)="popupService.openPopupLoginRegistration()">Profilo</button>

@@ -49,4 +49,10 @@ export class HeaderComponent {
     this.router.navigate(['product-page']);
     event.preventDefault();
   }
+
+  openAdminArea(event: Event) {
+    this.router.navigate(['admin-area']);
+    event.preventDefault()
+  }
+
 }
