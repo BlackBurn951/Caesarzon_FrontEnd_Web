@@ -42,7 +42,6 @@ header{
   padding: 0;
 }
 
-
 .nav-link {
   white-space: nowrap;
   text-decoration: none;
@@ -71,4 +70,30 @@ header{
   display: block;
 }
 
+.bottonis{
+  position: relative;
+}
+
+.dropdown-menu{
+  display: none;
+  position: absolute;
+  background: #634080;
+  padding: 10px;
+  z-index: 1;
+}
+
+.bottonis:hover .dropdown-menu{
+  display: block;
+}
+
+.dropdown-item{
+  display: block;
+  padding: 8px 12px;
+  color: #333;
+  text-decoration: none;
+}
+
+.dropdown-item:hover{
+  background-color: #634080;
+}
 

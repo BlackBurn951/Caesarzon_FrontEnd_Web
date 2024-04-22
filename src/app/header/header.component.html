@@ -19,16 +19,16 @@
     <div class="collapse navbar-collapse" [ngClass]="{'show': isMenuOpen}" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item">
-          <a class="nav-link text-light" href="#" (click)="openPersonalData($event)">Bestsellers <span class="sr-only">(current)</span></a>
+          <a class="nav-link text-light" href="#" (click)="changePage($event,'personal-data')">Prodotti del momento <span class="sr-only">(current)</span></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-light" href="#">Novità</a>
+          <a class="nav-link text-light" href="#" (click)="openAdminArea($event)">Novità</a>
         </li>
         <li class="nav-item">
           <a class="nav-link text-light" href="#">Offerte</a>
         </li>
         <li class="nav-item dropdown">
-          <a class="nav-link text-light dropdown-toggle" href="#" id="pallavolo" role="button" aria-haspopup="true" aria-expanded="false">
+          <a class="nav-link text-light dropdown-toggle" href="#" id="atletica" role="button" aria-haspopup="true" aria-expanded="false">
             Atletica
           </a>
           <div class="dropdown-menu" aria-labelledby="pallavolo">
@@ -37,96 +37,105 @@
           </div>
         </li>
         <li class="nav-item dropdown">
-          <a class="nav-link text-light dropdown-toggle" href="#" id="pallavolo" role="button" aria-haspopup="true" aria-expanded="false" (click)="goToProductPage($event)">
+          <a class="nav-link text-light dropdown-toggle" href="#" id="pallavolo" role="button" aria-haspopup="true" aria-expanded="false" (click)="changePage($event, 'product-page')">
             Pallavolo
           </a>
           <div class="dropdown-menu" aria-labelledby="pallavolo">
-            <a class="dropdown-item" href="#" (click)="goToProductPage($event)">Abbigliamento</a>
-            <a class="dropdown-item" href="#" (click)="goToProductPage($event)">Attrezzatura</a>
+            <a class="dropdown-item" href="#" (click)="changePage($event, 'product-page')">Abbigliamento</a>
+            <a class="dropdown-item" href="#" (click)="changePage($event, 'product-page')">Attrezzatura</a>
           </div>
         </li>
         <li class="nav-item dropdown">
-          <a class="nav-link text-light dropdown-toggle" href="#" id="basket" role="button" aria-haspopup="true" aria-expanded="false" (click)="goToProductPage($event)">
+          <a class="nav-link text-light dropdown-toggle" href="#" id="basket" role="button" aria-haspopup="true" aria-expanded="false" (click)="changePage($event, 'product-page')">
             Basket
           </a>
           <div class="dropdown-menu" aria-labelledby="basket">
-            <a class="dropdown-item" href="#" (click)="goToProductPage($event)">Abbigliamento</a>
-            <a class="dropdown-item" href="#" (click)="goToProductPage($event)">Attrezzatura</a>
+            <a class="dropdown-item" href="#" (click)="changePage($event, 'product-page')">Abbigliamento</a>
+            <a class="dropdown-item" href="#" (click)="changePage($event, 'product-page')">Attrezzatura</a>
           </div>
         </li>
         <li class="nav-item dropdown">
-          <a class="nav-link text-light dropdown-toggle" href="#" id="Tennis" role="button" aria-haspopup="true" aria-expanded="false" (click)="goToProductPage($event)">
+          <a class="nav-link text-light dropdown-toggle" href="#" id="Tennis" role="button" aria-haspopup="true" aria-expanded="false" (click)="changePage($event, 'product-page')">
             Tennis
           </a>
           <div class="dropdown-menu" aria-labelledby="Tennis">
-            <a class="dropdown-item" href="#" (click)="goToProductPage($event)">Abbigliamento</a>
-            <a class="dropdown-item" href="#" (click)="goToProductPage($event)">Attrezzatura</a>
+            <a class="dropdown-item" href="#" (click)="changePage($event, 'product-page')">Abbigliamento</a>
+            <a class="dropdown-item" href="#" (click)="changePage($event, 'product-page')">Attrezzatura</a>
           </div>
         </li>
         <li class="nav-item dropdown">
-          <a class="nav-link text-light dropdown-toggle" href="#" id="Nuoto" role="button" aria-haspopup="true" aria-expanded="false" (click)="goToProductPage($event)">
+          <a class="nav-link text-light dropdown-toggle" href="#" id="Nuoto" role="button" aria-haspopup="true" aria-expanded="false" (click)="changePage($event, 'product-page')">
             Nuoto
           </a>
           <div class="dropdown-menu" aria-labelledby="Nuoto">
-            <a class="dropdown-item" href="#" (click)="goToProductPage($event)">Abbigliamento</a>
-            <a class="dropdown-item" href="#" (click)="goToProductPage($event)">Attrezzatura</a>
+            <a class="dropdown-item" href="#" (click)="changePage($event, 'product-page')">Abbigliamento</a>
+            <a class="dropdown-item" href="#" (click)="changePage($event, 'product-page')">Attrezzatura</a>
           </div>
         </li>
         <li class="nav-item dropdown">
-          <a class="nav-link text-light dropdown-toggle" href="#" id="Calcio" role="button" aria-haspopup="true" aria-expanded="false" (click)="goToProductPage($event)">
+          <a class="nav-link text-light dropdown-toggle" href="#" id="Calcio" role="button" aria-haspopup="true" aria-expanded="false" (click)="changePage($event, 'product-page')">
             Calcio
           </a>
           <div class="dropdown-menu" aria-labelledby="Calcio">
-            <a class="dropdown-item" href="#" (click)="goToProductPage($event)">Abbigliamento</a>
-            <a class="dropdown-item" href="#" (click)="goToProductPage($event)">Attrezzatura</a>
+            <a class="dropdown-item" href="#" (click)="changePage($event, 'product-page')">Abbigliamento</a>
+            <a class="dropdown-item" href="#" (click)="changePage($event, 'product-page')">Attrezzatura</a>
           </div>
         </li>
         <li class="nav-item dropdown">
-          <a class="nav-link text-light dropdown-toggle" href="#" id="ArtiMarziali" role="button" aria-haspopup="true" aria-expanded="false" (click)="goToProductPage($event)">
+          <a class="nav-link text-light dropdown-toggle" href="#" id="ArtiMarziali" role="button" aria-haspopup="true" aria-expanded="false" (click)="changePage($event, 'product-page')">
             Arti marziali
           </a>
           <div class="dropdown-menu" aria-labelledby="ArtiMarziali">
-            <a class="dropdown-item" href="#" (click)="goToProductPage($event)">Boxe</a>
-            <a class="dropdown-item" href="#" (click)="goToProductPage($event)">Karate</a>
-            <a class="dropdown-item" href="#" (click)="goToProductPage($event)">Muay Thai</a>
-            <a class="dropdown-item" href="#" (click)="goToProductPage($event)">Judo</a>
-            <a class="dropdown-item" href="#" (click)="goToProductPage($event)">Lotta</a>
+            <a class="dropdown-item" href="#" (click)="changePage($event, 'product-page')">Boxe</a>
+            <a class="dropdown-item" href="#" (click)="changePage($event, 'product-page')">Karate</a>
+            <a class="dropdown-item" href="#" (click)="changePage($event, 'product-page')">Muay Thai</a>
+            <a class="dropdown-item" href="#" (click)="changePage($event, 'product-page')">Judo</a>
+            <a class="dropdown-item" href="#" (click)="changePage($event, 'product-page')">Lotta</a>
           </div>
         </li>
         <li class="nav-item dropdown">
-          <a class="nav-link text-light dropdown-toggle" href="#" id="Ciclismo" role="button" aria-haspopup="true" aria-expanded="false" (click)="goToProductPage($event)">
+          <a class="nav-link text-light dropdown-toggle" href="#" id="Ciclismo" role="button" aria-haspopup="true" aria-expanded="false" (click)="changePage($event, 'product-page')">
             Ciclismo
           </a>
           <div class="dropdown-menu" aria-labelledby="Ciclismo">
-            <a class="dropdown-item" href="#" (click)="goToProductPage($event)">Abbigliamento</a>
-            <a class="dropdown-item" href="#" (click)="goToProductPage($event)">Attrezzatura</a>
+            <a class="dropdown-item" href="#" (click)="changePage($event, 'product-page')">Abbigliamento</a>
+            <a class="dropdown-item" href="#" (click)="changePage($event, 'product-page')">Attrezzatura</a>
           </div>
         </li>
         <li class="nav-item dropdown">
-          <a class="nav-link text-light dropdown-toggle" href="#" id="Sciismo" role="button" aria-haspopup="true" aria-expanded="false" (click)="goToProductPage($event)">
+          <a class="nav-link text-light dropdown-toggle" href="#" id="Sciismo" role="button" aria-haspopup="true" aria-expanded="false" (click)="changePage($event, 'product-page')">
             Sciismo
           </a>
           <div class="dropdown-menu" aria-labelledby="Sciismo">
-            <a class="dropdown-item" href="#" (click)="goToProductPage($event)">Abbigliamento</a>
-            <a class="dropdown-item" href="#" (click)="goToProductPage($event)">Attrezzatura</a>
+            <a class="dropdown-item" href="#" (click)="changePage($event, 'product-page')">Abbigliamento</a>
+            <a class="dropdown-item" href="#" (click)="changePage($event, 'product-page')">Attrezzatura</a>
           </div>
         </li>
       </ul>
       <ul class="navbar-nav ml-auto">
+
         <div *ngIf="!userData.isLogged" class="bottonis">
           <li class="nav-item ">
             <button class="menu-item btn btn-dark custom-btns" (click)="popupService.openPopupLoginRegistration()">Accedi</button>
           </li>
           <li class="nav-item">
-            <button class="menu-item btn btn-dark custom-btns" (click)="goToShoppingCart()">Carrello</button>
+            <button class="menu-item btn btn-dark custom-btns" (click)="changePage($event,'shopping-cart')">Carrello</button>
           </li>
         </div>
         <div *ngIf="userData.isLogged" class="bottonis">
           <li class="nav-item ">
-            <button class="menu-item btn btn-dark custom-btns" (click)="popupService.openPopupLoginRegistration()">Profilo</button>
+            <button id="accesso" class="menu-item btn btn-dark custom-btn dropdown-toggle" (click)="popupService.openPopupLoginRegistration()">Profilo</button>
+            <div class="dropdown-menu" aria-labelledby="accesso">
+              <a class="dropdown-item" (click)="changePage($event,'personal-data')">Anagrafica</a>
+              <a class="dropdown-item" (click)="changePage($event,'address-data')">Indirizzi</a>
+              <a class="dropdown-item" (click)="changePage($event, 'payment-first-page')">Metodi di pagamento</a>
+              <a class="dropdown-item" (click)="changePage($event, 'wish-list')">Lista dei desideri</a>
+              <a class="dropdown-item" (click)="changePage($event, 'da-fare')">Ordini</a>
+              <a class="dropdown-item" (click)="changePage($event, 'help-request')">Assistenza</a>
+            </div>
           </li>
           <li class="nav-item">
-            <button class="menu-item btn btn-dark custom-btns" (click)="popupService.openPopupReport()">Carrello</button>
+            <button class="menu-item btn btn-dark custom-btns" (click)="changePage($event,'shopping-cart')">Carrello</button>
           </li>
           <li class="nav-item">
             <button class="menu-item btn btn-dark custom-btns" (click)="popupService.openPopupReport()">Amici</button>
