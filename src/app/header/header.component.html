@@ -10,7 +10,7 @@
 </head>
 
 <header>
-  <nav class="navbar navbar-expand-md navbar-light custom-navbar">
+  <nav class="navbar navbar-expand-sm navbar-light custom-navbar">
     <a class="navbar-brand text-light" href="#">CAESARZON</a>
     <button class="navbar-toggler btn btn-dark custom-btn" type="button" (click)="toggleMenu()">
       <span class="navbar-toggler-icon"></span>
@@ -19,7 +19,7 @@
     <div class="collapse navbar-collapse" [ngClass]="{'show': isMenuOpen}" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item">
-          <a class="nav-link text-light" href="#" (click)="openPersonalData($event)">Prodotti del momento <span class="sr-only">(current)</span></a>
+          <a class="nav-link text-light" href="#" (click)="openPersonalData($event)">Bestsellers <span class="sr-only">(current)</span></a>
         </li>
         <li class="nav-item">
           <a class="nav-link text-light" href="#">Novità</a>
@@ -37,7 +37,6 @@
           </div>
         </li>
         <li class="nav-item dropdown">
-          <a class="nav-link text-light dropdown-toggle" href="#" id="pallavolo" role="button" aria-haspopup="true" aria-expanded="false">
           <a class="nav-link text-light dropdown-toggle" href="#" id="pallavolo" role="button" aria-haspopup="true" aria-expanded="false" (click)="goToProductPage($event)">
             Pallavolo
           </a>
