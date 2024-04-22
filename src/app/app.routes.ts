@@ -18,6 +18,7 @@ import {HelpRequestComponent} from "./help-request/help-request.component";
 import {UserManagementContainerComponent} from "./user-management-container/user-management-container.component";
 import {FriendsPopupComponent} from "./friends-popup/friends-popup.component";
 import {UserAddressDataComponent} from "./user-address-data/user-address-data.component";
+import {WishListComponent} from "./wish-list/wish-list.component";
 
 
 export const routes: Routes = [
@@ -32,6 +33,7 @@ export const routes: Routes = [
   {path: 'payment-first-page', component: PaymentFirstPageComponent},
   {path: 'help-request', component: HelpRequestComponent},
   {path: 'address-data', component: UserAddressDataComponent},
+  {path: 'wish-list', component: WishListComponent},
 ];
 
 @NgModule({
