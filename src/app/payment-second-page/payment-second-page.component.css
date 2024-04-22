@@ -1,8 +1,3 @@
-.addressInfo{
-  background-color: black;
-  width: 35vw;
-}
-
 .form{
   gap: 10vh;
   margin-top: 10vh;
@@ -11,6 +6,10 @@
 
 .form-control{
   max-width: 60vh;
+}
+
+.orders{
+  margin-top: 5%;
 }
 
 .btn{
@@ -37,6 +36,7 @@
 .endButtons{
   display: flex;
   justify-content: center;
+  margin-top: 5vh;
   margin-left: 40%;
   margin-bottom: 5%;
 }
