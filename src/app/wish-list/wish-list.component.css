@@ -1,0 +1,30 @@
+
+.aldo{
+  gap: 4vh;
+  margin-top: 2%;
+}
+
+
+
+.table-container{
+
+  border: 1px solid black;
+  width: 50vw;
+  height: 20vw;
+  overflow: auto;
+
+}
+footer {
+  background-color: #352244;
+  text-align: center;
+  color: white;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+.table-cell {
+  border: 1px solid black;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
