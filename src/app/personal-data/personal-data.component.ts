@@ -68,6 +68,23 @@ export class PersonalDataComponent implements OnInit{
     }
   }
 
+  onFileSelected(event: any) {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+    reader.onload = (e: any) => {
+      const preview = document.getElementById('preview');
+      if (preview) { // Verifica se preview non è null
+        preview.style.display = 'block';
+        preview.setAttribute('src', e.target.result);
+      } else {
+        console.error("Elemento 'preview' non trovato nel DOM.");
+      }
+    };
+    reader.readAsDataURL(file);
+  }
+
+
+
 
   openFileInput(event: MouseEvent, index: number) {
     const input = document.getElementById('file-input' + index) as HTMLInputElement;

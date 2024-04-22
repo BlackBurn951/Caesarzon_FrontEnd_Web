@@ -12,3 +12,28 @@ footer {
   bottom: 0;
   width: 100%;
 }
+
+
+.image-upload {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+}
+
+.custom-file-upload {
+  cursor: pointer;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+}
+
+#preview {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-top: 10px;
+}
