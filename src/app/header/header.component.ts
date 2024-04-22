@@ -30,23 +30,16 @@ export class HeaderComponent {
     this.isMenuOpen = !this.isMenuOpen;
   }
 
-  goToProductManagement() {
+  /*goToProductManagement() {
     this.router.navigate(['product-managment']);
-  }
+  }*/
 
-  goToShoppingCart() {
-    this.router.navigate(['shopping-cart'])
-  }
 
-    protected readonly open = open;
+    //protected readonly open = open;
 
-  openPersonalData(event: Event) {
-    this.router.navigate(['personal-data']);
-    event.preventDefault()
-  }
 
-  goToProductPage(event: Event) {
-    this.router.navigate(['product-page']);
+  changePage(event: Event,page:string) {
+    this.router.navigate([page]);
     event.preventDefault();
   }
 }
