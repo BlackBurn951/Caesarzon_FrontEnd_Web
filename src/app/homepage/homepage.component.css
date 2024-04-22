@@ -1,64 +1,25 @@
-.body {
-  display: flex;
+
+.container{
   align-items: center;
   justify-content: center;
-  min-height: 100vh;
-}
-.container{
-  margin-top: 2%;
-  max-width: 1200px;
-  width: 95%;
-}
-.slider-wrapper{
-  position: relative;
-}
-.slider-wrapper .slide-button{
-  position: absolute;
-  top: 50%;
- height: 50px;
-  width: 50px;
-  color: white;
-  background-color: lightgray;
-  font-size: 2.2rem;
-  cursor: pointer;
-  border: none;
-  outline: none;
-  border-radius: 50%;
-  transform: translateY(-50%);
+  margin-top: 3%;
 }
 
-
-.slide-button .arrowImage{
-  width: 30px;
-  height: 30px;
-  margin-left: 5%;
+.card-list {
+  display: flex;
+  justify-content: center;
+  justify-content: space-between;
+  margin-top: 3%;
+  margin-bottom: 5%;
 }
-/*esce pazzo qui*/
-.slider-wrapper .slide-button-left{
-  left: -20px;
+.card-list .card .card-body{
+  width: 300px;
+  height: 150px;
 }
-
-.slider-wrapper .slide-button-right{
-  right: -20px;
+.card:hover{
+  transform: scale(1.1);
+  transition: transform 0.3s ease;
 }
-.slider-wrapper .card-list{
-  display: grid;
-  gap: 41px;
-  font-size: 0;
-  margin-bottom: 30px;
-  overflow-x: auto;
-  scrollbar-width: none;
-  grid-template-columns: repeat(10,1fr);
-}
-
-.slider-wrapper .card-list .card{
-  width: 325px;
-  height: 475px;
-  object-fit: cover;
-  margin-left: 22%;
-  margin-top: 15%;
-}
-
 /* Rendi il bottone "Dettagli" responsivo */
 .btn-primary {
   display: block; /* Assicura che il pulsante sia un blocco per occupare l'intera larghezza del contenitore */
@@ -78,7 +39,7 @@
   width: 100%; /* Assicura che il contenitore della descrizione occupi l'intera larghezza della card */
 }
 
-/* Stile per la barra di ricerca */
+
 .search-container {
   display: flex;
   margin: 20px;
@@ -118,4 +79,26 @@
     width: 30%;
   }
 }
+
+.btnArrow {
+  width: 50px;
+  height: 50px;
+  margin-top: 20%;
+  border-radius: 50%;
+  border: none;
+  background: none ;
+}
+.btnArrow:hover{
+  background-color: #634080;
+}
+.arrow{
+  width: 20px;
+  height: 20px;
+}
+
+
+
+
+
+
 
