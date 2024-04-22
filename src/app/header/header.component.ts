@@ -31,7 +31,7 @@ export class HeaderComponent {
   }
 
   goToProductManagement() {
-    this.router.navigate(['product-management']);
+    this.router.navigate(['product-managment']);
   }
 
   goToShoppingCart() {
@@ -45,4 +45,8 @@ export class HeaderComponent {
     event.preventDefault()
   }
 
+  goToProductPage(event: Event) {
+    this.router.navigate(['product-page']);
+    event.preventDefault();
+  }
 }
