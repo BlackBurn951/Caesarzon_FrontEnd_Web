@@ -1,0 +1,44 @@
+.aldo {
+  gap: 4vh;
+  margin-top: 2%;
+
+}
+
+footer {
+  background-color: #352244;
+  text-align: center;
+  color: white;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
+.left-containers {
+  background-color: #F7F7F7;
+  border: 1px solid black;
+  max-height: 60vh;
+  min-height: 60vh;
+  overflow: auto;
+
+}
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 150px;
+  height: 50px;
+  margin-bottom: 10px;
+}
+
+.btn i{
+  padding: 10px 20px;
+  font-size: 40px;
+}
+
+.pippo{
+  max-width: 20%;
+}
+
+.esse{
+  width: 5vw;
+}
