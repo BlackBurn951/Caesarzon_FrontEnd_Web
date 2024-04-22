@@ -13,7 +13,7 @@ import {PersonalDataComponent} from "./personal-data/personal-data.component";
 import {ReportsComponent} from "./reports/reports.component";
 import {FooterComponent} from "./footer/footer.component";
 import {UserPaymentDataComponent} from "./user-payment-data/user-payment-data.component";
-import {PaymentFirstPageComponent} from "./payment-first-page/payment-first-page.component";
+//import {PaymentFirstPageComponent} from "./payment-first-page/payment-first-page.component";
 import {FriendsPopupComponent} from "./friends-popup/friends-popup.component";
 import {UserAddressDataComponent} from "./user-address-data/user-address-data.component";
 
@@ -27,7 +27,7 @@ export const routes: Routes = [
   {path: 'shopping-cart', component: ShoppingCartComponent},
   {path: 'personal-data', component: PersonalDataComponent},
   {path: 'payment-data', component: UserPaymentDataComponent},
-  {path: 'payment-first-page', component: PaymentFirstPageComponent},
+ // {path: 'payment-first-page', component: PaymentFirstPageComponent},
   {path: 'address-data', component: UserAddressDataComponent},
 ];
 
@@ -41,7 +41,6 @@ export const routes: Routes = [
     ShoppingCartComponent,
     ReviewComponent,
     ReportsComponent,
-    PaymentFirstPageComponent,
     FriendsPopupComponent
   ],
   imports: [
@@ -52,7 +51,7 @@ export const routes: Routes = [
     ReactiveFormsModule,
     FooterComponent,
     PersonalDataComponent,
-    PaymentFirstPageComponent,
+    //PaymentFirstPageComponent,
   ],
   providers: [],
   exports: [
