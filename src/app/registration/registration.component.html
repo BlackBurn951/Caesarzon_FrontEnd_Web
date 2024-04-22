@@ -18,12 +18,12 @@
     </div>
     <div class="form-group formos">
       <label for="usernameL">Username o e-mail:</label>
-      <input type="text" class="form-control" id="usernameL">
+      <input type="text" class="form-control inputLogin" id="usernameL">
     </div>
     <div class="form-group formos">
       <label for="passwordR">Password:</label>
       <div class="password-input-container">
-      <input type="password" class="form-control" id="password" >
+      <input type="password" class="form-control inputLogin" id="password" >
         <span class="toggle-password" (click)="togglePassword('password')">
           <img class="iconaOcchio" src="assets/images/icons/view.png" *ngIf="mostraPassword['password']" alt="" width="20">
           <img class="iconaOcchio" src="assets/images/icons/hide.png" *ngIf="!mostraPassword['password']" alt="" width="20">
@@ -56,22 +56,22 @@
 
     <div class="d-flex flex-row align-items-center" formGroupName="formRegistrazione" >
       <div class="d-flex flex-column align-items-center first-column">
-        <div class="form-group formos">
+        <div class="form-group formoss">
           <label for="usernameR">Username:</label>
           <input type="text" class="form-control inputRA" id="usernameR" formControlName="username">
         </div>
-        <div class="form-group formos">
+        <div class="form-group formoss">
           <label for="nome">Nome:</label>
           <input type="text" class="form-control inputRA" id=nome formControlName="nome">
         </div>
-        <div class="form-group formos">
+        <div class="form-group formoss">
           <label for="cognome">Cognome:</label>
           <input type="text" class="form-control inputRA" id=cognome formControlName="cognome">
         </div>
       </div>
 
       <div class="d-flex flex-column align-items-center second-column">
-        <div class="form-group formos">
+        <div class="form-group formoss">
           <label for="email">E-mail:</label>
           <input type="text" class="form-control inputRA" id=email formControlName="email">
           <div *ngIf="formService.campoNonCorretto('formRegistrazione.email')" class="error-message">
@@ -79,7 +79,7 @@
           </div>
         </div>
 
-        <div class="form-group formos">
+        <div class="form-group formoss">
           <label for="passwordR">Password:</label>
           <div class="password-input-container">
             <input type="password" class="form-control inputRA" id="passwordR" formControlName="password">
@@ -93,7 +93,7 @@
           </div>
         </div>
 
-        <div class="form-group formos">
+        <div class="form-group formoss">
           <label for="passwordR">Conferma password:</label>
           <div class="password-input-container">
             <input type="password" class="form-control inputRA" id="passwordCR" formControlName="confermaPassword" maxlength="16" (input)="comparaPassword()">

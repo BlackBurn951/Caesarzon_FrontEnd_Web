@@ -42,11 +42,9 @@ header{
   padding: 0;
 }
 
-.nav-item {
-  margin: 0 10px;
-}
 
 .nav-link {
+  white-space: nowrap;
   text-decoration: none;
   color: #fff;
   padding: 10px;

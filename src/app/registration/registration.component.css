@@ -74,10 +74,7 @@
   flex-direction: column;
 }
 
-.inputContainer input{
-  width: 18vw;
-  height: 4vh;
-}
+
 
 .regTxt{
   display: flex;
@@ -87,6 +84,7 @@
 }
 
 .accediLabel {
+  margin-top: 3%;
   font-size: 2rem;
 }
 
@@ -95,6 +93,8 @@
   border-radius: 1.5vh;
 
 }
+
+
 
 .error-message {
   color: #ff0a00;
@@ -130,7 +130,10 @@
   width: 25vw;
 }
 
-.formos{
+.formos {
+  margin: 30px;
+}
+.formoss {
   margin: 10px;
 }
 
@@ -159,13 +162,13 @@
 }
 
 .password-input-container input {
-  padding-right: 2.5rem; /* Spazio per l'icona */
+  padding-right: 2.5rem;
 }
 
 .password-input-container .toggle-password {
   position: absolute;
   top: 50%;
-  right: 0.5rem; /* Distanza dall'estremità destra */
+  right: 0.5rem;
   transform: translateY(-50%);
   cursor: pointer;
 }
