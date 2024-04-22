@@ -53,6 +53,12 @@
 
 
 
+body{
+  overflow-y: hidden;
+}
+html{
+  overflow-y: hidden;
+}
 
 .table-cell {
   border: 1px solid black;

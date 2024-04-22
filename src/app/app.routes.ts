@@ -18,6 +18,8 @@ import {HelpRequestComponent} from "./help-request/help-request.component";
 import {UserManagementContainerComponent} from "./user-management-container/user-management-container.component";
 import {FriendsPopupComponent} from "./friends-popup/friends-popup.component";
 import {UserAddressDataComponent} from "./user-address-data/user-address-data.component";
+import {WishListComponent} from "./wish-list/wish-list.component";
+import {PaymentSecondPageComponent} from "./payment-second-page/payment-second-page.component";
 
 
 export const routes: Routes = [
@@ -30,8 +32,10 @@ export const routes: Routes = [
   {path: 'personal-data', component: PersonalDataComponent},
   {path: 'payment-data', component: UserPaymentDataComponent},
   {path: 'payment-first-page', component: PaymentFirstPageComponent},
+  {path: 'payment-second-page', component: PaymentSecondPageComponent},
   {path: 'help-request', component: HelpRequestComponent},
   {path: 'address-data', component: UserAddressDataComponent},
+  {path: 'wish-list', component: WishListComponent},
 ];
 
 @NgModule({
@@ -44,7 +48,9 @@ export const routes: Routes = [
     ShoppingCartComponent,
     ReviewComponent,
     ReportsComponent,
-    FriendsPopupComponent
+    FriendsPopupComponent,
+    PaymentFirstPageComponent,
+    PaymentSecondPageComponent,
   ],
   imports: [
     NgIf,

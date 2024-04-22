@@ -13,176 +13,128 @@
   <button type="submit">Cerca</button>
 </div>
   <div class="container">
-    <div class="container text-center"><h1>NOVITA'</h1></div>
-    <div class="slider-wrapper" id="slideWrapper0">
-        <div class="card-list">
-          <button class="slide-button material-symbol-rounded slide-button-left" (click)="initSlider('prev','slideWrapper0')"><img class="arrowImage" src="assets/images/left-arrow.png"></button>
-          <div class="card">
-            <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
-            <div class="card-body">
-              <h2 class="card-title">{{products[0].name}}</h2>
-              <div class="container">
-                <div *ngIf="showDetails">
-                  <h4>{{products[0].description}}</h4>
-                </div>
-                <a href="#" class="btn btn-primary mt-2" (click)="toggleDetails()">Dettagli</a>
-              </div>
+    <div class="container text-center"><h1>NOTIVA'</h1></div>
+    <div class="card-list" id="offerte">
+      <button type="button" class="btnArrow" (click)="previusData('novita')"><img class="arrow left" src="assets/images/left-arrow.png"></button>
+      <div class="card" (click)="goToProductPage($event)">
+        <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h2 class="card-title">{{products[indexNovita].name}}</h2>
+          <div class="container">
+            <div *ngIf="showDetails">
+              <h4>{{products[indexNovita].description}}</h4>
             </div>
+            <a href="#" class="btn btn-primary mt-2" (click)="toggleDetails()">Dettagli</a>
           </div>
-          <div class="card">
-            <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
-            <div class="card-body">
-              <h5 class="card-title">{{products[0].name}}</h5>
-              <a href="#" class="btn btn-primary" (click)="goToProductPage($event)">Dettagli</a>
-            </div>
-          </div>
-          <div class="card">
-            <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
-            <div class="card-body">
-              <h5 class="card-title">Prodotto 1</h5>
-              <a href="#" class="btn btn-primary" (click)="goToProductPage($event)">Dettagli</a>
-            </div>
-          </div>
-          <div class="card">
-            <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
-            <div class="card-body">
-              <h5 class="card-title">Prodotto 1</h5>
-              <p class="card-text">Descrizione breve del prodotto.</p>
-              <a href="#" class="btn btn-primary" (click)="goToProductPage($event)">Dettagli</a>
-            </div>
-          </div>
-          <div class="card">
-            <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
-            <div class="card-body">
-              <h5 class="card-title">prod 1</h5>
-              <p class="card-text">Descrizione breve del prodotto.</p>
-              <a href="#" class="btn btn-primary" (click)="goToProductPage($event)">Dettagli</a>
-            </div>
-          </div>
-          <div class="card">
-            <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
-            <div class="card-body">
-              <h5 class="card-title">Prodotto 1</h5>
-              <p class="card-text">Descrizione breve del prodotto.</p>
-              <a href="#" class="btn btn-primary" (click)="goToProductPage($event)">Dettagli</a>
-            </div>
-          </div>
-          <button class="slide-button material-symbol-rounded slide-button-right" (click)="initSlider('next','slideWrapper0')"><img class="arrowImage" src="assets/images/right-arrow.png"></button>
         </div>
+      </div>
+      <div class="card" (click)="goToProductPage($event)">
+        <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h2 class="card-title">{{products[indexNovita+1].name}}</h2>
+          <div class="container">
+            <div *ngIf="showDetails">
+              <h4>{{products[indexNovita+1].description}}</h4>
+            </div>
+            <a href="#" class="btn btn-primary mt-2" (click)="toggleDetails()">Dettagli</a>
+          </div>
+        </div>
+      </div>
+      <div class="card" (click)="goToProductPage($event)">
+        <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h2 class="card-title">{{products[indexNovita+2].name}}</h2>
+          <div class="container">
+            <div *ngIf="showDetails">
+              <h4>{{products[indexNovita+2].description}}</h4>
+            </div>
+            <a href="#" class="btn btn-primary mt-2" (click)="toggleDetails()">Dettagli</a>
+          </div>
+        </div>
+      </div>
+      <button type="button" class="btnArrow" (click)="nextData('novita')"><img class="arrow right" src="assets/images/right-arrow.png"></button>
     </div>
     <div class="container text-center"><h1>OFFERTE</h1></div>
-    <div class="slider-wrapper" id="slideWrapper1">
-      <button class="slide-button material-symbol-rounded slide-button-left" (click)="initSlider('prev','slideWrapper1')"><img class="arrowImage" src="assets/images/left-arrow.png"></button>
-      <div class="card-list">
-        <div class="card">
-          <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
-          <div class="card-body">
-            <h2 class="card-title">{{products[0].name}}</h2>
-            <div class="container">
-              <div *ngIf="showDetails">
-                <h4>{{products[0].description}}</h4>
-              </div>
-              <a href="#" class="btn btn-primary mt-2" (click)="toggleDetails()">Dettagli</a>
+    <div class="card-list" id="novità">
+      <button type="button" class="btnArrow" (click)="previusData('offerte')"><img class="arrow left" src="assets/images/left-arrow.png"></button>
+      <div class="card" (click)="goToProductPage($event)">
+        <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h2 class="card-title">{{products2[indexOfferte].name}}</h2>
+          <div class="container">
+            <div *ngIf="showDetails">
+              <h4>{{products2[indexOfferte].description}}</h4>
             </div>
-          </div>
-        </div>
-        <div class="card">
-          <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
-          <div class="card-body">
-            <h5 class="card-title">{{products[0].name}}</h5>
-            <a href="#" class="btn btn-primary" (click)="goToProductPage($event)">Dettagli</a>
-          </div>
-        </div>
-        <div class="card">
-          <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
-          <div class="card-body">
-            <h5 class="card-title">Prodotto 1</h5>
-            <a href="#" class="btn btn-primary" (click)="goToProductPage($event)">Dettagli</a>
-          </div>
-        </div>
-        <div class="card">
-          <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
-          <div class="card-body">
-            <h5 class="card-title">Prodotto 1</h5>
-            <p class="card-text">Descrizione breve del prodotto.</p>
-            <a href="#" class="btn btn-primary" (click)="goToProductPage($event)">Dettagli</a>
-          </div>
-        </div>
-        <div class="card">
-          <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
-          <div class="card-body">
-            <h5 class="card-title">prod 1</h5>
-            <p class="card-text">Descrizione breve del prodotto.</p>
-            <a href="#" class="btn btn-primary" (click)="goToProductPage($event)">Dettagli</a>
-          </div>
-        </div>
-        <div class="card">
-          <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
-          <div class="card-body">
-            <h5 class="card-title">Prodotto 1</h5>
-            <p class="card-text">Descrizione breve del prodotto.</p>
-            <a href="#" class="btn btn-primary" (click)="goToProductPage($event)">Dettagli</a>
+            <a href="#" class="btn btn-primary mt-2" (click)="toggleDetails()">Dettagli</a>
           </div>
         </div>
       </div>
-      <button class="slide-button material-symbol-rounded slide-button-right"  (click)="initSlider('next','slideWrapper1')"><img class="arrowImage" src="assets/images/right-arrow.png"></button>
+      <div class="card" (click)="goToProductPage($event)">
+        <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h2 class="card-title">{{products2[indexOfferte+1].name}}</h2>
+          <div class="container">
+            <div *ngIf="showDetails">
+              <h4>{{products2[indexOfferte+1].description}}</h4>
+            </div>
+            <a href="#" class="btn btn-primary mt-2" (click)="toggleDetails()">Dettagli</a>
+          </div>
+        </div>
+      </div>
+      <div class="card" (click)="goToProductPage($event)">
+        <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h2 class="card-title">{{products2[indexOfferte+2].name}}</h2>
+          <div class="container">
+            <div *ngIf="showDetails">
+              <h4>{{products2[indexOfferte+2].description}}</h4>
+            </div>
+            <a href="#" class="btn btn-primary mt-2" (click)="toggleDetails()">Dettagli</a>
+          </div>
+        </div>
+      </div>
+      <button type="button" class="btnArrow" (click)="nextData('offerte')"><img class="arrow right" src="assets/images/right-arrow.png"></button>
     </div>
     <div class="container text-center"><h1>PRODOTTI DEL MOMENTO</h1></div>
-    <div class="slider-wrapper" id="slideWrapper2">
-      <button class="slide-button material-symbol-rounded slide-button-left" (click)="initSlider('prev','slideWrapper2')"><img class="arrowImage" src="assets/images/left-arrow.png"></button>
-      <div class="card-list">
-        <div class="card">
-          <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
-          <div class="card-body">
-            <h2 class="card-title">{{products[0].name}}</h2>
-            <div class="container">
-              <div *ngIf="showDetails">
-                <h4>{{products[0].description}}</h4>
-              </div>
-              <a href="#" class="btn btn-primary mt-2" (click)="toggleDetails()">Dettagli</a>
+    <div class="card-list">
+      <button type="button" class="btnArrow" (click)="previusData('prodottiDelMomento')"><img class="arrow left" src="assets/images/left-arrow.png"></button>
+      <div class="card" (click)="goToProductPage($event)">
+        <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h2 class="card-title">{{products3[indexMomento].name}}</h2>
+          <div class="container">
+            <div *ngIf="showDetails">
+              <h4>{{products3[indexMomento].description}}</h4>
             </div>
-          </div>
-        </div>
-        <div class="card">
-          <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
-          <div class="card-body">
-            <h5 class="card-title">{{products[0].name}}</h5>
-            <a href="#" class="btn btn-primary" (click)="goToProductPage($event)">Dettagli</a>
-          </div>
-        </div>
-        <div class="card">
-          <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
-          <div class="card-body">
-            <h5 class="card-title">Prodotto 1</h5>
-            <a href="#" class="btn btn-primary" (click)="goToProductPage($event)">Dettagli</a>
-          </div>
-        </div>
-        <div class="card">
-          <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
-          <div class="card-body">
-            <h5 class="card-title">Prodotto 1</h5>
-            <p class="card-text">Descrizione breve del prodotto.</p>
-            <a href="#" class="btn btn-primary" (click)="goToProductPage($event)">Dettagli</a>
-          </div>
-        </div>
-        <div class="card">
-          <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
-          <div class="card-body">
-            <h5 class="card-title">prod 1</h5>
-            <p class="card-text">Descrizione breve del prodotto.</p>
-            <a href="#" class="btn btn-primary" (click)="goToProductPage($event)">Dettagli</a>
-          </div>
-        </div>
-        <div class="card">
-          <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
-          <div class="card-body">
-            <h5 class="card-title">Prodotto 1</h5>
-            <p class="card-text">Descrizione breve del prodotto.</p>
-            <a href="#" class="btn btn-primary" (click)="goToProductPage($event)">Dettagli</a>
+            <a href="#" class="btn btn-primary mt-2" (click)="toggleDetails()">Dettagli</a>
           </div>
         </div>
       </div>
-      <button class="slide-button material-symbol-rounded slide-button-right"  (click)="initSlider('next','slideWrapper2')"><img class="arrowImage" src="assets/images/right-arrow.png"></button>
+      <div class="card" (click)="goToProductPage($event)">
+        <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h2 class="card-title">{{products3[indexMomento+1].name}}</h2>
+          <div class="container">
+            <div *ngIf="showDetails">
+              <h4>{{products3[indexMomento+1].description}}</h4>
+            </div>
+            <a href="#" class="btn btn-primary mt-2" (click)="toggleDetails()">Dettagli</a>
+          </div>
+        </div>
+      </div>
+      <div class="card" (click)="goToProductPage($event)">
+        <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h2 class="card-title">{{products3[indexMomento+2].name}}</h2>
+          <div class="container">
+            <div *ngIf="showDetails">
+              <h4>{{products3[indexMomento+2].description}}</h4>
+            </div>
+            <a href="#" class="btn btn-primary mt-2" (click)="toggleDetails()">Dettagli</a>
+          </div>
+        </div>
+      </div>
+      <button type="button" class="btnArrow" (click)="nextData('prodottiDelMomento')"><img class="arrow right" src="assets/images/right-arrow.png"></button>
     </div>
   </div>
 </body>
