@@ -1,12 +1,14 @@
-.test{
-  background-color: black;
-  width: 35vw;
-}
 
 .aldo{
   gap: 4vh;
   margin-top: 2%;
 }
+
+select[disabled] {
+
+  background-color: #f2f2f2;
+}
+
 
 footer {
   background-color: #352244;

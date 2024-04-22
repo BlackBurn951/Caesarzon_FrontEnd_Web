@@ -1,59 +1,104 @@
-.body {
-  display: flex;
+
+.container{
   align-items: center;
   justify-content: center;
-  min-height: 100vh;
+  margin-top: 3%;
 }
-.container{
-  max-width: 1200px;
-  width: 95%;
+
+.card-list {
+  display: flex;
+  justify-content: center;
+  justify-content: space-between;
+  margin-top: 3%;
+  margin-bottom: 5%;
 }
-.slider-wrapper{
-  position: relative;
+.card-list .card .card-body{
+  width: 300px;
+  height: 150px;
 }
-.slider-wrapper .slide-button{
-  position: absolute;
-  top: 50%;
- height: 50px;
-  width: 50px;
-  color: white;
-  background-color: lightgray;
-  font-size: 2.2rem;
-  cursor: pointer;
-  border: none;
+.card:hover{
+  transform: scale(1.1);
+  transition: transform 0.3s ease;
+}
+/* Rendi il bottone "Dettagli" responsivo */
+.btn-primary {
+  display: block; /* Assicura che il pulsante sia un blocco per occupare l'intera larghezza del contenitore */
+  width: 60%; /* Imposta la larghezza al 100% per adattarsi al contenitore genitore */
+}
+
+/* Rendi la descrizione responsiva */
+.card-body {
+  max-width: 100%; /* Imposta la larghezza massima al 100% per adattarsi al contenitore genitore */
+}
+
+.card-title {
+  font-size: 1rem; /* Imposta una dimensione del titolo della card responsiva */
+}
+
+.card-body > .container {
+  width: 100%; /* Assicura che il contenitore della descrizione occupi l'intera larghezza della card */
+}
+
+
+.search-container {
+  display: flex;
+  margin: 20px;
+}
+
+.search-container input[type=text] {
+  padding: 10px;
+  width: 35%;
+  border: 1px solid #ccc;
+  border-radius: 5px 0 0 5px;
   outline: none;
+  margin-left: 31%;
+}
+
+.search-container button {
+  padding: 10px 15px;
+  background: #007bff;
+  color: white;
+  border: 1px solid #007bff;
+  border-radius: 0 5px 5px 0;
+  cursor: pointer;
+}
+
+.search-container button:hover {
+  background: #0056b3;
+}
+
+/* Stili per il responsive design */
+@media screen and (max-width: 600px) {
+  .search-container{
+    margin-right: 25%;
+  }
+  .search-container input[type=text] {
+    width: 50%;
+  }
+  .search-container button {
+    width: 30%;
+  }
+}
+
+.btnArrow {
+  width: 50px;
+  height: 50px;
+  margin-top: 20%;
   border-radius: 50%;
-  transform: translateY(-50%);
+  border: none;
+  background: none ;
+}
+.btnArrow:hover{
+  background-color: #634080;
+}
+.arrow{
+  width: 20px;
+  height: 20px;
 }
 
 
-.slide-button .arrowImage{
-  width: 30px;
-  height: 30px;
-  margin-left: 5%;
-}
 
-.slider-wrapper .slide-button#prev-slide{
-  left: -20px;
-}
 
-.slider-wrapper .slide-button#next-slide{
-  right: -20px;
-}
-.slider-wrapper .card-list{
-  display: grid;
-  gap: 41px;
-  font-size: 0;
-  margin-bottom: 30px;
-  overflow-x: auto;
-  scrollbar-width: none;
-  grid-template-columns: repeat(10,1fr);
-}
 
-.slider-wrapper .card-list .card{
-  width: 325px;
-  height: 475px;
-  object-fit: cover;
-  margin-left: 22%;
-  margin-top: 15%;
-}
+
+

@@ -13,7 +13,13 @@ import {PersonalDataComponent} from "./personal-data/personal-data.component";
 import {ReportsComponent} from "./reports/reports.component";
 import {FooterComponent} from "./footer/footer.component";
 import {UserPaymentDataComponent} from "./user-payment-data/user-payment-data.component";
-//import {PaymentFirstPageComponent} from "./payment-first-page/payment-first-page.component";
+import {PaymentFirstPageComponent} from "./payment-first-page/payment-first-page.component";
+import {HelpRequestComponent} from "./help-request/help-request.component";
+import {UserManagementContainerComponent} from "./user-management-container/user-management-container.component";
+import {FriendsPopupComponent} from "./friends-popup/friends-popup.component";
+import {UserAddressDataComponent} from "./user-address-data/user-address-data.component";
+import {WishListComponent} from "./wish-list/wish-list.component";
+import {PaymentSecondPageComponent} from "./payment-second-page/payment-second-page.component";
 
 
 export const routes: Routes = [
@@ -25,7 +31,11 @@ export const routes: Routes = [
   {path: 'shopping-cart', component: ShoppingCartComponent},
   {path: 'personal-data', component: PersonalDataComponent},
   {path: 'payment-data', component: UserPaymentDataComponent},
-  //{path: 'payment-first-page', component: PaymentFirstPageComponent},
+  {path: 'payment-first-page', component: PaymentFirstPageComponent},
+  {path: 'payment-second-page', component: PaymentSecondPageComponent},
+  {path: 'help-request', component: HelpRequestComponent},
+  {path: 'address-data', component: UserAddressDataComponent},
+  {path: 'wish-list', component: WishListComponent},
 ];
 
 @NgModule({
@@ -38,6 +48,9 @@ export const routes: Routes = [
     ShoppingCartComponent,
     ReviewComponent,
     ReportsComponent,
+    FriendsPopupComponent,
+    PaymentFirstPageComponent,
+    PaymentSecondPageComponent,
   ],
   imports: [
     NgIf,
@@ -45,9 +58,9 @@ export const routes: Routes = [
     FormsModule,
     NgForOf,
     ReactiveFormsModule,
-    FormsModule,
     FooterComponent,
-    PersonalDataComponent
+    PersonalDataComponent,
+    UserManagementContainerComponent
   ],
   providers: [],
   exports: [

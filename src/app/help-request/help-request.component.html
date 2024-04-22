@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>E-commerce</title>
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<section class="d-flex flex-row align-items-center aldo">
+  <div class="ml-4">
+    <app-user-management-container></app-user-management-container>
+  </div>
+
+
+  <div class="container-fluid d-flex flex-column align-items-left">
+     <div class="d-flex flex-column align-items-center">
+          <label>Motivo della richiesta:</label>
+          <select class="form-select selectionIn btn btn-dark custom-bln" name="where">
+            <option>Ordine</option>
+            <option>Spedizione</option>
+            <option>Resi e rimborsi</option>
+            <option>Domande sui prodotti</option>
+            <option>Assistenza post-vendita</option>
+            <option>Problemi tecnici</option>
+            <option>Modifiche dell'account</option>
+            <option>Promozioni e sconti</option>
+            <option>Feedback e suggerimenti</option>
+            <option>Assistenza personalizzata</option>
+          </select>
+        </div>
+
+    <section class="form-group d-flex flex-column align-items-center">
+      <div class="d-flex flex-column align-items-center">
+
+        <div class="d-flex flex-column align-items-center">
+          <label>Oggetto:</label>
+          <input class="form-control"  type="text" id="oggetto" maxlength="50"> <!-- Imposta la larghezza a 300px -->
+
+          <div class="form-group d-flex flex-column align-items-center">
+            <label>Descrizione:</label>
+            <textarea class="form-control"  id="descrizione" rows="6" cols="50" maxlength="500"></textarea>
+          </div>
+        </div>
+
+      </div>
+      <button type="button" class="btn btn-dark custom-btn">Invia richiesta</button>
+
+    </section>
+
+
+  </div>
+
+</section>
+</body>
+<footer>
+  <app-footer></app-footer>
+</footer>
+</html>

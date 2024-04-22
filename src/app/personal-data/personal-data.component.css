@@ -1,11 +1,14 @@
-.test{
-  background-color: black;
-  width: 35vw;
-}
-
-
 
 .aldo{
-  gap: 10vh;
-  margin-top: 10vh;
+  gap: 4vh;
+  margin-top: 2%;
+}
+
+footer {
+  background-color: #352244;
+  text-align: center;
+  color: white;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
 }

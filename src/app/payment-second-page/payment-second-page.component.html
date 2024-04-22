@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>E-commerce</title>
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<section class="container orders">
+  <label>Riepilogo ordine:</label>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group">
+        <label>Prodotto 1:</label>
+        <img class="form-control" id="product1" alt="">
+      </div>
+      <div class="form-group">
+        <label >Prodotto 2:</label>
+        <img class="form-control" id="product2" alt="">
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group">
+        <label >Prodotto 3:</label>
+        <img class="form-control" id="product3" alt="">
+      </div>
+      <div class="form-group">
+        <label >Prodotto 4:</label>
+        <img class="form-control" id="product4" alt="">
+      </div>
+    </div>
+  </div>
+</section>
+<div class="container finalButton ">
+  <div class="row">
+    <div class="endButtons col-md-6">
+      <button type="button" class="button btn-secondary" (click)="goBackToCart()">Annulla</button>
+      <button type="button" class="button btn-primary">PAGAH</button>
+    </div>
+  </div>
+</div>
+</body>
+<footer>
+  <app-footer></app-footer>
+</footer>
+</html>
+
