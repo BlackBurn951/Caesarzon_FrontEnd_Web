@@ -4,7 +4,6 @@
 
 header{
   background: #634080;
-
 }
 
 .custom-btns {
@@ -30,8 +29,22 @@ header{
   margin-left: 1vw;
   display: flex;
   gap:1vw;
+  justify-content: end;
 }
 
+.navbar #accesso{
+  margin-left: 70%;
+  display: flex;
+}
+#secondNav{
+  margin-left: 15%;
+}
+.nav-item{
+  list-style: none;
+}
+#notiche{
+  margin-left: 3%;
+}
 .navbar {
   background-color: #634080;
 }
@@ -39,7 +52,6 @@ header{
 .navbar-nav {
   display: flex;
   list-style: none;
-  padding: 0;
 }
 
 .nav-link {
@@ -78,7 +90,7 @@ header{
   display: none;
   position: absolute;
   background: #634080;
-  padding: 10px;
+  padding: 8px;
   z-index: 1;
 }
 
@@ -88,7 +100,7 @@ header{
 
 .dropdown-item{
   display: block;
-  padding: 8px 12px;
+  padding: 3px 5px;
   color: #333;
   text-decoration: none;
 }
