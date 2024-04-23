@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import {PopupService} from "../popUpService";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-product-page',
@@ -7,11 +9,20 @@ import { Component } from '@angular/core';
 })
 export class ProductPageComponent {
 
+  constructor(public popUpService:PopupService, private router:Router) {
+  }
+
   ngOnInit() {
     const can= document.getElementById("5-star-graph") as HTMLCanvasElement
     const context = can.getContext('2d');
 
     this.drawGraphs(context!)
+
+  }
+
+  instaBuy(event: Event){
+    this.router.navigate(['payment-first-page']);
+    event.preventDefault()
 
   }
 

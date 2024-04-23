@@ -1,11 +1,22 @@
 .left-containers{
   background-color: #F7F7F7;
   border: 1px solid black;
-  max-height: 40vh;
-  min-height: 40vh;
+  max-height: 30vh;
+  min-height: 30vh;
   overflow: auto;
 }
+p{
+  font-weight: bold;
+}
 
+footer {
+  background-color: #352244;
+  text-align: center;
+  color: white;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
 .container-total{
   background-color: #F7F7F7;
   border: 1px solid black;
