@@ -44,30 +44,6 @@ export class PersonalDataComponent implements OnInit{
   }
 
 
-  handleFileInput(event: any, index: number) {
-    const file = event.target.files[0];
-    const maxSize = 3 * 1024 * 1024; // 6 MB
-
-    if (file) {
-      if (file.size > maxSize) {
-        this.popUpService.updateStringa("La dimensione massima del file è di 6 MB.");
-        this.popUpService.apriPopUp();
-      } else {
-        const reader = new FileReader();
-        reader.onload = () => {
-          const imageUrl = reader.result as string;
-          if (!this.imageUrls.includes(imageUrl)) {
-            this.imageUrls[index] = imageUrl;
-          } else {
-            this.popUpService.updateStringa("Immagine già caricata!");
-            this.popUpService.apriPopUp();
-          }
-        };
-        reader.readAsDataURL(file);
-      }
-    }
-  }
-
   onFileSelected(event: any) {
     const file = event.target.files[0];
     const reader = new FileReader();
@@ -83,16 +59,6 @@ export class PersonalDataComponent implements OnInit{
     reader.readAsDataURL(file);
   }
 
-
-
-
-  openFileInput(event: MouseEvent, index: number) {
-    const input = document.getElementById('file-input' + index) as HTMLInputElement;
-    if (input) {
-      input.click();
-    }
-    event.preventDefault();
-  }
 
   abilitaInput(): void{
     this.inputAbilitato = !this.inputAbilitato;

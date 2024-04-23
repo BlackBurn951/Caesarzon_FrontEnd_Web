@@ -18,3 +18,29 @@
 .para{
   text-align: center;
 }
+
+.label-containers{
+  margin-top: 1%;
+  margin-bottom: 0;
+  margin-left: 2%;
+}
+
+a:link {
+  text-decoration: none;
+  color: #FF9C00;
+}
+
+a:visited {
+  text-decoration: none;
+  color: #FF9C00;
+}
+
+a:hover {
+  text-decoration: none;
+  color: #a96c00;
+}
+
+a:active {
+  text-decoration: none;
+  color: #FF9C00;
+}
