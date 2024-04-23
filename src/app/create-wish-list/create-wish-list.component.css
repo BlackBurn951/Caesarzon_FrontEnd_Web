@@ -1,0 +1,92 @@
+
+.ics:active {
+  background-color: #FF9C00 !important;
+  box-shadow: 0 0 3px 1px #000000 !important;
+  border-color: black;
+}
+
+.ics {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  border-color: black;
+  background-color: #FF9C00;
+  color: #ffffff;
+  width: 2%;
+  height: 7%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.ics:focus {
+  border-color: black;
+  background-color: #FF9C00;
+  box-shadow: 0 0 3px 1px #000000;
+
+}
+
+.ics:hover {
+  background-color: #a96c00;
+  border-color: black;
+}
+
+.regLog{
+  border: 1px solid #08090B;
+  border-radius: 1.5vh;
+
+}
+
+.al{
+  margin-bottom: 2vh;
+}
+
+.gruppoInputDesc{
+  width: 20vw;
+
+}
+
+.container-fluidos {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 70%;
+  max-width: 35%;
+  max-height: 80vh;
+  overflow-y: auto;
+  background-color: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+
+
+@media (min-width: 1000px) {
+  .container-fluid {
+    width: 50%;
+  }
+}
+
+
+.stars {
+  font-size: 30px;
+  cursor: pointer;
+}
+
+.star {
+  color: rgb(128, 128, 128);
+}
+
+.star.filled {
+  color: gold;
+}
+
+textarea{
+  resize: none;
+}
+
+
+label{
+  font-weight: bold;
+}
