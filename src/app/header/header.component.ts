@@ -30,23 +30,25 @@ export class HeaderComponent {
     this.isMenuOpen = !this.isMenuOpen;
   }
 
-  goToProductManagement() {
+  /*goToProductManagement() {
     this.router.navigate(['product-managment']);
+  }*/
+
+
+
+
+  changePage(event: Event,page:string) {
+    this.router.navigate([page]);
+    event.preventDefault();
   }
 
-  goToShoppingCart() {
-    this.router.navigate(['shopping-cart'])
-  }
-
-    protected readonly open = open;
-
-  openPersonalData(event: Event) {
-    this.router.navigate(['personal-data']);
+  openAdminArea(event: Event) {
+    this.router.navigate(['admin-area']);
     event.preventDefault()
   }
 
-  goToProductPage(event: Event) {
-    this.router.navigate(['product-page']);
-    event.preventDefault();
-  }
+
+
+
+
 }

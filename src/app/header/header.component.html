@@ -10,25 +10,74 @@
 </head>
 
 <header>
-  <nav class="navbar navbar-expand-sm navbar-light custom-navbar">
-    <a class="navbar-brand text-light" href="#">CAESARZON</a>
+  <nav class="navbar navbar-expand-md navbar-light custom-navbar">
+
+    <a class="navbar-brand text-light logo" href="#">CAESARZON</a>
+
+    <div class="search-container">
+      <input type="text" placeholder="Cerca...">
+      <button class="btn btn-dark custom-btn ml-1" type="submit">Cerca</button>
+    </div>
+
+    <ul *ngIf="userData.isLogged" class="navbar-nav ml-auto">
+      <div  class="bottonis" >
+        <li class="nav-item">
+          <div class="dropdown">
+            <button class="menu-item btn btn-dark custom-btn dropdown-toggle" type="button" (click)="changePage($event,'personal-data')">
+              Profilo
+            </button>
+            <div class="dropdown-menu" >
+              <a class="dropdown-item" (click)="changePage($event,'personal-data')">Anagrafica</a>
+              <a class="dropdown-item" (click)="changePage($event,'address-data')">Indirizzi</a>
+              <a class="dropdown-item" (click)="changePage($event, 'payment-data')">Metodi di pagamento</a>
+              <a class="dropdown-item" (click)="changePage($event, 'wish-list')">Lista dei desideri</a>
+              <a class="dropdown-item" (click)="changePage($event, 'da-fare')">Ordini</a>
+              <a class="dropdown-item" (click)="changePage($event, 'help-request')">Assistenza</a>
+            </div>
+          </div>
+        </li>
+
+
+        <li class="nav-item">
+          <button id="carr" class="menu-item btn btn-dark custom-btns" (click)="changePage($event,'shopping-cart')">Carrello</button>
+        </li>
+
+        <li id="amici" class="nav-item">
+          <button class="menu-item btn btn-dark custom-btns" (click)="popupService.openPopupReport()">Amici</button>
+        </li>
+
+      </div>
+    </ul>
+
+    <ul *ngIf="!userData.isLogged"  class="navbar-nav ml-auto">
+      <div class="bottonis">
+        <li class="nav-item ">
+          <button class="menu-item btn btn-dark custom-btns" (click)="popupService.openPopupLoginRegistration()">Accedi</button>
+        </li>
+        <li class="nav-item">
+          <button class="menu-item btn btn-dark custom-btns" (click)="changePage($event,'shopping-cart')">Carrello</button>
+        </li>
+      </div>
+    </ul>
+  </nav>
+
+  <nav id="secondNav" class="navbar navbar-expand-md navbar-light">
     <button class="navbar-toggler btn btn-dark custom-btn" type="button" (click)="toggleMenu()">
       <span class="navbar-toggler-icon"></span>
     </button>
-
-    <div class="collapse navbar-collapse" [ngClass]="{'show': isMenuOpen}" id="navbarSupportedContent">
+    <div class="collapse navbar-collapse " [ngClass]="{'show': isMenuOpen}" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item">
-          <a class="nav-link text-light" href="#" (click)="openPersonalData($event)">Bestsellers<span class="sr-only">(current)</span></a>
+          <a class="nav-link text-light ml-1" href="#" (click)="changePage($event,'personal-data')">Prodotti del momento <span class="sr-only">(current)</span></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-light" href="#">Novità</a>
+          <a class="nav-link text-light ml-1" href="#">Novità</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-light" href="#">Offerte</a>
+          <a class="nav-link text-light ml-1" href="#">Offerte</a>
         </li>
         <li class="nav-item dropdown">
-          <a class="nav-link text-light dropdown-toggle" href="#" id="atletica" role="button" aria-haspopup="true" aria-expanded="false">
+          <a class="nav-link text-light dropdown-toggle ml-1" href="#" id="atletica" role="button" aria-haspopup="true" aria-expanded="false">
             Atletica
           </a>
           <div class="dropdown-menu" aria-labelledby="pallavolo">
@@ -37,104 +86,91 @@
           </div>
         </li>
         <li class="nav-item dropdown">
-          <a class="nav-link text-light dropdown-toggle" href="#" id="pallavolo" role="button" aria-haspopup="true" aria-expanded="false" (click)="goToProductPage($event)">
+          <a class="nav-link text-light dropdown-toggle ml-1" href="#" id="pallavolo" role="button" aria-haspopup="true" aria-expanded="false" (click)="changePage($event, 'product-page')">
             Pallavolo
           </a>
           <div class="dropdown-menu" aria-labelledby="pallavolo">
-            <a class="dropdown-item" href="#" (click)="goToProductPage($event)">Abbigliamento</a>
-            <a class="dropdown-item" href="#" (click)="goToProductPage($event)">Attrezzatura</a>
+            <a class="dropdown-item" href="#" (click)="changePage($event, 'product-page')">Abbigliamento</a>
+            <a class="dropdown-item" href="#" (click)="changePage($event, 'product-page')">Attrezzatura</a>
           </div>
         </li>
         <li class="nav-item dropdown">
-          <a class="nav-link text-light dropdown-toggle" href="#" id="basket" role="button" aria-haspopup="true" aria-expanded="false" (click)="goToProductPage($event)">
+          <a class="nav-link text-light dropdown-toggle ml-1" href="#" id="basket" role="button" aria-haspopup="true" aria-expanded="false" (click)="changePage($event, 'product-page')">
             Basket
           </a>
           <div class="dropdown-menu" aria-labelledby="basket">
-            <a class="dropdown-item" href="#" (click)="goToProductPage($event)">Abbigliamento</a>
-            <a class="dropdown-item" href="#" (click)="goToProductPage($event)">Attrezzatura</a>
+            <a class="dropdown-item" href="#" (click)="changePage($event, 'product-page')">Abbigliamento</a>
+            <a class="dropdown-item" href="#" (click)="changePage($event, 'product-page')">Attrezzatura</a>
           </div>
         </li>
         <li class="nav-item dropdown">
-          <a class="nav-link text-light dropdown-toggle" href="#" id="Tennis" role="button" aria-haspopup="true" aria-expanded="false" (click)="goToProductPage($event)">
+          <a class="nav-link text-light dropdown-toggle ml-1" href="#" id="Tennis" role="button" aria-haspopup="true" aria-expanded="false" (click)="changePage($event, 'product-page')">
             Tennis
           </a>
           <div class="dropdown-menu" aria-labelledby="Tennis">
-            <a class="dropdown-item" href="#" (click)="goToProductPage($event)">Abbigliamento</a>
-            <a class="dropdown-item" href="#" (click)="goToProductPage($event)">Attrezzatura</a>
+            <a class="dropdown-item" href="#" (click)="changePage($event, 'product-page')">Abbigliamento</a>
+            <a class="dropdown-item" href="#" (click)="changePage($event, 'product-page')">Attrezzatura</a>
           </div>
         </li>
         <li class="nav-item dropdown">
-          <a class="nav-link text-light dropdown-toggle" href="#" id="Nuoto" role="button" aria-haspopup="true" aria-expanded="false" (click)="goToProductPage($event)">
+          <a class="nav-link text-light dropdown-toggle ml-1" href="#" id="Nuoto" role="button" aria-haspopup="true" aria-expanded="false" (click)="changePage($event, 'product-page')">
             Nuoto
           </a>
           <div class="dropdown-menu" aria-labelledby="Nuoto">
-            <a class="dropdown-item" href="#" (click)="goToProductPage($event)">Abbigliamento</a>
-            <a class="dropdown-item" href="#" (click)="goToProductPage($event)">Attrezzatura</a>
+            <a class="dropdown-item" href="#" (click)="changePage($event, 'product-page')">Abbigliamento</a>
+            <a class="dropdown-item" href="#" (click)="changePage($event, 'product-page')">Attrezzatura</a>
           </div>
         </li>
         <li class="nav-item dropdown">
-          <a class="nav-link text-light dropdown-toggle" href="#" id="Calcio" role="button" aria-haspopup="true" aria-expanded="false" (click)="goToProductPage($event)">
+          <a class="nav-link text-light dropdown-toggle ml-1" href="#" id="Calcio" role="button" aria-haspopup="true" aria-expanded="false" (click)="changePage($event, 'product-page')">
             Calcio
           </a>
           <div class="dropdown-menu" aria-labelledby="Calcio">
-            <a class="dropdown-item" href="#" (click)="goToProductPage($event)">Abbigliamento</a>
-            <a class="dropdown-item" href="#" (click)="goToProductPage($event)">Attrezzatura</a>
+            <a class="dropdown-item" href="#" (click)="changePage($event, 'product-page')">Abbigliamento</a>
+            <a class="dropdown-item" href="#" (click)="changePage($event, 'product-page')">Attrezzatura</a>
           </div>
         </li>
         <li class="nav-item dropdown">
-          <a class="nav-link text-light dropdown-toggle" href="#" id="ArtiMarziali" role="button" aria-haspopup="true" aria-expanded="false" (click)="goToProductPage($event)">
+          <a class="nav-link text-light dropdown-toggle ml-1" href="#" id="ArtiMarziali" role="button" aria-haspopup="true" aria-expanded="false" (click)="changePage($event, 'product-page')">
             Arti marziali
           </a>
           <div class="dropdown-menu" aria-labelledby="ArtiMarziali">
-            <a class="dropdown-item" href="#" (click)="goToProductPage($event)">Boxe</a>
-            <a class="dropdown-item" href="#" (click)="goToProductPage($event)">Karate</a>
-            <a class="dropdown-item" href="#" (click)="goToProductPage($event)">Muay Thai</a>
-            <a class="dropdown-item" href="#" (click)="goToProductPage($event)">Judo</a>
-            <a class="dropdown-item" href="#" (click)="goToProductPage($event)">Lotta</a>
+            <div class="dropdown dropright">
+              <a id="boxe" class="dropdown-toggle">Boxe</a>
+              <div class="dropdown-menu">
+                <a class="dropdown-item">Attrezzatura</a>
+                <a class="dropdown-item">Abbigliamento</a>
+              </div>
+            </div>
+            <a class="dropdown-item" href="#" (click)="changePage($event, 'product-page')">Karate</a>
+            <a class="dropdown-item" href="#" (click)="changePage($event, 'product-page')">Muay Thai</a>
+            <a class="dropdown-item" href="#" (click)="changePage($event, 'product-page')">Judo</a>
+            <a class="dropdown-item" href="#" (click)="changePage($event, 'product-page')">Lotta</a>
           </div>
         </li>
         <li class="nav-item dropdown">
-          <a class="nav-link text-light dropdown-toggle" href="#" id="Ciclismo" role="button" aria-haspopup="true" aria-expanded="false" (click)="goToProductPage($event)">
+          <a class="nav-link text-light dropdown-toggle ml-1" href="#" id="Ciclismo" role="button" aria-haspopup="true" aria-expanded="false" (click)="changePage($event, 'product-page')">
             Ciclismo
           </a>
           <div class="dropdown-menu" aria-labelledby="Ciclismo">
-            <a class="dropdown-item" href="#" (click)="goToProductPage($event)">Abbigliamento</a>
-            <a class="dropdown-item" href="#" (click)="goToProductPage($event)">Attrezzatura</a>
+            <a class="dropdown-item" href="#" (click)="changePage($event, 'product-page')">Abbigliamento</a>
+            <a class="dropdown-item" href="#" (click)="changePage($event, 'product-page')">Attrezzatura</a>
           </div>
         </li>
         <li class="nav-item dropdown">
-          <a class="nav-link text-light dropdown-toggle" href="#" id="Sciismo" role="button" aria-haspopup="true" aria-expanded="false" (click)="goToProductPage($event)">
+          <a class="nav-link text-light dropdown-toggle ml-1" href="#" id="Sciismo" role="button" aria-haspopup="true" aria-expanded="false" (click)="changePage($event, 'product-page')">
             Sciismo
           </a>
           <div class="dropdown-menu" aria-labelledby="Sciismo">
-            <a class="dropdown-item" href="#" (click)="goToProductPage($event)">Abbigliamento</a>
-            <a class="dropdown-item" href="#" (click)="goToProductPage($event)">Attrezzatura</a>
+            <a class="dropdown-item" href="#" (click)="changePage($event, 'product-page')">Abbigliamento</a>
+            <a class="dropdown-item" href="#" (click)="changePage($event, 'product-page')">Attrezzatura</a>
           </div>
         </li>
-      </ul>
-      <ul class="navbar-nav ml-auto">
-        <div *ngIf="!userData.isLogged" class="bottonis">
-          <li class="nav-item ">
-            <button class="menu-item btn btn-dark custom-btns" (click)="popupService.openPopupLoginRegistration()">Accedi</button>
-          </li>
-          <li class="nav-item">
-            <button class="menu-item btn btn-dark custom-btns" (click)="goToShoppingCart()">Carrello</button>
-          </li>
-        </div>
-        <div *ngIf="userData.isLogged" class="bottonis">
-          <li class="nav-item ">
-            <button class="menu-item btn btn-dark custom-btns" (click)="popupService.openPopupLoginRegistration()">Profilo</button>
-          </li>
-          <li class="nav-item">
-            <button class="menu-item btn btn-dark custom-btns" (click)="popupService.openPopupReport()">Carrello</button>
-          </li>
-          <li class="nav-item">
-            <button class="menu-item btn btn-dark custom-btns" (click)="popupService.openPopupReport()">Amici</button>
-          </li>
-        </div>
+        <li id="notiche" *ngIf="userData.isLogged">
+          <button class="menu-item btn-xs btn-dark custom-btns">Notifiche<span class="badge">7</span></button>
+        </li>
       </ul>
     </div>
   </nav>
 </header>
-
 </html>

@@ -10,108 +10,214 @@
 </head>
 
 <body>
-  <div class="container-fluid">
-    <div class="row">
-
-      <div class="col-md-9">  <!--LISTA DEI PRODOTTI-->
-
-      <!-- <div *ngFor="let sesso of sex"> -->  <!--PRODOTTI NEL CARRELLO-->
+    <div class="container-fluid">
       <div class="row">
-          <div class="container left-containers mt-4">
-              <div class="scroll-row">
-                  <div class="row mt-2">
-                      <div class="col">
-                          <div class="row product-row">  <!--RIGA DEL SINGOLO PRODOTTO -->
-                            <div class="col-5 align-content-center">
-                                <p>Immagine prod</p>
-                            </div>
 
-                            <div class="col">
-                                <div class="row">
-                                    <p>Nome prod</p>
-                                </div>
-                                <div class="row">
-                                    <p>Quantità</p>
-                                </div>
-                                <div class="row">
-                                    <p>Acquista più tardi</p>
-                                </div>
-                            </div>
-                          </div>
-                      </div>
-                      <div class="col">
-                          <div class="row product-row">  <!--RIGA DEL SINGOLO PRODOTTO -->
-                              <div class="col-5 align-content-center">
-                                  <p>Immagine prod</p>
-                              </div>
+        <div class="col-md-9">  <!--LISTA DEI PRODOTTI-->
+          <div class="row">
+            <p class="label-containers">Carrello</p>
 
-                              <div class="col">
-                                  <div class="row">
-                                      <p>Nome prod</p>
-                                  </div>
-                                  <div class="row">
-                                      <p>Quantità</p>
-                                  </div>
-                                  <div class="row">
-                                      <p>Acquista più tardi</p>
-                                  </div>
-                              </div>
-                          </div>
+            <div class="container left-containers ml-2">  <!-- CARRELLO -->
+              <div class="form-check">
+                <div class="row mt-2">
+                  <div class="col">
+                    <div class="row product-row">  <!--RIGA DEL SINGOLO PRODOTTO -->
+                      <div class="col-5 align-content-center">
+                        <p>Immagine prod</p>
                       </div>
+
+                      <div class="col">
+                        <div class="row">
+                          <p>Nome prod</p>
+                        </div>
+                        <div class="row">
+                          <div class="col-3 pl-0">
+                            <p>Quantità</p>
+                          </div>
+                          <div class="col-1 pl-0">
+                            <select name ="quantity-selection" id="quantity">
+                              <option value="1">1</option>
+                              <option value="2">2</option>
+                              <option value="3">3</option>
+                              <option value="4">4</option>
+                              <option value="5">5</option>
+                              <option value="6">6</option>
+                              <option value="7">7</option>
+                              <option value="8">8</option>
+                              <option value="9">9</option>
+                              <option value="10">10</option>
+                            </select>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <a href="#">Acquista più tardi</a>
+                        </div>
+                        <div class="row mt-2">
+                          <input class="form-check-input" type="checkbox" value="in-cart" id="flexCheckDefaults" checked>
+                          <label class="form-check-label" for="flexCheckDefaults">
+                            Nel ordine
+                          </label>
+                        </div>
+                        <div class="row mt-2">
+                          <a href="#">Rimuovi</a>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <div class="row mt-2">
-                      <div class="col">
-                          <div class="row product-row">  <!--RIGA DEL SINGOLO PRODOTTO -->
-                              <div class="col-5 align-content-center">
-                                  <p>Immagine prod</p>
-                              </div>
-
-                              <div class="col">
-                                  <div class="row">
-                                      <p>Nome prod</p>
-                                  </div>
-                                  <div class="row">
-                                      <p>Quantità</p>
-                                  </div>
-                                  <div class="row">
-                                      <p>Acquista più tardi</p>
-                                  </div>
-                              </div>
-                          </div>
+                  <div class="col">
+                    <div class="row product-row">  <!--RIGA DEL SINGOLO PRODOTTO -->
+                      <div class="col-5 align-content-center">
+                        <p>Immagine prod</p>
                       </div>
-                      <div class="col">
-                          <div class="row product-row">  <!--RIGA DEL SINGOLO PRODOTTO -->
-                              <div class="col-5 align-content-center">
-                                  <p>Immagine prod</p>
-                              </div>
 
-                              <div class="col">
-                                  <div class="row">
-                                      <p>Nome prod</p>
-                                  </div>
-                                  <div class="row">
-                                      <p>Quantità</p>
-                                  </div>
-                                  <div class="row">
-                                      <p>Acquista più tardi</p>
-                                  </div>
-                              </div>
+                      <div class="col">
+                        <div class="row">
+                          <p>Nome prod</p>
+                        </div>
+                        <div class="row">
+                          <div class="col-3 pl-0">
+                            <p>Quantità</p>
                           </div>
+                          <div class="col-1 pl-0">
+                            <select name ="quantity-selection" id="quantity">
+                              <option value="1">1</option>
+                              <option value="2">2</option>
+                              <option value="3">3</option>
+                              <option value="4">4</option>
+                              <option value="5">5</option>
+                              <option value="6">6</option>
+                              <option value="7">7</option>
+                              <option value="8">8</option>
+                              <option value="9">9</option>
+                              <option value="10">10</option>
+                            </select>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <a href="#">Acquista più tardi</a>
+                        </div>
+                        <div class="row mt-2">
+                          <input class="form-check-input" type="checkbox" value="in-cart" id="flexCheckDefault"  checked>
+                          <label class="form-check-label" for="flexCheckDefault">
+                            Nel ordine
+                          </label>
+                        </div>
+                        <div class="row mt-2">
+                          <a href="#">Rimuovi</a>
+                        </div>
                       </div>
+                    </div>
                   </div>
+                </div>
               </div>
-        </div>
-      </div>
-      <!-- </div> -->
-        <div class="row">  <!--ACQUISTA PIù TARDI-->
-          <p>sso1</p>
-        </div>
-      </div>
+            </div>
+          </div>
 
-      <div class="col md">  <!--SEZIONE DI ACQUISTO-->
-        <p>so2</p>
+          <div class="row">
+            <p class="label-containers">Acquista più tardi</p>
+            <div class="container left-containers mb-2 ml-2">  <!-- ACQUISTA PIù TARDI -->
+              <div class="row mt-2">
+                <div class="col">
+                  <div class="row product-row">  <!--RIGA DEL SINGOLO PRODOTTO -->
+                    <div class="col-5 align-content-center">
+                      <p>Immagine prod</p>
+                    </div>
+
+                    <div class="col">
+                      <div class="row">
+                        <p>Nome prod</p>
+                      </div>
+                      <div class="row">
+                        <div class="col-3 pl-0">
+                          <p>Quantità</p>
+                        </div>
+                        <div class="col-1 pl-0">
+                          <select name ="quantity-selection" id="quantity">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <a href="#">Metti nel carrello</a>
+                      </div>
+                      <div class="row mt-2">
+                        <a href="#">Rimuovi</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="row product-row">  <!--RIGA DEL SINGOLO PRODOTTO -->
+                    <div class="col-5 align-content-center">
+                      <p>Immagine prod</p>
+                    </div>
+
+                    <div class="col">
+                      <div class="row">
+                        <p>Nome prod</p>
+                      </div>
+                      <div class="row">
+                        <div class="col-3 pl-0">
+                          <p>Quantità</p>
+                        </div>
+                        <div class="col-1 pl-0">
+                          <select name ="quantity-selection" id="quantity">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <a href="#">Metti nel carrello</a>
+                      </div>
+                      <div class="row mt-2">
+                        <a href="#">Rimuovi</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col md mt-5">  <!--SEZIONE DI ACQUISTO-->
+
+          <div class="container container-total mt-5 mb-2">
+            <div class="row d-flex flex-column align-items-center mt-4">
+              <p class="para">Prodotti nel carrello 25</p>
+            </div>
+            <div class="row d-flex flex-column align-items-center">
+              <p class="para">Totale carrello 25</p>
+            </div>
+            <div class="row d-flex flex-column align-items-center">
+              <button type="button" class="btn-primary mt-5 mb-2">Acquista</button>
+            </div>
+          </div>
+
+        </div>
+
       </div>
     </div>
-  </div>
 </body>
+<footer>
+<app-footer></app-footer>
+</footer>
 </html>

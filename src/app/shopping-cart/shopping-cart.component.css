@@ -1,15 +1,46 @@
-.scroll-row{
-  overflow: auto;
-  overflow-x: hidden;
-}
 .left-containers{
   background-color: #F7F7F7;
   border: 1px solid black;
+  max-height: 40vh;
+  min-height: 40vh;
+  overflow: auto;
 }
 
-.product-row{
+.container-total{
+  background-color: #F7F7F7;
+  border: 1px solid black;
+  min-height: 50%;
+}
+.prodotto-singolo{
   border: 1px solid black;
 }
-.scroll-row{
-  height: 50%;
+
+.para{
+  text-align: center;
+}
+
+.label-containers{
+  margin-top: 1%;
+  margin-bottom: 0;
+  margin-left: 2%;
+}
+
+a:link {
+  text-decoration: none;
+  color: #FF9C00;
+}
+
+a:visited {
+  text-decoration: none;
+  color: #FF9C00;
+}
+
+a:hover {
+  text-decoration: none;
+  color: #a96c00;
+}
+
+a:active {
+  text-decoration: none;
+  color: #FF9C00;
 }

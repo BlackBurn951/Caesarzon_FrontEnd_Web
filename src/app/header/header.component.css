@@ -4,8 +4,50 @@
 
 header{
   background: #634080;
+}
+
+@media screen and (max-width: 1070px){
+  .logo{
+    display: none;
+  }
+  .search-container button{
+    display: none;
+  }
+
 
 }
+.dropdown-item{
+  cursor: pointer;
+}
+
+@media screen and (max-width: 650px){
+  .search-container button{
+    display: none;
+  }
+
+  .logo{
+    display: none;
+  }
+  #amici{
+    display: none;
+  }
+  #carr{
+    display: none;
+  }
+
+}
+
+@media screen and (min-width: 1075px){
+  #secondNav{
+    margin-left: 15%;
+  }
+}
+
+.custom-navbar{
+  z-index: 999;
+}
+
+
 
 .custom-btns {
   border-color: black;
@@ -30,16 +72,24 @@ header{
   margin-left: 1vw;
   display: flex;
   gap:1vw;
+  justify-content: end;
 }
 
+
+.nav-item{
+  list-style: none;
+}
+#notiche{
+  margin-left: 3%;
+}
 .navbar {
+  max-height: 7vh;
   background-color: #634080;
 }
 
 .navbar-nav {
   display: flex;
   list-style: none;
-  padding: 0;
 }
 
 .nav-link {
@@ -70,4 +120,52 @@ header{
   display: block;
 }
 
+.bottonis{
+
+  position: relative;
+}
+
+.dropdown-menu{
+  display: none;
+  position: absolute;
+  background: #634080;
+  padding: 8px;
+}
+
+
+
+
+.dropdown-item{
+  display: block;
+  padding: 3px 5px;
+  color: #333;
+  text-decoration: none;
+}
+
+.dropdown-item:hover{
+  background-color: #634080;
+}
+
+#navbarSupportedContent{
+  background-color: #634080;
+
+
+}
+.navRidotto{
+  margin-left: 20%;
+
+}
+
+.search-container {
+  display: flex;
+  margin-left: auto;
+  position: relative;
+}
+
+.search-container input[type=text] {
+  padding: 10px;
+  width: 40vw;
+  border: 1px solid #ccc;
+  border-radius: 1rem;
+}
 
