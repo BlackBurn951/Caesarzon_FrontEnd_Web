@@ -35,7 +35,6 @@ export class HeaderComponent {
   }*/
 
 
-    //protected readonly open = open;
 
 
   changePage(event: Event,page:string) {
@@ -47,5 +46,9 @@ export class HeaderComponent {
     this.router.navigate(['admin-area']);
     event.preventDefault()
   }
+
+
+
+
 
 }
