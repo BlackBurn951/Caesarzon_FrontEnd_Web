@@ -10,11 +10,21 @@ header{
   .logo{
     display: none;
   }
+  .search-container button{
+    display: none;
+  }
 
 
 }
+.dropdown-item{
+  cursor: pointer;
+}
 
 @media screen and (max-width: 650px){
+  .search-container button{
+    display: none;
+  }
+
   .logo{
     display: none;
   }
@@ -33,6 +43,9 @@ header{
   }
 }
 
+.custom-navbar{
+  z-index: 999;
+}
 
 
 
@@ -117,8 +130,8 @@ header{
   position: absolute;
   background: #634080;
   padding: 8px;
-  z-index: 1;
 }
+
 
 
 
@@ -135,7 +148,6 @@ header{
 
 #navbarSupportedContent{
   background-color: #634080;
-  z-index: 999;
 
 
 }
@@ -146,13 +158,14 @@ header{
 
 .search-container {
   display: flex;
-  margin: auto;
+  margin-left: auto;
+  position: relative;
 }
 
 .search-container input[type=text] {
   padding: 10px;
   width: 40vw;
   border: 1px solid #ccc;
-  border-radius: 1rem
+  border-radius: 1rem;
 }
 

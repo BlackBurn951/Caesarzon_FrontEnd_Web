@@ -47,10 +47,7 @@ export class HeaderComponent {
     event.preventDefault()
   }
 
-  openProfileArea(event: Event) {
-    this.router.navigate(['personal-data']);
-    event.preventDefault()
-  }
+
 
 
 
