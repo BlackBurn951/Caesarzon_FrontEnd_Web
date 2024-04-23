@@ -12,9 +12,9 @@
 <header>
   <nav class="navbar navbar-expand-md navbar-light custom-navbar">
 
-    <a class="navbar-brand text-light logo" href="#">CAESARZON</a>
+    <h1 class="navbar-brand text-light logo" href="#">CAESARZON</h1>
 
-    <div class="search-container">
+    <div class="search-container d-flex flex-row align-items-center">
       <input type="text" placeholder="Cerca...">
       <button class="btn btn-dark custom-btn ml-1" type="submit">Cerca</button>
     </div>
@@ -44,7 +44,7 @@
         </li>
 
         <li id="amici" class="nav-item">
-          <button class="menu-item btn btn-dark custom-btns" (click)="popupService.openPopupReport()">Amici</button>
+          <button class="menu-item btn btn-dark custom-btns" (click)="popupService.openPopupFriends()">Amici</button>
         </li>
 
       </div>
@@ -62,11 +62,11 @@
     </ul>
   </nav>
 
-  <nav id="secondNav" class="navbar navbar-expand-md navbar-light">
+  <nav id="secondNav" class="navbar navbar-expand-md navbar-light d-flex flex-column align-items-center">
     <button class="navbar-toggler btn btn-dark custom-btn" type="button" (click)="toggleMenu()">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse " [ngClass]="{'show': isMenuOpen}" id="navbarSupportedContent">
+    <div class="collapse navbar-collapse" [ngClass]="{'show': isMenuOpen}" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item">
           <a class="nav-link text-light ml-1" href="#" (click)="changePage($event,'personal-data')">Prodotti del momento <span class="sr-only">(current)</span></a>

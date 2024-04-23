@@ -37,11 +37,7 @@ header{
 
 }
 
-@media screen and (min-width: 1075px){
-  #secondNav{
-    margin-left: 15%;
-  }
-}
+
 
 .custom-navbar{
   z-index: 999;
