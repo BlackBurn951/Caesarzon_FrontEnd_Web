@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>E-commerce</title>
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+</head>
+<body>
+<section class="d-flex flex-row align-items-center aldo">
+  <div class="container-fluid pippo">
+    <button class="btn btn-primary custom-btn" (click)="changeSection(0)"><i class="fas fa-search"></i></button>
+    <button class="btn btn-primary custom-btn mt-4" (click)="changeSection(1)"><i class="fas fa-exclamation-circle"></i></button>
+    <button class="btn btn-primary custom-btn mt-4" (click)="changeSection(2)"><i class="fas fa-headset"></i></button>
+    <button class="btn btn-primary custom-btn mt-4" (click)="changeSection(3)"><i class="fas fa-ban"></i></button>
+  </div>
+
+  <div *ngIf="section === 0" class="container-fluid">
+    <div class="row">
+
+      <div class="col-md-9">  <!--LISTA DEI PRODOTTI-->
+        <div class="row">
+          <div class="container left-containers mt-2 ml-2">  <!-- CARRELLO -->
+            <div class="row mt-2">
+              <div class="col">
+                <div class="row product-row">  <!--RIGA DEL SINGOLO PRODOTTO -->
+                  <div class="col-5 align-content-center">
+                    <p>Immagine prod</p>
+                  </div>
+
+                  <div class="col">
+                    <div class="row">
+                      <p>Richiesta</p>
+                      <button class="btn btn-dark custom-btn esse"><i class="fas fa-user-plus"></i></button>
+                      <button class="btn btn-dark custom-btn esse"><i class="fas fa-user-minus"></i></button>
+                    </div>
+                    <div class="row">
+                      <p>Quantità</p>
+                      <button class="btn btn-primary custom-btn esse"><i class="fas fa-user-plus"></i></button>
+                      <button class="btn btn-primary custom-btn esse"><i class="fas fa-user-minus"></i></button>
+                    </div>
+                    <div class="row">
+                      <p>Acquista più tardi</p>
+                      <button class="btn btn-primary custom-btn esse"><i class="fas fa-user-plus"></i></button>
+                      <button class="btn btn-primary custom-btn esse"><i class="fas fa-user-minus"></i></button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div *ngIf="section === 1" class="container-fluid">
+    <div class="row">
+
+      <div class="col-md-9">  <!--LISTA DEI PRODOTTI-->
+        <div class="row">
+          <div class="container left-containers mt-2 ml-2">  <!-- CARRELLO -->
+            <div class="row mt-2">
+              <div class="col">
+                <div class="row product-row">  <!--RIGA DEL SINGOLO PRODOTTO -->
+                  <div class="col-5 align-content-center">
+                    <p>Immagine prod</p>
+                  </div>
+
+                  <div class="col">
+                    <div class="row">
+                      <p>Richiesta</p>
+                      <button class="btn btn-dark custom-btn esse"><i class="fas fa-user-plus"></i></button>
+                      <button class="btn btn-dark custom-btn esse"><i class="fas fa-user-minus"></i></button>
+                    </div>
+                    <div class="row">
+                      <p>Quantità</p>
+                      <button class="btn btn-primary custom-btn esse"><i class="fas fa-user-plus"></i></button>
+                      <button class="btn btn-primary custom-btn esse"><i class="fas fa-user-minus"></i></button>
+                    </div>
+                    <div class="row">
+                      <p>Acquista più tardi</p>
+                      <button class="btn btn-primary custom-btn esse"><i class="fas fa-user-plus"></i></button>
+                      <button class="btn btn-primary custom-btn esse"><i class="fas fa-user-minus"></i></button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="section === 2" class="container-fluid">
+    <div class="row">
+
+      <div class="col-md-9">  <!--LISTA DEI PRODOTTI-->
+        <div class="row">
+          <div class="container left-containers mt-2 ml-2">  <!-- CARRELLO -->
+            <div class="row mt-2">
+              <div class="col">
+                <div class="row product-row">  <!--RIGA DEL SINGOLO PRODOTTO -->
+                  <div class="col-5 align-content-center">
+                    <p>Immagine prod</p>
+                  </div>
+
+                  <div class="col">
+                    <div class="row">
+                      <p>Nome prod</p>
+                    </div>
+                    <div class="row">
+                      <p>Quantità</p>
+                    </div>
+                    <div class="row">
+                      <p>Acquista più tardi</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div *ngIf="section === 3" class="container-fluid">
+    <div class="row">
+
+      <div class="col-md-9">  <!--LISTA DEI PRODOTTI-->
+        <div class="row">
+          <div class="container left-containers mt-2 ml-2">  <!-- CARRELLO -->
+            <div class="row mt-2">
+              <div class="col">
+                <div class="row product-row">  <!--RIGA DEL SINGOLO PRODOTTO -->
+                  <div class="col-5 align-content-center">
+                    <p>Immagine prod</p>
+                  </div>
+
+                  <div class="col">
+                    <div class="row">
+                      <p>Nome prod</p>
+                    </div>
+                    <div class="row">
+                      <p>Quantità</p>
+                    </div>
+                    <div class="row">
+                      <p>Acquista più tardi</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</section>
+
+
+</body>
+<footer>
+  <app-footer></app-footer>
+</footer>
+
+</html>
+

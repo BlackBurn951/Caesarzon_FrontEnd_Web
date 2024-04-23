@@ -12,10 +12,40 @@
 <header>
   <nav class="navbar navbar-expand-md navbar-light custom-navbar">
     <a class="navbar-brand text-light" href="#">CAESARZON</a>
+    <div *ngIf="userData.isLogged" id="accesso" class="bottonis">
+      <li class="nav-item ">
+        <button class="menu-item btn btn-dark custom-btn dropdown-toggle" (click)="popupService.openPopupLoginRegistration()">Profilo</button>
+        <div class="dropdown-menu" aria-labelledby="accesso">
+          <a class="dropdown-item" (click)="changePage($event,'personal-data')">Anagrafica</a>
+          <a class="dropdown-item" (click)="changePage($event,'address-data')">Indirizzi</a>
+          <a class="dropdown-item" (click)="changePage($event, 'payment-first-page')">Metodi di pagamento</a>
+          <a class="dropdown-item" (click)="changePage($event, 'wish-list')">Lista dei desideri</a>
+          <a class="dropdown-item" (click)="changePage($event, 'da-fare')">Ordini</a>
+          <a class="dropdown-item" (click)="changePage($event, 'help-request')">Assistenza</a>
+        </div>
+      </li>
+      <li class="nav-item">
+        <button class="menu-item btn btn-dark custom-btns" (click)="changePage($event,'shopping-cart')">Carrello</button>
+      </li>
+      <li class="nav-item">
+        <button class="menu-item btn btn-dark custom-btns" (click)="popupService.openPopupReport()">Amici</button>
+      </li>
+    </div>
+    <ul class="navbar-nav ml-auto">
+      <div *ngIf="!userData.isLogged" class="bottonis">
+        <li class="nav-item ">
+          <button class="menu-item btn btn-dark custom-btns" (click)="popupService.openPopupLoginRegistration()">Accedi</button>
+        </li>
+        <li class="nav-item">
+          <button class="menu-item btn btn-dark custom-btns" (click)="changePage($event,'shopping-cart')">Carrello</button>
+        </li>
+      </div>
+    </ul>
+  </nav>
+  <nav id="secondNav" class="navbar navbar-expand-md navbar-light custom-navbar">
     <button class="navbar-toggler btn btn-dark custom-btn" type="button" (click)="toggleMenu()">
       <span class="navbar-toggler-icon"></span>
     </button>
-
     <div class="collapse navbar-collapse" [ngClass]="{'show': isMenuOpen}" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item">
@@ -86,7 +116,13 @@
             Arti marziali
           </a>
           <div class="dropdown-menu" aria-labelledby="ArtiMarziali">
-            <a class="dropdown-item" href="#" (click)="changePage($event, 'product-page')">Boxe</a>
+            <div class="dropdown dropright">
+              <a id="boxe" class="dropdown-toggle">Boxe</a>
+              <div class="dropdown-menu">
+                <a class="dropdown-item">Attrezzatura</a>
+                <a class="dropdown-item">Abbigliamento</a>
+              </div>
+            </div>
             <a class="dropdown-item" href="#" (click)="changePage($event, 'product-page')">Karate</a>
             <a class="dropdown-item" href="#" (click)="changePage($event, 'product-page')">Muay Thai</a>
             <a class="dropdown-item" href="#" (click)="changePage($event, 'product-page')">Judo</a>
@@ -111,38 +147,11 @@
             <a class="dropdown-item" href="#" (click)="changePage($event, 'product-page')">Attrezzatura</a>
           </div>
         </li>
-      </ul>
-      <ul class="navbar-nav ml-auto">
-        <div *ngIf="!userData.isLogged" class="bottonis">
-          <li class="nav-item ">
-            <button class="menu-item btn btn-dark custom-btns" (click)="popupService.openPopupLoginRegistration()">Accedi</button>
-          </li>
-          <li class="nav-item">
-            <button class="menu-item btn btn-dark custom-btns" (click)="changePage($event,'shopping-cart')">Carrello</button>
-          </li>
-        </div>
-        <div *ngIf="userData.isLogged" class="bottonis">
-          <li class="nav-item ">
-            <button id="accesso" class="menu-item btn btn-dark custom-btn dropdown-toggle" (click)="popupService.openPopupLoginRegistration()">Profilo</button>
-            <div class="dropdown-menu" aria-labelledby="accesso">
-              <a class="dropdown-item" (click)="changePage($event,'personal-data')">Anagrafica</a>
-              <a class="dropdown-item" (click)="changePage($event,'address-data')">Indirizzi</a>
-              <a class="dropdown-item" (click)="changePage($event, 'payment-first-page')">Metodi di pagamento</a>
-              <a class="dropdown-item" (click)="changePage($event, 'wish-list')">Lista dei desideri</a>
-              <a class="dropdown-item" (click)="changePage($event, 'da-fare')">Ordini</a>
-              <a class="dropdown-item" (click)="changePage($event, 'help-request')">Assistenza</a>
-            </div>
-          </li>
-          <li class="nav-item">
-            <button class="menu-item btn btn-dark custom-btns" (click)="changePage($event,'shopping-cart')">Carrello</button>
-          </li>
-          <li class="nav-item">
-            <button class="menu-item btn btn-dark custom-btns" (click)="popupService.openPopupReport()">Amici</button>
-          </li>
-        </div>
+        <li id="notiche" *ngIf="userData.isLogged">
+          <button class="menu-item btn-xs btn-dark custom-btns">Notifiche<span class="badge">7</span></button>
+        </li>
       </ul>
     </div>
   </nav>
 </header>
-
 </html>

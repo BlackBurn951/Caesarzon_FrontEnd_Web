@@ -21,7 +21,18 @@
 
 
       <div class="d-flex flex-column align-items-center">
+        <label for="foto">Immagine profilo</label>
+
+        <div class="form-group">
+          <div class="image-upload">
+            <input type="file" style="display: none;" id="foto" accept="image/*" (change)="onFileSelected($event)">
+            <img id="preview" src="#" alt="Preview" style="display: none;">
+            <label for="foto" class="btn btn-dark custom-btn mt-3">Carica foto</label>
+          </div>
+        </div>
         <div class="d-flex flex-row align-items-center">
+
+
           <div class="form-group">
             <label for="nome">Nome:</label>
             <input class="form-control" type="text" id="nome" maxlength="30" placeholder="{{nome}}" [readonly]="!inputAbilitato">
