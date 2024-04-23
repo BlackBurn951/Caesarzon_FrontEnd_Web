@@ -2,6 +2,8 @@ import {Injectable, OnInit} from "@angular/core";
 import { address } from "./utils/address";
 import { user } from "./utils/user";
 import { card } from "./utils/card";
+import {Event} from "@angular/router";
+import {PopupService} from "./popUpService";
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +20,7 @@ export class GetUserData implements OnInit{
   inputAbilitato: boolean = false;
   testoButton: string = "Modifica";
 
-  constructor() {
+  constructor(private popupS: PopupService) {
   }
 
   ngOnInit(): void {
@@ -34,5 +36,11 @@ export class GetUserData implements OnInit{
   }
   getCardInformation():void {
 
+  }
+
+  toggleLogin(event: MouseEvent) {
+    this.isLogged = !this.isLogged;
+    this.popupS.closePopup();
+    event.preventDefault()
   }
 }
