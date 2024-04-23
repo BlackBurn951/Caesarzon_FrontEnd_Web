@@ -6,6 +6,8 @@ import {RegistrationComponent} from "./registration/registration.component";
 import {ReviewComponent} from "./review/review.component";
 import {ReportsComponent} from "./reports/reports.component";
 import {FriendsPopupComponent} from "./friends-popup/friends-popup.component";
+import {AddWishPopupComponent} from "./add-wish-popup/add-wish-popup.component";
+import {CreateWishListComponent} from "./create-wish-list/create-wish-list.component";
 
 @Injectable({
   providedIn: 'root',
@@ -26,6 +28,17 @@ export class PopupService {
     });
   }
 
+  openWishListAdd(){
+    this.dialog.open(AddWishPopupComponent, {
+      width: '100px'
+    });
+  }
+
+  openCreateWishList(){
+    this.dialog.open(CreateWishListComponent, {
+      width: '100px'
+    });
+  }
   updateStringa(value: string) {
     this.stringaSource.next(value);
   }
