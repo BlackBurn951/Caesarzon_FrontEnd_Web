@@ -19,23 +19,14 @@ export class HeaderComponent {
 
 
   isMenuOpen = false;
-  showSportsDropdown: boolean = false;
-  showMusicDropdown: boolean = false;
 
-  constructor(public popupService:PopupService, private router: Router, public userData: GetUserData){
 
+  constructor(public popupService:PopupService, private router: Router, protected userData: GetUserData){
   }
 
   toggleMenu(): void {
     this.isMenuOpen = !this.isMenuOpen;
   }
-
-  /*goToProductManagement() {
-    this.router.navigate(['product-managment']);
-  }*/
-
-
-    //protected readonly open = open;
 
 
   changePage(event: Event,page:string) {
@@ -47,5 +38,6 @@ export class HeaderComponent {
     this.router.navigate(['admin-area']);
     event.preventDefault()
   }
+
 
 }

@@ -7,7 +7,6 @@
 
 .card-list {
   display: flex;
-  justify-content: center;
   justify-content: space-between;
   margin-top: 3%;
   margin-bottom: 5%;
@@ -36,36 +35,12 @@
 }
 
 .card-body > .container {
-  width: 100%; /* Assicura che il contenitore della descrizione occupi l'intera larghezza della card */
+  width: 100%;
 }
 
 
-.search-container {
-  display: flex;
-  margin: 20px;
-}
 
-.search-container input[type=text] {
-  padding: 10px;
-  width: 35%;
-  border: 1px solid #ccc;
-  border-radius: 5px 0 0 5px;
-  outline: none;
-  margin-left: 31%;
-}
 
-.search-container button {
-  padding: 10px 15px;
-  background: #007bff;
-  color: white;
-  border: 1px solid #007bff;
-  border-radius: 0 5px 5px 0;
-  cursor: pointer;
-}
-
-.search-container button:hover {
-  background: #0056b3;
-}
 
 /* Stili per il responsive design */
 @media screen and (max-width: 600px) {
