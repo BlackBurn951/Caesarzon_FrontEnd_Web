@@ -16,7 +16,7 @@
 
     <div class="search-container d-flex flex-row align-items-center">
       <input type="text" placeholder="Cerca...">
-      <button class="btn btn-dark custom-btn ml-1" type="submit">Cerca</button>
+      <button class="btn btn-dark custom-btn ml-1" type="submit" (click)="popupService.apriPopUpConfirm()">Cerca</button>
     </div>
 
     <ul *ngIf="userData.isLogged" class="navbar-nav ml-auto">
@@ -71,7 +71,7 @@
           <a class="nav-link text-light ml-1" href="#" (click)="changePage($event,'personal-data')">Prodotti del momento <span class="sr-only">(current)</span></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-light ml-1" href="#">Novità</a>
+          <a class="nav-link text-light ml-1" href="#" (click)="changePage($event,'products-list')">Novità</a>
         </li>
         <li class="nav-item">
           <a class="nav-link text-light ml-1" href="#">Offerte</a>

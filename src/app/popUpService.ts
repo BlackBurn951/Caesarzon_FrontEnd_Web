@@ -8,6 +8,7 @@ import {ReportsComponent} from "./reports/reports.component";
 import {FriendsPopupComponent} from "./friends-popup/friends-popup.component";
 import {AddWishPopupComponent} from "./add-wish-popup/add-wish-popup.component";
 import {CreateWishListComponent} from "./create-wish-list/create-wish-list.component";
+import {ConfirmMessagComponent} from "./confirm-messag/confirm-messag.component";
 
 @Injectable({
   providedIn: 'root',
@@ -24,6 +25,12 @@ export class PopupService {
   }
   apriPopUp() {
     this.dialog.open(WarningMessageComponent, {
+      width: '100px'
+    });
+  }
+
+  apriPopUpConfirm(){
+    this.dialog.open(ConfirmMessagComponent, {
       width: '100px'
     });
   }
