@@ -3,12 +3,14 @@ import {MatDialog} from "@angular/material/dialog";
 import {BehaviorSubject} from "rxjs";
 import {WarningMessageComponent} from "./warning-message/warning-message.component";
 import {RegistrationComponent} from "./registration/registration.component";
-import {FriendsPopupComponent} from "./friends-popup/friends-popup.component";
+import {AllPopupComponent} from "./all-popup/all-popup.component";
 
 @Injectable({
   providedIn: 'root',
 })
 export class PopupService {
+
+  isAdd: boolean = false;
 
   isAvviso: boolean = true;
 
@@ -34,8 +36,6 @@ export class PopupService {
   }
 
 
-
-
   updateStringa(value: string) {
     this.stringaSource.next(value);
   }
@@ -46,38 +46,38 @@ export class PopupService {
   }
 
 
-
   openPopups(num: number, avviso: boolean) {
-    if(num=== 0){
-      this.dialog.open(FriendsPopupComponent);
-      this.wichComponent = 0;
-      this.isOther = true;
-    }else if( num === 1){
-      this.dialog.open(FriendsPopupComponent);
-      this.wichComponent = 1;
-      this.isOther = false;
-    }else if ( num === 2){
-      this.dialog.open(FriendsPopupComponent);
-      this.wichComponent = 2;
-      this.isOther = false;
-    }else if ( num === 3) {
-      this.dialog.open(RegistrationComponent);
-      this.isLogin = true
-    }else if( num === 4){
-      this.wichComponent = 4;
-      this.dialog.open(FriendsPopupComponent);
-    }else if( num === 5){
-      this.wichComponent = 5;
-      this.dialog.open(FriendsPopupComponent)
-    }else{
-      this.isAvviso = avviso;
-      this.dialog.open(WarningMessageComponent)
+    switch (num) {
+      case 0:
+        this.dialog.open(AllPopupComponent);
+        this.wichComponent = 0;
+        this.isOther = true;
+        this.isAdd = false;
+        break;
+      case 1:
+      case 2:
+      case 4:
+      case 5:
+      case 6:
+      case 7:
+        this.dialog.open(AllPopupComponent);
+        this.wichComponent = num;
+        this.isOther = false;
+        this.isAdd = true;
+        break;
+      case 3:
+        this.dialog.open(RegistrationComponent);
+        this.isLogin = true;
+        break;
+      default:
+        this.isAvviso = avviso;
+        this.dialog.open(WarningMessageComponent);
+        break;
     }
-
-
-
-
   }
+
+
+
 
   closePopup() {
     this.dialog.closeAll()

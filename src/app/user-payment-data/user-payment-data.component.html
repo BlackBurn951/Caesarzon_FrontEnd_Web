@@ -14,14 +14,13 @@
 
 
 
-  <div class="container-fluid d-flex flex-row align-items-center">
+  <div class="container-fluid d-flex flex-column align-items-center aldo">
 
-    <div class="container-fluid d-flex flex-column align-items-center aldos">
 
       <h1 class="title">METODI DI PAGAMENTO</h1>
 
 
-      <div class="form-group d-flex flex-column align-items-center">
+      <div class="form-group d-flex flex-column align-items-center aldos">
         <label for="selectCard">Seleziona la tua carta di credito:</label>
         <select class="form-select selectionIn btn btn-dark custom-bln" id="selectCard">
           <option value="card1">Carta 1</option>
@@ -32,26 +31,26 @@
       </div>
 
       <section class="form-group d-flex flex-column align-items-center">
-        <div class="row">
+        <div class="d-flex flex-column align-items-center">
 
-          <div class="col-md-6">
+          <div class="d-flex flex-row align-items-center">
             <div class="form-group">
               <label for="cardNumber">Numero della carta:</label>
-              <input type="text" class="form-control" id="cardNumber" maxlength="30" placeholder="{{getUserData.getCardInformation()}}" [readonly]="!inputAbilitato">
+              <input type="text" class="form-control textBoxAggiunta" id="cardNumber" maxlength="30" placeholder="{{getUserData.getCardInformation()}}" [readonly]="!inputAbilitato">
             </div>
 
-            <div class="form-group">
+            <div class="form-group ml-3">
               <label for="cardHolderName">Titolare della carta:</label>
-              <input type="text" class="form-control" id="cardHolderName" maxlength="30" placeholder="{{getUserData.getCardInformation()}}" [readonly]="!inputAbilitato">
+              <input type="text" class="form-control textBoxAggiunta" id="cardHolderName" maxlength="30" placeholder="{{getUserData.getCardInformation()}}" [readonly]="!inputAbilitato">
             </div>
           </div>
 
-          <div class="col-md-6">
+          <div class="d-flex flex-row align-items-center">
             <div class="form-group">
               <label for="expirationDate">Data di scadenza:</label>
-              <input type="text" class="form-control" id="expirationDate" maxlength="30" placeholder="{{getUserData.getCardInformation()}}" [readonly]="!inputAbilitato">
+              <input type="text" class="form-control textBoxAggiunta" id="expirationDate" maxlength="30" placeholder="{{getUserData.getCardInformation()}}" [readonly]="!inputAbilitato">
             </div>
-            <div class="form-group">
+            <div class="form-group ml-3">
               <label for="cvv">Codice di sicurezza (CVV):</label>
               <input type="text" class="form-control" id="cvv" maxlength="30" placeholder="{{getUserData.getCardInformation()}}" [readonly]="!inputAbilitato">
             </div>
@@ -61,13 +60,12 @@
       </section>
 
       <div class="row mb-3">
-        <button type="button" class="btn btn-dark custom-btn mr-5" (click)="abilitaInput()">Aggiungi nuova carta</button>
+        <button type="button" class="btn btn-dark custom-btn mr-5" (click)="popUpService.openPopups(7,true)">Aggiungi nuova carta</button>
         <button type="button" class="btn btn-dark custom-btn" (click)="abilitaInput()">{{testoButton}}</button>
       </div>
 
     </div>
 
-  </div>
 
 </section>
 
