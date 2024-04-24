@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import {UserManagementContainerComponent} from "../user-management-container/user-management-container.component";
 import {GetUserData} from "../getUserData";
 import {FooterComponent} from "../footer/footer.component";
+import {PopupService} from "../popUpService";
 
 @Component({
   selector: 'app-user-payment-data',
@@ -19,7 +20,7 @@ export class UserPaymentDataComponent {
 
   testoButton: string = "Modifica";
 
-  constructor(public getUserData:GetUserData) {
+  constructor(public getUserData:GetUserData, public popUpService:PopupService) {
   }
 
   abilitaInput(): void{
