@@ -1,13 +1,14 @@
 import { Component } from '@angular/core';
+import {NgForOf, NgIf} from "@angular/common";
 import {ReactiveFormsModule} from "@angular/forms";
 import {PopupService} from "../popUpService";
 
 @Component({
-  selector: 'app-friends-popup',
-  templateUrl: './friends-popup.component.html',
-  styleUrls: ['./friends-popup.component.css', '../../styles.css']
+  selector: 'app-all-popup',
+  templateUrl: './all-popup.component.html',
+  styleUrls: ['./all-popup.component.css', '../../styles.css']
 })
-export class FriendsPopupComponent {
+export class AllPopupComponent {
 
   section:number = 0
   sectionLabel:string = "Cerca utenti"
@@ -38,4 +39,5 @@ export class FriendsPopupComponent {
     this.section = numb
     this.sectionLabel = label;
   }
+
 }
