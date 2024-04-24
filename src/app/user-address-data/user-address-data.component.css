@@ -9,7 +9,9 @@ select[disabled] {
   background-color: #f2f2f2;
 }
 
-
+.textBoxAggiunta{
+  width: 17vw;
+}
 footer {
   background-color: #352244;
   text-align: center;

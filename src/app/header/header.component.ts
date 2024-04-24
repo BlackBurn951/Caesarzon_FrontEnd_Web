@@ -4,7 +4,7 @@ import {Router} from "@angular/router";
 import {PopupService} from "../popUpService";
 import {GetUserData} from "../getUserData";
 
-// @ts-ignore
+
 @Component({
   selector: 'app-header',
   standalone: true,
@@ -32,11 +32,6 @@ export class HeaderComponent {
   changePage(event: Event,page:string) {
     this.router.navigate([page]);
     event.preventDefault();
-  }
-
-  openAdminArea(event: Event) {
-    this.router.navigate(['admin-area']);
-    event.preventDefault()
   }
 
 

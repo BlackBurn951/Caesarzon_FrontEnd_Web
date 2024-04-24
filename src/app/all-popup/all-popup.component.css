@@ -95,8 +95,22 @@ html{
 
 .container-fluidos.other{
   max-height: 80vh;
+
 }
 
+.container-fluidos.Add{
+  max-height: 80vh;
+  max-width: 60%;
+
+}
+
+.textBoxAggiunta{
+  width: 17vw;
+}
+
+.aggiunta{
+  margin: 20px;
+}
 
 @media (min-width: 1000px) {
   .container-fluid {

@@ -152,10 +152,6 @@
     </div>
     <button class="btn btn-dark custom-btn mt-3" (click)="popUpService.openPopups(4, true)">Crea una nuova lista</button>
 
-
-
-
-
   </div>
 
 
@@ -197,7 +193,95 @@
 </div>
 
 
+<div class="container-fluidos regLog" *ngIf="popUpService.wichComponent === 6" [ngClass]="{'Add': popUpService.isAdd}">
+  <div class="d-flex flex-column align-items-center aggiunta">
 
+    <h1>Aggiugi un nuovo indirizzo</h1>
+    <button (click)="popUpService.closePopup()" class="btn btn-dark ics">X</button>
+
+
+    <div class="d-flex flex-row align-items-center">
+        <div class="form-group ml-3 d-flex flex-column">
+          <label for="cardHolderName">Tipo strada:</label>
+          <select class="form-select selectionIn btn btn-dark custom-bln" >
+            <option value="card1">Via</option>
+            <option value="card2">Borgo</option>
+            <option value="card3">Piazza</option>
+            <option value="card4">Carta 4</option>
+          </select>
+        </div>
+
+        <div class="form-group ml-3">
+          <label for="cardHolderName">Nome strada:</label>
+          <input type="text" class="form-control textBoxAggiunta" id="cardHolderName" maxlength="30">
+        </div>
+        <div class="form-group ml-3">
+          <label for="cap">Codice postale (CAP):</label>
+          <input type="text" class="form-control" id="cap" maxlength="30">
+        </div>
+        <div class="form-group ml-3">
+          <label for="prov">Provincia:</label>
+          <input type="text" class="form-control textBoxAggiunta" id="prov" maxlength="30">
+        </div>
+    </div>
+
+    <div class="d-flex flex-row align-items-center">
+
+      <div class="form-group">
+          <label for="expirationDate">N° civico:</label>
+          <input type="text" class="form-control" id="expirationDate" maxlength="30">
+        </div>
+        <div class="form-group ml-3">
+          <label for="cvv">Città:</label>
+          <input type="text" class="form-control textBoxAggiunta" maxlength="30">
+        </div>
+        <div class="form-group ml-3">
+          <label for="cvv">Regione:</label>
+          <input type="text" class="form-control textBoxAggiunta" id="cvv" maxlength="30" >
+        </div>
+      </div>
+      <button type="button" class="btn btn-dark custom-btn">Aggiungi</button>
+    </div>
+
+</div>
+
+<div class="container-fluidos regLog" *ngIf="popUpService.wichComponent === 7" [ngClass]="{'Add': popUpService.isAdd}">
+  <div class="d-flex flex-column align-items-center aggiunta">
+
+    <h1>Aggiungi una nuova carta</h1>
+    <button (click)="popUpService.closePopup()" class="btn btn-dark ics">X</button>
+
+
+    <div class="d-flex flex-column align-items-center">
+
+      <div class="d-flex flex-row align-items-center">
+        <div class="form-group">
+          <label for="cardNumber">Numero della carta:</label>
+          <input type="text" class="form-control textBoxAggiunta" id="cardNumber" maxlength="30">
+        </div>
+
+        <div class="form-group ml-3">
+          <label for="cardHolderName">Titolare della carta:</label>
+          <input type="text" class="form-control textBoxAggiunta" id="cardHolderName" maxlength="30">
+        </div>
+      </div>
+
+      <div class="d-flex flex-row align-items-center">
+        <div class="form-group">
+          <label for="expirationDate">Data di scadenza:</label>
+          <input type="text" class="form-control textBoxAggiunta" id="expirationDate" maxlength="30">
+        </div>
+        <div class="form-group ml-3">
+          <label for="cvv">Codice di sicurezza (CVV):</label>
+          <input type="text" class="form-control" id="cvv" maxlength="30">
+        </div>
+      </div>
+
+    </div>
+    <button type="button" class="btn btn-dark custom-btn">Aggiungi</button>
+  </div>
+
+</div>
 
 
 </body>
