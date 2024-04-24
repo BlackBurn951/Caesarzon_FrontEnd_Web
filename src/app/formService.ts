@@ -20,7 +20,9 @@ export class FormService {
   createForm() {
     this.formCaesarzon = this.fb.group({
       formDeiProdotti: this.buildFormProdotti(),
-      formRegistrazione: this.buildFormRegistrazione()
+      formRegistrazione: this.buildFormRegistrazione(),
+      formIndirizzo: this.buildFormIndirizzo(),
+      formPagamento: this.buildFormPagamento()
     })
 
   }
@@ -56,6 +58,24 @@ export class FormService {
     });
   }
 
+  private buildFormIndirizzo():FormGroup{
+    return this.fb.group({
+      via:  ['',Validators.required],
+      citta:  ['',Validators.required],
+      stato:  ['',Validators.required],
+      cap:  ['',Validators.required],
+    });
+  }
+
+  private buildFormPagamento():FormGroup {
+    return this.fb.group({
+      numeroCarta: ['', Validators.required],
+      titolareCarta: ['', Validators.required],
+      dataScadenza: ['', Validators.required],
+      cvv:  ['', Validators.required],
+    });
+  }
+
   campoNonCorretto(fieldName: string) {
     const fieldControl = this.formCaesarzon.get(fieldName);
     return fieldControl?.invalid && (fieldControl?.dirty || fieldControl?.touched);
@@ -76,5 +96,6 @@ export class FormService {
 
     return null;
   }
+
 
 }

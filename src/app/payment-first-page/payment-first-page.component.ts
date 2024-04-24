@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import {GetUserData} from "../getUserData";
 import {Router} from "@angular/router";
 import {FooterComponent} from "../footer/footer.component";
+import {FormBuilder, FormGroup} from "@angular/forms";
+import {FormService} from "../formService";
 
 @Component({
   selector: 'app-payment-first-page',
@@ -12,10 +14,14 @@ export class PaymentFirstPageComponent {
   protected inputAbilitato: boolean | undefined;
   private testButton: string | undefined;
   testoButton!: string;
+  protected formCaesarzone!: FormGroup;
+  protected abilitator!: boolean;
 
-  constructor(protected getUserData: GetUserData, private router: Router) {
-
+  constructor(protected getUserData: GetUserData, private router: Router, private formService: FormService) {
+    this.formCaesarzone=formService.getForm();
+    this.abilitator=false;
   }
+
   abilitaInput(): void{
     this.inputAbilitato = !this.inputAbilitato;
     this.testButton = this.inputAbilitato ? "Salva modifiche" : "Modifica";
@@ -26,6 +32,7 @@ export class PaymentFirstPageComponent {
   }
 
   proceed() {
+    if(this.formService)
     this.router.navigate(['payment-second-page']);
   }
 }

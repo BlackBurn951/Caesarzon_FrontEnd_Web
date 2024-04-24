@@ -22,7 +22,6 @@ export class RegistrationComponent {
 
   constructor(public formService: FormService, public popupService: PopupService, protected userData: GetUserData) {
     this.formCaesarzon = formService.getForm();
-
   }
 
   cambiaLarghezza(num: number) {
