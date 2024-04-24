@@ -30,6 +30,14 @@ footer {
   margin-bottom: 10px;
 }
 
+.gus{
+  margin: 10px;
+}
+
+.gas{
+  margin-left: auto;
+}
+
 .btn i{
   padding: 10px 20px;
   font-size: 40px;
@@ -41,4 +49,11 @@ footer {
 
 .esse{
   width: 5vw;
+  border: 1px solid black;
+  border-radius: 3px;
 }
+
+.btn i.icon-small {
+  font-size: 20px;
+}
+
