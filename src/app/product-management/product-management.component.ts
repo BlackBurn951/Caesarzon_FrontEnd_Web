@@ -35,7 +35,7 @@ export class ProductManagementComponent{
 
   aggiungiProdotto() {
     this.popUpService.updateStringa("FUN-ZIO-NOOOOOOOOOOOO!");
-    this.popUpService.apriPopUp()
+    this.popUpService.openPopups(104, true)
   }
 
 
@@ -58,7 +58,7 @@ export class ProductManagementComponent{
     if (file) {
       if (file.size > maxSize) {
         this.popUpService.updateStringa("La dimensione massima del file è di 6 MB.");
-        this.popUpService.apriPopUp();
+        this.popUpService.openPopups(104, true)
       } else {
         const reader = new FileReader();
         reader.onload = () => {
@@ -67,7 +67,7 @@ export class ProductManagementComponent{
             this.imageUrls[index] = imageUrl;
           } else {
             this.popUpService.updateStringa("Immagine già caricata!");
-            this.popUpService.apriPopUp();
+            this.popUpService.openPopups(104, true)
           }
         };
         reader.readAsDataURL(file);

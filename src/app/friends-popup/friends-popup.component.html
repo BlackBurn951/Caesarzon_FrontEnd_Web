@@ -9,8 +9,8 @@
 
 </head>
 
-<body>
-<div class="container-fluidos regLog">
+<body >
+<div class="container-fluidos regLog" *ngIf="popUpService.wichComponent === 0" [ngClass]="{'other': popUpService.isOther}">
   <div class="form-group d-flex flex-column align-items-center">
     <div class="d-flex flex-row align-items-center">
       <button class="btn btn-dark custom-btn mr-2 mt-2" (click)="changeSection(0, 'Cerca utenti')">Cerca utenti</button>
@@ -67,7 +67,141 @@
 </div>
 
 
+<div class="container-fluidos regLog" *ngIf="popUpService.wichComponent === 1" [ngClass]="{'other': !popUpService.isOther}">
+  <div class="form-group">
+    <div class="d-flex flex-column align-items-center">
+      <h1 class="accediLabel">Stai segnalando l'utente</h1>
+      <h2 class="accediLabel">Aldo</h2>
+    </div>
+    <button (click)="popUpService.closePopup()" class="btn btn-dark ics">X</button>
+    <div class="d-flex flex-column align-items-center">
+      <label for="motivo">Motivo della segnalazione</label>
+      <select name="motivo" class="form-select selectionIn btn btn-dark custom-bln" id="motivo" >
+        <option value="spam">Spam</option>
+        <option value="contenuto_ripetitivo">Contenuto Ripetitivo</option>
+        <option value="link_sospetti">Link Sospetti o Dannosi</option>
+        <option value="attività_automatizzata">Attività Automatizzata</option>
+        <option value="contenuto_offensivo">Contenuto Offensivo</option>
+        <option value="violazione_regole">Violazione delle Regole della Piattaforma</option>
+        <option value="informazioni_false">Informazioni False o Fraudolente</option>
+        <option value="violazione_privacy">Violazione della Privacy</option>
+        <option value="nudo_o_atti_sesso">Nudo o Atti Sessuali</option>
+      </select>
+
+    </div>
+
+
+  </div>
+
+
+  <div class="form-group gruppo d-flex flex-column align-items-center">
+    <label for="descrizione">Descrizione</label>
+    <textarea class="form-control gruppoInputDesc" id="descrizione" maxlength="1000" ></textarea>
+  </div>
+
+  <div class="d-flex flex-column align-items-center">
+    <button type="submit" class="btn btn-dark custom-btn al" >Invia</button>
+  </div>
+</div>
+
+
+<div class="container-fluidos regLog" *ngIf="popUpService.wichComponent === 2" [ngClass]="{'other': !popUpService.isOther}">
+  <div class="form-group">
+    <div class="d-flex flex-column align-items-center">
+      <h1 class="accediLabel">Condividi la tua esperienza!</h1>
+    </div>
+    <button (click)="popUpService.closePopup()" class="btn btn-dark ics">X</button>
+    <div class="d-flex flex-column align-items-center">
+      <div class="stars">
+        <span class="star" (click)="popUpService.rate(1)" [ngClass]="{'filled': popUpService.rating >= 1}">★</span>
+        <span class="star" (click)="popUpService.rate(2)" [ngClass]="{'filled': popUpService.rating >= 2}">★</span>
+        <span class="star" (click)="popUpService.rate(3)" [ngClass]="{'filled': popUpService.rating >= 3}">★</span>
+        <span class="star" (click)="popUpService.rate(4)" [ngClass]="{'filled': popUpService.rating >= 4}">★</span>
+        <span class="star" (click)="popUpService.rate(5)" [ngClass]="{'filled': popUpService.rating == 5}">★</span>
+      </div>
+    </div>
+
+
+    <input type="hidden" id="rating" name="rating" [value]="popUpService.rating">
+  </div>
+
+
+  <div class="form-group gruppo d-flex flex-column align-items-center">
+    <label for="descrizione">Descrizione</label>
+    <textarea class="form-control gruppoInputDesc" maxlength="1000"></textarea>
+  </div>
+
+  <div class="d-flex flex-column align-items-center">
+    <button type="submit" class="btn btn-dark custom-btn al" >Invia</button>
+  </div>
+</div>
+
+
+<div class="container-fluidos regLog" *ngIf="popUpService.wichComponent === 5" [ngClass]="{'other': !popUpService.isOther}">
+  <div class="form-group d-flex flex-column align-items-center">
+    <div class="d-flex flex-column align-items-center">
+      <h1 class="accediLabel">Aggiungi prodotto ad una lista</h1>
+    </div>
+    <button (click)="popUpService.closePopup()" class="btn btn-dark ics">X</button>
+    <div class="d-flex flex-row align-items-center">
+      <label for="selectCard">Seleziona lista dei desideri:</label>
+      <select class="form-select selectionIn btn btn-dark custom-bln ml-2" id="selectCard">
+        <option value="card1">Lista 1</option>
+        <option value="card2">Lista 2</option>
+      </select>
+    </div>
+    <button class="btn btn-dark custom-btn mt-3" (click)="popUpService.openPopups(4, true)">Crea una nuova lista</button>
+
+
+
+
+
+  </div>
+
+
+  <div class="d-flex flex-column align-items-center">
+    <button type="submit" class="btn btn-dark custom-btn al" >Aggiungi</button>
+  </div>
+</div>
+
+
+<div class="container-fluidos regLog" *ngIf="popUpService.wichComponent === 4" [ngClass]="{'other': !popUpService.isOther}">
+  <div class="form-group">
+    <div class="d-flex flex-column align-items-center">
+      <h1 class="accediLabel">Crea una nuova lista dei desideri</h1>
+    </div>
+    <button (click)="popUpService.closePopup()" class="btn btn-dark ics">X</button>
+    <div class="d-flex flex-column align-items-center">
+      <label for="motivo">Visibilità (potrai cambiarla in seguito)</label>
+      <select name="visibilita" class="form-select selectionIn btn btn-dark custom-bln" >
+        <option value="privata">Privata</option>
+        <option value="pubblica">Pubblica</option>
+        <option value="amici">Amici</option>
+
+      </select>
+
+    </div>
+
+
+  </div>
+
+
+  <div class="form-group gruppo d-flex flex-column align-items-center">
+    <label for="descrizione">Nome lista</label>
+    <input class="form-control list" maxlength="30">
+  </div>
+
+  <div class="d-flex flex-column align-items-center">
+    <button type="submit" class="btn btn-dark custom-btn al" >Crea</button>
+  </div>
+</div>
+
+
+
+
+
 </body>
+
 
 
 </html>

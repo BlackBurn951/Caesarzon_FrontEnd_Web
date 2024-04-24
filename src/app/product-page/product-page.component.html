@@ -71,7 +71,7 @@
               </div>
 
               <div class="row d-flex flex-column align-items-center">
-                <button type="button" class="btn btn-dark btn-custom" (click)="popUpService.openWishListAdd()">Aggiungi alla lista desideri</button>
+                <button type="button" class="btn btn-dark btn-custom" (click)="popUpService.openPopups(5, true)">Aggiungi alla lista desideri</button>
               </div>
 
               <div class="row pt-4 pl-2">
@@ -187,7 +187,7 @@
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
                 <footer class="blockquote-footer">
                   Publicato in data: <cite title="Source Title">24/02/2024</cite>
-                  <button class="btn btn-danger ml-2" (click)="popUpService.openPopupReport()">Segnala</button>
+                  <button class="btn btn-danger ml-2" (click)="popUpService.openPopups(1, true)">Segnala</button>
                 </footer>
               </blockquote>
             </div>
