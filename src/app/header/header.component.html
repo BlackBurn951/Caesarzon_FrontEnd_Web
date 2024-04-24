@@ -16,7 +16,7 @@
 
     <div class="search-container d-flex flex-row align-items-center">
       <input type="text" placeholder="Cerca...">
-      <button class="btn btn-dark custom-btn ml-1" type="submit" (click)="popupService.apriPopUpConfirm()">Cerca</button>
+      <button class="btn btn-dark custom-btn ml-1" type="submit" (click)="popupService.openPopups(6, true)">Cerca</button>
     </div>
 
     <ul *ngIf="userData.isLogged" class="navbar-nav ml-auto">
@@ -40,11 +40,11 @@
 
 
         <li class="nav-item">
-          <button id="carr" class="menu-item btn btn-dark custom-btns" (click)="changePage($event,'shopping-cart')">Carrello</button>
+          <button id="carr" class="menu-item btn btn-dark custom-btns" (click)="popupService.openPopups(2, true)">Carrello</button>
         </li>
 
         <li id="amici" class="nav-item">
-          <button class="menu-item btn btn-dark custom-btns" (click)="popupService.openPopupFriends()">Amici</button>
+          <button class="menu-item btn btn-dark custom-btns" (click)="popupService.openPopups(0, true)">Amici</button>
         </li>
 
       </div>
@@ -53,10 +53,10 @@
     <ul *ngIf="!userData.isLogged"  class="navbar-nav ml-auto">
       <div class="bottonis">
         <li class="nav-item ">
-          <button class="menu-item btn btn-dark custom-btns" (click)="popupService.openPopupLoginRegistration()">Accedi</button>
+          <button class="menu-item btn btn-dark custom-btns" (click)="popupService.openPopups(3, true)">Accedi</button>
         </li>
         <li class="nav-item">
-          <button class="menu-item btn btn-dark custom-btns" (click)="changePage($event,'shopping-cart')">Carrello</button>
+          <button class="menu-item btn btn-dark custom-btns" (click)="popupService.openPopups(7, true)">Carrello</button>
         </li>
       </div>
     </ul>

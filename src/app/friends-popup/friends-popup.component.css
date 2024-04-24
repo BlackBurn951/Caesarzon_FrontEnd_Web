@@ -18,6 +18,11 @@
   align-items: center;
   justify-content: center;
 }
+.al{
+  margin-bottom: 2vh;
+}
+
+
 
 
 .ics:focus {
@@ -88,6 +93,10 @@ html{
   z-index: 1000;
 }
 
+.container-fluidos.other{
+  max-height: 80vh;
+}
+
 
 @media (min-width: 1000px) {
   .container-fluid {
@@ -95,7 +104,36 @@ html{
   }
 }
 
+.list{
+  width: 70%;
+}
 
 label{
   font-weight: bold;
 }
+.stars {
+  font-size: 30px;
+  cursor: pointer;
+}
+
+.star {
+  color: rgb(128, 128, 128);
+}
+
+.star.filled {
+  color: gold;
+}
+
+textarea{
+  resize: none;
+}
+
+label {
+  font-weight: bold;
+}
+
+.gruppoInputDesc {
+  width: 30vw;
+  height: 25vh;
+}
+

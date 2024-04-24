@@ -20,3 +20,8 @@ h3{
   text-align: center;
   white-space: nowrap;
 }
+
+.bottoniConferma{
+  display: flex;
+  gap:3vw;
+}
