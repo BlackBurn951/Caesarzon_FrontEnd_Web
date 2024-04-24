@@ -1,49 +1,225 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>E-commerce</title>
-  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/5.3.45/css/materialdesignicons.css" integrity="sha256-NAxhqDvtY0l4xn+YVa6WjAcmd94NNfttjNsDmNatFVc=" crossorigin="anonymous" />
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 
-<section class="container orders">
-  <label>Riepilogo ordine:</label>
+<div class="container pt-5 pb-5">
+
   <div class="row">
-    <div class="col-md-6">
-      <div class="form-group">
-        <label>Prodotto 1:</label>
-        <img class="form-control" id="product1" alt="">
+    <div class="col-xl-8">
+      <div class="card">
+        <div class="card-body">
+          <ol class="activity-checkout mb-0 px-4 mt-3">
+
+            <li class="checkout-item">
+              <div class="avatar checkout-icon p-1">
+                <div class="avatar-title rounded-circle">
+                  <i class="bx bxs-truck text-white font-size-20"></i>
+                </div>
+              </div>
+
+              <div class="feed-item-list">
+                <div>
+                  <h5 class="font-size-16 mb-1">Specifiche per la spedizione</h5>
+                  <p class="text-muted text-truncate mb-4">Seleziona un indirizzo registrato</p>
+                  <div class="mb-3">
+                    <div class="row">
+                      <div class="col-lg-4 col-sm-6">
+                        <div data-bs-toggle="collapse">
+                          <label class="card-radio-label mb-0">
+                            <input type="radio" name="address" id="info-address1" class="address-radio-input" checked="">
+                            <div class="card-radio text-truncate p-3">
+                              <span class="fs-14 mb-4 d-block">Indirizzo 1</span>
+                              <span class="fs-14 mb-2 d-block">Via Roma</span>
+                              <span class="text-muted fw-normal text-wrap mb-1 d-block">104, Verona, Italia</span>
+
+                              <span class="text-muted fw-normal d-block">CAP 012-345-6789</span>
+                            </div>
+                          </label>
+                          <div class="edit-btn bg-light  rounded">
+                            <a href="#" data-bs-toggle="tooltip" data-placement="top" title="" data-bs-original-title="Edit">
+                              <i class="bx bx-pencil font-size-16"></i>
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-lg-4 col-sm-6">
+                        <div>
+                          <label class="card-radio-label mb-0">
+                            <input type="radio" name="address" id="info-address2" class="address-radio-input" checked="">
+                            <div class="card-radio text-truncate p-3">
+                              <span class="fs-14 mb-4 d-block">Indirizzo 2</span>
+                              <span class="fs-14 mb-2 d-block">Via dalle Palle</span>
+                              <span class="text-muted fw-normal text-wrap mb-1 d-block">104104 Sborrandia, Spagna</span>
+                              <span class="text-muted fw-normal d-block">CAP 012-345-6789</span>
+                            </div>
+                          </label>
+                          <div class="edit-btn bg-light  rounded">
+                            <a href="#" data-bs-toggle="tooltip" data-placement="top" title="" data-bs-original-title="Edit">
+                              <i class="bx bx-pencil font-size-16"></i>
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>
+          </ol>
+
+          <ol class="activity-checkout mb-0 px-4 mt-3">
+
+            <li class="checkout-item">
+              <div class="avatar checkout-icon p-1">
+                 <div class="avatar-title rounded-circle">
+                   <i class="bx bxs-wallet-alt text-white font-size-20"></i>
+                 </div>
+              </div>
+
+              <div class="feed-item-list">
+                <div>
+                  <h5 class="font-size-16 mb-1">Specifiche di pagamento</h5>
+                  <p class="text-muted text-truncate mb-4">Seleziona un metodo di pagamento</p>
+                </div>
+
+                <div class="row">
+                  <div class="col-lg-4 col-sm-6">
+                    <div data-bs-toggle="collapse">
+                      <label class="card-radio-label mb-0">
+                        <input type="radio" name="payment" id="info-payment1" class="card-radio-input" checked="">
+                        <div class="card-radio text-truncate p-3">
+                          <span class="fs-14 mb-4 d-block">Carta 1</span>
+                          <span class="fs-14 mb-2 d-block">2831239124791</span>
+                          <span class="text-muted fw-normal text-wrap mb-1 d-block">Mario Rossi</span>
+                          <span class="text-muted fw-normal d-block">CVV 104</span>
+                        </div>
+                      </label>
+                      <div class="edit-btn bg-light  rounded">
+                        <a href="#" data-bs-toggle="tooltip" data-placement="top" title="" data-bs-original-title="Edit"><i class="bx bx-pencil font-size-16"></i>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-lg-4 col-sm-6">
+                    <div data-bs-toggle="collapse">
+                      <label class="card-radio-label mb-0">
+                        <input type="radio" name="payment" id="info-payment2" class="card-radio-input" checked="">
+                        <div class="card-radio text-truncate p-3">
+                          <span class="fs-14 mb-4 d-block">Carta 2</span>
+                          <span class="fs-14 mb-2 d-block">83271837298</span>
+                          <span class="text-muted fw-normal text-wrap mb-1 d-block">Gaia Bianchi</span>
+                          <span class="text-muted fw-normal d-block">CVV 208</span>
+                        </div>
+                      </label>
+                      <div class="edit-btn bg-light  rounded">
+                        <a href="#" data-bs-toggle="tooltip" data-placement="top" title="" data-bs-original-title="Edit">
+                          <i class="bx bx-pencil font-size-16"></i>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+
+              </div>
+            </li>
+          </ol>
+        </div>
       </div>
-      <div class="form-group">
-        <label >Prodotto 2:</label>
-        <img class="form-control" id="product2" alt="">
-      </div>
+
+      <div class="row my-4">
+        <div class="col">
+          <button class="btn btn-link text-muted" (click)="goBackToCart()">
+            <i class="mdi mdi-arrow-left me-1"></i>  Torna al carrello</button>
+        </div> <!-- end col -->
+        <div class="col">
+          <div class="text-end mt-2 mt-sm-0">
+            <a href="#" class="btn btn-success">
+              <i class="mdi mdi-cart-outline me-1"></i> Procedi </a>
+          </div>
+        </div> <!-- end col -->
+      </div> <!-- end row-->
     </div>
-    <div class="col-md-6">
-      <div class="form-group">
-        <label >Prodotto 3:</label>
-        <img class="form-control" id="product3" alt="">
-      </div>
-      <div class="form-group">
-        <label >Prodotto 4:</label>
-        <img class="form-control" id="product4" alt="">
+    <div class="col-xl-4">
+      <div class="card checkout-order-summary">
+        <div class="card-body">
+          <div class="p-3 bg-light mb-3">
+            <h5 class="font-size-16 mb-0">Riepilogo ordine <span class="float-end ms-2">#MN0124</span></h5>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-centered mb-0 table-nowrap">
+              <thead>
+              <tr>
+                <th class="border-top-0" scope="col">Prodotti</th>
+                <th class="border-top-0" scope="col">Prezzo</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr>
+                <td>
+                  <h5 class="font-size-16 text-truncate"><a href="#" class="text-dark">Waterproof Mobile Phone</a></h5>
+                  <p class="text-muted mb-0">
+                    <i class="bx bxs-star text-warning"></i>
+                    <i class="bx bxs-star text-warning"></i>
+                    <i class="bx bxs-star text-warning"></i>
+                    <i class="bx bxs-star text-warning"></i>
+                    <i class="bx bxs-star-half text-warning"></i>
+                  </p>
+                  <p class="text-muted mb-0 mt-1">$ 260 x 2</p>
+                </td>
+                <td>$ 520</td>
+              </tr>
+              <tr>
+                <td>
+                  <h5 class="font-size-16 text-truncate"><a href="#" class="text-dark">Smartphone Dual Camera</a></h5>
+                  <p class="text-muted mb-0">
+                    <i class="bx bxs-star text-warning"></i>
+                    <i class="bx bxs-star text-warning"></i>
+                    <i class="bx bxs-star text-warning"></i>
+                    <i class="bx bxs-star text-warning"></i>
+                  </p>
+                  <p class="text-muted mb-0 mt-1">$ 260 x 1</p>
+                </td>
+                <td>$260</td>
+              </tr>
+              <tr>
+                <td colspan="1">
+                  <h5 class="font-size-14 m-0">Totale senza sconto :</h5>
+                </td>
+                <td>€ 780</td>
+              </tr>
+              <tr>
+                <td colspan="1">
+                  <h5 class="font-size-14 m-0">Sconto :</h5>
+                </td>
+                <td>- € 78</td>
+              </tr>
+
+              <tr>
+                <td colspan="1">
+                  <h5 class="font-size-14 m-0">Costi di spedizione :</h5>
+                </td>
+                <td>€ 25</td>
+              </tr>
+
+              <tr class="bg-light">
+                <td colspan="1">
+                  <h5 class="font-size-14 m-0">Totale:</h5>
+                </td>
+                <td>€ 745.2</td>
+              </tr>
+              </tbody>
+            </table>
+
+          </div>
+        </div>
       </div>
     </div>
   </div>
-</section>
-<div class="container finalButton ">
-  <div class="row">
-    <div class="endButtons col-md-6">
-      <button type="button" class="button btn-secondary" (click)="goBackToCart()">Annulla</button>
-      <button type="button" class="button btn-primary">PAGAH</button>
-    </div>
-  </div>
+  <!-- end row -->
+
 </div>
-</body>
 <footer>
   <app-footer></app-footer>
 </footer>
-</html>
-
