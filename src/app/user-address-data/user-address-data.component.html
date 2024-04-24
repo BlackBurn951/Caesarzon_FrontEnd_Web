@@ -20,6 +20,7 @@
       <h1 class="title">INDIRIZZI DI CONSEGNA</h1>
 
       <div class="form-group d-flex flex-column align-items-center aldos">
+
         <label for="selectCard">Seleziona un indirizzo:</label>
         <select class="form-select selectionIn btn btn-dark custom-bln">
           <option value="card1">Carta 1</option>
@@ -47,7 +48,7 @@
 
             <div class="form-group ml-3">
                 <label for="cardHolderName">Nome strada:</label>
-                <input type="text" class="form-control" id="cardHolderName" maxlength="30" placeholder="{{getUserData.getCardInformation()}}" [readonly]="!inputAbilitato">
+                <input type="text" class="form-control textBoxAggiunta" id="cardHolderName" maxlength="30" placeholder="{{getUserData.getCardInformation()}}" [readonly]="!inputAbilitato">
             </div>
             <div class="form-group ml-3">
               <label for="cap">Codice postale (CAP):</label>
@@ -55,7 +56,7 @@
             </div>
             <div class="form-group ml-3">
               <label for="prov">Provincia:</label>
-              <input type="text" class="form-control" id="prov" maxlength="30" placeholder="{{getUserData.getCardInformation()}}" [readonly]="!inputAbilitato">
+              <input type="text" class="form-control textBoxAggiunta" id="prov" maxlength="30" placeholder="{{getUserData.getCardInformation()}}" [readonly]="!inputAbilitato">
             </div>
           </div>
 
@@ -66,11 +67,11 @@
             </div>
             <div class="form-group ml-3">
               <label for="cvv">Città:</label>
-              <input type="text" class="form-control" id="cvv" maxlength="30" placeholder="{{getUserData.getCardInformation()}}" [readonly]="!inputAbilitato">
+              <input type="text" class="form-control textBoxAggiunta" id="cvv" maxlength="30" placeholder="{{getUserData.getCardInformation()}}" [readonly]="!inputAbilitato">
             </div>
             <div class="form-group ml-3">
               <label for="cvv">Regione:</label>
-              <input type="text" class="form-control" id="cvv" maxlength="30" placeholder="{{getUserData.getCardInformation()}}" [readonly]="!inputAbilitato">
+              <input type="text" class="form-control textBoxAggiunta" id="cvv" maxlength="30" placeholder="{{getUserData.getCardInformation()}}" [readonly]="!inputAbilitato">
             </div>
           </div>
 
@@ -79,7 +80,7 @@
 
 
       <div class="row mb-3">
-        <button type="button" class="btn btn-dark custom-btn mr-5" (click)="abilitaInput()">Aggiungi nuovo indirizzo</button>
+        <button type="button" class="btn btn-dark custom-btn mr-5" (click)="popUpService.openPopups(6, true)">Aggiungi nuovo indirizzo</button>
         <button type="button" class="btn btn-dark custom-btn" (click)="abilitaInput()">{{testoButton}}</button>
       </div>
 

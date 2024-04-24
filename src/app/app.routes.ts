@@ -14,11 +14,11 @@ import {UserPaymentDataComponent} from "./user-payment-data/user-payment-data.co
 import {PaymentFirstPageComponent} from "./payment-first-page/payment-first-page.component";
 import {HelpRequestComponent} from "./help-request/help-request.component";
 import {UserManagementContainerComponent} from "./user-management-container/user-management-container.component";
-import {FriendsPopupComponent} from "./friends-popup/friends-popup.component";
 import {UserAddressDataComponent} from "./user-address-data/user-address-data.component";
 import {WishListComponent} from "./wish-list/wish-list.component";
 import {PaymentSecondPageComponent} from "./payment-second-page/payment-second-page.component";
 import {AdminAreaComponent} from "./admin-area/admin-area.component";
+import {AllPopupComponent} from "./all-popup/all-popup.component";
 
 
 export const routes: Routes = [
@@ -46,7 +46,7 @@ export const routes: Routes = [
     ProductsListComponent,
     ProductManagementComponent,
     ShoppingCartComponent,
-    FriendsPopupComponent,
+    AllPopupComponent,
     PaymentFirstPageComponent,
     PaymentSecondPageComponent,
     AdminAreaComponent

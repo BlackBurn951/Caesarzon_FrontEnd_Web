@@ -18,7 +18,7 @@ export class ShoppingCartComponent {
       this.router.navigate(['payment-first-page'])
     }
     else {
-      this.popup.openPopupLoginRegistration();
+      this.popup.openPopups(3, true);
     }
   }
 }
