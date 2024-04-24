@@ -8,6 +8,11 @@
   background-color: #FF9C00;
   color: #ffffff;
 }
+
+.title{
+  font-weight: bold;
+  font-size: 2rem;
+}
 .custom-btn:hover,
 .custom-btn:focus{
   border-color: black;
@@ -65,3 +70,6 @@
   box-shadow: 0 0 5px 2px #000000 !important;
 }
 
+.aldos{
+  margin-top: -2%;
+}

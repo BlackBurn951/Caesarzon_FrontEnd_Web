@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Avviso</title>
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+</head>
+<div class="container">
+  <div class="d-flex flex-column align-items-center">
+    <h3>Sei sicuro di voler bannare l'utente {{utente}}?</h3>
+    <div class="bottoniConferma">
+      <button class="btn btn-dark custom-btn" (click)="confermaOperazione(0,1)">Si</button>
+      <button class="btn btn-dark custom-btn" (click)="confermaOperazione(1,1)">No</button>
+    </div>
+  </div>
+
+</div>
