@@ -19,40 +19,31 @@
 
   <div *ngIf="section === 0" class="container-fluid">
     <div class="row">
-
       <div class="col-md-9">
         <div class="row">
           <div class="container left-containers mt-2 ml-2">
             <div class="row mt-2">
               <div class="col">
-                <div class="row product-row">  <!--RIGA-->
-
-                  <div class="col">
-                    <div class="row gus">
-                      <p>Tipo segnalazione</p>
-                      <p class="ml-4">Utente segnalato</p>
-                      <p class="ml-4 mr-5">Motivazione</p>
-                      <div class="gas">
-                        <button class="btn-dark custom-btn esse"><i class="fas fa-times icon-small"></i></button>
-                        <button class="btn-dark custom-btn esse ml-2"><i class="fas fa-ban icon-small"></i></button>
-                      </div>
-                    </div>
-                    <div class="row gus">
-                      <p>Tipo segnalazione</p>
-                      <p class="ml-4">Utente segnalato</p>
-                      <p class="ml-4 mr-5">Motivazione</p>
-                      <div class="gas">
-                        <button class="btn-dark custom-btn esse"><i class="fas fa-times icon-small"></i></button>
-                        <button class="btn-dark custom-btn esse ml-2"><i class="fas fa-ban icon-small"></i></button>
-                      </div>
-                    </div>
-                    <div class="row gus">
-                      <p>Tipo segnalazione</p>
-                      <p class="ml-4">Utente segnalato</p>
-                      <p class="ml-4 mr-5">Motivazione</p>
-                      <div class="gas">
-                        <button class="btn-dark custom-btn esse"><i class="fas fa-times icon-small"></i></button>
-                        <button class="btn-dark custom-btn esse ml-2"><i class="fas fa-ban icon-small"></i></button>
+                <div>
+                  <div class="row product-row">
+                    <div class="col">
+                      <div class="row gus" *ngFor="let item of items; let i = index">
+                        <p>Tipo segnalazione</p>
+                        <p class="ml-4">Utente segnalato</p>
+                        <p class="ml-4 mr-5">Motivazione</p>
+                        <div class="gas">
+                          <button class="btn-dark custom-btn esse" (click)="deleteItem(i)"><i class="fas fa-times icon-small"></i></button>
+                          <button class="btn-dark custom-btn esse ml-2"><i class="fas fa-ban icon-small"></i></button>
+                          <!-- Nuovo pulsante per il collapse -->
+                          <button class="btn-dark custom-btn esse ml-2" (click)="toggleCollapse(i)"><i class="fas fa-arrow-down icon-small"></i></button>
+                        </div>
+                        <!-- Collapse content -->
+                        <div class="collapse navbar-collapse" [ngClass]="{'show': isCollapsed[i]}">
+                          <div class="row gus">
+                            <p>Dettagli aggiuntivi 1</p>
+                            <!-- Aggiungi qui ulteriori dettagli -->
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -66,34 +57,38 @@
   </div>
 
 
+
+
+
+
   <div *ngIf="section === 1" class="container-fluid">
     <div class="row">
-
-      <div class="col-md-9">  <!--LISTA DEI PRODOTTI-->
+      <div class="col-md-9">
         <div class="row">
-          <div class="container left-containers mt-2 ml-2">  <!-- CARRELLO -->
+          <div class="container left-containers mt-2 ml-2">
             <div class="row mt-2">
               <div class="col">
-                <div class="row product-row">  <!--RIGA DEL SINGOLO PRODOTTO -->
-                  <div class="col-5 align-content-center">
-                    <p>Immagine prod</p>
-                  </div>
-
-                  <div class="col">
-                    <div class="row">
-                      <p>Richiesta</p>
-                      <button class="btn btn-dark custom-btn esse"><i class="fas fa-user-plus icon-small"></i></button>
-                      <button class="btn btn-dark custom-btn esse"><i class="fas fa-user-minus icon-small"></i></button>
-                    </div>
-                    <div class="row">
-                      <p>Quantità</p>
-                      <button class="btn btn-primary custom-btn esse"><i class="fas fa-user-plus icon-small"></i></button>
-                      <button class="btn btn-primary custom-btn esse"><i class="fas fa-user-minus icon-small"></i></button>
-                    </div>
-                    <div class="row">
-                      <p>Acquista più tardi</p>
-                      <button class="btn btn-primary custom-btn esse"><i class="fas fa-user-plus"></i></button>
-                      <button class="btn btn-primary custom-btn esse"><i class="fas fa-user-minus"></i></button>
+                <div>
+                  <div class="row product-row">
+                    <div class="col">
+                      <div class="row gus" *ngFor="let item of items; let i = index">
+                        <p>Tipo segnalazione</p>
+                        <p class="ml-4">Utente segnalato</p>
+                        <p class="ml-4 mr-5">Motivazione</p>
+                        <div class="gas">
+                          <button class="btn-dark custom-btn esse" (click)="deleteItem(i)"><i class="fas fa-times icon-small"></i></button>
+                          <button class="btn-dark custom-btn esse ml-2"><i class="fas fa-ban icon-small"></i></button>
+                          <!-- Nuovo pulsante per il collapse -->
+                          <button class="btn-dark custom-btn esse ml-2" (click)="toggleCollapse(i)"><i class="fas fa-arrow-down icon-small"></i></button>
+                        </div>
+                        <!-- Collapse content -->
+                        <div class="collapse navbar-collapse" [ngClass]="{'show': isCollapsed[i]}">
+                          <div class="row gus">
+                            <p>Dettagli aggiuntivi 1</p>
+                            <!-- Aggiungi qui ulteriori dettagli -->
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
