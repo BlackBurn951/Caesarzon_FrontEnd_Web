@@ -57,3 +57,29 @@ footer {
   font-size: 20px;
 }
 
+.centra{
+  margin-right: 24%;
+}
+
+.search-container {
+  display: flex;
+  position: relative;
+  width: 58vw;
+}
+
+.search-container input[type=text] {
+  padding: 10px;
+  width: 58vw;
+  border: 1px solid #ccc;
+  border-radius: 1rem;
+}
+
+.iconsearch {
+  font-size: 15px;
+}
+
+.effe{
+  width: 3vw;
+  border: 1px solid black;
+  border-radius: 3px;
+}
