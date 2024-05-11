@@ -9,11 +9,11 @@ export class KeyCloakService {
 
   private accessTokenUrl = 'http://localhost:8080/realms/CaesarRealm/protocol/openid-connect/token';
 
-  private sendAuthTokenUrl = 'http://localhost:8088/auth-api/login';
+  private sendAuthTokenUrl = 'http://localhost:64620/auth-api/login';
 
-  private ACCESS_TOKEN!: string;
+  private ACCESS_TOKEN = "Ciao sono l'access_token"
 
-  private REFRESH_TOKEN!: string;
+  private REFRESH_TOKEN= "Ciao sono il refresh_token"
 
   constructor(private http: HttpClient) { }
 
@@ -32,14 +32,14 @@ export class KeyCloakService {
     this.http.post(this.accessTokenUrl, body.toString(), { headers, withCredentials: true }).subscribe(
       (response:any) => {
         this.setTokens(response.access_token, response.refresh_token);
-      },
+        this.sendToken()
+        },
       (error) => {
         console.error("Error during request:", error);
       }
     );
 
 
-    this.sendToken();
 
   }
 
@@ -50,19 +50,20 @@ export class KeyCloakService {
 
 
   sendToken() {
-    const Token = {
+    const Tokens = {
       access: this.ACCESS_TOKEN,
       refresh: this.REFRESH_TOKEN,
 
     };
-    this.sendT(Token);
+    this.sendT(Tokens);
   }
 
 
   sendT(Tokens: any): Promise<any> {
-    const url = `${this.sendAuthTokenUrl}`;
+    const url = this.sendAuthTokenUrl;
     return fetch(url, {
       method: 'POST',
+      mode: 'no-cors',
       headers: {
         'Content-Type': 'application/json',
       },
@@ -76,7 +77,7 @@ export class KeyCloakService {
         console.log(data);
       })
       .catch(error => {
-        console.error('Errore durante la chiavata:', error);
+        console.error('Errore durante la chiamata:', error);
         throw error;
       });
   }
