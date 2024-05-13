@@ -9,7 +9,7 @@ export class KeyCloakService {
 
   private accessTokenUrl = 'http://localhost:8080/realms/CaesarRealm/protocol/openid-connect/token';
 
-  private sendAuthTokenUrl = 'http://localhost:64620/auth-api/login';
+  private sendAuthTokenUrl = 'http://localhost:8090/auth-api/login';
 
   private ACCESS_TOKEN = "Ciao sono l'access_token"
 
@@ -66,6 +66,7 @@ export class KeyCloakService {
       mode: 'no-cors',
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': `Bearer ${this.ACCESS_TOKEN}`
       },
       body: JSON.stringify(Tokens),
       credentials: 'omit'
