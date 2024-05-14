@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
-import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { CookieService } from "ngx-cookie-service";
 import { Observable } from "rxjs";
 
 @Injectable({
@@ -10,13 +11,11 @@ export class KeyCloakService {
   csrfToken!: string;
 
   private accessTokenUrl = 'http://localhost:8080/realms/CaesarRealm/protocol/openid-connect/token';
-  private sendAuthTokenUrl = 'http://localhost:8090/auth-api/login';
-  private getCsrfTokenUrl = 'http://localhost:8090/csrf-token';
+  private sendAuthTokenUrl = 'http://localhost:60284/auth-api/login';
+  private ACCESS_TOKEN!: string;
+  private REFRESH_TOKEN!: string;
 
-  private ACCESS_TOKEN!:string;
-  private REFRESH_TOKEN!:string;
-
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private cookieService: CookieService) { }
 
   generateToken(username: string, password: string): void{
     const headers = new HttpHeaders({
@@ -31,7 +30,6 @@ export class KeyCloakService {
 
     this.http.post(this.accessTokenUrl, body.toString(), { headers, withCredentials: true }).subscribe(
       (response:any) => {
-        this.getCsrfToken()
         this.setTokens(response.access_token, response.refresh_token);
         this.sendToken()
       },
@@ -47,26 +45,41 @@ export class KeyCloakService {
   }
 
   sendToken() {
-    const Tokens = {
+    const tokens = {
       access: this.ACCESS_TOKEN,
       refresh: this.REFRESH_TOKEN,
-      _csrf: this.csrfToken // Include il token CSRF qui
     };
-    this.sendT(Tokens);
+    this.sendTokens(tokens);
   }
 
-  sendT(Tokens: any): Promise<any> {
-    const url = this.sendAuthTokenUrl;
-    return this.http.post(url, Tokens).toPromise(); // Non c'è bisogno di utilizzare fetch, puoi usare direttamente HttpClient
-  }
-
-  getCsrfToken() {
-    this.getTekken().subscribe((data: any) => {
-      this.csrfToken = data.csrfToken;
+  sendTokens(tokens: any): void {
+    console.log("SONO NELLA CHIAMATA SEND TOKENS: ", this.csrfToken)
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'X-CSRF-TOKEN': this.csrfToken
     });
+
+    this.http.post(this.sendAuthTokenUrl, tokens, { headers }).subscribe(
+      (data) => {
+        console.log("ho fatto ye", data);
+      },
+      (error) => {
+        console.error('Error during request:', error);
+      }
+    );
   }
 
-  getTekken() {
-    return this.http.get(this.getCsrfTokenUrl);
+  getCsrfTokens(): Observable<string> {
+    return this.http.get("http://localhost:60284/get-csrf-token", { responseType: 'text' });
   }
+
+  getCsrfToken(): void {
+    this.getCsrfTokens()
+      .subscribe(token => {
+        this.csrfToken = token;
+        console.log('CsrfToken:', this.csrfToken);
+      });
+  }
+
+
 }
