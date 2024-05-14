@@ -19,7 +19,7 @@ import {WishListComponent} from "./wish-list/wish-list.component";
 import {PaymentSecondPageComponent} from "./payment-second-page/payment-second-page.component";
 import {AdminAreaComponent} from "./admin-area/admin-area.component";
 import {AllPopupComponent} from "./all-popup/all-popup.component";
-import {HttpClientModule, provideHttpClient} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule, provideHttpClient} from '@angular/common/http';
 import {KeyCloakService} from "./KeyCloakService";
 import {BrowserModule, provideClientHydration} from "@angular/platform-browser";
 
