@@ -1,5 +1,6 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
+import {KeyCloakService} from "../KeyCloakService";
 
 
 @Component({
@@ -10,7 +11,10 @@ import {Router} from "@angular/router";
 
 
 
-export class HomepageComponent {
+export class HomepageComponent implements OnInit{
+
+
+
   products: any[] = [];
   products2: any[] = [];
   products3: any[] = [];
@@ -18,7 +22,7 @@ export class HomepageComponent {
   indexNovita = 0;
   indexOfferte: number = 0;
   indexMomento: number = 0;
-  constructor(private router: Router) {
+  constructor(private router: Router, private key:KeyCloakService) {
     this.products = [
       { id: 1, name: 'Prodotto 1', description: 'Il prodotto 1 è un prodotto di orginie italiana, lavorato nell'+'azienza X' },
       { id: 2, name: 'Prodotto 2', description: 'Descrizione breve del prodotto 2' },
@@ -63,10 +67,28 @@ export class HomepageComponent {
     ];
   }
 
+  // ngOnInit(): void {
+  //   this.key.getCsrfTokenFromCookie().subscribe(
+  //     (token: string) => {
+  //       this.key.csrfToken = token;
+  //       console.log('CSRF Token:', this.key.csrfToken);
+  //       // Qui puoi fare qualsiasi cosa con il token CSRF ottenuto
+  //     },
+  //     (error) => {
+  //       console.error('Error getting CSRF Token:', error);
+  //     }
+  //   );
+  // }
 
-    goToProductPage(event: Event) {
+
+  goToProductPage(event: Event) {
     this.router.navigate(['product-page'])
       event.preventDefault();
+  }
+
+  ngOnInit() {
+    this.key.getCsrfToken()
+
   }
 
   nextData(id: string) {
