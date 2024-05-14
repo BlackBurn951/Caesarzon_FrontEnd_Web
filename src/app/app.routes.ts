@@ -1,4 +1,4 @@
-import {Routes} from "@angular/router";
+import {provideRouter, RouterModule, Routes} from "@angular/router";
 import {HomepageComponent} from "./homepage/homepage.component";
 import {RegistrationComponent} from "./registration/registration.component";
 import {ProductPageComponent} from "./product-page/product-page.component";
@@ -19,6 +19,9 @@ import {WishListComponent} from "./wish-list/wish-list.component";
 import {PaymentSecondPageComponent} from "./payment-second-page/payment-second-page.component";
 import {AdminAreaComponent} from "./admin-area/admin-area.component";
 import {AllPopupComponent} from "./all-popup/all-popup.component";
+import {HTTP_INTERCEPTORS, HttpClientModule, provideHttpClient} from '@angular/common/http';
+import {KeyCloakService} from "./KeyCloakService";
+import {BrowserModule, provideClientHydration} from "@angular/platform-browser";
 
 
 export const routes: Routes = [
@@ -51,7 +54,7 @@ export const routes: Routes = [
     PaymentSecondPageComponent,
     AdminAreaComponent
   ],
-  imports: [
+  imports: [RouterModule.forRoot(routes),
     NgIf,
     NgClass,
     FormsModule,
@@ -59,10 +62,14 @@ export const routes: Routes = [
     ReactiveFormsModule,
     FooterComponent,
     PersonalDataComponent,
+    BrowserModule,
+    HttpClientModule,
     UserManagementContainerComponent
   ],
-  providers: [],
+  providers: [KeyCloakService],
   exports: [
   ]
 })
-export class AppModule { }
+export class AppModule {
+
+}

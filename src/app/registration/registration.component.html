@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="it" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
   <meta charset="UTF-8">
+  <meta name="_csrf" th:content="${_csrf.token}"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login</title>
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
@@ -37,7 +38,7 @@
 
 
     <div class="d-flex flex-column align-items-center">
-      <button type="submit" class="btn btn-dark custom-btn" (click)="userData.toggleLogin($event)" >Accedi</button>
+      <button type="submit" class="btn btn-dark custom-btn" (click)="keycloakService.generateToken(username, password)" >Accedi</button>
     </div>
 
     <div class="form-group formos">
