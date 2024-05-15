@@ -11,7 +11,7 @@ import {KeyCloakService} from "../KeyCloakService";
 
 
 
-export class HomepageComponent implements OnInit{
+export class HomepageComponent{
 
 
 
@@ -67,29 +67,13 @@ export class HomepageComponent implements OnInit{
     ];
   }
 
-  // ngOnInit(): void {
-  //   this.key.getCsrfTokenFromCookie().subscribe(
-  //     (token: string) => {
-  //       this.key.csrfToken = token;
-  //       console.log('CSRF Token:', this.key.csrfToken);
-  //       // Qui puoi fare qualsiasi cosa con il token CSRF ottenuto
-  //     },
-  //     (error) => {
-  //       console.error('Error getting CSRF Token:', error);
-  //     }
-  //   );
-  // }
-
 
   goToProductPage(event: Event) {
     this.router.navigate(['product-page'])
       event.preventDefault();
   }
 
-  ngOnInit() {
-    this.key.getCsrfToken()
 
-  }
 
   nextData(id: string) {
 

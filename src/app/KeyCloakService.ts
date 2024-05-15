@@ -1,21 +1,18 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { CookieService } from "ngx-cookie-service";
-import { Observable } from "rxjs";
 
 @Injectable({
   providedIn: 'root',
 })
 export class KeyCloakService {
 
-  csrfToken!: string;
 
   private accessTokenUrl = 'http://localhost:8080/realms/CaesarRealm/protocol/openid-connect/token';
-  private sendAuthTokenUrl = 'http://localhost:60284/auth-api/login';
+  private sendAuthTokenUrl = 'http://localhost:8090/auth-api/login';
   private ACCESS_TOKEN!: string;
   private REFRESH_TOKEN!: string;
 
-  constructor(private http: HttpClient, private cookieService: CookieService) { }
+  constructor(private http: HttpClient) { }
 
   generateToken(username: string, password: string): void{
     const headers = new HttpHeaders({
@@ -45,21 +42,22 @@ export class KeyCloakService {
   }
 
   sendToken() {
-    const tokens = {
+    const Tokens = {
       access: this.ACCESS_TOKEN,
       refresh: this.REFRESH_TOKEN,
     };
-    this.sendTokens(tokens);
+    this.sendTokens(Tokens);
   }
 
-  sendTokens(tokens: any): void {
-    console.log("SONO NELLA CHIAMATA SEND TOKENS: ", this.csrfToken)
+  sendTokens(Tokens: any): void {
+    const csrfToken = document.cookie.replace(/(?:^|.*;\s*)XSRF-TOKEN\s*=\s*([^;]*).*$|^.*$/, '$1');
+    console.log("SONO IL TOKEN PRESO CON DOCUMENT.COOKIE", csrfToken)
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      'X-CSRF-TOKEN': this.csrfToken
+      'X-XSRF-TOKEN': csrfToken
     });
 
-    this.http.post(this.sendAuthTokenUrl, tokens, { headers }).subscribe(
+    this.http.post(this.sendAuthTokenUrl, Tokens, { headers , withCredentials: true}).subscribe(
       (data) => {
         console.log("ho fatto ye", data);
       },
@@ -67,18 +65,6 @@ export class KeyCloakService {
         console.error('Error during request:', error);
       }
     );
-  }
-
-  getCsrfTokens(): Observable<string> {
-    return this.http.get("http://localhost:60284/get-csrf-token", { responseType: 'text' });
-  }
-
-  getCsrfToken(): void {
-    this.getCsrfTokens()
-      .subscribe(token => {
-        this.csrfToken = token;
-        console.log('CsrfToken:', this.csrfToken);
-      });
   }
 
 
