@@ -1,20 +1,16 @@
 import { Injectable } from "@angular/core";
-import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
-import { Observable } from "rxjs";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 
 @Injectable({
   providedIn: 'root',
 })
 export class KeyCloakService {
 
-  csrfToken!: string;
 
   private accessTokenUrl = 'http://localhost:8080/realms/CaesarRealm/protocol/openid-connect/token';
   private sendAuthTokenUrl = 'http://localhost:8090/auth-api/login';
-  private getCsrfTokenUrl = 'http://localhost:8090/csrf-token';
-
-  private ACCESS_TOKEN!:string;
-  private REFRESH_TOKEN!:string;
+  private ACCESS_TOKEN!: string;
+  private REFRESH_TOKEN!: string;
 
   constructor(private http: HttpClient) { }
 
@@ -31,7 +27,6 @@ export class KeyCloakService {
 
     this.http.post(this.accessTokenUrl, body.toString(), { headers, withCredentials: true }).subscribe(
       (response:any) => {
-        this.getCsrfToken()
         this.setTokens(response.access_token, response.refresh_token);
         this.sendToken()
       },
@@ -50,23 +45,27 @@ export class KeyCloakService {
     const Tokens = {
       access: this.ACCESS_TOKEN,
       refresh: this.REFRESH_TOKEN,
-      _csrf: this.csrfToken // Include il token CSRF qui
     };
-    this.sendT(Tokens);
+    this.sendTokens(Tokens);
   }
 
-  sendT(Tokens: any): Promise<any> {
-    const url = this.sendAuthTokenUrl;
-    return this.http.post(url, Tokens).toPromise(); // Non c'è bisogno di utilizzare fetch, puoi usare direttamente HttpClient
-  }
-
-  getCsrfToken() {
-    this.getTekken().subscribe((data: any) => {
-      this.csrfToken = data.csrfToken;
+  sendTokens(Tokens: any): void {
+    const csrfToken = document.cookie.replace(/(?:^|.*;\s*)XSRF-TOKEN\s*=\s*([^;]*).*$|^.*$/, '$1');
+    console.log("SONO IL TOKEN PRESO CON DOCUMENT.COOKIE", csrfToken)
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'X-XSRF-TOKEN': csrfToken
     });
+
+    this.http.post(this.sendAuthTokenUrl, Tokens, { headers , withCredentials: true}).subscribe(
+      (data) => {
+        console.log("ho fatto ye", data);
+      },
+      (error) => {
+        console.error('Error during request:', error);
+      }
+    );
   }
 
-  getTekken() {
-    return this.http.get(this.getCsrfTokenUrl);
-  }
+
 }
