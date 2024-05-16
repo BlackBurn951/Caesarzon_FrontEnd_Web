@@ -11,7 +11,7 @@ import {KeyCloakService} from "../KeyCloakService";
 
 
 
-export class HomepageComponent{
+export class HomepageComponent implements OnInit{
 
 
 
@@ -73,6 +73,9 @@ export class HomepageComponent{
       event.preventDefault();
   }
 
+  ngOnInit() {
+    this.key.fetchCookie()
+  }
 
 
   nextData(id: string) {

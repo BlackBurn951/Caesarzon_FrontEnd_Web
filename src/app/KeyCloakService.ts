@@ -1,14 +1,16 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
+import {Observable} from "rxjs";
 
 @Injectable({
   providedIn: 'root',
 })
 export class KeyCloakService {
 
+  private csrfTOKEN !: string;
 
   private accessTokenUrl = 'http://localhost:8080/realms/CaesarRealm/protocol/openid-connect/token';
-  private sendAuthTokenUrl = 'http://localhost:8090/auth-api/login';
+  private sendAuthTokenUrl = 'http://localhost:58880/auth-api/login';
   private ACCESS_TOKEN!: string;
   private REFRESH_TOKEN!: string;
 
@@ -50,11 +52,11 @@ export class KeyCloakService {
   }
 
   sendTokens(Tokens: any): void {
-    const csrfToken = document.cookie.replace(/(?:^|.*;\s*)XSRF-TOKEN\s*=\s*([^;]*).*$|^.*$/, '$1');
-    console.log("SONO IL TOKEN PRESO CON DOCUMENT.COOKIE", csrfToken)
+    this.csrfTOKEN = document.cookie.replace(/(?:^|.*;\s*)XSRF-TOKEN\s*=\s*([^;]*).*$|^.*$/, '$1');
+    console.log("SONO IL TOKEN PRESO CON DOCUMENT.COOKIE", this.csrfTOKEN)
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      'X-XSRF-TOKEN': csrfToken
+      'X-XSRF-TOKEN': this.csrfTOKEN
     });
 
     this.http.post(this.sendAuthTokenUrl, Tokens, { headers , withCredentials: true}).subscribe(
@@ -66,6 +68,29 @@ export class KeyCloakService {
       }
     );
   }
+
+
+  private apiUrl = 'http://localhost:58880/get-cookie';
+
+
+
+  getCookie(): Observable<string> {
+    return this.http.get(this.apiUrl, {responseType: 'text', withCredentials: true});
+  }
+
+  fetchCookie() {
+    this.getCookie().subscribe(
+      (data: string) => {
+        console.log("COOKIE DAL SERVER: ", data)
+        this.csrfTOKEN = document.cookie.replace(/(?:^|.*;\s*)XSRF-TOKEN\s*=\s*([^;]*).*$|^.*$/, '$1');
+        console.log("SONO IL TOKEN PRESO CON DOCUMENT.COOKIE", this.csrfTOKEN)
+      },
+      (error: any) => {
+        console.error('Error fetching cookie', error);
+      }
+    );
+  }
+
 
 
 }
