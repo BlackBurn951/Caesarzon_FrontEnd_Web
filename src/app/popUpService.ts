@@ -4,6 +4,7 @@ import {BehaviorSubject} from "rxjs";
 import {WarningMessageComponent} from "./warning-message/warning-message.component";
 import {RegistrationComponent} from "./registration/registration.component";
 import {AllPopupComponent} from "./all-popup/all-popup.component";
+import {KeyCloakService} from "./KeyCloakService";
 
 @Injectable({
   providedIn: 'root',

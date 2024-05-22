@@ -3,7 +3,8 @@ import {FormGroup} from "@angular/forms";
 import {FormService} from "../formService";
 import {PopupService} from "../popUpService";
 import {GetUserData} from "../getUserData";
-import {Event} from "@angular/router";
+import {KeyCloakService} from "../KeyCloakService";
+
 
 @Component({
   selector: 'app-registration',
@@ -15,12 +16,15 @@ export class RegistrationComponent {
 
   protected formCaesarzon!: FormGroup;
 
+  password : string = "baby12345"
+  username: string = "Cesare"
+
   mostraPassword: { [key: string]: boolean } = { password: false, confermaPassword: false };
 
   passwordDifferenti: boolean = false;
 
 
-  constructor(public formService: FormService, public popupService: PopupService, protected userData: GetUserData) {
+  constructor(public formService: FormService, public popupService: PopupService, protected userData: GetUserData, public keycloakService: KeyCloakService) {
     this.formCaesarzon = formService.getForm();
   }
 
@@ -58,5 +62,5 @@ export class RegistrationComponent {
   }
 
 
-  protected readonly GetUserData = GetUserData;
+
 }
