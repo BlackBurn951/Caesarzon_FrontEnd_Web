@@ -3,6 +3,8 @@ import {NgClass, NgIf} from "@angular/common";
 import {Router} from "@angular/router";
 import {PopupService} from "../popUpService";
 import {GetUserData} from "../getUserData";
+import {Observable} from "rxjs";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 
 
 @Component({
