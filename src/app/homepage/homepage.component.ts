@@ -74,7 +74,7 @@ export class HomepageComponent implements OnInit{
   }
 
   ngOnInit() {
-    this.key.fetchCookie()
+    //this.key.fetchCookie()
   }
 
 
@@ -174,5 +174,9 @@ export class HomepageComponent implements OnInit{
   toggleDetails(){
     this.showDetails = !this.showDetails;
     console.log(this.showDetails)
+  }
+
+  test() {
+    this.key.testCors();
   }
 }
