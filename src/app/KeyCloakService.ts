@@ -10,11 +10,19 @@ export class KeyCloakService {
   private csrfTOKEN !: string;
 
   private accessTokenUrl = 'http://localhost:8080/realms/CaesarRealm/protocol/openid-connect/token';
-  private sendAuthTokenUrl = 'http://localhost:58880/auth-api/login';
+  private sendAuthTokenUrl = "http://localhost:8090/auth-api/test";
+  private test = "http://localhost:8090/auth-api/join";
+
+  private cookieUrl = 'http://localhost:58489/auth-api/take-cookie';
   private ACCESS_TOKEN!: string;
   private REFRESH_TOKEN!: string;
 
   constructor(private http: HttpClient) { }
+
+
+  login(username: string, password: string): void {
+    this.generateToken(username, password);
+  }
 
   generateToken(username: string, password: string): void{
     const headers = new HttpHeaders({
@@ -52,16 +60,16 @@ export class KeyCloakService {
   }
 
   sendTokens(Tokens: any): void {
-    this.csrfTOKEN = document.cookie.replace(/(?:^|.*;\s*)XSRF-TOKEN\s*=\s*([^;]*).*$|^.*$/, '$1');
-    console.log("SONO IL TOKEN PRESO CON DOCUMENT.COOKIE", this.csrfTOKEN)
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      'X-XSRF-TOKEN': this.csrfTOKEN
+      'Authorization': `Bearer ${this.ACCESS_TOKEN}`
+
     });
 
-    this.http.post(this.sendAuthTokenUrl, Tokens, { headers , withCredentials: true}).subscribe(
+    this.http.post(this.sendAuthTokenUrl, Tokens, { headers, responseType: 'text' as 'json' }).subscribe(
       (data) => {
-        console.log("ho fatto ye", data);
+        console.log("Response received", data);
+        // Se necessario, puoi fare ulteriori elaborazioni del token ricevuto qui
       },
       (error) => {
         console.error('Error during request:', error);
@@ -70,26 +78,24 @@ export class KeyCloakService {
   }
 
 
-  private apiUrl = 'http://localhost:58880/get-cookie';
 
 
+  prova(event: Event) {
+    event.preventDefault();
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.ACCESS_TOKEN}`
+    });
 
-  getCookie(): Observable<string> {
-    return this.http.get(this.apiUrl, {responseType: 'text', withCredentials: true});
-  }
-
-  fetchCookie() {
-    this.getCookie().subscribe(
-      (data: string) => {
-        console.log("COOKIE DAL SERVER: ", data)
-        this.csrfTOKEN = document.cookie.replace(/(?:^|.*;\s*)XSRF-TOKEN\s*=\s*([^;]*).*$|^.*$/, '$1');
-        console.log("SONO IL TOKEN PRESO CON DOCUMENT.COOKIE", this.csrfTOKEN)
+    this.http.get(this.test, { responseType: 'text', headers: headers }).subscribe(
+      (response: any) => {
+        console.log("RISPOSTA DAL SERVER: ", response);
       },
       (error: any) => {
-        console.error('Error fetching cookie', error);
+        console.error('Errore nella chiamata testCors: ', error);
       }
     );
   }
+
 
 
 
