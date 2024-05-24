@@ -7,13 +7,13 @@ import {Observable} from "rxjs";
 })
 export class KeyCloakService {
 
-  private csrfTOKEN !: string;
 
   private accessTokenUrl = 'http://localhost:8080/realms/CaesarRealm/protocol/openid-connect/token';
-  private sendAuthTokenUrl = "http://localhost:8090/auth-api/test";
-  private test = "http://localhost:8090/auth-api/join";
 
-  private cookieUrl = 'http://localhost:58489/auth-api/take-cookie';
+  private sendAuthTokenUrl = "http://localhost:8090/auth-api/test";
+
+  private test = "http://localhost:8090/user-api/users";
+
   private ACCESS_TOKEN!: string;
   private REFRESH_TOKEN!: string;
 
@@ -38,7 +38,8 @@ export class KeyCloakService {
     this.http.post(this.accessTokenUrl, body.toString(), { headers, withCredentials: true }).subscribe(
       (response:any) => {
         this.setTokens(response.access_token, response.refresh_token);
-        this.sendToken()
+        console.log("UTOKEN: ", this.ACCESS_TOKEN);
+
       },
       (error) => {
         console.error("Error during request:", error);
@@ -60,6 +61,7 @@ export class KeyCloakService {
   }
 
   sendTokens(Tokens: any): void {
+    console.log("UTOKEN: ", this.ACCESS_TOKEN);
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${this.ACCESS_TOKEN}`
@@ -69,7 +71,6 @@ export class KeyCloakService {
     this.http.post(this.sendAuthTokenUrl, Tokens, { headers, responseType: 'text' as 'json' }).subscribe(
       (data) => {
         console.log("Response received", data);
-        // Se necessario, puoi fare ulteriori elaborazioni del token ricevuto qui
       },
       (error) => {
         console.error('Error during request:', error);
@@ -86,7 +87,7 @@ export class KeyCloakService {
       'Authorization': `Bearer ${this.ACCESS_TOKEN}`
     });
 
-    this.http.get(this.test, { responseType: 'text', headers: headers }).subscribe(
+    this.http.get(this.test, { responseType: 'text', headers: headers}).subscribe(
       (response: any) => {
         console.log("RISPOSTA DAL SERVER: ", response);
       },
