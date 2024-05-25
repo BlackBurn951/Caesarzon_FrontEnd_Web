@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="it" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -37,11 +37,12 @@
 
 
     <div class="d-flex flex-column align-items-center">
-      <button type="submit" class="btn btn-dark custom-btn" (click)="userData.toggleLogin($event)" >Accedi</button>
+      <button type="submit" class="btn btn-dark custom-btn" (click)="keycloakService.generateToken('cesare', 'baby12345')" >Accedi</button>
     </div>
 
     <div class="form-group formos">
-      <a href="#" (click)="popupService.toggleLogin($event); cambiaLarghezza(1)" id="registrati-link">Sei nuovo su Caesarzon? Registrati.</a>
+      <!--<a href="#" (click)="popupService.toggleLogin($event); cambiaLarghezza(1)" id="registrati-link">Sei nuovo su Caesarzon? Registrati.</a>-->
+      <a href="#" (click)="keycloakService.prova($event)" id="registrati-link">Sei nuovo su Caesarzon? Registrati.</a>
     </div>
 
 
