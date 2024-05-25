@@ -16,8 +16,8 @@ export class RegistrationComponent {
 
   protected formCaesarzon!: FormGroup;
 
-  password : string = "baby12345"
-  username: string = "cesare"
+  password! : string;
+  username!: string;
 
   mostraPassword: { [key: string]: boolean } = { password: false, confermaPassword: false };
 
@@ -39,7 +39,16 @@ export class RegistrationComponent {
   }
 
   registrati(){
-    console.log("mi sono registrato")
+    this.formService.setFormData(this.formCaesarzon.value);
+    const email = this.formCaesarzon.get('formRegistrazione.email')?.value;
+    const nome = this.formCaesarzon.get('formRegistrazione.nome')?.value;
+    const cognome = this.formCaesarzon.get('formRegistrazione.cognome')?.value;
+    const username = this.formCaesarzon.get('formRegistrazione.username')?.value;
+
+    const password = this.formCaesarzon.get('formRegistrazione.password')?.value;
+
+    this.keycloakService.login("cesare", "baby12345")
+    this.keycloakService.register(email, nome, cognome, true, username, password, false)
   }
 
   comparaPassword() {

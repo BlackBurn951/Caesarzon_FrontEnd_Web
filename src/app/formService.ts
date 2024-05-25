@@ -10,11 +10,22 @@ export class FormService {
 
   private dominiEmailComuni = dominiEmailComuni;
 
+  datiForm: any = {};
+
 
   protected formCaesarzon!: FormGroup;
 
   constructor(private fb: FormBuilder, private popUpService: PopupService) {
     this.createForm();
+  }
+
+  setFormData(formData: any) {
+    this.datiForm = { ...this.datiForm, ...formData };
+  }
+
+
+  getFormData() {
+    return this.datiForm;
   }
 
   createForm() {

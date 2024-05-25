@@ -176,7 +176,5 @@ export class HomepageComponent{
     console.log(this.showDetails)
   }
 
-  test() {
-    this.key.testCors();
-  }
+
 }

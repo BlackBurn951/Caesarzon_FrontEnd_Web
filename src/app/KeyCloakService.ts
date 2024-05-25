@@ -10,7 +10,7 @@ export class KeyCloakService {
 
   private accessTokenUrl = 'http://localhost:8080/realms/CaesarRealm/protocol/openid-connect/token';
 
-  private sendAuthTokenUrl = "http://localhost:8090/auth-api/test";
+  private registrationUrl = 'http://localhost:8080/admin/realms/CaesarRealm/users';
 
   private test = "http://localhost:8090/user-api/users";
 
@@ -19,12 +19,16 @@ export class KeyCloakService {
 
   constructor(private http: HttpClient) { }
 
-
-  login(username: string, password: string): void {
-    this.generateToken(username, password);
+  refreshAuthVariables(){
+    this.ACCESS_TOKEN = "";
+    this.REFRESH_TOKEN = "";
+    console.log("Acc", this.ACCESS_TOKEN)
+    console.log("REf", this.REFRESH_TOKEN)
   }
 
-  generateToken(username: string, password: string): void{
+
+
+  login(username: string, password: string): void{
     const headers = new HttpHeaders({
       'Content-Type': 'application/x-www-form-urlencoded'
     });
@@ -52,31 +56,40 @@ export class KeyCloakService {
     this.REFRESH_TOKEN = refreshToken;
   }
 
-  sendToken() {
-    const Tokens = {
-      access: this.ACCESS_TOKEN,
-      refresh: this.REFRESH_TOKEN,
-    };
-    this.sendTokens(Tokens);
+
+
+  register(email: string, firstName: string, lastName: string, enabled: boolean, username: string, password: string, temp: boolean) {
+    console.log("password: ", password)
+    const requestBody = `
+    {
+      "username": "${username}",
+      "email": "${email}",
+      "enabled": ${enabled},
+      "credentials": [{
+        "type": "password",
+        "value": "${password}"
+      }]
+    }
+  `;
+    this.registration(requestBody);
   }
 
-  sendTokens(Tokens: any): void {
-    console.log("UTOKEN: ", this.ACCESS_TOKEN);
+  registration(requestBody: string): void {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${this.ACCESS_TOKEN}`
-
     });
 
-    this.http.post(this.sendAuthTokenUrl, Tokens, { headers, responseType: 'text' as 'json' }).subscribe(
-      (data) => {
-        console.log("Response received", data);
+    this.http.post(this.registrationUrl, requestBody, { headers, responseType: 'text' as 'json' }).subscribe(
+      (response: any) => {
+        console.log("Response from registration to Keycloak: ", response);
       },
       (error) => {
-        console.error('Error during request:', error);
+        console.error("Error during request:", error);
       }
     );
   }
+
 
 
 
@@ -96,17 +109,6 @@ export class KeyCloakService {
       }
     );
   }
-
-testCors() {
-    this.http.get("http://localhost:8090/auth-api/test", {responseType: 'text'}).subscribe(
-      (response: any) => {
-        console.log("RISPOSTA DAL SERVER: ", response)
-      },
-      (error: any) => {
-        console.error('Errore nella chiamata testCors: ', error);
-      }
-    );
-}
 
 
 }
