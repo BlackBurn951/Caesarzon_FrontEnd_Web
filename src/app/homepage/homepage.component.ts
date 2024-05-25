@@ -11,7 +11,7 @@ import {KeyCloakService} from "../KeyCloakService";
 
 
 
-export class HomepageComponent implements OnInit{
+export class HomepageComponent{
 
 
 
