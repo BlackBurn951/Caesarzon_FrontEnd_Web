@@ -17,7 +17,7 @@ export class RegistrationComponent {
   protected formCaesarzon!: FormGroup;
 
   password : string = "baby12345"
-  username: string = "Cesare"
+  username: string = "cesare"
 
   mostraPassword: { [key: string]: boolean } = { password: false, confermaPassword: false };
 

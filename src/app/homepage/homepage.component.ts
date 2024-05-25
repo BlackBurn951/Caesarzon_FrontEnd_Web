@@ -73,6 +73,9 @@ export class HomepageComponent{
       event.preventDefault();
   }
 
+  ngOnInit() {
+    //this.key.fetchCookie()
+  }
 
 
   nextData(id: string) {
@@ -171,5 +174,9 @@ export class HomepageComponent{
   toggleDetails(){
     this.showDetails = !this.showDetails;
     console.log(this.showDetails)
+  }
+
+  test() {
+    this.key.testCors();
   }
 }

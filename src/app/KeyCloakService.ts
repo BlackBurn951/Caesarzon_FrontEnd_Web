@@ -97,7 +97,16 @@ export class KeyCloakService {
     );
   }
 
-
+testCors() {
+    this.http.get("http://localhost:8090/auth-api/test", {responseType: 'text'}).subscribe(
+      (response: any) => {
+        console.log("RISPOSTA DAL SERVER: ", response)
+      },
+      (error: any) => {
+        console.error('Errore nella chiamata testCors: ', error);
+      }
+    );
+}
 
 
 }
