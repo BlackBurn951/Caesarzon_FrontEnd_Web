@@ -1,6 +1,5 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-import {Observable} from "rxjs";
 
 @Injectable({
   providedIn: 'root',
@@ -58,12 +57,18 @@ export class KeyCloakService {
 
 
 
-  register(email: string, firstName: string, lastName: string, enabled: boolean, username: string, password: string, temp: boolean) {
-    console.log("password: ", password)
+  registration(email: string, firstName: string, lastName: string, enabled: boolean, username: string, password: string): void {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${this.ACCESS_TOKEN}`
+    });
+
     const requestBody = `
     {
       "username": "${username}",
       "email": "${email}",
+      "firstName": "${firstName}",
+      "lastName": "${lastName}",
       "enabled": ${enabled},
       "credentials": [{
         "type": "password",
@@ -71,14 +76,6 @@ export class KeyCloakService {
       }]
     }
   `;
-    this.registration(requestBody);
-  }
-
-  registration(requestBody: string): void {
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${this.ACCESS_TOKEN}`
-    });
 
     this.http.post(this.registrationUrl, requestBody, { headers, responseType: 'text' as 'json' }).subscribe(
       (response: any) => {

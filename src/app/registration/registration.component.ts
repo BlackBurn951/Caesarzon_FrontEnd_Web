@@ -47,8 +47,7 @@ export class RegistrationComponent {
 
     const password = this.formCaesarzon.get('formRegistrazione.password')?.value;
 
-    this.keycloakService.login("cesare", "baby12345")
-    this.keycloakService.register(email, nome, cognome, true, username, password, false)
+    this.keycloakService.registration(email, nome, cognome, true, username, password)
   }
 
   comparaPassword() {
