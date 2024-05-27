@@ -1,10 +1,10 @@
 import {Injectable} from "@angular/core";
 import {MatDialog} from "@angular/material/dialog";
 import {BehaviorSubject} from "rxjs";
-import {WarningMessageComponent} from "./warning-message/warning-message.component";
-import {RegistrationComponent} from "./registration/registration.component";
-import {AllPopupComponent} from "./all-popup/all-popup.component";
-import {KeyCloakService} from "./KeyCloakService";
+import {WarningMessageComponent} from "../warning-message/warning-message.component";
+import {RegistrationComponent} from "../registration/registration.component";
+import {AllPopupComponent} from "../all-popup/all-popup.component";
+import {KeyCloakService} from "./keyCloakService";
 
 @Injectable({
   providedIn: 'root',
@@ -42,7 +42,6 @@ export class PopupService {
   }
 
   toggleLoginR(event: Event) {
-    this.key.login('cesare', 'baby12345')
     event.preventDefault()
     this.isLogin = !this.isLogin;
   }

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import {Router} from "@angular/router";
-import {PopupService} from "../popUpService";
+import {PopupService} from "../services/popUpService";
 
 @Component({
   selector: 'app-shopping-cart',

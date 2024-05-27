@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import {FormGroup} from "@angular/forms";
-import {FormService} from "../formService";
-import {PopupService} from "../popUpService";
-import {GetUserData} from "../getUserData";
-import {KeyCloakService} from "../KeyCloakService";
+import {FormService} from "../services/formService";
+import {PopupService} from "../services/popUpService";
+import {KeyCloakService} from "../services/keyCloakService";
+import {UserService} from "../services/userService";
 
 
 @Component({
@@ -24,7 +24,7 @@ export class RegistrationComponent {
   passwordDifferenti: boolean = false;
 
 
-  constructor(public formService: FormService, public popupService: PopupService, protected userData: GetUserData, public keycloakService: KeyCloakService) {
+  constructor(public formService: FormService, public popupService: PopupService, public keycloakService: KeyCloakService, private userService: UserService) {
     this.formCaesarzon = formService.getForm();
   }
 
@@ -40,15 +40,16 @@ export class RegistrationComponent {
 
   registrati(){
     this.formService.setFormData(this.formCaesarzon.value);
+
     const email = this.formCaesarzon.get('formRegistrazione.email')?.value;
     const nome = this.formCaesarzon.get('formRegistrazione.nome')?.value;
     const cognome = this.formCaesarzon.get('formRegistrazione.cognome')?.value;
     const username = this.formCaesarzon.get('formRegistrazione.username')?.value;
-
     const password = this.formCaesarzon.get('formRegistrazione.password')?.value;
 
-    this.keycloakService.registration(email, nome, cognome, true, username, password)
+    this.userService.sendUser(username, email, nome, cognome, true, "password", password)
   }
+
 
   comparaPassword() {
     const confermaPasswordValue = this.formCaesarzon.get('formRegistrazione.confermaPassword')?.value;

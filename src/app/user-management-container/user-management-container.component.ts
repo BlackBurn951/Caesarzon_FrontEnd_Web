@@ -1,9 +1,7 @@
 import { Component } from '@angular/core';
-import {ReactiveFormsModule} from "@angular/forms";
-import {PersonalDataComponent} from "../personal-data/personal-data.component";
 import {NgClass} from "@angular/common";
 import {Router} from "@angular/router";
-import {PopupService} from "../popUpService";
+import {PopupService} from "../services/popUpService";
 
 @Component({
   selector: 'app-user-management-container',

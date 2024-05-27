@@ -1,9 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {NgClass, NgForOf, NgIf} from "@angular/common";
-import {AppModule} from "../app.routes";
 import {UserManagementContainerComponent} from "../user-management-container/user-management-container.component";
 import {FooterComponent} from "../footer/footer.component";
-import {PopupService} from "../popUpService";
+import {PopupService} from "../services/popUpService";
 
 @Component({
   selector: 'app-personal-data',

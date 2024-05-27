@@ -2,7 +2,7 @@ import {Injectable, OnInit} from "@angular/core";
 import { address } from "./utils/address";
 import { user } from "./utils/user";
 import { card } from "./utils/card";
-import {PopupService} from "./popUpService";
+import {PopupService} from "./services/popUpService";
 
 @Injectable({
   providedIn: 'root',

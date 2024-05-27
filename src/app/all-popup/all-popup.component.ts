@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
-import {NgForOf, NgIf} from "@angular/common";
-import {ReactiveFormsModule} from "@angular/forms";
-import {PopupService} from "../popUpService";
+import {PopupService} from "../services/popUpService";
 
 @Component({
   selector: 'app-all-popup',

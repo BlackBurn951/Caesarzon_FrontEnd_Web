@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import {FooterComponent} from "../footer/footer.component";
 import {UserManagementContainerComponent} from "../user-management-container/user-management-container.component";
 import {GetUserData} from "../getUserData";
-import {PopupService} from "../popUpService";
+import {PopupService} from "../services/popUpService";
 
 @Component({
   selector: 'app-user-address-data',

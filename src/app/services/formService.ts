@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {AbstractControl, FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {PopupService} from "./popUpService";
-import { dominiEmailComuni } from './domini-email-comuni';
+import { dominiEmailComuni } from '../domini-email-comuni';
 
 @Injectable({
   providedIn: 'root',

@@ -1,7 +1,7 @@
 import { Component} from '@angular/core';
 import {FormGroup} from "@angular/forms";
-import {PopupService} from "../popUpService";
-import {FormService} from "../formService";
+import {PopupService} from "../services/popUpService";
+import {FormService} from "../services/formService";
 
 @Component({
   selector: 'app-product-management',
