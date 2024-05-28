@@ -47,7 +47,7 @@ export class RegistrationComponent {
     const username = this.formCaesarzon.get('formRegistrazione.username')?.value;
     const password = this.formCaesarzon.get('formRegistrazione.password')?.value;
 
-    this.userService.sendUser(username, email, nome, cognome, true, "password", password)
+    this.userService.sendUser(username, email, nome, cognome, password)
   }
 
 

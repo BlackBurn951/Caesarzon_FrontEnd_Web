@@ -20,7 +20,6 @@ export class KeyCloakService {
   }
 
 
-
   login(username: string, password: string): void{
     const headers = new HttpHeaders({
       'Content-Type': 'application/x-www-form-urlencoded'
@@ -31,7 +30,6 @@ export class KeyCloakService {
     body.set('client_id', 'login-app');
     body.set('username', username);
     body.set('password', password);
-    body.set('client_secret', "GvSvJDfrTVmBNe8kTupPFF16f5cuquKS");
 
     this.http.post(this.accessTokenUrl, body.toString(), { headers, withCredentials: true }).subscribe(
       (response:any) => {

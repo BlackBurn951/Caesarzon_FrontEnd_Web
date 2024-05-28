@@ -3,8 +3,6 @@ export interface UserData {
   email: string;
   firstName: string;
   lastName: string;
-  enabled: boolean;
-  credentialType: string;
   credentialValue: string;
 
 
