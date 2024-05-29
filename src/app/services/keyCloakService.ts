@@ -27,7 +27,7 @@ export class KeyCloakService {
 
     const body = new URLSearchParams();
     body.set('grant_type', 'password');
-    body.set('client_id', 'login-app');
+    body.set('client_id', 'caesar-app');
     body.set('username', username);
     body.set('password', password);
 
