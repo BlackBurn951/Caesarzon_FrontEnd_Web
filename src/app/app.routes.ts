@@ -22,6 +22,7 @@ import {AllPopupComponent} from "./all-popup/all-popup.component";
 import {HttpClientModule} from '@angular/common/http';
 import {KeyCloakService} from "./services/keyCloakService";
 import {BrowserModule} from "@angular/platform-browser";
+import {MatAutocomplete, MatAutocompleteTrigger, MatOption} from "@angular/material/autocomplete";
 
 
 export const routes: Routes = [
@@ -64,7 +65,7 @@ export const routes: Routes = [
     PersonalDataComponent,
     BrowserModule,
     HttpClientModule,
-    UserManagementContainerComponent
+    UserManagementContainerComponent, MatAutocompleteTrigger, MatAutocomplete, MatOption
   ],
   providers: [KeyCloakService],
   exports: [

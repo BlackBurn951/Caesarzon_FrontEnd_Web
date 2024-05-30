@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {UserData} from "../entities/UserData";
+import {UserRegistration} from "../entities/UserRegistration";
 import {Observable} from "rxjs";
 import {KeyCloakService} from "./keyCloakService";
 
@@ -17,7 +17,7 @@ export class UserService {
 
 
   sendUser(username: string, email:string, firstName:string, lastName: string, credentialValue: string) {
-    const userData: UserData = {
+    const userData: UserRegistration = {
       username: username,
       email: email,
       firstName: firstName,
@@ -35,7 +35,7 @@ export class UserService {
     );
   }
 
-  sendUserData(userData: UserData): Observable<any> {
+  sendUserData(userData: UserRegistration): Observable<any> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + this.keycloakService.getAccessToken() });
     return this.http.post<any>(this.sendUserDataURL, userData, { headers, responseType: 'text' as 'json' });
   }

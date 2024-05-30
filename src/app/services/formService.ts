@@ -71,10 +71,14 @@ export class FormService {
 
   private buildFormIndirizzo():FormGroup{
     return this.fb.group({
-      via:  ['',Validators.required],
+      tipologiaStrada:  ['',Validators.required],
+      nomeStrada:  ['',Validators.required],
+      numeroCivico:  ['',Validators.required],
       citta:  ['',Validators.required],
-      stato:  ['',Validators.required],
       cap:  ['',Validators.required],
+      provincia:  ['',Validators.required],
+      regione:  ['',Validators.required],
+
     });
   }
 

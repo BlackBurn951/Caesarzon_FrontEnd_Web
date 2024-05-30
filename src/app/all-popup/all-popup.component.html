@@ -199,45 +199,56 @@
     <h1>Aggiugi un nuovo indirizzo</h1>
     <button (click)="popUpService.closePopup()" class="btn btn-dark ics">X</button>
 
-
     <div class="d-flex flex-row align-items-center">
         <div class="form-group ml-3 d-flex flex-column">
-          <label for="cardHolderName">Tipo strada:</label>
-          <select class="form-select selectionIn btn btn-dark custom-bln" >
-            <option value="card1">Via</option>
-            <option value="card2">Borgo</option>
-            <option value="card3">Piazza</option>
-            <option value="card4">Carta 4</option>
+          <label for="tipologiaStrada">Tipo strada:</label>
+          <select id="tipologiaStrada" class="form-select selectionIn btn btn-dark custom-bln" formControlName="tipolgiaStrada">
+            <option value="via">Via</option>
+            <option value="vicolo">Vicolo</option>
+            <option value="viale">Viale</option>
+            <option value="traversa">Traversa</option>
+            <option value="borgo">Borgo</option>
+            <option value="piazzale">Piazzale</option>
+            <option value="piazza">Piazza</option>
+            <option value="largo">Largo</option>
+            <option value="lungarno">Lungarno</option>
           </select>
         </div>
 
         <div class="form-group ml-3">
-          <label for="cardHolderName">Nome strada:</label>
-          <input type="text" class="form-control textBoxAggiunta" id="cardHolderName" maxlength="30">
+          <label for="nomeStrada">Nome strada:</label>
+          <input type="text" class="form-control textBoxAggiunta" formControlName="nomeStrada" id="nomeStrada" maxlength="30">
         </div>
         <div class="form-group ml-3">
           <label for="cap">Codice postale (CAP):</label>
-          <input type="text" class="form-control" id="cap" maxlength="30">
+          <input type="text" class="form-control" id="cap" formControlName="cap" readonly>
         </div>
         <div class="form-group ml-3">
           <label for="prov">Provincia:</label>
-          <input type="text" class="form-control textBoxAggiunta" id="prov" maxlength="30">
+          <input type="text" class="form-control textBoxAggiunta" id="prov"  formControlName="provincia" readonly>
         </div>
     </div>
 
     <div class="d-flex flex-row align-items-center">
 
       <div class="form-group">
-          <label for="expirationDate">N° civico:</label>
-          <input type="text" class="form-control" id="expirationDate" maxlength="30">
+        <label for="numeroCivico">N° civico:</label>
+        <input type="text" id="numeroCivico" formControlName="numeroCivico" maxlength="8">
         </div>
         <div class="form-group ml-3">
-          <label for="cvv">Città:</label>
-          <input type="text" class="form-control textBoxAggiunta" maxlength="30">
+          <label for="citta">Città:</label>
+          <input type="text" id="citta" formControlName="citta"
+                 [matAutocomplete]="auto"
+                 (input)="ottieniCittaService.ottieniCitta(this.formCaesarzon.get('formIndirizzo.citta')?.value, 'R')">
+          <mat-autocomplete #auto="matAutocomplete">
+            <mat-option *ngFor="let citta of ottieniCittaService.suggerimentiCitta" (click)="ottieniCittaService.onCittaChange(citta)" [value]="citta">
+              {{ citta }}
+            </mat-option>
+          </mat-autocomplete>
         </div>
         <div class="form-group ml-3">
-          <label for="cvv">Regione:</label>
-          <input type="text" class="form-control textBoxAggiunta" id="cvv" maxlength="30" >
+          <label for="regione">Regione:</label>
+          <input type="text" class="form-control textBoxAggiunta" id="regione" formControlName="regione" readonly>
         </div>
       </div>
       <button type="button" class="btn btn-dark custom-btn">Aggiungi</button>

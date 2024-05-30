@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
 import {PopupService} from "../services/popUpService";
+import {ottieniCittaService} from "../services/ottieni.citta.service";
+import {FormGroup} from "@angular/forms";
+import {FormService} from "../services/formService";
 
 @Component({
   selector: 'app-all-popup',
@@ -29,8 +32,12 @@ export class AllPopupComponent {
     { name: 'Marco Blu', imgPath: 'path-to-image-9.jpg' }
   ];
 
+  formCaesarzon!: FormGroup;
 
-  constructor(public popUpService:PopupService) {
+
+  constructor(public popUpService:PopupService, protected ottieniCittaService: ottieniCittaService, private formService: FormService){
+    this.formCaesarzon= this.formService.getForm();
+
   }
 
   changeSection(numb: number, label: string) {

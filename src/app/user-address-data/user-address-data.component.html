@@ -11,88 +11,63 @@
   <div class="ml-4">
     <app-user-management-container></app-user-management-container>
   </div>
-
-
-
-
-    <div class="container-fluid d-flex flex-column align-items-center aldo">
-
-      <h1 class="title">INDIRIZZI DI CONSEGNA</h1>
-
-      <div class="form-group d-flex flex-column align-items-center aldos">
-
-        <label for="selectCard">Seleziona un indirizzo:</label>
-        <select class="form-select selectionIn btn btn-dark custom-bln">
-          <option value="card1">Carta 1</option>
-          <option value="card2">Carta 2</option>
-          <option value="card3">Carta 3</option>
-          <option value="card4">Carta 4</option>
-        </select>
-
-
-      </div>
-
-      <section class="form-group d-flex flex-column align-items-center">
-        <div class="d-flex flex-column align-items-center">
-
-          <div class="d-flex flex-row align-items-center">
-            <div class="form-group ml-3 d-flex flex-column">
-              <label for="cardHolderName">Tipo strada:</label>
-              <select class="form-select selectionIn btn btn-dark custom-bln" id="selectCard" [disabled]="!inputAbilitato">
-                <option value="card1">Via</option>
-                <option value="card2">Borgo</option>
-                <option value="card3">Piazza</option>
-                <option value="card4">Carta 4</option>
-              </select>
-            </div>
-
-            <div class="form-group ml-3">
-                <label for="cardHolderName">Nome strada:</label>
-                <input type="text" class="form-control textBoxAggiunta" id="cardHolderName" maxlength="30" placeholder="{{getUserData.getCardInformation()}}" [readonly]="!inputAbilitato">
-            </div>
-            <div class="form-group ml-3">
-              <label for="cap">Codice postale (CAP):</label>
-              <input type="text" class="form-control" id="cap" maxlength="30" placeholder="{{getUserData.getCardInformation()}}" [readonly]="!inputAbilitato">
-            </div>
-            <div class="form-group ml-3">
-              <label for="prov">Provincia:</label>
-              <input type="text" class="form-control textBoxAggiunta" id="prov" maxlength="30" placeholder="{{getUserData.getCardInformation()}}" [readonly]="!inputAbilitato">
-            </div>
-          </div>
-
-          <div class="d-flex flex-row align-items-center">
-            <div class="form-group">
-              <label for="expirationDate">N° civico:</label>
-              <input type="text" class="form-control" id="expirationDate" maxlength="30" placeholder="{{getUserData.getCardInformation()}}" [readonly]="!inputAbilitato">
-            </div>
-            <div class="form-group ml-3">
-              <label for="cvv">Città:</label>
-              <input type="text" class="form-control textBoxAggiunta" id="cvv" maxlength="30" placeholder="{{getUserData.getCardInformation()}}" [readonly]="!inputAbilitato">
-            </div>
-            <div class="form-group ml-3">
-              <label for="cvv">Regione:</label>
-              <input type="text" class="form-control textBoxAggiunta" id="cvv" maxlength="30" placeholder="{{getUserData.getCardInformation()}}" [readonly]="!inputAbilitato">
-            </div>
-          </div>
-
-        </div>
-      </section>
-
-
-      <div class="row mb-3">
-        <button type="button" class="btn btn-dark custom-btn mr-5" (click)="popUpService.openPopups(6, true)">Aggiungi nuovo indirizzo</button>
-        <button type="button" class="btn btn-dark custom-btn" (click)="abilitaInput()">{{testoButton}}</button>
-      </div>
-
+  <div class="container-fluid d-flex flex-column align-items-center aldo">
+    <h1 class="title">INDIRIZZI DI CONSEGNA</h1>
+    <div class="form-group d-flex flex-column align-items-center aldos">
+      <label>Seleziona un indirizzo:</label>
+      <select class="form-select selectionIn btn btn-dark custom-bln" (change)="onAddressChange($event)">
+        <option *ngFor="let address of addresses" [value]="address.street_name">{{ address.street_name }}</option>
+      </select>
     </div>
-
-
+    <section class="form-group d-flex flex-column align-items-center">
+      <div class="d-flex flex-column align-items-center">
+        <div class="d-flex flex-row align-items-center">
+          <div class="form-group ml-3 d-flex flex-column">
+            <label for="streetType">Tipo strada:</label>
+            <select class="form-select selectionIn btn btn-dark custom-bln" id="streetType" [disabled]="!inputAbilitato">
+              <option value="Via" [selected]="indirizzoCorrente?.street_type === 'Via'">Via</option>
+              <option value="Borgo" [selected]="indirizzoCorrente?.street_type === 'Borgo'">Borgo</option>
+              <option value="Piazza" [selected]="indirizzoCorrente?.street_type === 'Piazza'">Piazza</option>
+              <option value="Carta 4" [selected]="indirizzoCorrente?.street_type === 'Carta 4'">Carta 4</option>
+            </select>
+          </div>
+          <div class="form-group ml-3">
+            <label for="streetName">Nome strada:</label>
+            <input type="text" class="form-control textBoxAggiunta" id="streetName" maxlength="30" [placeholder]="indirizzoCorrente?.street_name" [readonly]="!inputAbilitato">
+          </div>
+          <div class="form-group ml-3">
+            <label for="cap">Codice postale (CAP):</label>
+            <input type="text" class="form-control" id="cap" maxlength="30" [placeholder]="indirizzoCorrente?.cap" [readonly]="!inputAbilitato">
+          </div>
+          <div class="form-group ml-3">
+            <label for="province">Provincia:</label>
+            <input type="text" class="form-control textBoxAggiunta" id="province" maxlength="30" [placeholder]="indirizzoCorrente?.province" [readonly]="!inputAbilitato">
+          </div>
+        </div>
+        <div class="d-flex flex-row align-items-center">
+          <div class="form-group">
+            <label for="houseNumber">N° civico:</label>
+            <input type="text" class="form-control" id="houseNumber" maxlength="30" [placeholder]="indirizzoCorrente?.house_number" [readonly]="!inputAbilitato">
+          </div>
+          <div class="form-group ml-3">
+            <label for="citta">Città:</label>
+            <input type="text" class="form-control" id="citta" maxlength="30" [placeholder]="indirizzoCorrente?.city" [readonly]="!inputAbilitato">
+          </div>
+          <div class="form-group ml-3">
+            <label for="region">Regione:</label>
+            <input type="text" class="form-control textBoxAggiunta" id="region" maxlength="30" [placeholder]="indirizzoCorrente?.region" [readonly]="!inputAbilitato">
+          </div>
+        </div>
+      </div>
+    </section>
+    <div class="row mb-3">
+      <button type="button" class="btn btn-dark custom-btn mr-5" (click)="popUpService.openPopups(6, true)">Aggiungi nuovo indirizzo</button>
+      <button type="button" class="btn btn-dark custom-btn" (click)="abilitaInput()">{{testoButton}}</button>
+    </div>
+  </div>
 </section>
-
-
 </body>
 <footer>
   <app-footer></app-footer>
 </footer>
-
 </html>
