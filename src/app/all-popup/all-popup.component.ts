@@ -3,6 +3,7 @@ import {PopupService} from "../services/popUpService";
 import {ottieniCittaService} from "../services/ottieni.citta.service";
 import {FormGroup} from "@angular/forms";
 import {FormService} from "../services/formService";
+import {AddressService} from "../services/addressService";
 
 @Component({
   selector: 'app-all-popup',
@@ -35,13 +36,13 @@ export class AllPopupComponent {
   formCaesarzon!: FormGroup;
 
 
-  constructor(public popUpService:PopupService, protected ottieniCittaService: ottieniCittaService, private formService: FormService){
+  constructor(private addressService: AddressService, public popUpService:PopupService, protected ottieniCittaService: ottieniCittaService, private formService: FormService){
     this.formCaesarzon= this.formService.getForm();
 
   }
 
   aggiungiIndirizzo(){
-
+    this.addressService.sendAddress()
   }
 
   changeSection(numb: number, label: string) {

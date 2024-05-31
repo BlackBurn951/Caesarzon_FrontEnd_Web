@@ -16,7 +16,7 @@
     <div class="form-group d-flex flex-column align-items-center aldos">
       <label>Seleziona un indirizzo:</label>
       <select class="form-select selectionIn btn btn-dark custom-bln" (change)="onAddressChange($event)">
-        <option *ngFor="let address of addresses" [value]="address.street_name">{{ address.street_name }}</option>
+        <option *ngFor="let address of addresses" [value]="address.roadName">{{ address.roadName }}</option>
       </select>
     </div>
     <section class="form-group d-flex flex-column align-items-center">
@@ -25,29 +25,29 @@
           <div class="form-group ml-3 d-flex flex-column">
             <label for="streetType">Tipo strada:</label>
             <select class="form-select selectionIn btn btn-dark custom-bln" id="streetType" [disabled]="!inputAbilitato">
-              <option value="Via" [selected]="indirizzoCorrente?.street_type === 'Via'">Via</option>
-              <option value="Borgo" [selected]="indirizzoCorrente?.street_type === 'Borgo'">Borgo</option>
-              <option value="Piazza" [selected]="indirizzoCorrente?.street_type === 'Piazza'">Piazza</option>
-              <option value="Carta 4" [selected]="indirizzoCorrente?.street_type === 'Carta 4'">Carta 4</option>
+              <option value="Via" [selected]="indirizzoCorrente?.streetType === 'Via'">Via</option>
+              <option value="Borgo" [selected]="indirizzoCorrente?.streetType  === 'Borgo'">Borgo</option>
+              <option value="Piazza" [selected]="indirizzoCorrente?.streetType  === 'Piazza'">Piazza</option>
+              <option value="Carta 4" [selected]="indirizzoCorrente?.streetType  === 'Carta 4'">Carta 4</option>
             </select>
           </div>
           <div class="form-group ml-3">
             <label for="streetName">Nome strada:</label>
-            <input type="text" class="form-control textBoxAggiunta" id="streetName" maxlength="30" [placeholder]="indirizzoCorrente?.street_name" [readonly]="!inputAbilitato">
+            <input type="text" class="form-control textBoxAggiunta" id="streetName" maxlength="30" [placeholder]="indirizzoCorrente?.roadName" [readonly]="!inputAbilitato">
           </div>
           <div class="form-group ml-3">
             <label for="cap">Codice postale (CAP):</label>
-            <input type="text" class="form-control" id="cap" maxlength="30" [placeholder]="indirizzoCorrente?.cap" [readonly]="!inputAbilitato">
+            <input type="text" class="form-control" id="cap" maxlength="30" [placeholder]="indirizzoCorrente?.city?.cap" [readonly]="!inputAbilitato">
           </div>
           <div class="form-group ml-3">
             <label for="province">Provincia:</label>
-            <input type="text" class="form-control textBoxAggiunta" id="province" maxlength="30" [placeholder]="indirizzoCorrente?.province" [readonly]="!inputAbilitato">
+            <input type="text" class="form-control textBoxAggiunta" id="province" maxlength="30" [placeholder]="indirizzoCorrente?.city?.province" [readonly]="!inputAbilitato">
           </div>
         </div>
         <div class="d-flex flex-row align-items-center">
           <div class="form-group">
             <label for="houseNumber">N° civico:</label>
-            <input type="text" class="form-control" id="houseNumber" maxlength="30" [placeholder]="indirizzoCorrente?.house_number" [readonly]="!inputAbilitato">
+            <input type="text" class="form-control" id="houseNumber" maxlength="30" [placeholder]="indirizzoCorrente?.houseNumber" [readonly]="!inputAbilitato">
           </div>
           <div class="form-group ml-3">
             <label for="citta">Città:</label>
@@ -55,7 +55,7 @@
           </div>
           <div class="form-group ml-3">
             <label for="region">Regione:</label>
-            <input type="text" class="form-control textBoxAggiunta" id="region" maxlength="30" [placeholder]="indirizzoCorrente?.region" [readonly]="!inputAbilitato">
+            <input type="text" class="form-control textBoxAggiunta" id="region" maxlength="30" [placeholder]="indirizzoCorrente?.city?.region" [readonly]="!inputAbilitato">
           </div>
         </div>
       </div>

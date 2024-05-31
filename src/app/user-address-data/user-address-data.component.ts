@@ -39,7 +39,7 @@ export class UserAddressDataComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.loadAddresses();
+    //this.loadAddresses();
   }
 
   loadAddresses(): void {
@@ -58,7 +58,7 @@ export class UserAddressDataComponent implements OnInit {
 
   onAddressChange(event: Event): void {
     const selectedAddress = (event.target as HTMLSelectElement).value;
-    this.indirizzoCorrente = this.addresses.find(address => address.street_name === selectedAddress);
+    this.indirizzoCorrente = this.addresses.find(address => address.roadName === selectedAddress);
   }
 
   abilitaInput(): void {
