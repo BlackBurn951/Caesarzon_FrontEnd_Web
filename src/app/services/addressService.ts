@@ -36,9 +36,16 @@ export class AddressService {
     const cap = indirizzoForm?.get("cap")?.value;
     const provincia = indirizzoForm?.get("provincia")?.value;
     const regione = indirizzoForm?.get("regione")?.value;
+    const id = indirizzoForm?.get("id")?.value;
+
+    console.log(id);
+    console.log(nomeStrada);
+    console.log(numeroCivico);
+    console.log(tipoStrada);
+
 
     const city: City = {
-      id: 0,
+      id: id,
       city: citta,
       cap: cap,
       region: regione,

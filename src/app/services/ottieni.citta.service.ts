@@ -64,6 +64,7 @@ export class ottieniCittaService {
   private patchValue(){
   const formGroup = this.myForm.get("formIndirizzo") as FormGroup;
   formGroup.patchValue({
+    id: this.datiCitta.id,
     cap: this.datiCitta.cap,
     provincia: this.datiCitta.province,
     regione: this.datiCitta.region
