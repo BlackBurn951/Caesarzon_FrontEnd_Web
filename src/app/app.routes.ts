@@ -1,12 +1,9 @@
-import {provideRouter, RouterModule, Routes} from "@angular/router";
 import {HomepageComponent} from "./homepage/homepage.component";
 import {RegistrationComponent} from "./registration/registration.component";
 import {ProductPageComponent} from "./product-page/product-page.component";
-import {NgModule} from "@angular/core";
-import {NgClass, NgForOf, NgIf} from "@angular/common";
+import {ApplicationRef, DoBootstrap, NgModule} from "@angular/core";
 import {ProductsListComponent} from "./products-list/products-list.component";
 import {ProductManagementComponent} from "./product-management/product-management.component";
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {ShoppingCartComponent} from "./shopping-cart/shopping-cart.component";
 import {PersonalDataComponent} from "./personal-data/personal-data.component";
 import {FooterComponent} from "./footer/footer.component";
@@ -19,10 +16,20 @@ import {WishListComponent} from "./wish-list/wish-list.component";
 import {PaymentSecondPageComponent} from "./payment-second-page/payment-second-page.component";
 import {AdminAreaComponent} from "./admin-area/admin-area.component";
 import {AllPopupComponent} from "./all-popup/all-popup.component";
-import {HttpClientModule} from '@angular/common/http';
 import {KeyCloakService} from "./services/keyCloakService";
+import {FormService} from "./services/formService";
+import {AppComponent} from "./app.component";
+import {RouterModule, Routes} from "@angular/router";
+import {CommonModule, NgClass, NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {BrowserModule} from "@angular/platform-browser";
-import {MatAutocomplete, MatAutocompleteTrigger, MatOption} from "@angular/material/autocomplete";
+import {MatDialogModule} from "@angular/material/dialog";
+import {HttpClientModule} from "@angular/common/http";
+import {BrowserAnimationsModule, NoopAnimationsModule} from "@angular/platform-browser/animations";
+import {MatAutocompleteModule, MatAutocompleteTrigger, MatOption} from "@angular/material/autocomplete";
+import {MatOptionModule} from "@angular/material/core";
+import {MatInputModule} from "@angular/material/input";
+import {MatSelectModule} from "@angular/material/select";
 
 
 export const routes: Routes = [
@@ -60,17 +67,33 @@ export const routes: Routes = [
     NgClass,
     FormsModule,
     NgForOf,
+    BrowserModule,
+    MatDialogModule,
     ReactiveFormsModule,
     FooterComponent,
     PersonalDataComponent,
     BrowserModule,
     HttpClientModule,
-    UserManagementContainerComponent, MatAutocompleteTrigger, MatAutocomplete, MatOption
+    UserManagementContainerComponent,
+    BrowserAnimationsModule,
+    MatAutocompleteTrigger,
+    MatAutocompleteModule,
+    MatOption,
+    ReactiveFormsModule,
+    CommonModule,
+    MatOptionModule,
+    MatInputModule,
+    MatSelectModule,
+    NoopAnimationsModule,
+    NgOptimizedImage
   ],
-  providers: [KeyCloakService],
-  exports: [
-  ]
+  providers: [KeyCloakService, FormService]
 })
-export class AppModule {
+export class AppModule implements DoBootstrap{
+  constructor(private appRef: ApplicationRef) {}
 
+  ngDoBootstrap() {
+    const element = document.getElementById('app-root');
+    this.appRef.bootstrap(AppComponent, element);
+  }
 }

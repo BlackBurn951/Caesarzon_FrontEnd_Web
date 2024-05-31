@@ -194,15 +194,16 @@
 
 
 <div class="container-fluidos regLog" *ngIf="popUpService.wichComponent === 6" [ngClass]="{'Add': popUpService.isAdd}">
-  <div class="d-flex flex-column align-items-center aggiunta">
+  <form [formGroup]="formCaesarzon" (ngSubmit)="aggiungiIndirizzo()">
+  <div class="d-flex flex-column align-items-center aggiunta" formGroupName="formIndirizzo">
 
     <h1>Aggiugi un nuovo indirizzo</h1>
     <button (click)="popUpService.closePopup()" class="btn btn-dark ics">X</button>
 
-    <div class="d-flex flex-row align-items-center">
+    <div class="d-flex flex-row align-items-center" >
         <div class="form-group ml-3 d-flex flex-column">
           <label for="tipologiaStrada">Tipo strada:</label>
-          <select id="tipologiaStrada" class="form-select selectionIn btn btn-dark custom-bln" formControlName="tipolgiaStrada">
+          <select id="tipologiaStrada" class="form-select selectionIn btn btn-dark custom-bln" formControlName="tipologiaStrada">
             <option value="via">Via</option>
             <option value="vicolo">Vicolo</option>
             <option value="viale">Viale</option>
@@ -253,7 +254,7 @@
       </div>
       <button type="button" class="btn btn-dark custom-btn">Aggiungi</button>
     </div>
-
+  </form>
 </div>
 
 <div class="container-fluidos regLog" *ngIf="popUpService.wichComponent === 7" [ngClass]="{'Add': popUpService.isAdd}">

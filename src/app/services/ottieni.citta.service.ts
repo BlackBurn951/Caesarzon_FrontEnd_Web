@@ -1,8 +1,9 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {FormGroup} from "@angular/forms";
 import {FormService} from "./formService";
 import {CityDataSuggest} from "../entities/CityDataSuggest";
+import {KeyCloakService} from "./keyCloakService";
 
 
 @Injectable({
@@ -24,13 +25,19 @@ export class ottieniCittaService {
   private indirizzoCorrente: string = '';
 
 
-  constructor(private http: HttpClient, private formService: FormService) {
+  constructor(private keycloak: KeyCloakService, private http: HttpClient, private formService: FormService) {
     this.myForm = this.formService.getForm();
 
   }
 
+  private createHeaders() {
+    const token = this.keycloak.getAccessToken();  // Replace 'your-token-here' with your actual token
+    return new HttpHeaders().set('Authorization', `Bearer ${token}`);
+  }
+
   public ottienSuggerimentiCitta(sugg: string){
-    return this.http.get<string[]>(`${this.urlOttieniCitta}?sugg=${sugg}`)
+    const headers = this.createHeaders();
+    return this.http.get<string[]>(`${this.urlOttieniCitta}?sugg=${sugg}`, { headers });
   }
 
   public ottieniCitta(sugg: string, formGroupName: string) {
@@ -48,7 +55,8 @@ export class ottieniCittaService {
   }
 
   public ottieniAltriDatiCitta(city: string){
-    return this.http.get<CityDataSuggest>(`${this.urlOttieniCapProvReg}?city=${city}`)
+    const headers = this.createHeaders();
+    return this.http.get<CityDataSuggest>(`${this.urlOttieniCapProvReg}?city=${city}`, { headers });
   }
 
   public ottieniDatiCitta(datiC: string) {

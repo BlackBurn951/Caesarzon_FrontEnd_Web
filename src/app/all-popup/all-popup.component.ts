@@ -40,6 +40,10 @@ export class AllPopupComponent {
 
   }
 
+  aggiungiIndirizzo(){
+
+  }
+
   changeSection(numb: number, label: string) {
     this.section = numb
     this.sectionLabel = label;
