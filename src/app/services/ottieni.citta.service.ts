@@ -22,7 +22,6 @@ export class ottieniCittaService {
 
   myForm!: FormGroup;
 
-  private indirizzoCorrente: string = '';
 
 
   constructor(private keycloak: KeyCloakService, private http: HttpClient, private formService: FormService) {
@@ -40,19 +39,12 @@ export class ottieniCittaService {
     return this.http.get<string[]>(`${this.urlOttieniCitta}?sugg=${sugg}`, { headers });
   }
 
-  public ottieniCitta(sugg: string, formGroupName: string) {
+  public ottieniCitta(sugg: string) {
     this.ottienSuggerimentiCitta(sugg).subscribe((citta: string[]) => {
       this.suggerimentiCitta = citta;
-      this.setIndirizzoCorrente(formGroupName);
     });
   }
 
-  private setIndirizzoCorrente(formGroupName: string) {
-    if (formGroupName === 'R') {
-      this.indirizzoCorrente = 'indirizzo';
-    }
-
-  }
 
   public ottieniAltriDatiCitta(city: string){
     const headers = this.createHeaders();
@@ -62,40 +54,32 @@ export class ottieniCittaService {
   public ottieniDatiCitta(datiC: string) {
     this.ottieniAltriDatiCitta(datiC).subscribe((dati: CityDataSuggest) => {
       this.datiCitta = dati;
-      this.patchValueForCurrentIndirizzo();
-    });
-  }
-
-  private patchValueForCurrentIndirizzo() {
-    const currentFormGroup = this.myForm.get(this.indirizzoCorrente) as FormGroup;
-    if (this.indirizzoCorrente === 'indirizzo') {
-      this.patchValueForIndirizzo(currentFormGroup);
-    }
-
-    this.indirizzoCorrente = '';
-  }
-
-
-  private patchValueForIndirizzo(formGroup: FormGroup) {
-    formGroup.patchValue({
-      cap: this.datiCitta.cap,
-      provincia: this.datiCitta.province,
-      regione: this.datiCitta.region
+      this.patchValue();
     });
 
   }
+
+
+
+  private patchValue(){
+  const formGroup = this.myForm.get("formIndirizzo") as FormGroup;
+  formGroup.patchValue({
+    cap: this.datiCitta.cap,
+    provincia: this.datiCitta.province,
+    regione: this.datiCitta.region
+  });
+}
+
+
 
 
 
   public onCittaChange(cittaSelezionata: string) {
-
-    if (this.indirizzoCorrente === 'indirizzo') {
-      const indirizzoControl = this.myForm.get(`${this.indirizzoCorrente}.citta`);
-      if (indirizzoControl) {
-        indirizzoControl.patchValue(cittaSelezionata);
-        this.ottieniDatiCitta(cittaSelezionata);
-      }
+    const indirizzoControl = this.myForm.get(`formIndirizzo.citta`);
+    if (indirizzoControl) {
+      this.ottieniDatiCitta(cittaSelezionata);
     }
+
 
   }
 }

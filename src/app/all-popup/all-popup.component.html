@@ -234,13 +234,13 @@
 
       <div class="form-group">
         <label for="numeroCivico">N° civico:</label>
-        <input type="text" id="numeroCivico" formControlName="numeroCivico" maxlength="8">
+        <input type="text" id="numeroCivico" class="form-control textBoxAggiunta" formControlName="numeroCivico" maxlength="8">
         </div>
         <div class="form-group ml-3">
           <label for="citta">Città:</label>
-          <input type="text" id="citta" formControlName="citta"
+          <input type="text"  class="form-control textBoxAggiunta" id="citta" formControlName="citta"
                  [matAutocomplete]="auto"
-                 (input)="ottieniCittaService.ottieniCitta(this.formCaesarzon.get('formIndirizzo.citta')?.value, 'R')">
+                 (input)="ottieniCittaService.ottieniCitta(this.formCaesarzon.get('formIndirizzo.citta')?.value)">
           <mat-autocomplete #auto="matAutocomplete">
             <mat-option *ngFor="let citta of ottieniCittaService.suggerimentiCitta" (click)="ottieniCittaService.onCittaChange(citta)" [value]="citta">
               {{ citta }}
