@@ -25,10 +25,10 @@
           <div class="form-group ml-3 d-flex flex-column">
             <label for="streetType">Tipo strada:</label>
             <select class="form-select selectionIn btn btn-dark custom-bln" id="streetType" [disabled]="!inputAbilitato">
-              <option value="Via" [selected]="indirizzoCorrente?.streetType === 'Via'">Via</option>
-              <option value="Borgo" [selected]="indirizzoCorrente?.streetType  === 'Borgo'">Borgo</option>
-              <option value="Piazza" [selected]="indirizzoCorrente?.streetType  === 'Piazza'">Piazza</option>
-              <option value="Carta 4" [selected]="indirizzoCorrente?.streetType  === 'Carta 4'">Carta 4</option>
+              <option value="Via" [selected]="indirizzoCorrente?.roadType === 'Via'">Via</option>
+              <option value="Borgo" [selected]="indirizzoCorrente?.roadType  === 'Borgo'">Borgo</option>
+              <option value="Piazza" [selected]="indirizzoCorrente?.roadType  === 'Piazza'">Piazza</option>
+              <option value="Carta 4" [selected]="indirizzoCorrente?.roadType  === 'Carta 4'">Carta 4</option>
             </select>
           </div>
           <div class="form-group ml-3">

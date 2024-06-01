@@ -53,8 +53,8 @@ export class AddressService {
     }
 
     const addressData: Address = {
-      id: 0,
-      streetType: tipoStrada,
+      id: 1,
+      roadType: tipoStrada,
       roadName: nomeStrada,
       houseNumber: numeroCivico,
       city: city

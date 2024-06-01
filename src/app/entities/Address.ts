@@ -4,7 +4,7 @@ export interface Address {
   id: number;
   roadName: string;
   houseNumber: string;
-  streetType: string;
+  roadType: string;
   city: City;
 }
 
