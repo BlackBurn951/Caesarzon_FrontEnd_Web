@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import {Address} from "../entities/Address";
-import {KeyCloakService} from "./keyCloakService";
-import {FormGroup} from "@angular/forms";
-import {FormService} from "./formService";
-import {City} from "../entities/City";
+import { Address } from "../entities/Address";
+import { KeyCloakService } from "./keyCloakService";
+import { FormGroup } from "@angular/forms";
+import { FormService } from "./formService";
+import { City } from "../entities/City";
 
 @Injectable({
   providedIn: 'root'
@@ -22,13 +22,12 @@ export class AddressService {
     this.formCaesarzon = formService.getForm();
   }
 
-
   getAddresses(): Observable<Address[]> {
     return this.http.get<Address[]>(this.getAddressURL);
   }
 
-  sendAddress(){
-    const indirizzoForm =  this.formCaesarzon.get("formIndirizzo");
+  sendAddress() {
+    const indirizzoForm = this.formCaesarzon.get("formIndirizzo");
     const tipoStrada = indirizzoForm?.get("tipologiaStrada")?.value;
     const nomeStrada = indirizzoForm?.get("nomeStrada")?.value;
     const numeroCivico = indirizzoForm?.get("numeroCivico")?.value;
@@ -43,7 +42,6 @@ export class AddressService {
     console.log(numeroCivico);
     console.log(tipoStrada);
 
-
     const city: City = {
       id: id,
       city: citta,
@@ -53,17 +51,16 @@ export class AddressService {
     }
 
     const addressData: Address = {
-      id: 1,
+      id: null,
       roadType: tipoStrada,
       roadName: nomeStrada,
       houseNumber: numeroCivico,
       city: city
-
     };
 
     this.sendAddressData(addressData).subscribe(
       response => {
-        console.log('Address data sent successfully:', response);
+        console.log('Indirizzo salvato');
       },
       error => {
         console.error('Error sending address data:', error);
@@ -71,9 +68,8 @@ export class AddressService {
     );
   }
 
-
-  sendAddressData(addressData: Address): Observable<any> {
+  sendAddressData(addressData: Address): Observable<string> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + this.keycloak.getAccessToken() });
-    return this.http.post<any>(this.sendAddressURL, addressData, {headers});
+    return this.http.post(this.sendAddressURL, addressData, { headers, responseType: 'text' }) as Observable<string>;
   }
 }
