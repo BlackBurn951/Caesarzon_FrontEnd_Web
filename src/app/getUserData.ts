@@ -10,7 +10,7 @@ import {PopupService} from "./services/popUpService";
 
 export class GetUserData implements OnInit{
 
-  isLogged = false;
+  isLogged = true;
 
   user!: user;
   addresses!: address[];

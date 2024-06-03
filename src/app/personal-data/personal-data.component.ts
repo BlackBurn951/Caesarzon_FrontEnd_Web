@@ -19,7 +19,7 @@ import {PopupService} from "../services/popUpService";
 })
 export class PersonalDataComponent implements OnInit{
 
-  nome: string = "Alberto";
+  nome!: string;
   cognome!: string;
   email!: string;
   numero!: number;
@@ -28,7 +28,7 @@ export class PersonalDataComponent implements OnInit{
 
   inputAbilitato: boolean = false;
 
-  testoButton: string = "Modifica";
+  testoButton: string = "Modifica dati";
 
   imageUrls: (any | null)[] = [null];
 

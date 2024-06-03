@@ -6,6 +6,7 @@ import { KeyCloakService } from "./keyCloakService";
 import { FormGroup } from "@angular/forms";
 import { FormService } from "./formService";
 import { City } from "../entities/City";
+import {PopupService} from "./popUpService";
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,7 @@ export class AddressService {
 
   private sendAddressURL = 'http://localhost:8090/user-api/address';
 
-  constructor(private http: HttpClient, private keycloak: KeyCloakService, private formService: FormService) {
+  constructor(private popUp: PopupService, private http: HttpClient, private keycloak: KeyCloakService, private formService: FormService) {
     this.formCaesarzon = formService.getForm();
   }
 
@@ -36,11 +37,6 @@ export class AddressService {
     const provincia = indirizzoForm?.get("provincia")?.value;
     const regione = indirizzoForm?.get("regione")?.value;
     const id = indirizzoForm?.get("id")?.value;
-
-    console.log(id);
-    console.log(nomeStrada);
-    console.log(numeroCivico);
-    console.log(tipoStrada);
 
     const city: City = {
       id: id,
@@ -60,10 +56,16 @@ export class AddressService {
 
     this.sendAddressData(addressData).subscribe(
       response => {
-        console.log('Indirizzo salvato');
+        this.popUp.closePopup()
+        this.popUp.updateStringa("Indirizzo aggiunto con successo!")
+        this.popUp.openPopups(8, true)
+        this.clearFields()
       },
       error => {
-        console.error('Error sending address data:', error);
+        this.popUp.closePopup()
+        this.popUp.updateStringa("Errore nell'aggiunta dell'indirizzo!")
+        this.popUp.openPopups(8, true)
+        this.clearFields()
       }
     );
   }
@@ -72,4 +74,20 @@ export class AddressService {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + this.keycloak.getAccessToken() });
     return this.http.post(this.sendAddressURL, addressData, { headers, responseType: 'text' }) as Observable<string>;
   }
+
+  clearFields(){
+    const formCarta = this.formCaesarzon.get('formIndirizzo') as FormGroup;
+    formCarta.patchValue({
+      id: '',
+      tipologiaStrada: '',
+      nomeStrada: '',
+      numeroCivico: '',
+      citta: '',
+      cap: '',
+      provincia: '',
+      regione: '',
+
+    });
+  }
+
 }

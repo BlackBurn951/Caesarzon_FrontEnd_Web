@@ -65,14 +65,15 @@
             <label for="numero">Cellulare:</label>
             <input class="form-control textBoxAggiunta" type="text" id="numero" maxlength="30" placeholder="{{numero}}" [readonly]="!inputAbilitato">
           </div>
-          <div class="form-group ml-3">
-            <label for="password">Password:</label>
-            <input class="form-control textBoxAggiunta" type="password" id="password" maxlength="30" placeholder="{{password}}" [readonly]="!inputAbilitato">
-          </div>
+
         </div>
 
       </div>
-      <button type="button" class="btn btn-dark custom-btn modifica" (click)="abilitaInput()">{{testoButton}}</button>
+      <div class="row">
+        <button type="button" class="btn btn-dark custom-btn modifica mr-5" style="border: black solid 1px">Modifica password</button>
+        <button type="button" class="btn btn-dark custom-btn modifica mr-5" (click)="abilitaInput()">{{testoButton}}</button>
+        <button type="button" class="btn btn-danger modifica mr-5" style="border: black solid 1px">Elimina account</button>
+      </div>
 
     </section>
 

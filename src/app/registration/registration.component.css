@@ -101,12 +101,13 @@
   position: absolute;
 
 }
+.err{
+  font-weight: normal;
+}
+
 
 .tasti{
   margin-top: 3vh;
-}
-.err{
-  font-weight: normal;
 }
 
 

@@ -4,6 +4,14 @@
   box-shadow: 0 0 3px 1px #000000 !important;
   border-color: black;
 }
+.error-message {
+  color: #ff0a00;
+  position: absolute;
+
+}
+.err{
+  font-weight: normal;
+}
 
 .ics {
   position: absolute;

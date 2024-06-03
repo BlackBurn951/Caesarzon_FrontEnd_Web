@@ -198,27 +198,30 @@
   <div class="d-flex flex-column align-items-center aggiunta" formGroupName="formIndirizzo">
 
     <h1>Aggiugi un nuovo indirizzo</h1>
-    <button (click)="popUpService.closePopup()" class="btn btn-dark ics">X</button>
+    <button type="button" (click)="popUpService.closePopup()" class="btn btn-dark ics">X</button>
 
     <div class="d-flex flex-row align-items-center" >
         <div class="form-group ml-3 d-flex flex-column">
           <label for="tipologiaStrada">Tipo strada:</label>
           <select id="tipologiaStrada" class="form-select selectionIn btn btn-dark custom-bln" formControlName="tipologiaStrada">
-            <option value="via">Via</option>
-            <option value="vicolo">Vicolo</option>
-            <option value="viale">Viale</option>
-            <option value="traversa">Traversa</option>
-            <option value="borgo">Borgo</option>
-            <option value="piazzale">Piazzale</option>
-            <option value="piazza">Piazza</option>
-            <option value="largo">Largo</option>
-            <option value="lungarno">Lungarno</option>
+            <option value="Via">Via</option>
+            <option value="Vicolo">Vicolo</option>
+            <option value="Viale">Viale</option>
+            <option value="Traversa">Traversa</option>
+            <option value="Borgo">Borgo</option>
+            <option value="Piazzale">Piazzale</option>
+            <option value="Piazza">Piazza</option>
+            <option value="Largo">Largo</option>
+            <option value="Lungarno">Lungarno</option>
           </select>
         </div>
 
         <div class="form-group ml-3">
           <label for="nomeStrada">Nome strada:</label>
-          <input type="text" class="form-control textBoxAggiunta" formControlName="nomeStrada" id="nomeStrada" maxlength="30">
+          <input type="text" class="form-control textBoxAggiunta" formControlName="nomeStrada" id="nomeStrada" minlength="8" maxlength="30">
+          <div *ngIf="formService.campoNonCorretto('formIndirizzo.nomeStrada')" class="error-message">
+            <label class="err"> Il formato del nome non è corretto.</label>
+          </div>
         </div>
         <div class="form-group ml-3">
           <label for="cap">Codice postale (CAP):</label>
@@ -234,7 +237,10 @@
 
       <div class="form-group">
         <label for="numeroCivico">N° civico:</label>
-        <input type="text" id="numeroCivico" class="form-control textBoxAggiunta" formControlName="numeroCivico" maxlength="8">
+        <input type="text" id="numeroCivico" class="form-control textBoxAggiunta" formControlName="numeroCivico" minlength="1" maxlength="8">
+        <div *ngIf="formService.campoNonCorretto('formIndirizzo.numeroCivico')" class="error-message">
+          <label class="err"> Il formato del numeri civico non è corretto.</label>
+        </div>
         </div>
         <div class="form-group ml-3">
           <label for="citta">Città:</label>
@@ -252,46 +258,61 @@
           <input type="text" class="form-control textBoxAggiunta" id="regione" formControlName="regione" readonly>
         </div>
       </div>
-      <button type="submit" class="btn btn-dark custom-btn">Aggiungi</button>
+      <button type="submit" class="btn btn-dark custom-btn" [disabled]="!formCaesarzon.get('formIndirizzo')?.valid">Aggiungi</button>
     </div>
   </form>
 </div>
 
 <div class="container-fluidos regLog" *ngIf="popUpService.wichComponent === 7" [ngClass]="{'Add': popUpService.isAdd}">
-  <div class="d-flex flex-column align-items-center aggiunta">
+  <form [formGroup]="formCaesarzon" (ngSubmit)="aggiungiCarta()">
+    <div class="d-flex flex-column align-items-center aggiunta" formGroupName="formCarta">
 
-    <h1>Aggiungi una nuova carta</h1>
-    <button (click)="popUpService.closePopup()" class="btn btn-dark ics">X</button>
+      <h1>Aggiungi una nuova carta</h1>
+      <button type="button" (click)="popUpService.closePopup()" class="btn btn-dark ics">X</button>
 
 
-    <div class="d-flex flex-column align-items-center">
+      <div class="d-flex flex-column align-items-center">
 
-      <div class="d-flex flex-row align-items-center">
-        <div class="form-group">
-          <label for="cardNumber">Numero della carta:</label>
-          <input type="text" class="form-control textBoxAggiunta" id="cardNumber" maxlength="30">
+        <div class="d-flex flex-row align-items-center">
+          <div class="form-group">
+            <label for="cardNumber">Numero della carta:</label>
+            <input type="text" class="form-control textBoxAggiunta" id="cardNumber" formControlName="numeroCarta"  minlength="16" maxlength="16">
+            <div *ngIf="formService.campoNonCorretto('formCarta.numeroCarta')" class="error-message">
+              <label class="err"> Il formato del numero della carta non è corretto.</label>
+            </div>
+          </div>
+
+          <div class="form-group ml-3">
+            <label for="cardHolderName">Titolare della carta:</label>
+            <input type="text" class="form-control textBoxAggiunta" id="cardHolderName" formControlName="titolareCarta"  minlength="5" maxlength="40">
+            <div *ngIf="formService.campoNonCorretto('formCarta.titolareCarta')" class="error-message">
+              <label class="err"> Il formato del nome del titolare della carta non è corretto.</label>
+            </div>
+          </div>
         </div>
 
-        <div class="form-group ml-3">
-          <label for="cardHolderName">Titolare della carta:</label>
-          <input type="text" class="form-control textBoxAggiunta" id="cardHolderName" maxlength="30">
+        <div class="d-flex flex-row align-items-center">
+          <div class="form-group">
+            <label for="expirationDate">Data di scadenza:</label>
+            <input type="month" class="form-control textBoxAggiunta" id="expirationDate" formControlName="dataScadenza">
+            <div *ngIf="formCaesarzon.get('formIndirizzo.numeroCivico')?.hasError('invalidDate')">
+              La data di scadenza non può essere nel passato.
+            </div>
+          </div>
+          <div class="form-group ml-3">
+            <label for="cvv">Codice di sicurezza (CVV):</label>
+            <input type="text" class="form-control" id="cvv" formControlName="cvv"  minlength="3" maxlength="3">
+            <div *ngIf="formService.campoNonCorretto('formCarta.cvv')" class="error-message">
+              <label class="err"> Il formato del codice di sicurezza non è corretto.</label>
+            </div>
+          </div>
         </div>
+
       </div>
-
-      <div class="d-flex flex-row align-items-center">
-        <div class="form-group">
-          <label for="expirationDate">Data di scadenza:</label>
-          <input type="text" class="form-control textBoxAggiunta" id="expirationDate" maxlength="30">
-        </div>
-        <div class="form-group ml-3">
-          <label for="cvv">Codice di sicurezza (CVV):</label>
-          <input type="text" class="form-control" id="cvv" maxlength="30">
-        </div>
-      </div>
-
+      <button type="submit" class="btn btn-dark custom-btn" [disabled]="!formCaesarzon.get('formCarta')?.valid">Aggiungi</button>
     </div>
-    <button type="button" class="btn btn-dark custom-btn">Aggiungi</button>
-  </div>
+  </form>
+
 
 </div>
 
