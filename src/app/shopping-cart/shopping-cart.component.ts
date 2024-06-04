@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import {Router} from "@angular/router";
 import {PopupService} from "../services/popUpService";
+import {KeyCloakService} from "../services/keyCloakService";
 
 @Component({
   selector: 'app-shopping-cart',
@@ -8,13 +9,11 @@ import {PopupService} from "../services/popUpService";
   styleUrls: ['./shopping-cart.component.css', '../../styles.css']
 })
 export class ShoppingCartComponent {
-  private readonly isLogged:  boolean;
 
-  constructor(private router: Router, private popup: PopupService) {
-    this.isLogged=true;
+  constructor(private router: Router, private popup: PopupService, private keyCloak: KeyCloakService) {
   }
   goToPayment() {
-    if(this.isLogged) {
+    if(this.keyCloak.getLoggedStatus()) {
       this.router.navigate(['payment-first-page'])
     }
     else {

@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import {UserManagementContainerComponent} from "../user-management-container/user-management-container.component";
-import {GetUserData} from "../getUserData";
 import {FooterComponent} from "../footer/footer.component";
 import {PopupService} from "../services/popUpService";
 
@@ -20,7 +19,7 @@ export class UserPaymentDataComponent {
 
   testoButton: string = "Modifica";
 
-  constructor(public getUserData:GetUserData, public popUpService:PopupService) {
+  constructor(public popUpService:PopupService) {
   }
 
   abilitaInput(): void{

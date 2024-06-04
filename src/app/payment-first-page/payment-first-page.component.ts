@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import {GetUserData} from "../getUserData";
 import {Router} from "@angular/router";
 import {FormGroup} from "@angular/forms";
 import {FormService} from "../services/formService";
@@ -16,7 +15,7 @@ export class PaymentFirstPageComponent {
   protected formCaesarzone!: FormGroup;
   protected abilitator!: boolean;
 
-  constructor(protected getUserData: GetUserData, private router: Router, private formService: FormService) {
+  constructor(private router: Router, private formService: FormService) {
     this.formCaesarzone=formService.getForm();
     this.abilitator=false;
   }

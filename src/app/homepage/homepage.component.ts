@@ -15,7 +15,6 @@ import {HttpClient} from "@angular/common/http";
 export class HomepageComponent implements OnInit{
 
 
-  fileContent!: string;
   products: any[] = [];
   products2: any[] = [];
   products3: any[] = [];
@@ -75,7 +74,7 @@ export class HomepageComponent implements OnInit{
   }
 
   ngOnInit() {
-    this.key.login("guest","9Xz#sWv3D*q2J%8f@6t!g4N&hP7eL$mK1oI5uR*cF0bQ@yG2j!H3wXe#4RvB!5ZnC@m2L$p1GkE8zYxW!7uV");
+    //this.key.login("guest","9Xz#sWv3D*q2J%8f@6t!g4N&hP7eL$mK1oI5uR*cF0bQ@yG2j!H3wXe#4RvB!5ZnC@m2L$p1GkE8zYxW!7uV");
   }
 
 

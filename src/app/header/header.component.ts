@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 import {NgClass, NgIf} from "@angular/common";
 import {Router} from "@angular/router";
 import {PopupService} from "../services/popUpService";
-import {GetUserData} from "../getUserData";
+import {UserService} from "../services/userService";
+import {KeyCloakService} from "../services/keyCloakService";
 
 
 
@@ -22,9 +23,11 @@ export class HeaderComponent {
   isMenuOpen = false;
 
 
-  constructor(public popupService:PopupService, private router: Router, protected userData: GetUserData){
+  constructor(public popupService:PopupService, private router: Router, protected keyCloak:KeyCloakService){
   }
-
+  goHomepage(){
+    this.router.navigate(['']);
+  }
   toggleMenu(): void {
     this.isMenuOpen = !this.isMenuOpen;
   }

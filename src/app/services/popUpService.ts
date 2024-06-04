@@ -29,7 +29,7 @@ export class PopupService {
 
   currentStringa = this.stringaSource.asObservable();
 
-  constructor(private dialog: MatDialog, private key: KeyCloakService) {
+  constructor(private dialog: MatDialog) {
   }
 
   rate(rating: number) {
@@ -47,7 +47,6 @@ export class PopupService {
   }
 
   toggleLogin(event: Event) {
-    this.key.refreshAuthVariables()
     event.preventDefault()
     this.isLogin = !this.isLogin;
   }

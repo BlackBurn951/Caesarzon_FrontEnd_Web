@@ -1,14 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FooterComponent } from "../footer/footer.component";
 import { UserManagementContainerComponent } from "../user-management-container/user-management-container.component";
-import { GetUserData } from "../getUserData";
 import { PopupService } from "../services/popUpService";
 import {Address} from "../entities/Address";
 import {AddressService} from "../services/addressService";
 import {NgForOf} from "@angular/common";
 import {MatAutocomplete, MatAutocompleteTrigger, MatOption} from "@angular/material/autocomplete";
-import {FormGroup, ReactiveFormsModule} from "@angular/forms";
-import {ottieniCittaService} from "../services/ottieni.citta.service";
+import {ReactiveFormsModule} from "@angular/forms";
 
 @Component({
   selector: 'app-user-address-data',

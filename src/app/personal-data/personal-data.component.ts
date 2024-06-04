@@ -5,6 +5,9 @@ import {FooterComponent} from "../footer/footer.component";
 import {PopupService} from "../services/popUpService";
 import {FormGroup, ReactiveFormsModule} from "@angular/forms";
 import {FormService} from "../services/formService";
+import {UserService} from "../services/userService";
+import {User} from "../entities/User";
+import {KeyCloakService} from "../services/keyCloakService";
 
 @Component({
   selector: 'app-personal-data',
@@ -25,8 +28,7 @@ export class PersonalDataComponent implements OnInit{
   nome!: string;
   cognome!: string;
   email!: string;
-  numero!: number;
-  password!: string;
+  numero!: string;
   username!: string;
 
   inputAbilitato: boolean = false;
@@ -39,13 +41,33 @@ export class PersonalDataComponent implements OnInit{
 
 
 
-  constructor(private popUpService: PopupService, protected formService: FormService) {
+  constructor(private popUpService: PopupService, protected formService: FormService, private userService: UserService, private key: KeyCloakService) {
     this.formCaesarzon = formService.getForm()
+
   }
 
   ngOnInit(): void {
+    this.userService.getUserData().subscribe(
+      (userData: User) => {
+        this.nome = userData.firstName;
+        this.cognome = userData.lastName;
+        this.email = userData.email;
+        this.username = userData.username;
+        this.numero = userData.phoneNumber;
 
+      },
+      error => {
+        console.error('Error fetching user data:', error);
+      }
+    );
+    if (this.formCaesarzon.get('formRegistrazione')) {
+      this.formCaesarzon.get('formRegistrazione.nome')?.setValue(this.nome);
+      this.formCaesarzon.get('formRegistrazione.cognome')?.setValue(this.cognome);
+      this.formCaesarzon.get('formRegistrazione.username')?.setValue(this.username);
+      this.formCaesarzon.get('formRegistrazione.email')?.setValue(this.email);
+    }
   }
+
 
 
   onFileSelected(event: any) {
@@ -67,6 +89,12 @@ export class PersonalDataComponent implements OnInit{
   abilitaInput(): void{
     this.inputAbilitato = !this.inputAbilitato;
     this.testoButton = this.inputAbilitato ? "Annulla modifiche" : "Modifica dati";
+    if (this.formCaesarzon.get('formRegistrazione')) {
+      this.formCaesarzon.get('formRegistrazione.nome')?.setValue(this.nome);
+      this.formCaesarzon.get('formRegistrazione.cognome')?.setValue(this.cognome);
+      this.formCaesarzon.get('formRegistrazione.username')?.setValue(this.username);
+      this.formCaesarzon.get('formRegistrazione.email')?.setValue(this.email);
+    }
   }
 
   mandaModifiche(){
