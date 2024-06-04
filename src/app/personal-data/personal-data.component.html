@@ -32,7 +32,7 @@
     </section>
 
     <form [formGroup]="formCaesarzon" (ngSubmit)="mandaModifiche()" >
-      <section class="form-group d-flex flex-column align-items-center" formGroupName="formRegistrazione">
+      <section class="form-group d-flex flex-column align-items-center" formGroupName="formDatipersonali">
 
 
         <div class="d-flex flex-column align-items-center">
@@ -43,24 +43,24 @@
 
             <div class="form-group">
               <label for="nome">Nome:</label>
-              <input class="form-control textBoxAggiunta" type="text" id="nome" formControlName="nome" minlength="2" maxlength="30" value="{{nome}}" [readonly]="!inputAbilitato">
-              <div *ngIf="formService.campoNonCorretto('formRegistrazione.nome')" class="error-message">
+              <input class="form-control textBoxAggiunta" type="text" id="nome" formControlName="nome" minlength="2" maxlength="30" value="{{nome}}" (focus)="setValues()" [readonly]="!inputAbilitato">
+              <div *ngIf="formService.campoNonCorretto('formDatipersonali.nome')" class="error-message">
                 <label class="err"> Il formato del nome non è corretto.</label>
               </div>
             </div>
 
             <div class="form-group ml-3">
               <label for="cognome">Cognome:</label>
-              <input class="form-control textBoxAggiunta" type="text" id="cognome" formControlName="cognome" minlength="2" maxlength="30" value="{{cognome}}" [readonly]="!inputAbilitato">
-              <div *ngIf="formService.campoNonCorretto('formRegistrazione.cognome')" class="error-message">
+              <input class="form-control textBoxAggiunta" type="text" id="cognome" formControlName="cognome" minlength="2" maxlength="30" value="{{cognome}}" (focus)="setValues()"  [readonly]="!inputAbilitato">
+              <div *ngIf="formService.campoNonCorretto('formDatipersonali.cognome')" class="error-message">
                 <label class="err"> Il formato del cognome non è corretto.</label>
               </div>
             </div>
 
             <div class="form-group ml-3">
               <label for="username">Username:</label>
-              <input class="form-control textBoxAggiunta" type="text" id="username" formControlName="username" minlength="5" maxlength="20" value="{{username}}" [readonly]="!inputAbilitato">
-              <div *ngIf="formService.campoNonCorretto('formRegistrazione.username')" class="error-message">
+              <input class="form-control textBoxAggiunta" type="text" id="username" formControlName="username" minlength="5" maxlength="20" value="{{username}}" (focus)="setValues()"  [readonly]="!inputAbilitato">
+              <div *ngIf="formService.campoNonCorretto('formDatipersonali.username')" class="error-message">
                 <label class="err"> Il formato dell' username non è corretto.</label>
               </div>
             </div>
@@ -69,8 +69,8 @@
           <div class="d-flex flex-row align-items-center lineaCampi">
             <div class="form-group">
               <label for="email">Email:</label>
-              <input class="form-control textBoxAggiunta" type="text" id="email" maxlength="254" formControlName="email" value="{{email}}" [readonly]="!inputAbilitato">
-              <div *ngIf="formService.campoNonCorretto('formRegistrazione.email')" class="error-message">
+              <input class="form-control textBoxAggiunta" type="text" id="email" maxlength="254" formControlName="email" value="{{email}}" (focus)="setValues()" [readonly]="!inputAbilitato">
+              <div *ngIf="formService.campoNonCorretto('formDatipersonali.email')" class="error-message">
                 <label class="err"> Il formato dell' e-mail non è corretto.</label>
               </div>
             </div>
@@ -84,7 +84,7 @@
         </div>
         <div class="row">
           <button type="button" class="btn btn-dark custom-btn modifica mr-5" style="border: black solid 1px">Modifica password</button>
-          <button *ngIf="inputAbilitato" type="submit" class="btn btn-dark custom-btn modifica mr-5" [disabled]="!formCaesarzon.get('formRegistrazione')?.valid">Salva modifiche</button>
+          <button *ngIf="inputAbilitato" type="submit" class="btn btn-dark custom-btn modifica mr-5" [disabled]="!formCaesarzon.get('formDatipersonali')?.valid">Salva modifiche</button>
           <button type="button" class="btn btn-dark custom-btn modifica mr-5" (click)="abilitaInput()">{{testoButton}}</button>
           <button type="button" class="btn btn-danger modifica mr-5" style="border: black solid 1px">Elimina account</button>
         </div>

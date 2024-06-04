@@ -22,7 +22,7 @@ export class HomepageComponent implements OnInit{
   indexNovita = 0;
   indexOfferte: number = 0;
   indexMomento: number = 0;
-  constructor(private router: Router, private key:KeyCloakService, private http: HttpClient) {
+  constructor(private router: Router, private key: KeyCloakService) {
     this.products = [
       { id: 1, name: 'Prodotto 1', description: 'Il prodotto 1 è un prodotto di orginie italiana, lavorato nell'+'azienza X' },
       { id: 2, name: 'Prodotto 2', description: 'Descrizione breve del prodotto 2' },
@@ -74,7 +74,7 @@ export class HomepageComponent implements OnInit{
   }
 
   ngOnInit() {
-    //this.key.login("guest","9Xz#sWv3D*q2J%8f@6t!g4N&hP7eL$mK1oI5uR*cF0bQ@yG2j!H3wXe#4RvB!5ZnC@m2L$p1GkE8zYxW!7uV");
+    this.key.login("guest","9Xz#sWv3D*q2J%8f@6t!g4N&hP7eL$mK1oI5uR*cF0bQ@yG2j!H3wXe#4RvB!5ZnC@m2L$p1GkE8zYxW!7uV");
   }
 
 

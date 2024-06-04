@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import {Router} from "@angular/router";
 import {PopupService} from "./popUpService";
+import {user} from "../utils/user";
 
 @Injectable({
   providedIn: 'root',
@@ -20,7 +21,6 @@ export class KeyCloakService {
   refreshAuthVariables(){
     this.ACCESS_TOKEN = "";
     this.REFRESH_TOKEN = "";
-
   }
 
 
@@ -38,9 +38,12 @@ export class KeyCloakService {
     this.http.post(this.accessTokenUrl, body.toString(), { headers, withCredentials: true }).subscribe(
       (response:any) => {
         this.setTokens(response.access_token, response.refresh_token);
-        this.isLogged = true;
-        console.log("UTOKEN: ", this.ACCESS_TOKEN);
-        this.popUp.closePopup()
+        if(username != "guest"){
+          this.isLogged = true;
+          this.setLogin();
+          this.popUp.closePopup()
+        }
+        console.log("TOKEN: " + this.ACCESS_TOKEN);
 
       },
       (error) => {
@@ -53,19 +56,38 @@ export class KeyCloakService {
   setTokens(accessToken: string, refreshToken: string) {
     this.ACCESS_TOKEN = accessToken;
     this.REFRESH_TOKEN = refreshToken;
+    localStorage.setItem('access_token', accessToken);
+  }
+
+  setLogin(){
+    localStorage.setItem('isLogged', String(this.isLogged));
+
   }
 
 
   getAccessToken() {
-    return this.ACCESS_TOKEN;
+    const token = localStorage.getItem('access_token');
+    if (token) {
+      return token;
+    } else {
+      return this.ACCESS_TOKEN;
+    }
   }
 
   getLoggedStatus(){
-    return this.isLogged
+    const isLoggedString = localStorage.getItem('isLogged');
+    if (isLoggedString) {
+      return isLoggedString === 'true';
+    } else {
+      return this.isLogged;
+    }
   }
 
   toggleLogin(event: MouseEvent) {
     this.isLogged = !this.isLogged;
+    this.setLogin()
+    this.setTokens("", "")
+    //chiamta a keycloack che invalida il token
     event.preventDefault()
   }
 }

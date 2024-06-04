@@ -33,7 +33,8 @@ export class FormService {
       formDeiProdotti: this.buildFormProdotti(),
       formRegistrazione: this.buildFormRegistrazione(),
       formIndirizzo: this.buildFormIndirizzo(),
-      formCarta: this.buildFormPagamento()
+      formCarta: this.buildFormPagamento(),
+      formDatipersonali: this.buildFormDatiPersonali()
     })
 
   }
@@ -66,6 +67,16 @@ export class FormService {
       email: ['', [Validators.required, Validators.email, this.validaDominioConosciuto.bind(this)]],
       password: ['', [Validators.required, Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[A-Za-z\d!@#$%^?&*()_+]{8,20}$/)]],
       confermaPassword: ['', Validators.required],
+    });
+  }
+
+  private buildFormDatiPersonali():FormGroup{
+    return this.fb.group({
+      nome: ['', [Validators.required, Validators.pattern(/^[a-zA-Z]{2,}( [a-zA-Z]{2,30})?$/)]],
+      cognome: ['', [Validators.required,  Validators.pattern(/^[a-zA-Z]{2,}( [a-zA-Z]{2,30})?$/)]],
+      username: ['', [Validators.required, Validators.pattern(/^(?=.*[a-zA-Z].*[a-zA-Z].*[a-zA-Z].*[a-zA-Z])[a-zA-Z0-9]{5,20}$/)]],
+      email: ['', [Validators.required, Validators.email, this.validaDominioConosciuto.bind(this)]],
+
     });
   }
 

@@ -41,7 +41,7 @@ export class PersonalDataComponent implements OnInit{
 
 
 
-  constructor(private popUpService: PopupService, protected formService: FormService, private userService: UserService, private key: KeyCloakService) {
+  constructor(protected formService: FormService, private userService: UserService) {
     this.formCaesarzon = formService.getForm()
 
   }
@@ -60,12 +60,7 @@ export class PersonalDataComponent implements OnInit{
         console.error('Error fetching user data:', error);
       }
     );
-    if (this.formCaesarzon.get('formRegistrazione')) {
-      this.formCaesarzon.get('formRegistrazione.nome')?.setValue(this.nome);
-      this.formCaesarzon.get('formRegistrazione.cognome')?.setValue(this.cognome);
-      this.formCaesarzon.get('formRegistrazione.username')?.setValue(this.username);
-      this.formCaesarzon.get('formRegistrazione.email')?.setValue(this.email);
-    }
+    this.setValues()
   }
 
 
@@ -89,16 +84,20 @@ export class PersonalDataComponent implements OnInit{
   abilitaInput(): void{
     this.inputAbilitato = !this.inputAbilitato;
     this.testoButton = this.inputAbilitato ? "Annulla modifiche" : "Modifica dati";
-    if (this.formCaesarzon.get('formRegistrazione')) {
-      this.formCaesarzon.get('formRegistrazione.nome')?.setValue(this.nome);
-      this.formCaesarzon.get('formRegistrazione.cognome')?.setValue(this.cognome);
-      this.formCaesarzon.get('formRegistrazione.username')?.setValue(this.username);
-      this.formCaesarzon.get('formRegistrazione.email')?.setValue(this.email);
+    this.setValues()
+  }
+
+  setValues(){
+    if (this.formCaesarzon.get('formDatipersonali')) {
+      this.formCaesarzon.get('formDatipersonali.nome')?.setValue(this.nome);
+      this.formCaesarzon.get('formDatipersonali.cognome')?.setValue(this.cognome);
+      this.formCaesarzon.get('formDatipersonali.username')?.setValue(this.username);
+      this.formCaesarzon.get('formDatipersonali.email')?.setValue(this.email);
     }
   }
 
   mandaModifiche(){
-
+    this.userService.modifyUser(this.username, this.email, this.nome, this.cognome, this.numero)
   }
 
 }
