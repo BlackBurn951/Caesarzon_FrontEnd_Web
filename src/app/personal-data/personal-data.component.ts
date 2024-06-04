@@ -2,18 +2,20 @@ import {Component, OnInit} from '@angular/core';
 import {NgClass, NgForOf, NgIf} from "@angular/common";
 import {UserManagementContainerComponent} from "../user-management-container/user-management-container.component";
 import {FooterComponent} from "../footer/footer.component";
-import {PopupService} from "../services/popUpService";
+import {FormService} from "../services/formService";
+import {FormGroup, ReactiveFormsModule} from "@angular/forms";
 
 @Component({
   selector: 'app-personal-data',
   standalone: true,
-    imports: [
-        NgClass,
-        UserManagementContainerComponent,
-        FooterComponent,
-        NgForOf,
-        NgIf
-    ],
+  imports: [
+    NgClass,
+    UserManagementContainerComponent,
+    FooterComponent,
+    NgForOf,
+    NgIf,
+    ReactiveFormsModule
+  ],
   templateUrl: './personal-data.component.html',
   styleUrls: ['./personal-data.component.css', '../../styles.css']
 })
@@ -32,10 +34,11 @@ export class PersonalDataComponent implements OnInit{
 
   imageUrls: (any | null)[] = [null];
 
+  protected formCaesarzon!: FormGroup;
 
 
-  constructor(private popUpService: PopupService) {
-
+  constructor(protected formService: FormService) {
+    this.formCaesarzon = formService.getForm();
   }
 
   ngOnInit(): void {
@@ -61,7 +64,10 @@ export class PersonalDataComponent implements OnInit{
 
   abilitaInput(): void{
     this.inputAbilitato = !this.inputAbilitato;
-    this.testoButton = this.inputAbilitato ? "Salva modifiche" : "Modifica";
+    this.testoButton = this.inputAbilitato ? "Annulla modifiche" : "Modifica dati";
   }
 
+  mandaModifiche() {
+
+  }
 }

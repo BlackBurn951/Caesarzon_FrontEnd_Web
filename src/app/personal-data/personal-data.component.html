@@ -36,41 +36,46 @@
 
       <div class="d-flex flex-column align-items-center">
         <h1 class="title" >ANAGRAFICA</h1>
+        <form [formGroup]="formCaesarzon" (ngSubmit)="mandaModifiche()">
+          <div class="d-flex flex-row align-items-center lineaCampi">
+            <div class="form-group">
+              <label for="nome">Nome:</label>
+              <input class="form-control textBoxAggiunta" type="text" id="nome" maxlength="30" placeholder="{{nome}}" [readonly]="!inputAbilitato">
+            </div>
 
-        <div class="d-flex flex-row align-items-center lineaCampi">
+            <div class="form-group ml-3">
+              <label for="cognome">Cognome:</label>
+              <input class="form-control textBoxAggiunta" type="text" id="cognome" maxlength="30" placeholder="{{cognome}}" [readonly]="!inputAbilitato">
+            </div>
 
-
-          <div class="form-group">
-            <label for="nome">Nome:</label>
-            <input class="form-control textBoxAggiunta" type="text" id="nome" maxlength="30" placeholder="{{nome}}" [readonly]="!inputAbilitato">
+            <div class="form-group ml-3">
+              <label for="username">Username:</label>
+              <input class="form-control textBoxAggiunta" type="text" id="username" maxlength="30" formControlName="username" placeholder="{{username}}" [readonly]="!inputAbilitato">
+              <div *ngIf="formService.campoNonCorretto('formRegistrazione.username')" class="error-message">
+                <label class="err"> Il formato dell' username non è corretto.</label>
+              </div>
+            </div>
           </div>
 
-          <div class="form-group ml-3">
-            <label for="cognome">Cognome:</label>
-            <input class="form-control textBoxAggiunta" type="text" id="cognome" maxlength="30" placeholder="{{cognome}}" [readonly]="!inputAbilitato">
+          <div class="d-flex flex-row align-items-center lineaCampi">
+            <div class="form-group">
+              <label for="email">Email:</label>
+              <input class="form-control textBoxAggiunta" type="text" id="email" maxlength="30" placeholder="{{email}}" [readonly]="!inputAbilitato">
+            </div>
+            <div class="form-group ml-3">
+              <label for="numero">Cellulare:</label>
+              <input class="form-control textBoxAggiunta" type="text" id="numero" maxlength="30" placeholder="{{numero}}" [readonly]="!inputAbilitato">
+            </div>
+
           </div>
 
-          <div class="form-group ml-3">
-            <label for="username">Username:</label>
-            <input class="form-control textBoxAggiunta" type="text" id="username" maxlength="30" placeholder="{{username}}" [readonly]="!inputAbilitato">
-          </div>
-        </div>
+        </form>
 
-        <div class="d-flex flex-row align-items-center lineaCampi">
-          <div class="form-group">
-            <label for="email">Email:</label>
-            <input class="form-control textBoxAggiunta" type="text" id="email" maxlength="30" placeholder="{{email}}" [readonly]="!inputAbilitato">
-          </div>
-          <div class="form-group ml-3">
-            <label for="numero">Cellulare:</label>
-            <input class="form-control textBoxAggiunta" type="text" id="numero" maxlength="30" placeholder="{{numero}}" [readonly]="!inputAbilitato">
-          </div>
-
-        </div>
 
       </div>
       <div class="row">
         <button type="button" class="btn btn-dark custom-btn modifica mr-5" style="border: black solid 1px">Modifica password</button>
+        <button *ngIf="inputAbilitato" type="submit" class="btn btn-dark custom-btn modifica mr-5" [disabled]="!formCaesarzon.get('formRegistrazione')?.valid">Salva modifiche</button>
         <button type="button" class="btn btn-dark custom-btn modifica mr-5" (click)="abilitaInput()">{{testoButton}}</button>
         <button type="button" class="btn btn-danger modifica mr-5" style="border: black solid 1px">Elimina account</button>
       </div>
