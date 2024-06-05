@@ -32,9 +32,9 @@ export class PersonalDataComponent implements OnInit{
   email!: string ;
   username!: string;
 
-  numeroForm!: string;
+  numero!: string;
 
-  numeroAttuale!: string;
+
 
   imageUrls: (any | null)[] = [null];
 
@@ -50,7 +50,7 @@ export class PersonalDataComponent implements OnInit{
         this.formCaesarzon.get('formDatipersonali.cognome')?.setValue(userData.lastName);
         this.formCaesarzon.get('formDatipersonali.email')?.setValue(userData.email);
         this.formCaesarzon.get('formDatipersonali.username')?.setValue(userData.username);
-        this.numeroForm = userData.phoneNumber;
+        this.formCaesarzon.get('formDatipersonali.cellulare')?.setValue(userData.phoneNumber);
 
       },
       error => {
@@ -95,13 +95,8 @@ export class PersonalDataComponent implements OnInit{
       this.formCaesarzon.get('formDatipersonali.cognome')?.setValue(this.cognome);
       this.formCaesarzon.get('formDatipersonali.username')?.setValue(this.username);
       this.formCaesarzon.get('formDatipersonali.email')?.setValue(this.email);
-      this.numeroAttuale = this.numeroForm;
+      this.formCaesarzon.get('formDatipersonali.cellulare')?.setValue(this.numero);
 
-      console.log(this.formCaesarzon.get('formDatipersonali.nome')?.value)
-      console.log(this.formCaesarzon.get('formDatipersonali.cognome')?.value)
-      console.log(this.formCaesarzon.get('formDatipersonali.username')?.value)
-      console.log(this.formCaesarzon.get('formDatipersonali.email')?.value)
-      console.log(this.numeroForm)
     }
   }
 
@@ -111,7 +106,10 @@ export class PersonalDataComponent implements OnInit{
       this.cognome = this.formCaesarzon.get('formDatipersonali.cognome')?.value;
       this.username = this.formCaesarzon.get('formDatipersonali.username')?.value;
       this.email = this.formCaesarzon.get('formDatipersonali.email')?.value;
-      this.numeroForm = this.numeroAttuale
+      this.numero = this.formCaesarzon.get('formDatipersonali.cellulare')?.value;
+
+
+
     }
   }
 
@@ -123,7 +121,7 @@ export class PersonalDataComponent implements OnInit{
         this.cognome === formDatipersonali.get('cognome')?.value &&
         this.email === formDatipersonali.get('email')?.value &&
         this.username === formDatipersonali.get('username')?.value &&
-        this.numeroForm === this.numeroAttuale
+        this.numero === formDatipersonali.get('cellulare')?.value
     }
 
     return false;
@@ -132,14 +130,20 @@ export class PersonalDataComponent implements OnInit{
 
   mandaModifiche(){
     this.setValuess()
-    this.userService.modifyUser(this.username, this.email, this.nome, this.cognome, this.numeroAttuale)
+    this.userService.modifyUser(this.username, this.email, this.nome, this.cognome, this.numero)
   }
 
 
   isNumeroValid(): boolean {
+    const formDatipersonali = this.formCaesarzon.get('formDatipersonali');
+    const numero = formDatipersonali?.get('cellulare')?.value;
+    if (!numero) {
+      return true;
+    }
     const numeroPattern = /^\d{10}$/;
-    return numeroPattern.test(this.numeroAttuale);
+    return numeroPattern.test(numero);
   }
+
 
 
 
