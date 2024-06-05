@@ -38,7 +38,7 @@ export class PersonalDataComponent implements OnInit{
 
   imageUrls: (any | null)[] = [null];
 
-  constructor(protected formService: FormService, protected userService: UserService) {
+  constructor(protected formService: FormService, protected userService: UserService, protected popUpService: PopupService) {
     this.formCaesarzon = formService.getForm()
 
   }

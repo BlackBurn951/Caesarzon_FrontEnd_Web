@@ -16,6 +16,14 @@ export class AllPopupComponent {
   section:number = 0
   sectionLabel:string = "Cerca utenti"
 
+
+  newPassword: string = '';
+  confirmPassword: string = '';
+  newPasswordError: string = '';
+  confirmPasswordError: string = '';
+
+  mostraPassword: { [key: string]: boolean } = { password: false, confermaPassword: false };
+
   users = [
     { name: 'Mario Rossi', imgPath: 'path-to-image-1.jpg' },
     { name: 'Giulia Bianchi', imgPath: 'path-to-image-2.jpg' },
@@ -53,6 +61,54 @@ export class AllPopupComponent {
   changeSection(numb: number, label: string) {
     this.section = numb
     this.sectionLabel = label;
+  }
+
+
+  togglePassword(fieldName: string) {
+    const passwordField = document.getElementById(fieldName) as HTMLInputElement;
+    this.mostraPassword[fieldName] = !this.mostraPassword[fieldName];
+
+    if (this.mostraPassword[fieldName]) {
+      passwordField.type = 'text';
+    } else {
+      passwordField.type = 'password';
+    }
+  }
+
+  validatePassword(): void {
+    this.newPasswordError = '';
+    this.confirmPasswordError = '';
+    const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@$#%^&*()_+]).{8,16}$/;
+
+
+    if (!passwordPattern.test(this.newPassword)) {
+      this.newPasswordError = '   La password deve contenere:' +
+        '               almeno 8 caratteri (massimo 16)' +
+        '              , almeno una lettera maiuscola ed una minuscola'+
+        '              , almeno un numero' +
+        '              , almeno un carattere speciale fra i seguenti (!&#64;$#%^&*()_+).';
+      return;
+    }
+
+
+    if (this.confirmPassword.trim() === '') {
+      this.confirmPasswordError = 'Si prega di confermare la password';
+      return;
+    }
+
+    if (this.newPassword !== this.confirmPassword) {
+      this.confirmPasswordError = 'Le password non corrispondono';
+      return;
+    }
+    //this.utente.cambiaPassword(this.formService.username, this.newPassword);
+    this.popUpService.updateStringa('Cambio password avvenuto con successo')
+    this.popUpService.openPopups(9, true);
+
+    this.confirmPasswordError = '';
+    this.newPasswordError = '';
+    this.popUpService.closePopup()
+
+
   }
 
 }

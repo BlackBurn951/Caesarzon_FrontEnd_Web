@@ -316,9 +316,45 @@
 
 </div>
 
+<div class="container-fluidos regLog" *ngIf="popUpService.wichComponent === 8" [ngClass]="{'Add': popUpService.isAdd}">
+  <div class="form-group d-flex flex-column align-items-center">
+    <div class="d-flex flex-column align-items-center">
+      <h1 class="accediLabel">Cambia password</h1>
+    </div>
+    <button (click)="popUpService.closePopup()" class="btn btn-dark ics">X</button>
+    <div class="d-flex flex-row align-items-center">
+      <div class="form-group">
+        <label for="newPassword">Nuova password:</label>
+        <input type="password" id="newPassword" class="form-control" [(ngModel)]="newPassword" placeholder="Inserisci la nuova password">
+      </div>
+        <span class="toggle-password" (click)="togglePassword('newPassword')">
+            <img src="/assets/images/icons/view.png" *ngIf="mostraPassword['newPassword']" alt="Mostra Password" width="20">
+            <img src="/assets/images/icons/hide.png" *ngIf="!mostraPassword['newPassword']" alt="Nascondi Password" width="20">
+        </span>
+        <div *ngIf="newPasswordError" class="error-message">
+          {{ newPasswordError }}
+        </div>
+
+    </div>
+    <div class="d-flex flex-row align-items-center">
+      <div class="form-group">
+        <label for="confirmPassword">Conferma password:</label>
+          <input type="password" id="confirmPassword" class="form-control" [(ngModel)]="confirmPassword" placeholder="Conferma la nuova password">
+      </div>
+      <span class="toggle-password" (click)="togglePassword('confirmPassword')">
+            <img src="/assets/images/icons/view.png" *ngIf="mostraPassword['confirmPassword']" alt="Mostra Password" width="20">
+            <img src="/assets/images/icons/hide.png" *ngIf="!mostraPassword['confirmPassword']" alt="Nascondi Password" width="20">
+      </span>
+      <div *ngIf="confirmPasswordError" class="error-message">
+        {{ confirmPasswordError }}
+      </div>
+
+    </div>
+
+    <button class="btn btn-dark custom-btn"  (click)="validatePassword()">Cambia password</button>
+  </div>
+  </div>
 
 </body>
-
-
 
 </html>
