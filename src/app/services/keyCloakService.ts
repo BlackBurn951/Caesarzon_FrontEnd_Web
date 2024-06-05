@@ -9,6 +9,8 @@ import {user} from "../utils/user";
 })
 export class KeyCloakService {
 
+
+
   private accessTokenUrl = 'http://localhost:8080/realms/CaesarRealm/protocol/openid-connect/token';
 
   private ACCESS_TOKEN!: string;

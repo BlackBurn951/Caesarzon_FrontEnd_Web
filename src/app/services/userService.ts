@@ -1,22 +1,25 @@
 import { Injectable } from "@angular/core";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {UserRegistration} from "../entities/UserRegistration";
-import {Observable} from "rxjs";
+import {Observable, timeout} from "rxjs";
 import {KeyCloakService} from "./keyCloakService";
 import {User} from "../entities/User";
+import {PopupService} from "./popUpService";
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
 
-
-  private sendUserDataURL = 'http://localhost:8090/user-api/user';
-
-  private getUserDataURL = 'http://localhost:8090/user-api/user';
+  testoButton: string = "Modifica dati";
+  inputAbilitato: boolean = false;
 
 
-  constructor(private http: HttpClient, private keycloakService: KeyCloakService) { }
+  private manageUserDataURL = 'http://localhost:8090/user-api/user';
+
+
+
+  constructor(private http: HttpClient, private keycloakService: KeyCloakService, private popUp: PopupService) { }
 
 
   sendUser(username: string, email:string, firstName:string, lastName: string, credentialValue: string) {
@@ -30,9 +33,15 @@ export class UserService {
 
     this.sendUserData(userData).subscribe(
       response => {
-        console.log('User data sent successfully:', response);
+        this.popUp.updateStringa("Account creato correttamente! Verrai reinderizzato")
+        this.popUp.openPopups(8, true)
+        setTimeout(() => {
+          this.keycloakService.login(username, credentialValue);
+        }, 3000);
       },
       error => {
+        this.popUp.updateStringa("Problemi nella creazione dell'account, riprova più tardi.")
+        this.popUp.openPopups(8, true)
         console.error('Error sending user data:', error);
       }
     );
@@ -40,12 +49,12 @@ export class UserService {
 
   sendUserData(userData: UserRegistration): Observable<any> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + this.keycloakService.getAccessToken() });
-    return this.http.post<any>(this.sendUserDataURL, userData, { headers, responseType: 'text' as 'json' });
+    return this.http.post<any>(this.manageUserDataURL, userData, { headers, responseType: 'text' as 'json' });
   }
 
   getUserData(): Observable<User> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + this.keycloakService.getAccessToken() });
-    return this.http.get<User>(this.getUserDataURL, { headers });
+    return this.http.get<User>(this.manageUserDataURL, { headers });
   }
 
   modifyUser(username: string, email:string, firstName:string, lastName: string, phoneNumber: string) {
@@ -65,7 +74,9 @@ export class UserService {
 
     this.modifyUserData(userData).subscribe(
       response => {
-        console.log('User data modified successfully:', response);
+        this.popUp.updateStringa("Dati modificati con successo! (Verifica l'email se modificata)")
+        this.popUp.openPopups(8, true)
+        this.inputAbilitato = false
       },
       error => {
         console.error('Error sending user data:', error);
@@ -75,7 +86,7 @@ export class UserService {
 
   modifyUserData(userData: User): Observable<any> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + this.keycloakService.getAccessToken() });
-    return this.http.put<any>(this.sendUserDataURL, userData, { headers, responseType: 'text' as 'json' });
+    return this.http.put<any>(this.manageUserDataURL, userData, { headers, responseType: 'text' as 'json' });
   }
 
 
