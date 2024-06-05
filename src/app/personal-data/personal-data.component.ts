@@ -24,18 +24,20 @@ import {KeyCloakService} from "../services/keyCloakService";
   styleUrls: ['./personal-data.component.css', '../../styles.css']
 })
 export class PersonalDataComponent implements OnInit{
+  formCaesarzon!: FormGroup;
 
   nome!: string;
   cognome!: string;
-  email!: string;
-  numero!: string;
+  email!: string ;
   username!: string;
+
+  numero!: string;
+
 
   inputAbilitato: boolean = false;
 
   testoButton: string = "Modifica dati";
 
-  formCaesarzon!: FormGroup;
 
   imageUrls: (any | null)[] = [null];
 
@@ -49,10 +51,10 @@ export class PersonalDataComponent implements OnInit{
   ngOnInit(): void {
     this.userService.getUserData().subscribe(
       (userData: User) => {
-        this.nome = userData.firstName;
-        this.cognome = userData.lastName;
-        this.email = userData.email;
-        this.username = userData.username;
+        this.formCaesarzon.get('formDatipersonali.nome')?.setValue(userData.firstName);
+        this.formCaesarzon.get('formDatipersonali.cognome')?.setValue(userData.lastName);
+        this.formCaesarzon.get('formDatipersonali.email')?.setValue(userData.email);
+        this.formCaesarzon.get('formDatipersonali.username')?.setValue(userData.username);
         this.numero = userData.phoneNumber;
 
       },
@@ -60,7 +62,6 @@ export class PersonalDataComponent implements OnInit{
         console.error('Error fetching user data:', error);
       }
     );
-    this.setValues()
   }
 
 
@@ -84,7 +85,13 @@ export class PersonalDataComponent implements OnInit{
   abilitaInput(): void{
     this.inputAbilitato = !this.inputAbilitato;
     this.testoButton = this.inputAbilitato ? "Annulla modifiche" : "Modifica dati";
-    this.setValues()
+    if(this.testoButton == "Modifica dati"){
+      this.setValues()
+    }else{
+      this.setValuess()
+    }
+
+
   }
 
   setValues(){
@@ -93,11 +100,27 @@ export class PersonalDataComponent implements OnInit{
       this.formCaesarzon.get('formDatipersonali.cognome')?.setValue(this.cognome);
       this.formCaesarzon.get('formDatipersonali.username')?.setValue(this.username);
       this.formCaesarzon.get('formDatipersonali.email')?.setValue(this.email);
+
+      console.log(this.formCaesarzon.get('formDatipersonali.nome')?.value)
+      console.log(this.formCaesarzon.get('formDatipersonali.cognome')?.value)
+      console.log(this.formCaesarzon.get('formDatipersonali.username')?.value)
+      console.log(this.formCaesarzon.get('formDatipersonali.email')?.value)
+    }
+  }
+
+  setValuess(){
+    if (this.formCaesarzon.get('formDatipersonali')) {
+      this.nome = this.formCaesarzon.get('formDatipersonali.nome')?.value;
+      this.cognome = this.formCaesarzon.get('formDatipersonali.cognome')?.value;
+      this.username = this.formCaesarzon.get('formDatipersonali.username')?.value;
+      this.email = this.formCaesarzon.get('formDatipersonali.email')?.value;
     }
   }
 
   mandaModifiche(){
+    this.setValuess()
     this.userService.modifyUser(this.username, this.email, this.nome, this.cognome, this.numero)
   }
+
 
 }
