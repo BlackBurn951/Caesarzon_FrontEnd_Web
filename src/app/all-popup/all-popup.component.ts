@@ -18,6 +18,7 @@ export class AllPopupComponent {
 
 
   newPassword: string = '';
+  pass: string = '';
   confirmPassword: string = '';
   newPasswordError: string = '';
   confirmPasswordError: string = '';
@@ -82,11 +83,8 @@ export class AllPopupComponent {
 
 
     if (!passwordPattern.test(this.newPassword)) {
-      this.newPasswordError = '   La password deve contenere:' +
-        '               almeno 8 caratteri (massimo 16)' +
-        '              , almeno una lettera maiuscola ed una minuscola'+
-        '              , almeno un numero' +
-        '              , almeno un carattere speciale fra i seguenti (!&#64;$#%^&*()_+).';
+      this.newPasswordError = 'Formato incorretto: es. CiaoCiao69!'
+
       return;
     }
 
@@ -102,13 +100,17 @@ export class AllPopupComponent {
     }
     //this.utente.cambiaPassword(this.formService.username, this.newPassword);
     this.popUpService.updateStringa('Cambio password avvenuto con successo')
-    this.popUpService.openPopups(9, true);
+    this.popUpService.openPopups(10, true);
 
     this.confirmPasswordError = '';
     this.newPasswordError = '';
     this.popUpService.closePopup()
 
 
+  }
+
+  eliminaAccount(){
+    //this.userService.eliminaAccountDefinitivamente()
   }
 
 }

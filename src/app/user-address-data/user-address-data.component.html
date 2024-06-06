@@ -22,40 +22,35 @@
     <section class="form-group d-flex flex-column align-items-center">
       <div class="d-flex flex-column align-items-center">
         <div class="d-flex flex-row align-items-center">
-          <div class="form-group ml-3 d-flex flex-column">
-            <label for="streetType">Tipo strada:</label>
-            <select class="form-select selectionIn btn btn-dark custom-bln" id="streetType" [disabled]="!inputAbilitato">
-              <option value="Via" [selected]="indirizzoCorrente?.roadType === 'Via'">Via</option>
-              <option value="Borgo" [selected]="indirizzoCorrente?.roadType  === 'Borgo'">Borgo</option>
-              <option value="Piazza" [selected]="indirizzoCorrente?.roadType  === 'Piazza'">Piazza</option>
-              <option value="Carta 4" [selected]="indirizzoCorrente?.roadType  === 'Carta 4'">Carta 4</option>
-            </select>
+          <div class="form-group ml-3">
+            <label for="streetName">Tipo strada:</label>
+            <input type="text" class="form-control textBoxAggiunta" id="streetType" [placeholder]="indirizzoCorrente?.roadType" readonly>
           </div>
           <div class="form-group ml-3">
             <label for="streetName">Nome strada:</label>
-            <input type="text" class="form-control textBoxAggiunta" id="streetName" maxlength="30" [placeholder]="indirizzoCorrente?.roadName" [readonly]="!inputAbilitato">
+            <input type="text" class="form-control textBoxAggiunta" id="streetName" [placeholder]="indirizzoCorrente?.roadName" readonly>
           </div>
           <div class="form-group ml-3">
             <label for="cap">Codice postale (CAP):</label>
-            <input type="text" class="form-control" id="cap" maxlength="30" [placeholder]="indirizzoCorrente?.city?.cap" [readonly]="!inputAbilitato">
+            <input type="text" class="form-control" id="cap" [placeholder]="indirizzoCorrente?.city?.cap" readonly>
           </div>
           <div class="form-group ml-3">
             <label for="province">Provincia:</label>
-            <input type="text" class="form-control textBoxAggiunta" id="province" maxlength="30" [placeholder]="indirizzoCorrente?.city?.province" [readonly]="!inputAbilitato">
+            <input type="text" class="form-control textBoxAggiunta" id="province" [placeholder]="indirizzoCorrente?.city?.province" readonly>
           </div>
         </div>
         <div class="d-flex flex-row align-items-center">
           <div class="form-group">
             <label for="houseNumber">N° civico:</label>
-            <input type="text" class="form-control" id="houseNumber" maxlength="30" [placeholder]="indirizzoCorrente?.houseNumber" [readonly]="!inputAbilitato">
+            <input type="text" class="form-control" id="houseNumber" [placeholder]="indirizzoCorrente?.houseNumber" readonly>
           </div>
           <div class="form-group ml-3">
             <label for="citta">Città:</label>
-            <input type="text" class="form-control" id="citta" maxlength="30" [placeholder]="indirizzoCorrente?.city" [readonly]="!inputAbilitato">
+            <input type="text" class="form-control" id="citta" [placeholder]="indirizzoCorrente?.city" readonly>
           </div>
           <div class="form-group ml-3">
             <label for="region">Regione:</label>
-            <input type="text" class="form-control textBoxAggiunta" id="region" maxlength="30" [placeholder]="indirizzoCorrente?.city?.region" [readonly]="!inputAbilitato">
+            <input type="text" class="form-control textBoxAggiunta" id="region" [placeholder]="indirizzoCorrente?.city?.region" readonly>
           </div>
         </div>
       </div>

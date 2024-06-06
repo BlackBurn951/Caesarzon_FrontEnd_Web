@@ -26,8 +26,6 @@ import {ReactiveFormsModule} from "@angular/forms";
 export class UserAddressDataComponent implements OnInit {
 
 
-  inputAbilitato: boolean = false;
-  testoButton: string = "Modifica";
   indirizzoCorrente!: Address | undefined;
   addresses: Address[] = [];
 
@@ -37,7 +35,7 @@ export class UserAddressDataComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    //this.loadAddresses();
+    this.loadAddresses();
   }
 
   loadAddresses(): void {
@@ -59,9 +57,6 @@ export class UserAddressDataComponent implements OnInit {
     this.indirizzoCorrente = this.addresses.find(address => address.roadName === selectedAddress);
   }
 
-  abilitaInput(): void {
-    this.inputAbilitato = !this.inputAbilitato;
-    this.testoButton = this.inputAbilitato ? "Salva modifiche" : "Modifica";
-  }
+
 
 }

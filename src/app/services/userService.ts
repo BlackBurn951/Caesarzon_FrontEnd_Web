@@ -34,14 +34,14 @@ export class UserService {
     this.sendUserData(userData).subscribe(
       response => {
         this.popUp.updateStringa("Account creato correttamente! Verrai reinderizzato")
-        this.popUp.openPopups(9, true)
+        this.popUp.openPopups(10, true)
         setTimeout(() => {
           this.keycloakService.login(username, credentialValue);
         }, 3000);
       },
       error => {
         this.popUp.updateStringa("Problemi nella creazione dell'account, riprova più tardi.")
-        this.popUp.openPopups(9, true)
+        this.popUp.openPopups(10, true)
         console.error('Error sending user data:', error);
       }
     );
@@ -75,7 +75,7 @@ export class UserService {
     this.modifyUserData(userData).subscribe(
       response => {
         this.popUp.updateStringa("Dati modificati con successo! (Verifica l'email se modificata)")
-        this.popUp.openPopups(9, true)
+        this.popUp.openPopups(10, true)
         this.inputAbilitato = false
       },
       error => {

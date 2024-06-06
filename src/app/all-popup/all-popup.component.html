@@ -295,8 +295,8 @@
           <div class="form-group">
             <label for="expirationDate">Data di scadenza:</label>
             <input type="month" class="form-control textBoxAggiunta" id="expirationDate" formControlName="dataScadenza">
-            <div *ngIf="formCaesarzon.get('formIndirizzo.numeroCivico')?.hasError('invalidDate')">
-              La data di scadenza non può essere nel passato.
+            <div *ngIf="formCaesarzon.get('formCarta.dataScadenza')?.hasError('invalidDate')" class="error-message">
+              <label class="err">La data di scadenza non può essere nel passato.</label>
             </div>
           </div>
           <div class="form-group ml-3">
@@ -309,14 +309,14 @@
         </div>
 
       </div>
-      <button type="submit" class="btn btn-dark custom-btn" [disabled]="!formCaesarzon.get('formCarta')?.valid">Aggiungi</button>
+      <button type="submit" class="btn btn-dark custom-btn mt-3" [disabled]="!formCaesarzon.get('formCarta')?.valid">Aggiungi</button>
     </div>
   </form>
 
 
 </div>
 
-<div class="container-fluidos regLog" *ngIf="popUpService.wichComponent === 8" [ngClass]="{'Add': popUpService.isAdd}">
+<div class="container-fluidoss regLog" *ngIf="popUpService.wichComponent === 8" [ngClass]="{'Add': popUpService.isAdd}">
   <div class="form-group d-flex flex-column align-items-center">
     <div class="d-flex flex-column align-items-center">
       <h1 class="accediLabel">Cambia password</h1>
@@ -325,35 +325,59 @@
     <div class="d-flex flex-row align-items-center">
       <div class="form-group">
         <label for="newPassword">Nuova password:</label>
-        <input type="password" id="newPassword" class="form-control" [(ngModel)]="newPassword" placeholder="Inserisci la nuova password">
-      </div>
-        <span class="toggle-password" (click)="togglePassword('newPassword')">
-            <img src="/assets/images/icons/view.png" *ngIf="mostraPassword['newPassword']" alt="Mostra Password" width="20">
-            <img src="/assets/images/icons/hide.png" *ngIf="!mostraPassword['newPassword']" alt="Nascondi Password" width="20">
-        </span>
+        <input type="password" id="newPassword" class="form-control mb-2" style="width: 15vw" [(ngModel)]="newPassword" >
         <div *ngIf="newPasswordError" class="error-message">
           {{ newPasswordError }}
         </div>
+      </div>
+      <span class="toggle-password position-absolute" (click)="togglePassword('newPassword')">
+          <img src="/assets/images/icons/view.png" *ngIf="mostraPassword['newPassword']" alt="Mostra Password" width="20">
+          <img src="/assets/images/icons/hide.png" *ngIf="!mostraPassword['newPassword']" alt="Nascondi Password" width="20">
+      </span>
+
 
     </div>
     <div class="d-flex flex-row align-items-center">
       <div class="form-group">
         <label for="confirmPassword">Conferma password:</label>
-          <input type="password" id="confirmPassword" class="form-control" [(ngModel)]="confirmPassword" placeholder="Conferma la nuova password">
+        <input type="password" id="confirmPassword" class="form-control mb-2" style="width: 15vw" [(ngModel)]="confirmPassword">
+        <div *ngIf="confirmPasswordError" class="error-message">
+          {{ confirmPasswordError }}
+        </div>
       </div>
-      <span class="toggle-password" (click)="togglePassword('confirmPassword')">
+      <span class="toggle-password position-absolute" (click)="togglePassword('confirmPassword')">
             <img src="/assets/images/icons/view.png" *ngIf="mostraPassword['confirmPassword']" alt="Mostra Password" width="20">
             <img src="/assets/images/icons/hide.png" *ngIf="!mostraPassword['confirmPassword']" alt="Nascondi Password" width="20">
       </span>
-      <div *ngIf="confirmPasswordError" class="error-message">
-        {{ confirmPasswordError }}
-      </div>
+
 
     </div>
 
-    <button class="btn btn-dark custom-btn"  (click)="validatePassword()">Cambia password</button>
+    <button class="btn btn-dark custom-btn mt-3"  (click)="validatePassword()">Cambia password</button>
   </div>
+</div>
+
+<div class="container-fluidoss regLog" *ngIf="popUpService.wichComponent === 9" [ngClass]="{'Add': popUpService.isAdd}">
+  <div class="form-group d-flex flex-column align-items-center">
+    <div class="d-flex flex-column align-items-center">
+      <h1 class="accediLabel">Elimina account</h1>
+    </div>
+    <button (click)="popUpService.closePopup()" class="btn btn-dark ics">X</button>
+    <div class="d-flex flex-row align-items-center">
+      <div class="form-group">
+        <label for="newPassword">Password:</label>
+        <input type="password" id="pass" class="form-control mb-2" style="width: 15vw" [(ngModel)]="pass" >
+      </div>
+      <span class="toggle-password position-absolute" (click)="togglePassword('pass')">
+          <img src="/assets/images/icons/view.png" *ngIf="mostraPassword['newPassword']" alt="Mostra Password" width="20">
+          <img src="/assets/images/icons/hide.png" *ngIf="!mostraPassword['newPassword']" alt="Nascondi Password" width="20">
+      </span>
+
+    </div>
+
+    <button class="btn btn-danger modifica" style="border: black solid 1px" (click)="eliminaAccount()">Elimina account</button>
   </div>
+</div>
 
 </body>
 

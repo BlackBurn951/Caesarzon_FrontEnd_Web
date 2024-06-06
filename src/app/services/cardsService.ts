@@ -45,13 +45,13 @@ export class CardsService {
       response => {
         this.popUp.closePopup()
         this.popUp.updateStringa("Carta aggiunta con successo!")
-        this.popUp.openPopups(9, true)
+        this.popUp.openPopups(10, true)
         this.clearFields()
       },
       error => {
         this.popUp.closePopup()
         this.popUp.updateStringa("Errore nell'aggiunta della carta!")
-        this.popUp.openPopups(9, true)
+        this.popUp.openPopups(10, true)
         this.clearFields()
       }
     );

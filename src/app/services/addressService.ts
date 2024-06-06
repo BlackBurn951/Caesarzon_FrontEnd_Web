@@ -58,13 +58,13 @@ export class AddressService {
       response => {
         this.popUp.closePopup()
         this.popUp.updateStringa("Indirizzo aggiunto con successo!")
-        this.popUp.openPopups(9, true)
+        this.popUp.openPopups(10, true)
         this.clearFields()
       },
       error => {
         this.popUp.closePopup()
         this.popUp.updateStringa("Errore nell'aggiunta dell'indirizzo!")
-        this.popUp.openPopups(9, true)
+        this.popUp.openPopups(10, true)
         this.clearFields()
       }
     );

@@ -159,3 +159,31 @@ label {
   height: 25vh;
 }
 
+.container-fluidoss {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 50%;
+  max-width: 35%;
+  max-height: 60vh;
+  overflow-y: auto;
+  background-color: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+
+.container-fluidoss.other{
+  max-height: 80vh;
+
+}
+
+.container-fluidoss.Add{
+  max-height: 90vh;
+  max-width: 25%;
+
+}
+.toggle-password{
+  right: 5.5vw;
+}
+
