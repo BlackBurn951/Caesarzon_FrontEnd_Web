@@ -74,7 +74,7 @@ export class FormService {
     return this.fb.group({
       nome: ['', [Validators.required, Validators.pattern(/^[a-zA-Z]{2,}( [a-zA-Z]{2,30})?$/)]],
       cognome: ['', [Validators.required,  Validators.pattern(/^[a-zA-Z]{2,}( [a-zA-Z]{2,30})?$/)]],
-      username: ['', [Validators.required, Validators.pattern(/^(?=.*[a-zA-Z].*[a-zA-Z].*[a-zA-Z].*[a-zA-Z])[a-zA-Z0-9]{5,20}$/)]],
+      username: [''],
       email: ['', [Validators.required, Validators.email, this.validaDominioConosciuto.bind(this)]],
       cellulare: [''],
 

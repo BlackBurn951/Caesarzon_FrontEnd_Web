@@ -5,6 +5,7 @@ import {Observable, timeout} from "rxjs";
 import {KeyCloakService} from "./keyCloakService";
 import {User} from "../entities/User";
 import {PopupService} from "./popUpService";
+import {AddressService} from "./addressService";
 
 @Injectable({
   providedIn: 'root',
@@ -14,12 +15,14 @@ export class UserService {
   testoButton: string = "Modifica dati";
   inputAbilitato: boolean = false;
 
+  loading: boolean = false;
+
 
   private manageUserDataURL = 'http://localhost:8090/user-api/user';
 
 
 
-  constructor(private http: HttpClient, private keycloakService: KeyCloakService, private popUp: PopupService) { }
+  constructor( private http: HttpClient, private keycloakService: KeyCloakService, private popUp: PopupService) { }
 
 
   sendUser(username: string, email:string, firstName:string, lastName: string, credentialValue: string) {
@@ -58,11 +61,6 @@ export class UserService {
   }
 
   modifyUser(username: string, email:string, firstName:string, lastName: string, phoneNumber: string) {
-    console.log(username)
-    console.log(email)
-    console.log(firstName)
-    console.log(lastName)
-    console.log(phoneNumber)
     const userData: User = {
       id : "",
       username: username,
@@ -74,8 +72,9 @@ export class UserService {
 
     this.modifyUserData(userData).subscribe(
       response => {
-        this.popUp.updateStringa("Dati modificati con successo! (Verifica l'email se modificata)")
+        this.popUp.updateStringa("Dati modificati con successo!")
         this.popUp.openPopups(10, true)
+        this.testoButton = "Modifica dati"
         this.inputAbilitato = false
       },
       error => {
@@ -88,6 +87,8 @@ export class UserService {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + this.keycloakService.getAccessToken() });
     return this.http.put<any>(this.manageUserDataURL, userData, { headers, responseType: 'text' as 'json' });
   }
+
+
 
 
 

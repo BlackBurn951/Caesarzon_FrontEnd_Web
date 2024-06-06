@@ -1,7 +1,7 @@
 export interface City {
-  id: number;
-  city: string;
-  cap: string;
-  region: string;
-  province: string;
+  id: number | null;
+  city: string | null;
+  cap: string | null;
+  region: string | null;
+  province: string | null;
 }

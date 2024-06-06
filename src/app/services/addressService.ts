@@ -1,31 +1,81 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import {Observable, tap} from 'rxjs';
 import { Address } from "../entities/Address";
 import { KeyCloakService } from "./keyCloakService";
 import { FormGroup } from "@angular/forms";
 import { FormService } from "./formService";
 import { City } from "../entities/City";
 import {PopupService} from "./popUpService";
+import {Router} from "@angular/router";
+import {UserService} from "./userService";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AddressService {
 
+  indirizzoCorrente!: Address;
+
+  addressesName!: string[];
+
   formCaesarzon!: FormGroup;
 
   private getAddressURL = 'http://localhost:8090/user-api/address';
 
+  private getAddressNamesURL = 'http://localhost:8090/user-api/addresses-names';
+
   private sendAddressURL = 'http://localhost:8090/user-api/address';
 
-  constructor(private popUp: PopupService, private http: HttpClient, private keycloak: KeyCloakService, private formService: FormService) {
+  constructor(private userService: UserService, private router: Router, private popUp: PopupService, private http: HttpClient, private keycloak: KeyCloakService, private formService: FormService) {
     this.formCaesarzon = formService.getForm();
   }
 
-  getAddresses(): Observable<Address[]> {
-    return this.http.get<Address[]>(this.getAddressURL);
+  getAddresses(nameLista: string): Observable<Address> {
+    const urlWithParams = `${this.getAddressURL}?nameLista=${nameLista}`;
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + this.keycloak.getAccessToken()
+    });
+    return this.http.get<Address>(urlWithParams, { headers });
   }
+
+  getAddressesName() {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + this.keycloak.getAccessToken()
+    });
+    this.http.get<string[]>(this.getAddressNamesURL, { headers }).subscribe({
+      next: (response) => {
+        this.addressesName = response;
+
+        if (this.addressesName.length > 0) {
+          this.getAddresses(this.addressesName[0]).subscribe({
+            next: (response: Address) => {
+              this.userService.loading = false;
+              this.indirizzoCorrente = response
+              this.router.navigate(['address-data']);
+            },
+            error: (error: any) => {
+              if (error.status === 404) {
+                this.userService.loading = false;
+                this.router.navigate(['address-data']);
+              } else {
+                this.userService.loading = false;
+                console.error('Error fetching card:', error);
+              }
+            }
+          });
+        }
+      },
+      error: (error) => {
+        console.error('Error fetching address names:', error);
+      }
+    });
+  }
+
+
+
 
   sendAddress() {
     const indirizzoForm = this.formCaesarzon.get("formIndirizzo");
@@ -60,6 +110,7 @@ export class AddressService {
         this.popUp.updateStringa("Indirizzo aggiunto con successo!")
         this.popUp.openPopups(10, true)
         this.clearFields()
+        window.location.reload()
       },
       error => {
         this.popUp.closePopup()

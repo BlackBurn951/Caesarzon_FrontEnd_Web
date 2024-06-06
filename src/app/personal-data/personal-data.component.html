@@ -59,7 +59,7 @@
 
             <div class="form-group ml-3">
               <label for="username">Username:</label>
-              <input class="form-control textBoxAggiunta" type="text" id="username" formControlName="username" minlength="5" maxlength="20" [readonly]="!userService.inputAbilitato">
+              <input class="form-control textBoxAggiunta" type="text" id="username" formControlName="username" minlength="5" maxlength="20" readonly>
               <div *ngIf="formService.campoNonCorretto('formDatipersonali.username')" class="error-message">
                 <label class="err"> Il formato dell' username non è corretto.</label>
               </div>

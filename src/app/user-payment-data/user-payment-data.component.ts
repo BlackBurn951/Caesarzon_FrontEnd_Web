@@ -1,30 +1,42 @@
-import { Component } from '@angular/core';
-import {UserManagementContainerComponent} from "../user-management-container/user-management-container.component";
-import {FooterComponent} from "../footer/footer.component";
+import {Component, OnInit} from '@angular/core';
 import {PopupService} from "../services/popUpService";
+import {CardsService} from "../services/cardsService";
+import {Card} from "../entities/Card";
 
 @Component({
   selector: 'app-user-payment-data',
-  standalone: true,
-  imports: [
-    UserManagementContainerComponent,
-    FooterComponent
-  ],
   templateUrl: './user-payment-data.component.html',
   styleUrls: ['./user-payment-data.component.css', '../../styles.css']
 })
-export class UserPaymentDataComponent {
+export class UserPaymentDataComponent implements OnInit{
 
-  inputAbilitato: boolean = false;
 
-  testoButton: string = "Modifica";
+  constructor(
+    public popUpService: PopupService,
+    protected cardService: CardsService,
+  ) { }
 
-  constructor(public popUpService:PopupService) {
+  ngOnInit() {
+    this.cardService.getCardsName()
   }
 
-  abilitaInput(): void{
-    this.inputAbilitato = !this.inputAbilitato;
-    this.testoButton = this.inputAbilitato ? "Salva modifiche" : "Modifica";
+  loadCards(nameLista: string): void {
+    this.cardService.getCards(nameLista).subscribe(
+      (data: Card) => {
+        this.cardService.cartaCorrente = data;
+      },
+      (error: any) => {
+        console.error('Errore nel caricamento degli indirizzi', error);
+      }
+    );
+  }
+
+
+
+  onCardChange(event: Event): void {
+    const selectedCard = (event.target as HTMLSelectElement).value;
+    this.loadCards(selectedCard);
+
   }
 
 }

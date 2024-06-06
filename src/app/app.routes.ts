@@ -59,6 +59,8 @@ export const routes: Routes = [
     ShoppingCartComponent,
     AllPopupComponent,
     PaymentFirstPageComponent,
+    UserAddressDataComponent,
+    UserPaymentDataComponent,
     PaymentSecondPageComponent,
     AdminAreaComponent
   ],

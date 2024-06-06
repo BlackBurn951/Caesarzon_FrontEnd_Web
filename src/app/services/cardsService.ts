@@ -6,25 +6,73 @@ import { FormGroup } from "@angular/forms";
 import { FormService } from "./formService";
 import { Card } from "../entities/Card";
 import {PopupService} from "./popUpService";
+import {Router} from "@angular/router";
+import {UserService} from "./userService";
 
 @Injectable({
   providedIn: 'root'
 })
 export class CardsService {
 
+  cartaCorrente!: Card;
+
+  cardsName!: string[];
+
   formCaesarzon!: FormGroup;
 
-  private getCardsURL = 'http://localhost:8090/user-api/card';
+  private getCardURL = 'http://localhost:8090/user-api/card';
+
+  private getCardsNameURL = 'http://localhost:8090/user-api/cards-names';
 
   private sendCardURL = 'http://localhost:8090/user-api/card';
 
-  constructor(private popUp: PopupService, private http: HttpClient, private keycloak: KeyCloakService, private formService: FormService) {
+  constructor(private userService: UserService, private router: Router, private popUp: PopupService, private http: HttpClient, private keycloak: KeyCloakService, private formService: FormService) {
     this.formCaesarzon = formService.getForm();
   }
 
-  getCards(): Observable<Card[]> {
-    return this.http.get<Card[]>(this.getCardsURL);
+  getCards(nameLista: string): Observable<Card> {
+    const urlWithParams = `${this.getCardURL}?nameLista=${nameLista}`;
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + this.keycloak.getAccessToken()
+    });
+    return this.http.get<Card>(urlWithParams, { headers });
   }
+
+  getCardsName() {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + this.keycloak.getAccessToken()
+    });
+    this.http.get<string[]>(this.getCardsNameURL, { headers }).subscribe({
+      next: (response) => {
+        this.cardsName = response;
+
+        if (this.cardsName.length > 0) {
+          this.getCards(this.cardsName[0]).subscribe({
+            next: (response: Card) => {
+              this.userService.loading = false;
+              this.cartaCorrente = response
+              this.router.navigate(['payment-data']);
+            },
+            error: (error: any) => {
+              if (error.status === 404) {
+                this.userService.loading = false;
+                this.router.navigate(['payment-data']);
+              } else {
+                this.userService.loading = false;
+                console.error('Error fetching card:', error);
+              }
+            }
+          });
+        }
+      },
+      error: (error) => {
+        console.error('Error fetching address names:', error);
+      }
+    });
+  }
+
 
   sendCard() {
     const indirizzoForm = this.formCaesarzon.get("formCarta");
@@ -47,6 +95,7 @@ export class CardsService {
         this.popUp.updateStringa("Carta aggiunta con successo!")
         this.popUp.openPopups(10, true)
         this.clearFields()
+        window.location.reload()
       },
       error => {
         this.popUp.closePopup()

@@ -1,8 +1,6 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-import {Router} from "@angular/router";
 import {PopupService} from "./popUpService";
-import {user} from "../utils/user";
 
 @Injectable({
   providedIn: 'root',
