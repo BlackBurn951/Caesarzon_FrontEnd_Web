@@ -8,6 +8,7 @@ import {FormService} from "../services/formService";
 import {UserService} from "../services/userService";
 import {User} from "../entities/User";
 import {KeyCloakService} from "../services/keyCloakService";
+import {resolve} from "@angular/compiler-cli";
 
 @Component({
   selector: 'app-personal-data',
@@ -34,9 +35,10 @@ export class PersonalDataComponent implements OnInit{
 
   numero!: string;
 
+  selectedFile!: File;
 
+  immagineDiBase!: Uint8Array;
 
-  imageUrls: (any | null)[] = [null];
 
   constructor(protected formService: FormService, protected userService: UserService, protected popUpService: PopupService) {
     this.formCaesarzon = formService.getForm()
@@ -57,12 +59,18 @@ export class PersonalDataComponent implements OnInit{
         console.error('Error fetching user data:', error);
       }
     );
+    this.apiService.getImmagineDiBase().subscribe((data: any) => {
+      this.immagineDiBase = new Uint8Array(data); // Converte i dati in un array di byte
+    });
+
   }
+
 
 
 
   onFileSelected(event: any) {
     const file = event.target.files[0];
+    this.selectedFile = event.target.files[0];
     const reader = new FileReader();
     reader.onload = (e: any) => {
       const preview = document.getElementById('preview');
@@ -74,8 +82,24 @@ export class PersonalDataComponent implements OnInit{
       }
     };
     reader.readAsDataURL(file);
+    this.onUpload()
   }
 
+
+  onUpload() {
+    if (this.selectedFile) {
+      this.userService.uploadImage(this.selectedFile).subscribe(
+        response => {
+          this.popUpService.updateStringa(response)
+          this.popUpService.openPopups(10, true)
+
+        },
+        error => {
+          console.log(error);
+           }
+      );
+    }
+  }
 
   abilitaInput(): void{
     this.userService.inputAbilitato = !this.userService.inputAbilitato;

@@ -19,6 +19,9 @@ export class UserService {
 
 
   private manageUserDataURL = 'http://localhost:8090/user-api/user';
+  private sendProfilePicURL = 'http://localhost:8090/user-api/upload';
+
+  private getProfilePicURL = 'http://localhost:8090/user-api/image';
 
 
 
@@ -48,6 +51,31 @@ export class UserService {
         console.error('Error sending user data:', error);
       }
     );
+  }
+
+  deleteUser(){
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + this.keycloakService.getAccessToken()
+    });
+
+    this.http.delete<string>(this.manageUserDataURL, { headers , responseType: 'text' as 'json' })
+      .subscribe({
+        next: (response) => {
+          console.log('User eliminato con successo:', response);
+          this.popUp.updateStringa(response)
+          this.popUp.openPopups(10, true)
+          this.keycloakService.setLoggedStatus()
+          setTimeout(()=>{
+            window.location.reload()
+          }, 2000);
+
+
+        },
+        error: (error) => {
+          console.error('Errore durante l\'eliminazione dell\'account', error);
+        }
+      });
   }
 
   sendUserData(userData: UserRegistration): Observable<any> {
@@ -88,7 +116,20 @@ export class UserService {
     return this.http.put<any>(this.manageUserDataURL, userData, { headers, responseType: 'text' as 'json' });
   }
 
+  uploadImage(file: File): Observable<any> {
+    const formData = new FormData();
+    formData.append('file', file);
 
+    const headers = new HttpHeaders({
+      'Authorization': 'Bearer ' + this.keycloakService.getAccessToken()
+    });
+
+    return this.http.post(this.sendProfilePicURL, formData, { headers, responseType: 'text' as 'json' });
+  }
+
+  getImmagineDiBase(): Observable<any> {
+    return this.http.get(this.getProfilePicURL, { responseType: 'arraybuffer' }); // Imposta il responseType su arraybuffer per ricevere i dati come array di byte
+  }
 
 
 

@@ -83,6 +83,16 @@ export class KeyCloakService {
     }
   }
 
+  setLoggedStatus(){
+    const isLoggedString = localStorage.getItem('isLogged');
+    if (isLoggedString) {
+      return isLoggedString === 'false';
+    } else {
+      return this.isLogged;
+    }
+  }
+
+
   toggleLogin(event: MouseEvent) {
     this.isLogged = !this.isLogged;
     this.setLogin()

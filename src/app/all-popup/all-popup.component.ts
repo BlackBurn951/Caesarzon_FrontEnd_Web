@@ -5,6 +5,8 @@ import {FormGroup} from "@angular/forms";
 import {FormService} from "../services/formService";
 import {AddressService} from "../services/addressService";
 import {CardsService} from "../services/cardsService";
+import {UserRegistration} from "../entities/UserRegistration";
+import {UserService} from "../services/userService";
 
 @Component({
   selector: 'app-all-popup',
@@ -46,7 +48,7 @@ export class AllPopupComponent {
   formCaesarzon!: FormGroup;
 
 
-  constructor(private addressService: AddressService, private cardService: CardsService, public popUpService:PopupService, protected ottieniCittaService: ottieniCittaService, protected formService: FormService){
+  constructor(private addressService: AddressService, private cardService: CardsService, public popUpService:PopupService, protected ottieniCittaService: ottieniCittaService, protected formService: FormService, private userService: UserService){
     this.formCaesarzon= this.formService.getForm();
 
   }
@@ -110,7 +112,7 @@ export class AllPopupComponent {
   }
 
   eliminaAccount(){
-    //this.userService.eliminaAccountDefinitivamente()
+    this.userService.deleteUser()
   }
 
 }

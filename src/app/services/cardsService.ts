@@ -18,20 +18,47 @@ export class CardsService {
 
   cardsName!: string[];
 
+  nomeCarta!: string;
+
   formCaesarzon!: FormGroup;
 
-  private getCardURL = 'http://localhost:8090/user-api/card';
+  private manageCardURL = 'http://localhost:8090/user-api/card';
 
   private getCardsNameURL = 'http://localhost:8090/user-api/cards-names';
 
-  private sendCardURL = 'http://localhost:8090/user-api/card';
 
   constructor(private userService: UserService, private router: Router, private popUp: PopupService, private http: HttpClient, private keycloak: KeyCloakService, private formService: FormService) {
     this.formCaesarzon = formService.getForm();
   }
 
+  deleteCard(){
+    const urlWithParams = `${this.manageCardURL}?crd=${this.nomeCarta}`;
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + this.keycloak.getAccessToken()
+    });
+
+    this.http.delete<string>(urlWithParams, { headers , responseType: 'text' as 'json' })
+      .subscribe({
+        next: (response) => {
+          console.log('Carta eliminato con successo:', response);
+          this.popUp.updateStringa(response)
+          this.popUp.openPopups(10, true)
+          setTimeout(()=>{
+            window.location.reload()
+
+          }, 1000);
+
+        },
+        error: (error) => {
+          console.error('Errore durante l\'eliminazione della\'carta', error);
+        }
+      });
+  }
+
+
   getCards(nameLista: string): Observable<Card> {
-    const urlWithParams = `${this.getCardURL}?nameLista=${nameLista}`;
+    const urlWithParams = `${this.manageCardURL}?nameLista=${nameLista}`;
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ' + this.keycloak.getAccessToken()
@@ -49,6 +76,8 @@ export class CardsService {
         this.cardsName = response;
 
         if (this.cardsName.length > 0) {
+          this.nomeCarta = "Carta 1"
+
           this.getCards(this.cardsName[0]).subscribe({
             next: (response: Card) => {
               this.userService.loading = false;
@@ -108,7 +137,7 @@ export class CardsService {
 
   sendCardData(cardData: Card): Observable<string> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + this.keycloak.getAccessToken() });
-    return this.http.post(this.sendCardURL, cardData, { headers, responseType: 'text' }) as Observable<string>;
+    return this.http.post(this.manageCardURL, cardData, { headers, responseType: 'text' }) as Observable<string>;
   }
 
   clearFields(){
