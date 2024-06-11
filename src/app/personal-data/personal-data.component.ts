@@ -82,17 +82,28 @@ export class PersonalDataComponent implements OnInit{
     const file = event.target.files[0];
     this.selectedFile = event.target.files[0];
     const reader = new FileReader();
-    reader.onload = (e: any) => {
-      const preview = document.getElementById('preview');
-      if (preview) { // Verifica se preview non è null
-        preview.style.display = 'block';
-        preview.setAttribute('src', e.target.result);
-      } else {
-        console.error("Elemento 'preview' non trovato nel DOM.");
+    const maxSize = 3 * 1024 * 1024; // 6 MB
+
+
+    if (file) {
+      if (file.size > maxSize) {
+        this.popUpService.updateStringa("La dimensione massima del file è di 6 MB.");
+        this.popUpService.openPopups(104, true)
+      }else{
+        reader.onload = (e: any) => {
+          const preview = document.getElementById('preview');
+          if (preview) {
+            preview.style.display = 'block';
+            preview.setAttribute('src', e.target.result);
+          } else {
+            console.error("Elemento 'preview' non trovato nel DOM.");
+          }
+        };
+        reader.readAsDataURL(file);
+        this.onUpload()
       }
-    };
-    reader.readAsDataURL(file);
-    this.onUpload()
+    }
+
   }
 
 
