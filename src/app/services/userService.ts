@@ -19,9 +19,8 @@ export class UserService {
 
 
   private manageUserDataURL = 'http://localhost:8090/user-api/user';
-  private sendProfilePicURL = 'http://localhost:8090/user-api/upload';
+  private manageProfilePicURL = 'http://localhost:8090/user-api/image';
 
-  private getProfilePicURL = 'http://localhost:8090/user-api/image';
 
 
 
@@ -88,6 +87,12 @@ export class UserService {
     return this.http.get<User>(this.manageUserDataURL, { headers });
   }
 
+
+  getUserProfilePic(): Observable<Blob> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + this.keycloakService.getAccessToken() });
+    return this.http.get(this.manageProfilePicURL, {headers, responseType: 'blob' });
+  }
+
   modifyUser(username: string, email:string, firstName:string, lastName: string, phoneNumber: string) {
     const userData: User = {
       id : "",
@@ -124,11 +129,7 @@ export class UserService {
       'Authorization': 'Bearer ' + this.keycloakService.getAccessToken()
     });
 
-    return this.http.post(this.sendProfilePicURL, formData, { headers, responseType: 'text' as 'json' });
-  }
-
-  getImmagineDiBase(): Observable<any> {
-    return this.http.get(this.getProfilePicURL, { responseType: 'arraybuffer' }); // Imposta il responseType su arraybuffer per ricevere i dati come array di byte
+    return this.http.post(this.manageProfilePicURL, formData, { headers, responseType: 'text' as 'json' });
   }
 
 

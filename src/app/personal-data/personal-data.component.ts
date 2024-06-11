@@ -9,6 +9,7 @@ import {UserService} from "../services/userService";
 import {User} from "../entities/User";
 import {KeyCloakService} from "../services/keyCloakService";
 import {resolve} from "@angular/compiler-cli";
+import {DomSanitizer, SafeUrl} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-personal-data',
@@ -28,6 +29,7 @@ import {resolve} from "@angular/compiler-cli";
 export class PersonalDataComponent implements OnInit{
   formCaesarzon!: FormGroup;
 
+
   nome!: string;
   cognome!: string;
   email!: string ;
@@ -37,10 +39,10 @@ export class PersonalDataComponent implements OnInit{
 
   selectedFile!: File;
 
-  immagineDiBase!: Uint8Array;
+  imageUrl: SafeUrl | undefined;
 
 
-  constructor(protected formService: FormService, protected userService: UserService, protected popUpService: PopupService) {
+  constructor(private sanitizer: DomSanitizer, protected formService: FormService, protected userService: UserService, protected popUpService: PopupService) {
     this.formCaesarzon = formService.getForm()
 
   }
@@ -59,13 +61,21 @@ export class PersonalDataComponent implements OnInit{
         console.error('Error fetching user data:', error);
       }
     );
-    this.apiService.getImmagineDiBase().subscribe((data: any) => {
-      this.immagineDiBase = new Uint8Array(data); // Converte i dati in un array di byte
-    });
+    this.loadImage()
 
   }
 
-
+  loadImage(): void {
+    this.userService.getUserProfilePic().subscribe(
+      response => {
+        const url = URL.createObjectURL(response);
+        this.imageUrl = this.sanitizer.bypassSecurityTrustUrl(url);
+      },
+      error => {
+        console.error('Errore nel caricamento dell\'immagine', error);
+      }
+    );
+  }
 
 
   onFileSelected(event: any) {

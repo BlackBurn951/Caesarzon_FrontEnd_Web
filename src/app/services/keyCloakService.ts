@@ -9,7 +9,7 @@ export class KeyCloakService {
 
 
 
-  private accessTokenUrl = 'http://localhost:8080/realms/CaesarRealm/protocol/openid-connect/token';
+  private accessTokenUrl = 'http://25.24.244.170:8080/realms/CaesarRealm/protocol/openid-connect/token';
 
   private ACCESS_TOKEN!: string;
   private REFRESH_TOKEN!: string;
