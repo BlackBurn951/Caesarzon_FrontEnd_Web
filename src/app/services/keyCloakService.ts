@@ -61,12 +61,12 @@ export class KeyCloakService {
 
   setLogin(){
     localStorage.setItem('isLogged', String(this.isLogged));
-
   }
 
 
   getAccessToken() {
     const token = localStorage.getItem('access_token');
+    console.log("TOKEN NELLA CACHE: " + token)
     if (token) {
       return token;
     } else {

@@ -5,7 +5,10 @@ import {Observable, timeout} from "rxjs";
 import {KeyCloakService} from "./keyCloakService";
 import {User} from "../entities/User";
 import {PopupService} from "./popUpService";
-import {AddressService} from "./addressService";
+import {Reports} from "../entities/Report";
+import {Helps} from "../entities/Help";
+import {Reviews} from "../entities/Review";
+
 
 @Injectable({
   providedIn: 'root',
@@ -19,13 +22,93 @@ export class UserService {
 
 
   private manageUserDataURL = 'http://localhost:8090/user-api/user';
+
   private manageProfilePicURL = 'http://localhost:8090/user-api/image';
+
+  private reportURL = 'http://localhost:8090/notify-api/report';
+  private reviewURL = 'http://localhost:8090/notify-api/review';
+  private helpURL = 'http://localhost:8090/notify-api/help';
 
 
 
 
   constructor( private http: HttpClient, private keycloakService: KeyCloakService, private popUp: PopupService) { }
 
+  sendReports(motivo: string, descrizione: string, username2: string) {
+    const reports: Reports = {
+      motivo: motivo,
+      descrizione: descrizione,
+      dataSegnalazione: "",
+      usernameUser2: username2
+
+    };
+
+    this.sendReport(reports).subscribe(
+      response => {
+        this.popUp.updateStringa("Segnalazione inviata correttamente!")
+        this.popUp.openPopups(10, true)
+      },
+      error => {
+        this.popUp.updateStringa("Problemi nell'invio della segnalazione!.")
+        this.popUp.openPopups(10, true)
+      }
+    );
+  }
+
+  sendReport(report: Reports): Observable<any> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + this.keycloakService.getAccessToken() });
+    return this.http.post<any>(this.reportURL, report, { headers, responseType: 'text' as 'json' });
+  }
+
+
+  sendHelps(motivo: string, oggetto: string, descrizione: string) {
+    const help: Helps = {
+      motivo: motivo,
+      descrizione: descrizione,
+      oggetto: oggetto,
+      dataRichiesta: ""
+    };
+
+    this.sendHelp(help).subscribe(
+      response => {
+        this.popUp.updateStringa("Richiesta di assistenza inviata correttamente!")
+        this.popUp.openPopups(10, true)
+      },
+      error => {
+        this.popUp.updateStringa("Problemi nell'invio della richiesta di assistenza!.")
+        this.popUp.openPopups(10, true)
+      }
+    );
+  }
+
+  sendHelp(help: Helps): Observable<any> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + this.keycloakService.getAccessToken() });
+    return this.http.post<any>(this.helpURL, help, { headers, responseType: 'text' as 'json' });
+  }
+
+  sendReviews(numStelle: number, descrizione: string) {
+    const review: Reviews = {
+      numStelle: numStelle,
+      descrizione: descrizione,
+      dataRecensione: ""
+    };
+
+    this.sendReview(review).subscribe(
+      response => {
+        this.popUp.updateStringa("Recensione inviata correttamente!")
+        this.popUp.openPopups(10, true)
+      },
+      error => {
+        this.popUp.updateStringa("Problemi nell'invio della recensione!.")
+        this.popUp.openPopups(10, true)
+      }
+    );
+  }
+
+  sendReview(reviews: Reviews): Observable<any> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + this.keycloakService.getAccessToken() });
+    return this.http.post<any>(this.reviewURL, reviews, { headers, responseType: 'text' as 'json' });
+  }
 
   sendUser(username: string, email:string, firstName:string, lastName: string, credentialValue: string) {
     const userData: UserRegistration = {

@@ -4,7 +4,6 @@ import {BehaviorSubject} from "rxjs";
 import {WarningMessageComponent} from "../warning-message/warning-message.component";
 import {RegistrationComponent} from "../registration/registration.component";
 import {AllPopupComponent} from "../all-popup/all-popup.component";
-import {KeyCloakService} from "./keyCloakService";
 
 @Injectable({
   providedIn: 'root',
@@ -19,8 +18,6 @@ export class PopupService {
 
   isOther: boolean = true;
 
-  rating: number = 1;
-
   descrizione: string = '';
 
   wichComponent: number = 0;
@@ -30,10 +27,6 @@ export class PopupService {
   currentStringa = this.stringaSource.asObservable();
 
   constructor(private dialog: MatDialog) {
-  }
-
-  rate(rating: number) {
-    this.rating = rating;
   }
 
 

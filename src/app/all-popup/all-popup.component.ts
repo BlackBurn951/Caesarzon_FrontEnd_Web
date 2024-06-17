@@ -1,22 +1,33 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {PopupService} from "../services/popUpService";
 import {ottieniCittaService} from "../services/ottieni.citta.service";
 import {FormGroup} from "@angular/forms";
 import {FormService} from "../services/formService";
 import {AddressService} from "../services/addressService";
 import {CardsService} from "../services/cardsService";
-import {UserRegistration} from "../entities/UserRegistration";
 import {UserService} from "../services/userService";
+import {BehaviorSubject, Subscription} from "rxjs";
 
 @Component({
   selector: 'app-all-popup',
   templateUrl: './all-popup.component.html',
   styleUrls: ['./all-popup.component.css', '../../styles.css']
 })
-export class AllPopupComponent {
+export class AllPopupComponent{
 
   section:number = 0
   sectionLabel:string = "Cerca utenti"
+
+
+  ratingSubject = new BehaviorSubject<number>(0);
+
+
+  motivoSegnalazione!: string;
+  descrizioneSegnalazione!: string;
+  usernameSegnalato!: string;
+
+  valutazione: number = 0;
+  descrizioneRecensione!: string;
 
 
   newPassword: string = '';
@@ -24,6 +35,8 @@ export class AllPopupComponent {
   confirmPassword: string = '';
   newPasswordError: string = '';
   confirmPasswordError: string = '';
+
+  private ratingSubscription!: Subscription;
 
   mostraPassword: { [key: string]: boolean } = { password: false, confermaPassword: false };
 
@@ -53,6 +66,10 @@ export class AllPopupComponent {
 
   }
 
+  rate(rating: number) {
+    this.ratingSubject.next(rating);
+  }
+
   aggiungiIndirizzo(){
     this.addressService.sendAddress()
   }
@@ -65,6 +82,8 @@ export class AllPopupComponent {
     this.section = numb
     this.sectionLabel = label;
   }
+
+
 
 
   togglePassword(fieldName: string) {
@@ -113,6 +132,27 @@ export class AllPopupComponent {
 
   eliminaAccount(){
     this.userService.deleteUser()
+
+  }
+
+  isFormReportValid(): boolean {
+    return !!this.descrizioneSegnalazione && this.descrizioneSegnalazione.length >= 5 && this.descrizioneSegnalazione.length <= 500;
+  }
+
+  isFormReviewValid(): boolean {
+    return !!this.descrizioneRecensione && this.descrizioneRecensione.length >= 5 && this.descrizioneRecensione.length <= 500 && this.valutazione > 0 && this.valutazione <=5 ;
+  }
+
+  sendReview(){
+    if(this.isFormReviewValid()){
+      this.userService.sendReviews(this.valutazione, this.descrizioneRecensione)
+    }
+  }
+
+  sendReport(){
+    if(this.isFormReportValid()) {
+      this.userService.sendReports(this.motivoSegnalazione, this.descrizioneSegnalazione, this.usernameSegnalato)
+    }
   }
 
 }

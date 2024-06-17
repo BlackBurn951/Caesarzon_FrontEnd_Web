@@ -71,12 +71,12 @@
   <div class="form-group">
     <div class="d-flex flex-column align-items-center">
       <h1 class="accediLabel">Stai segnalando l'utente</h1>
-      <h2 class="accediLabel">Aldo</h2>
+      <h2 class="accediLabel">{{usernameSegnalato}}</h2>
     </div>
     <button (click)="popUpService.closePopup()" class="btn btn-dark ics">X</button>
     <div class="d-flex flex-column align-items-center">
       <label for="motivo">Motivo della segnalazione</label>
-      <select name="motivo" class="form-select selectionIn btn btn-dark custom-bln" id="motivo" >
+      <select name="motivo" [ngModel]="motivoSegnalazione" class="form-select selectionIn btn btn-dark custom-bln" id="motivo" >
         <option value="spam">Spam</option>
         <option value="contenuto_ripetitivo">Contenuto Ripetitivo</option>
         <option value="link_sospetti">Link Sospetti o Dannosi</option>
@@ -96,13 +96,14 @@
 
   <div class="form-group gruppo d-flex flex-column align-items-center">
     <label for="descrizione">Descrizione</label>
-    <textarea class="form-control gruppoInputDesc" id="descrizione" maxlength="1000" ></textarea>
+    <textarea class="form-control gruppoInputDesc" id="descrizione" minlength="5" maxlength="500" [ngModel]="descrizioneSegnalazione"></textarea>
   </div>
 
   <div class="d-flex flex-column align-items-center">
-    <button type="submit" class="btn btn-dark custom-btn al" >Invia</button>
+    <button type="submit" class="btn btn-dark custom-btn al" [disabled]="!isFormReportValid()" (click)="sendReport()">Invia</button>
   </div>
 </div>
+
 
 
 <div class="container-fluidos regLog" *ngIf="popUpService.wichComponent === 2" [ngClass]="{'other': !popUpService.isOther}">
@@ -113,28 +114,28 @@
     <button (click)="popUpService.closePopup()" class="btn btn-dark ics">X</button>
     <div class="d-flex flex-column align-items-center">
       <div class="stars">
-        <span class="star" (click)="popUpService.rate(1)" [ngClass]="{'filled': popUpService.rating >= 1}">★</span>
-        <span class="star" (click)="popUpService.rate(2)" [ngClass]="{'filled': popUpService.rating >= 2}">★</span>
-        <span class="star" (click)="popUpService.rate(3)" [ngClass]="{'filled': popUpService.rating >= 3}">★</span>
-        <span class="star" (click)="popUpService.rate(4)" [ngClass]="{'filled': popUpService.rating >= 4}">★</span>
-        <span class="star" (click)="popUpService.rate(5)" [ngClass]="{'filled': popUpService.rating == 5}">★</span>
+        <span class="star" (click)="rate(1)" [ngClass]="{'filled': valutazione >= 1}">★</span>
+        <span class="star" (click)="rate(2)" [ngClass]="{'filled': valutazione >= 2}">★</span>
+        <span class="star" (click)="rate(3)" [ngClass]="{'filled': valutazione >= 3}">★</span>
+        <span class="star" (click)="rate(4)" [ngClass]="{'filled': valutazione >= 4}">★</span>
+        <span class="star" (click)="rate(5)" [ngClass]="{'filled': valutazione == 5}">★</span>
       </div>
     </div>
 
-
-    <input type="hidden" id="rating" name="rating" [value]="popUpService.rating">
+    <input type="hidden" id="rating" name="rating" [value]="valutazione">
   </div>
-
 
   <div class="form-group gruppo d-flex flex-column align-items-center">
     <label for="descrizione">Descrizione</label>
-    <textarea class="form-control gruppoInputDesc" maxlength="1000"></textarea>
+    <textarea [ngModel]="descrizioneRecensione" class="form-control gruppoInputDesc" minlength="5" maxlength="500"></textarea>
   </div>
 
   <div class="d-flex flex-column align-items-center">
-    <button type="submit" class="btn btn-dark custom-btn al" >Invia</button>
+    <button type="submit" class="btn btn-dark custom-btn al" [disabled]="!isFormReviewValid()" (click)="sendReview()">Invia</button>
   </div>
 </div>
+
+
 
 
 <div class="container-fluidos regLog" *ngIf="popUpService.wichComponent === 5" [ngClass]="{'other': !popUpService.isOther}">
