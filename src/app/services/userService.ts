@@ -6,7 +6,7 @@ import {KeyCloakService} from "./keyCloakService";
 import {User} from "../entities/User";
 import {PopupService} from "./popUpService";
 import {Reports} from "../entities/Report";
-import {Helps} from "../entities/Help";
+import {Helps} from "../entities/Supports";
 import {Reviews} from "../entities/Review";
 
 
@@ -215,6 +215,24 @@ export class UserService {
     return this.http.post(this.manageProfilePicURL, formData, { headers, responseType: 'text' as 'json' });
   }
 
+  getUsers(){
 
+  }
+
+  getReports(){
+
+  }
+
+  getSupports(){
+
+  }
+
+  getBans(){
+
+  }
+
+  getReturns(){
+
+  }
 
 }

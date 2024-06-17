@@ -34,9 +34,6 @@ footer {
   margin: 10px;
 }
 
-.gas{
-  margin-left: auto;
-}
 
 .btn i{
   padding: 10px 20px;
@@ -79,7 +76,8 @@ footer {
 }
 
 .effe{
-  width: 3vw;
+  width: 5vw;
+  height: 5vh;
   border: 1px solid black;
   border-radius: 3px;
 }

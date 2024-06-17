@@ -1,4 +1,4 @@
-export interface Helps {
+export interface Supports {
   motivo: string;
   oggetto: string;
   descrizione: string;
