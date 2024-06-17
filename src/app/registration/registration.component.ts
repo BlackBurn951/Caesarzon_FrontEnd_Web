@@ -28,6 +28,8 @@ export class RegistrationComponent {
     this.formCaesarzon = formService.getForm();
   }
 
+
+  //Metodo per modificare la grandezza del popUp a seconda se si è nel login o nella registrazione di un nuovo utente
   cambiaLarghezza(num: number) {
     const container = document.querySelector(".container-fluidos") as HTMLElement;
     if(num === 1){
@@ -38,6 +40,7 @@ export class RegistrationComponent {
 
   }
 
+  //Metodo per salvare i dati appena immessi dall'utente e mandarli al server per effettuare la registrazione
   registrati(){
     this.formService.setFormData(this.formCaesarzon.value);
 
@@ -50,7 +53,7 @@ export class RegistrationComponent {
     this.userService.sendUser(username, email, nome, cognome, password)
   }
 
-
+  //Metodo per comparare la password e la conferma della stessa
   comparaPassword() {
     const confermaPasswordValue = this.formCaesarzon.get('formRegistrazione.confermaPassword')?.value;
     const passwordValue = this.formCaesarzon.get('formRegistrazione.password')?.value;
@@ -58,7 +61,7 @@ export class RegistrationComponent {
     this.passwordDifferenti = confermaPasswordValue !== passwordValue;
   }
 
-
+  //Metodo per cambiare la visibilità del campo relativo alla password
   togglePassword(fieldName: string) {
     const passwordField = document.getElementById(fieldName) as HTMLInputElement;
     this.mostraPassword[fieldName] = !this.mostraPassword[fieldName];

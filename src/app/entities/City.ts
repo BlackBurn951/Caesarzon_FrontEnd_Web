@@ -1,3 +1,5 @@
+//DTO relativo ai dati di una città
+
 export interface City {
   id: number | null;
   city: string | null;

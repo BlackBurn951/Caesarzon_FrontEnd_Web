@@ -27,16 +27,14 @@ export class CardsService {
   private getCardsNameURL = 'http://localhost:8090/user-api/cards-names';
 
 
-  constructor(private userService: UserService, private router: Router, private popUp: PopupService, private http: HttpClient, private keycloak: KeyCloakService, private formService: FormService) {
+  constructor(private userService: UserService, private router: Router, private popUp: PopupService, private http: HttpClient, private keyCloakService: KeyCloakService, private formService: FormService) {
     this.formCaesarzon = formService.getForm();
   }
 
+
   deleteCard(){
     const urlWithParams = `${this.manageCardURL}?crd=${this.nomeCarta}`;
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + this.keycloak.getAccessToken()
-    });
+    const headers = this.keyCloakService.permaHeader()
 
     this.http.delete<string>(urlWithParams, { headers , responseType: 'text' as 'json' })
       .subscribe({
@@ -59,18 +57,14 @@ export class CardsService {
 
   getCards(nameLista: string): Observable<Card> {
     const urlWithParams = `${this.manageCardURL}?nameLista=${nameLista}`;
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + this.keycloak.getAccessToken()
-    });
+    const headers = this.keyCloakService.permaHeader()
+
     return this.http.get<Card>(urlWithParams, { headers });
   }
 
   getCardsName() {
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + this.keycloak.getAccessToken()
-    });
+    const headers = this.keyCloakService.permaHeader()
+
     this.http.get<string[]>(this.getCardsNameURL, { headers }).subscribe({
       next: (response) => {
         this.cardsName = response;
@@ -136,7 +130,7 @@ export class CardsService {
   }
 
   sendCardData(cardData: Card): Observable<string> {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + this.keycloak.getAccessToken() });
+    const headers = this.keyCloakService.permaHeader()
     return this.http.post(this.manageCardURL, cardData, { headers, responseType: 'text' }) as Observable<string>;
   }
 

@@ -17,15 +17,19 @@ import { UserService } from "../services/userService";
 })
 export class HelpRequestComponent {
 
+  //Creazione dei campi necessari all'ìnvio di una richiesta di supporto
   motivoRichiesta!: string;
   oggetto!: string;
   descrizioneRichiesta!: string;
 
   constructor(private userService: UserService) { }
 
+  //Validazione dei campi
   isFormValid(): boolean {
     return !!this.oggetto && this.oggetto.length >= 5 && this.oggetto.length <= 50 && !!this.descrizioneRichiesta && this.descrizioneRichiesta.length >= 5 && this.descrizioneRichiesta.length <= 500;
   }
+
+  //Invio della richiesta di supporto previa validazione dei campi
   sendHelpRequest() {
     if (this.isFormValid()) {
       this.userService.sendHelps(this.motivoRichiesta, this.oggetto, this.descrizioneRichiesta);

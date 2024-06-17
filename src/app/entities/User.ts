@@ -1,3 +1,5 @@
+//DTO relativo ai dati di un utente già registrato
+
 export interface User{
   id: string;
   username: string;

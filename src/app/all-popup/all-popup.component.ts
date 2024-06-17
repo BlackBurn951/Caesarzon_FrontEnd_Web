@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {PopupService} from "../services/popUpService";
-import {ottieniCittaService} from "../services/ottieni.citta.service";
+import {ottieniCittaService} from "../services/ottieniCittaService";
 import {FormGroup} from "@angular/forms";
 import {FormService} from "../services/formService";
 import {AddressService} from "../services/addressService";
@@ -21,6 +21,7 @@ export class AllPopupComponent{
 
   ratingSubject = new BehaviorSubject<number>(0);
 
+  //Creazione delle variabili base da utilizzare per inviare i dati al server
 
   motivoSegnalazione!: string;
   descrizioneSegnalazione!: string;
@@ -36,7 +37,6 @@ export class AllPopupComponent{
   newPasswordError: string = '';
   confirmPasswordError: string = '';
 
-  private ratingSubscription!: Subscription;
 
   mostraPassword: { [key: string]: boolean } = { password: false, confermaPassword: false };
 
@@ -85,7 +85,7 @@ export class AllPopupComponent{
 
 
 
-
+  //Metodo per cambiare la visibilità della text field della password
   togglePassword(fieldName: string) {
     const passwordField = document.getElementById(fieldName) as HTMLInputElement;
     this.mostraPassword[fieldName] = !this.mostraPassword[fieldName];
@@ -97,6 +97,9 @@ export class AllPopupComponent{
     }
   }
 
+
+
+  //Metodo che dopo aver validato al password chiama il server che effettuare il cambio
   validatePassword(): void {
     this.newPasswordError = '';
     this.confirmPasswordError = '';
@@ -130,11 +133,13 @@ export class AllPopupComponent{
 
   }
 
+  //Metodo per l'eliminazione dell'account
   eliminaAccount(){
     this.userService.deleteUser()
-
   }
 
+
+  //Metodi per la validazione dei campi
   isFormReportValid(): boolean {
     return !!this.descrizioneSegnalazione && this.descrizioneSegnalazione.length >= 5 && this.descrizioneSegnalazione.length <= 500;
   }
@@ -143,6 +148,10 @@ export class AllPopupComponent{
     return !!this.descrizioneRecensione && this.descrizioneRecensione.length >= 5 && this.descrizioneRecensione.length <= 500 && this.valutazione > 0 && this.valutazione <=5 ;
   }
 
+
+
+
+  //Metodi per inviare recensioni e segnalazioni al server previa validazione dei campi
   sendReview(){
     if(this.isFormReviewValid()){
       this.userService.sendReviews(this.valutazione, this.descrizioneRecensione)

@@ -29,7 +29,7 @@ import {DomSanitizer, SafeUrl} from "@angular/platform-browser";
 export class PersonalDataComponent implements OnInit{
   formCaesarzon!: FormGroup;
 
-
+  //Creazione dei campi necessari alla visualizzazione dei dati utente
   nome!: string;
   cognome!: string;
   email!: string ;
@@ -47,6 +47,8 @@ export class PersonalDataComponent implements OnInit{
 
   }
 
+
+  //All'inizializzazione della pagina vengono caricati tutti i dati relativi all'utente
   ngOnInit(): void {
     this.userService.getUserData().subscribe(
       (userData: User) => {
@@ -65,6 +67,7 @@ export class PersonalDataComponent implements OnInit{
 
   }
 
+  //Metodo per caricare l'immagine di profilo dal DB
   loadImage(): void {
     this.userService.getUserProfilePic().subscribe(
       response => {
@@ -78,6 +81,7 @@ export class PersonalDataComponent implements OnInit{
   }
 
 
+  //Metodo per selezionare una foto e caricarla sul DB limitando la dimensione a 6MB
   onFileSelected(event: any) {
     const file = event.target.files[0];
     this.selectedFile = event.target.files[0];
@@ -106,7 +110,7 @@ export class PersonalDataComponent implements OnInit{
 
   }
 
-
+  //Metodo utilizzato nel precedente relativo al caricamento dell'immagine di profilo
   onUpload() {
     if (this.selectedFile) {
       this.userService.uploadImage(this.selectedFile).subscribe(
@@ -122,6 +126,7 @@ export class PersonalDataComponent implements OnInit{
     }
   }
 
+  //Metodo per abilitare la modifica dei dati per l'utente
   abilitaInput(): void{
     this.userService.inputAbilitato = !this.userService.inputAbilitato;
     this.userService.testoButton = this.userService.inputAbilitato ? "Annulla modifiche" : "Modifica dati";
@@ -134,6 +139,7 @@ export class PersonalDataComponent implements OnInit{
 
   }
 
+  //Metodi vari per matching e assegnamento valori
   setValues(){
     if (this.formCaesarzon.get('formDatipersonali')) {
       this.formCaesarzon.get('formDatipersonali.nome')?.setValue(this.nome);
@@ -144,7 +150,6 @@ export class PersonalDataComponent implements OnInit{
 
     }
   }
-
   setValuess(){
     if (this.formCaesarzon.get('formDatipersonali')) {
       this.nome = this.formCaesarzon.get('formDatipersonali.nome')?.value;
@@ -158,6 +163,7 @@ export class PersonalDataComponent implements OnInit{
     }
   }
 
+  //Controlli di validità dei campi
   valoriUguali() {
     const formDatipersonali = this.formCaesarzon.get('formDatipersonali');
 
@@ -172,13 +178,13 @@ export class PersonalDataComponent implements OnInit{
     return false;
   }
 
-
+  //Metodo per mandare le modifiche apportate ai dati dell'utente
   mandaModifiche(){
     this.setValuess()
     this.userService.modifyUser(this.username, this.email, this.nome, this.cognome, this.numero)
   }
 
-
+  //Metodo per verificare la validità del numero di cellulare che si sta cercando di aggiungere
   isNumeroValid(): boolean {
     const formDatipersonali = this.formCaesarzon.get('formDatipersonali');
     const numero = formDatipersonali?.get('cellulare')?.value;

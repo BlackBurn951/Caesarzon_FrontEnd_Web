@@ -20,6 +20,7 @@ export class ProductManagementComponent{
     this.formCaesarzon = formService.getForm();
   }
 
+  //Metodo per aggiornare il colore selezionato dall'utente
   updateTone(event: any, num: number) {
     const selectedColor = event.target.value;
     const colorName = this.convertColorToPrimaryTone(selectedColor);
@@ -32,13 +33,13 @@ export class ProductManagementComponent{
 
   }
 
-
+  //Metodo per aggiungere il prodotto
   aggiungiProdotto() {
     this.popUpService.updateStringa("FUN-ZIO-NOOOOOOOOOOOO!");
     this.popUpService.openPopups(104, true)
   }
 
-
+  //Metodo per controllare se sono state caricate effettivamente N°4 immagini per il prodotto
   areImagesUploaded(): boolean {
     const category = this.formCaesarzon.get('formDeiProdotti.categoria')?.value;
     const size = this.formCaesarzon.get('formDeiProdotti.taglia')?.value;
@@ -50,7 +51,7 @@ export class ProductManagementComponent{
     }
   }
 
-
+  //Metodo per caricare le immagini del prodotto limitanto la dimensione a 6MB
   handleFileInput(event: any, index: number) {
     const file = event.target.files[0];
     const maxSize = 3 * 1024 * 1024; // 6 MB
@@ -75,7 +76,7 @@ export class ProductManagementComponent{
     }
   }
 
-
+  //Metodo per visualizzare le foto
   openFileInput(event: MouseEvent, index: number) {
     const input = document.getElementById('file-input' + index) as HTMLInputElement;
     if (input) {
@@ -85,7 +86,7 @@ export class ProductManagementComponent{
   }
 
 
-
+  //Metodo per convertire approssivamente un colore ad un macro dello stesso
   convertColorToPrimaryTone(color: string): string {
     if (!color) return "Non valido";
 

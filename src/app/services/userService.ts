@@ -1,13 +1,14 @@
-import { Injectable } from "@angular/core";
+import {Injectable} from "@angular/core";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {UserRegistration} from "../entities/UserRegistration";
-import {Observable, timeout} from "rxjs";
+import {Observable} from "rxjs";
 import {KeyCloakService} from "./keyCloakService";
 import {User} from "../entities/User";
 import {PopupService} from "./popUpService";
 import {Reports} from "../entities/Report";
-import {Helps} from "../entities/Supports";
 import {Reviews} from "../entities/Review";
+import {Supports} from "../entities/Supports";
+import {UserSearch} from "../entities/UserSearch";
 
 
 @Injectable({
@@ -26,8 +27,12 @@ export class UserService {
   private manageProfilePicURL = 'http://localhost:8090/user-api/image';
 
   private reportURL = 'http://localhost:8090/notify-api/report';
+
   private reviewURL = 'http://localhost:8090/notify-api/review';
-  private helpURL = 'http://localhost:8090/notify-api/help';
+
+  private supportURL = 'http://localhost:8090/notify-api/support';
+
+  private getUsersUrl = 'http://localhost:8090/user-api/users';
 
 
 
@@ -56,20 +61,20 @@ export class UserService {
   }
 
   sendReport(report: Reports): Observable<any> {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + this.keycloakService.getAccessToken() });
+    const headers = this.permaHeader()
     return this.http.post<any>(this.reportURL, report, { headers, responseType: 'text' as 'json' });
   }
 
 
   sendHelps(motivo: string, oggetto: string, descrizione: string) {
-    const help: Helps = {
+    const supports: Supports = {
       motivo: motivo,
       descrizione: descrizione,
       oggetto: oggetto,
       dataRichiesta: ""
     };
 
-    this.sendHelp(help).subscribe(
+    this.sendHelp(supports).subscribe(
       response => {
         this.popUp.updateStringa("Richiesta di assistenza inviata correttamente!")
         this.popUp.openPopups(10, true)
@@ -81,9 +86,9 @@ export class UserService {
     );
   }
 
-  sendHelp(help: Helps): Observable<any> {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + this.keycloakService.getAccessToken() });
-    return this.http.post<any>(this.helpURL, help, { headers, responseType: 'text' as 'json' });
+  sendHelp(support: Supports): Observable<any> {
+    const headers = this.permaHeader()
+    return this.http.post<any>(this.supportURL, support, { headers, responseType: 'text' as 'json' });
   }
 
   sendReviews(numStelle: number, descrizione: string) {
@@ -106,7 +111,7 @@ export class UserService {
   }
 
   sendReview(reviews: Reviews): Observable<any> {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + this.keycloakService.getAccessToken() });
+    const headers = this.permaHeader()
     return this.http.post<any>(this.reviewURL, reviews, { headers, responseType: 'text' as 'json' });
   }
 
@@ -136,10 +141,7 @@ export class UserService {
   }
 
   deleteUser(){
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + this.keycloakService.getAccessToken()
-    });
+    const headers = this.permaHeader()
 
     this.http.delete<string>(this.manageUserDataURL, { headers , responseType: 'text' as 'json' })
       .subscribe({
@@ -161,18 +163,18 @@ export class UserService {
   }
 
   sendUserData(userData: UserRegistration): Observable<any> {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + this.keycloakService.getAccessToken() });
+    const headers = this.permaHeader()
     return this.http.post<any>(this.manageUserDataURL, userData, { headers, responseType: 'text' as 'json' });
   }
 
   getUserData(): Observable<User> {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + this.keycloakService.getAccessToken() });
+    const headers = this.permaHeader()
     return this.http.get<User>(this.manageUserDataURL, { headers });
   }
 
 
   getUserProfilePic(): Observable<Blob> {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + this.keycloakService.getAccessToken() });
+    const headers = this.permaHeader()
     return this.http.get(this.manageProfilePicURL, {headers, responseType: 'blob' });
   }
 
@@ -199,8 +201,16 @@ export class UserService {
     );
   }
 
+  //Metodo per creare l'header contenente l'access token
+  permaHeader(){
+    return new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + this.keycloakService.getAccessToken()
+    });
+  }
+
   modifyUserData(userData: User): Observable<any> {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + this.keycloakService.getAccessToken() });
+    const headers = this.permaHeader()
     return this.http.put<any>(this.manageUserDataURL, userData, { headers, responseType: 'text' as 'json' });
   }
 
@@ -208,17 +218,16 @@ export class UserService {
     const formData = new FormData();
     formData.append('file', file);
 
-    const headers = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.keycloakService.getAccessToken()
-    });
+    const headers = this.permaHeader()
 
     return this.http.post(this.manageProfilePicURL, formData, { headers, responseType: 'text' as 'json' });
   }
 
   getUsers(){
+    const headers = this.permaHeader()
+    return this.http.get<UserSearch[]>(this.getUsersUrl, { headers });
 
   }
-
   getReports(){
 
   }

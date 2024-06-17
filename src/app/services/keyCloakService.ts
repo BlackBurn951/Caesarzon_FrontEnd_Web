@@ -18,12 +18,13 @@ export class KeyCloakService {
 
   constructor(private http: HttpClient, private popUp: PopupService) { }
 
+  //Pulizia delle variabili relative ai token dell'utente
   refreshAuthVariables(){
     this.ACCESS_TOKEN = "";
     this.REFRESH_TOKEN = "";
   }
 
-
+  //Metodo per ricevere i token da KeyCloak per l'utente
   login(username: string, password: string): void{
     const headers = new HttpHeaders({
       'Content-Type': 'application/x-www-form-urlencoded'
@@ -53,6 +54,7 @@ export class KeyCloakService {
 
   }
 
+  //Metodo per assegnare i token alla cache
   setTokens(accessToken: string, refreshToken: string) {
     this.ACCESS_TOKEN = accessToken;
     this.REFRESH_TOKEN = refreshToken;
@@ -63,7 +65,7 @@ export class KeyCloakService {
     localStorage.setItem('isLogged', String(this.isLogged));
   }
 
-
+  //Metodo per prendere i token dalla cache
   getAccessToken() {
     const token = localStorage.getItem('access_token');
     console.log("TOKEN NELLA CACHE: " + token)
@@ -74,6 +76,7 @@ export class KeyCloakService {
     }
   }
 
+  //Metodo per prendere lo stato di logging dell'utente
   getLoggedStatus(){
     const isLoggedString = localStorage.getItem('isLogged');
     if (isLoggedString) {
@@ -83,6 +86,7 @@ export class KeyCloakService {
     }
   }
 
+  //Metodo per assegnare lo stato di login dell'utente
   setLoggedStatus(){
     const isLoggedString = localStorage.getItem('isLogged');
     if (isLoggedString) {
@@ -99,5 +103,13 @@ export class KeyCloakService {
     this.setTokens("", "")
     //chiamta a keycloack che invalida il token
     event.preventDefault()
+  }
+
+  //Metodo per creare l'header contenente l'access token
+  permaHeader(){
+    return new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + this.getAccessToken()
+    });
   }
 }
