@@ -1,4 +1,4 @@
-//DTO relativo ai dati di un utente (LATO ADMIN)
+//DTO relativo ai dati di un utente (LATO USER)
 
 export interface UserSearch{
   profilePic: number[];

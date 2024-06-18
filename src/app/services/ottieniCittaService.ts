@@ -24,33 +24,27 @@ export class ottieniCittaService {
 
 
 
-  constructor(private keycloak: KeyCloakService, private http: HttpClient, private formService: FormService) {
+  constructor(private keycloakService: KeyCloakService, private http: HttpClient, private formService: FormService) {
     this.myForm = this.formService.getForm();
 
   }
 
-  private createHeaders() {
-    const token = this.keycloak.getAccessToken();  // Replace 'your-token-here' with your actual token
-    return new HttpHeaders().set('Authorization', `Bearer ${token}`);
-  }
-
+  //Metodo per ottenere la lista di città suggerite
   public ottienSuggerimentiCitta(sugg: string){
-    const headers = this.createHeaders();
+    const headers = this.keycloakService.permaHeader()
     return this.http.get<string[]>(`${this.urlOttieniCitta}?sugg=${sugg}`, { headers });
   }
-
   public ottieniCitta(sugg: string) {
     this.ottienSuggerimentiCitta(sugg).subscribe((citta: string[]) => {
       this.suggerimentiCitta = citta;
     });
   }
 
-
+  //Metodo per ottenere i dati della città selezionata
   public ottieniAltriDatiCitta(city: string){
-    const headers = this.createHeaders();
+    const headers = this.keycloakService.permaHeader()
     return this.http.get<CityDataSuggest>(`${this.urlOttieniCapProvReg}?city=${city}`, { headers });
   }
-
   public ottieniDatiCitta(datiC: string) {
     this.ottieniAltriDatiCitta(datiC).subscribe((dati: CityDataSuggest) => {
       this.datiCitta = dati;
@@ -60,7 +54,7 @@ export class ottieniCittaService {
   }
 
 
-
+  //Metodo per assegnare i dati ricevuti al form
   private patchValue(){
   const formGroup = this.myForm.get("formIndirizzo") as FormGroup;
   formGroup.patchValue({
@@ -72,9 +66,7 @@ export class ottieniCittaService {
 }
 
 
-
-
-
+  //Al cambio della città vengono caricati i rispettivi dati
   public onCittaChange(cittaSelezionata: string) {
     const indirizzoControl = this.myForm.get(`formIndirizzo.citta`);
     if (indirizzoControl) {

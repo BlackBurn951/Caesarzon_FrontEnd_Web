@@ -380,6 +380,24 @@
   </div>
 </div>
 
+<div class="container-fluidos regLog" *ngIf="popUpService.wichComponent === 10" [ngClass]="{'other': !popUpService.isOther}">
+  <div class="form-group">
+    <div class="d-flex flex-column align-items-center">
+      <h1 class="accediLabel">Invia risposta in merito alla segnalazione con codice:</h1>
+    </div>
+    <button (click)="popUpService.closePopup()" class="btn btn-dark ics">X</button>
+  </div>
+
+  <div class="form-group gruppo d-flex flex-column align-items-center">
+    <label for="descrizione">Risposta</label>
+    <textarea [ngModel]="rispostaAdmin" class="form-control gruppoInputDesc" minlength="5" maxlength="500"></textarea>
+  </div>
+
+  <div class="d-flex flex-column align-items-center">
+    <button type="submit" class="btn btn-dark custom-btn al" [disabled]="!isRispostaAdminValid()" (click)="sendResponse()">Invia</button>
+  </div>
+</div>
+
 </body>
 
 </html>

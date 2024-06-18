@@ -10,56 +10,53 @@
 </head>
 <body>
 <section class="d-flex flex-row align-items-center aldo">
-  <div class="container-fluid pippo">
-    <button class="btn btn-primary custom-btn" (click)="changeSection(0)"><i class="fas fa-search"></i></button>
-    <button class="btn btn-primary custom-btn mt-4" (click)="changeSection(1)"><i class="fas fa-exclamation-circle"></i></button>
-    <button class="btn btn-primary custom-btn mt-4" (click)="changeSection(2)"><i class="fas fa-headset"></i></button>
-    <button class="btn btn-primary custom-btn mt-4" (click)="changeSection(3)"><i class="fas fa-ban"></i></button>
-    <button class="btn btn-primary custom-btn mt-4" (click)="changeSection(4)"><i class="fas fa-box"></i></button>
+  <div class="ml-4">
+    <app-admin-management-container></app-admin-management-container>
   </div>
 
-  <div *ngIf="section === 0" class="container-fluid">
+  <div *ngIf="adminService.section === 0" class="container-fluid">
+    <h1 class="title text-center centra">CERCA UTENTI</h1>
     <div class="search-container">
       <input type="text" placeholder="Cerca utenti">
     </div>
 
-    <div class="row">
-      <div class="col-md-9">
-        <div class="row">
-          <div class="container left-containers mt-2 ml-2">
-            <div class="row mt-2" *ngFor="let username of usernames">
-              <div class="col">
-                <div>
-                  <div class="row product-row">
-                    <div class="col">
-                      <div class="row gus">
-                        <p class="col-4 ml-5">{{username}}</p>
-                        <div class="gas">
-                          <button class="btn-dark custom-btn effe" (click)="changePage($event, 'personal-data', username)">
-                            <i class="fas fa-user iconsearch"></i>
-                          </button>
-                          <button class="btn-dark custom-btn effe ml-2" (click)="changePage($event, 'da-fare', username)">
-                            <i class="fas fa-shopping-cart iconsearch"></i>
-                          </button>
-                          <button class="btn-dark custom-btn effe ml-2" (click)="changePage($event, 'wish-list', username)">
-                            <i class="fas fa-heart iconsearch"></i>
-                          </button>
-                          <button class="btn-dark custom-btn effe ml-2" (click)="changePage($event, 'address-data', username)">
-                            <i class="fas fa-map-marker-alt iconsearch"></i>
-                          </button>
-                          <button class="btn-dark custom-btn effe ml-2" (click)="changePage($event, 'payment-data', username)">
-                            <i class="fas fa-credit-card iconsearch"></i>
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+    <div class="container left-containers">
+      <table class="table table-bordered">
+        <thead>
+        <tr>
+          <th class="text-center align-middle"></th>
+          <th class="text-center align-middle">Username</th>
+          <th class="text-center align-middle">Azioni</th>
+        </tr>
+        </thead>
+        <tbody>
+        <ng-container *ngFor="let item of adminService.users; let i = index">
+          <tr>
+            <td class="text-center align-middle">{{ item.profilePic }}</td>
+            <td class="text-center align-middle">{{ item.username }}</td>
+            <td class="text-center align-middle">
+              <div class="d-flex flex-row align-items-center justify-content-center">
+                <button class="btn-dark custom-btn effe" (click)="changePage('personal-data', item.username)">
+                  <i class="fas fa-user iconsearch"></i>
+                </button>
+                <button class="btn-dark custom-btn effe ml-2" (click)="changePage('da-fare', item.username)">
+                  <i class="fas fa-shopping-cart iconsearch"></i>
+                </button>
+                <button class="btn-dark custom-btn effe ml-2" (click)="changePage('wish-list', item.username)">
+                  <i class="fas fa-heart iconsearch"></i>
+                </button>
+                <button class="btn-dark custom-btn effe ml-2" (click)="changePage('address-data', item.username)">
+                  <i class="fas fa-map-marker-alt iconsearch"></i>
+                </button>
+                <button class="btn-dark custom-btn effe ml-2" (click)="changePage('payment-data', item.username)">
+                  <i class="fas fa-credit-card iconsearch"></i>
+                </button>
               </div>
-            </div>
-          </div>
-        </div>
-      </div>
+            </td>
+          </tr>
+        </ng-container>
+        </tbody>
+      </table>
     </div>
   </div>
 
@@ -69,170 +66,121 @@
 
 
 
-  <div *ngIf="section === 1" class="container-fluid">
-    <h1 class="title text-center centra" >SEGNALAZIONI</h1>
-    <div class="row">
-      <div class="col-md-9">
-        <div class="row">
-          <div class="container left-containers mt-2 ml-2">
-            <div class="row mt-2">
-              <div class="col">
-                <div>
-                  <div class="row product-row">
-                    <div class="col">
-                      <div class="row gus">
-                        <p>Tipo segnalazione</p>
-                        <p class="ml-4">Utente segnalato</p>
-                        <p class="ml-4 mr-5">Motivazione</p>
-                      </div>
-
-                      <div class="row gus" *ngFor="let item of reports; let i = index">
-                        <p>Tipo segnalazione</p>
-                        <p class="ml-4">Utente segnalato</p>
-                        <p class="ml-4 mr-5">Motivazione</p>
-                        <div class="gas">
-                          <button class="btn-dark custom-btn esse" (click)="deleteItem(i)"><i class="fas fa-times icon-small"></i></button>
-                          <button class="btn-dark custom-btn esse ml-2"><i class="fas fa-ban icon-small"></i></button>
-                          <button class="btn-dark custom-btn esse ml-2" (click)="toggleCollapse(i)"><i class="fas fa-arrow-down icon-small"></i></button>
-                        </div>
-                        <div class="collapse navbar-collapse" [ngClass]="{'show': isCollapsed[i]}">
-                          <div class="row gus">
-                            <p>Dettagli aggiuntivi 1</p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+  <div *ngIf="adminService.section === 1" class="container-fluid">
+    <h1 class="title text-center centra">SEGNALAZIONI</h1>
+    <div class="container left-containers">
+      <table class="table table-bordered">
+        <thead>
+        <tr>
+          <th class="text-center align-middle">Codice segnalazione</th>
+          <th class="text-center align-middle">Utente segnalato</th>
+          <th class="text-center align-middle">Motivazione</th>
+          <th class="text-center align-middle">Azioni</th>
+        </tr>
+        </thead>
+        <tbody>
+        <ng-container *ngFor="let item of adminService.reports; let i = index">
+          <tr>
+            <td class="text-center align-middle">{{ item.codice_segnalazione }}</td>
+            <td class="text-center align-middle">{{ item.usernameUser2 }}</td>
+            <td class="text-center align-middle">{{ item.motivo }}</td>
+            <td class="text-center align-middle">
+              <div class="d-flex flex-row align-items-center justify-content-center">
+                <button class="btn-dark custom-btn effes" (click)="deleteItem(i)">
+                  <p class="fas fa-check icon-small"> Banna</p>
+                </button>
+                <button class="btn-dark custom-btn effes ml-2">
+                  <p class="fas fa-ban icon-small"> Scarta</p>
+                </button>
+                <button class="btn-dark custom-btn effes ml-2" (click)="toggleCollapse(i)">
+                  <p class="fas fa-arrow-down icon-small mt-0"> Descrizione</p>
+                </button>
               </div>
-            </div>
-          </div>
-        </div>
-      </div>
+            </td>
+          </tr>
+          <tr *ngIf="isCollapsed[i]">
+            <td class="text-center align-middle" colspan="4">{{ item.descrizione }}</td>
+          </tr>
+        </ng-container>
+        </tbody>
+      </table>
     </div>
   </div>
 
-  <div *ngIf="section === 2" class="container-fluid">
-    <h1 class="title text-center centra" >RICHIESTE ASSISTENZA</h1>
-    <div class="row">
-      <div class="col-md-9">
-        <div class="row">
-          <div class="container left-containers mt-2 ml-2">
-            <div class="row mt-2">
-              <div class="col">
-                <div class="row gus">
-                  <p>Tipo segnalazione</p>
-                  <p class="ml-4">Utente segnalato</p>
-                  <p class="ml-4 mr-5">Motivazione</p>
-                </div>
-                <div>
-                  <div class="row product-row">
-                    <div class="col">
-                      <div class="row gus" *ngFor="let item of helps; let i = index">
-                        <p>Tipo richiesta</p>
-                        <p class="ml-4">Utente</p>
-                        <p class="ml-4 mr-5">Descrizione</p>
-                        <div class="gas">
-                          <button class="btn-dark custom-btn esse"><i class="fas fa-check icon-small"></i></button>
-                          <button class="btn-dark custom-btn esse ml-2" (click)="deleteItem(i)"><i class="fas fa-times icon-small"></i></button>
-                          <button class="btn-dark custom-btn esse ml-2" (click)="toggleCollapse(i)"><i class="fas fa-arrow-down icon-small"></i></button>
-                        </div>
-                        <div class="collapse navbar-collapse" [ngClass]="{'show': isCollapsed[i]}">
-                          <div class="row gus">
-                            <p>Dettagli aggiuntivi 1</p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+  <div *ngIf="adminService.section === 2" class="container-fluid">
+    <h1 class="title text-center centra">RICHIESTE ASSISTENZA</h1>
+    <div class="container left-containers">
+      <table class="table table-bordered">
+        <thead>
+        <tr>
+          <th class="text-center align-middle">Codice richiesta</th>
+          <th class="text-center align-middle">Utente</th>
+          <th class="text-center align-middle">Tipo</th>
+          <th class="text-center align-middle">Azioni</th>
+        </tr>
+        </thead>
+        <tbody>
+        <ng-container *ngFor="let item of adminService.supports; let i = index">
+          <tr>
+            <td class="text-center align-middle">{{ item.codice_supporto}}</td>
+            <td class="text-center align-middle">{{ item.username }}</td>
+            <td class="text-center align-middle">{{ item.motivo }}</td>
+            <td class="text-center align-middle">
+              <div class="d-flex flex-row align-items-center justify-content-center">
+                <button class="btn-dark custom-btn effes" (click)="deleteItem(i)">
+                  <p class="fas fa-check icon-small"> Rispondi</p>
+                </button>
+                <button class="btn-dark custom-btn effes ml-2" (click)="toggleCollapse(i)">
+                  <p class="fas fa-arrow-down icon-small mt-0"> Descrizione</p>
+                </button>
               </div>
-            </div>
-          </div>
-        </div>
-      </div>
+            </td>
+          </tr>
+          <tr *ngIf="isCollapsed[i]">
+            <td class="text-center align-middle" colspan="4">{{ item.descrizione }}</td>
+          </tr>
+        </ng-container>
+        </tbody>
+      </table>
     </div>
   </div>
 
-  <div *ngIf="section === 3" class="container-fluid">
-    <h1 class="title text-center centra" >UTENTI BANNATI</h1>
-    <div class="row">
-      <div class="col-md-9">
-        <div class="row">
-          <div class="container left-containers mt-2 ml-2">
-            <div class="row mt-2">
-              <div class="col">
-                <div>
-                  <div class="row product-row">
 
-                    <div class="col">
-                      <div class="row gus" *ngFor="let item of bans; let i = index">
-                        <p>Richiesta(ban/unban)</p>
-                        <p class="ml-4">Utente</p>
-                        <p class="ml-4 mr-5">Motivazione</p>
-                        <div class="gas">
-                          <button class="btn-dark custom-btn esse" (click)="deleteItem(i)"><i class="fas fa-times icon-small"></i></button>
-                          <button class="btn-dark custom-btn esse ml-2"><i class="fas fa-ban icon-small"></i></button>
-                          <!-- Nuovo pulsante per il collapse -->
-                          <button class="btn-dark custom-btn esse ml-2" (click)="toggleCollapse(i)"><i class="fas fa-arrow-down icon-small"></i></button>
-                        </div>
-                        <!-- Collapse content -->
-                        <div class="collapse navbar-collapse" [ngClass]="{'show': isCollapsed[i]}">
-                          <div class="row gus">
-                            <p>Dettagli aggiuntivi 1</p>
-                            <!-- Aggiungi qui ulteriori dettagli -->
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+  <div *ngIf="adminService.section === 3" class="container-fluid">
+    <h1 class="title text-center centra">UTENTI BANNATI</h1>
+    <div class="container left-containers">
+      <table class="table table-bordered">
+        <thead>
+        <tr>
+          <th class="text-center align-middle">Data ban</th>
+          <th class="text-center align-middle">Utente bannato</th>
+          <th class="text-center align-middle">Motivazione</th>
+          <th class="text-center align-middle">Azioni</th>
+        </tr>
+        </thead>
+        <tbody>
+        <ng-container *ngFor="let item of adminService.bans; let i = index">
+          <tr>
+            <td class="text-center align-middle">{{ item.data}}</td>
+            <td class="text-center align-middle">{{ item.username }}</td>
+            <td class="text-center align-middle">{{ item.motivo }}</td>
+            <td class="text-center align-middle">
+              <div class="d-flex flex-row align-items-center justify-content-center">
+                <button class="btn-dark custom-btn effes" (click)="deleteItem(i)">
+                  <p class="fas fa-ban icon-small"> Rimuovi ban</p>
+                </button>
+                <button class="btn-dark custom-btn effes ml-2" (click)="toggleCollapse(i)">
+                  <p class="fas fa-arrow-down icon-small mt-0"> Descrizione</p>
+                </button>
               </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div *ngIf="section === 4" class="container-fluid">
-    <h1 class="title text-center centra" >RESI</h1>
-    <div class="row">
-      <div class="col-md-9">
-        <div class="row">
-          <div class="container left-containers mt-2 ml-2">
-            <div class="row mt-2">
-              <div class="col">
-                <div>
-                  <div class="row product-row">
-
-                    <div class="col">
-                      <div class="row gus" *ngFor="let item of reports; let i = index">
-                        <p>Reso</p>
-                        <p class="ml-4">Utente richiedente</p>
-                        <p class="ml-4 mr-5">Motivazione</p>
-                        <div class="gas">
-                          <button class="btn-dark custom-btn esse"><i class="fas fa-check icon-small"></i></button>
-                          <button class="btn-dark custom-btn esse ml-2" (click)="deleteItem(i)"><i class="fas fa-times icon-small"></i></button>
-                          <!-- Nuovo pulsante per il collapse -->
-                          <button class="btn-dark custom-btn esse ml-2" (click)="toggleCollapse(i)"><i class="fas fa-arrow-down icon-small"></i></button>
-                        </div>
-                        <!-- Collapse content -->
-                        <div class="collapse navbar-collapse" [ngClass]="{'show': isCollapsed[i]}">
-                          <div class="row gus">
-                            <p>Dettagli aggiuntivi 1</p>
-                            <!-- Aggiungi qui ulteriori dettagli -->
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+            </td>
+          </tr>
+          <tr *ngIf="isCollapsed[i]">
+            <td class="text-center align-middle" colspan="4">{{ item.descrizioneban }}</td>
+          </tr>
+        </ng-container>
+        </tbody>
+      </table>
     </div>
   </div>
 

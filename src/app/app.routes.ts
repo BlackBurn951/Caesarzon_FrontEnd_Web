@@ -30,6 +30,7 @@ import {MatAutocompleteModule, MatAutocompleteTrigger, MatOption} from "@angular
 import {MatOptionModule} from "@angular/material/core";
 import {MatInputModule} from "@angular/material/input";
 import {MatSelectModule} from "@angular/material/select";
+import {AdminManagementContainerComponent} from "./admin-management-container/admin-management-container.component";
 
 
 export const routes: Routes = [
@@ -64,31 +65,31 @@ export const routes: Routes = [
     PaymentSecondPageComponent,
     AdminAreaComponent
   ],
-  imports: [RouterModule.forRoot(routes),
-    NgIf,
-    NgClass,
-    FormsModule,
-    NgForOf,
-    BrowserModule,
-    MatDialogModule,
-    ReactiveFormsModule,
-    FooterComponent,
-    PersonalDataComponent,
-    BrowserModule,
-    HttpClientModule,
-    UserManagementContainerComponent,
-    BrowserAnimationsModule,
-    MatAutocompleteTrigger,
-    MatAutocompleteModule,
-    MatOption,
-    ReactiveFormsModule,
-    CommonModule,
-    MatOptionModule,
-    MatInputModule,
-    MatSelectModule,
-    NoopAnimationsModule,
-    NgOptimizedImage
-  ],
+    imports: [RouterModule.forRoot(routes),
+        NgIf,
+        NgClass,
+        FormsModule,
+        NgForOf,
+        BrowserModule,
+        MatDialogModule,
+        ReactiveFormsModule,
+        FooterComponent,
+        PersonalDataComponent,
+        BrowserModule,
+        HttpClientModule,
+        UserManagementContainerComponent,
+        BrowserAnimationsModule,
+        MatAutocompleteTrigger,
+        MatAutocompleteModule,
+        MatOption,
+        ReactiveFormsModule,
+        CommonModule,
+        MatOptionModule,
+        MatInputModule,
+        MatSelectModule,
+        NoopAnimationsModule,
+        NgOptimizedImage, AdminManagementContainerComponent
+    ],
   providers: [KeyCloakService, FormService]
 })
 export class AppModule implements DoBootstrap{

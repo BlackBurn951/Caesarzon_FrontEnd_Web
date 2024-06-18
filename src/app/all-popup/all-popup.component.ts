@@ -30,6 +30,7 @@ export class AllPopupComponent{
   valutazione: number = 0;
   descrizioneRecensione!: string;
 
+  rispostaAdmin!: string;
 
   newPassword: string = '';
   pass: string = '';
@@ -61,7 +62,7 @@ export class AllPopupComponent{
   formCaesarzon!: FormGroup;
 
 
-  constructor(private addressService: AddressService, private cardService: CardsService, public popUpService:PopupService, protected ottieniCittaService: ottieniCittaService, protected formService: FormService, private userService: UserService){
+  constructor(private addressService: AddressService, private cardService: CardsService, public popUpService:PopupService, protected ottieniCittaService: ottieniCittaService, protected formService: FormService, protected userService: UserService){
     this.formCaesarzon= this.formService.getForm();
 
   }
@@ -148,7 +149,16 @@ export class AllPopupComponent{
     return !!this.descrizioneRecensione && this.descrizioneRecensione.length >= 5 && this.descrizioneRecensione.length <= 500 && this.valutazione > 0 && this.valutazione <=5 ;
   }
 
+  isRispostaAdminValid(): boolean {
+    return !!this.rispostaAdmin && this.rispostaAdmin.length >= 5 && this.rispostaAdmin.length <= 500;
+  }
 
+  //Metodi per inviare la risposta dell'admin a segnalazioni e richieste di supporto
+  sendResponse(){
+    if(this.isRispostaAdminValid()){
+      //this.userService.sendResponseAndDeleteReport(this.rispostaAdmin, this.userService.accept)
+    }
+  }
 
 
   //Metodi per inviare recensioni e segnalazioni al server previa validazione dei campi

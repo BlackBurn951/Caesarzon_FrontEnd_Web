@@ -1,8 +1,13 @@
 .aldo {
-  gap: 4vh;
   margin-top: 2%;
 
 }
+
+.gas{
+  margin-right: auto;
+}
+
+
 
 footer {
   background-color: #352244;
@@ -54,9 +59,6 @@ footer {
   font-size: 20px;
 }
 
-.centra{
-  margin-right: 24%;
-}
 
 .search-container {
   display: flex;
@@ -75,9 +77,17 @@ footer {
   font-size: 15px;
 }
 
+.effes{
+  width: 8vw;
+  height: 5vh;
+  border: 1px solid black;
+  border-radius: 3px;
+}
+
 .effe{
   width: 5vw;
   height: 5vh;
   border: 1px solid black;
   border-radius: 3px;
 }
+
