@@ -202,6 +202,13 @@ export class UserService {
     return this.http.get(this.manageProfilePicURL, {headers, responseType: 'blob' });
   }
 
+  getUserProfilePicByUser(username: string): Observable<Blob> {
+    const headers = this.keycloakService.permaHeader()
+    const customUrl = this.manageProfilePicURL + '/' + username;
+    console.log("url completo: " + customUrl)
+    return this.http.get(customUrl, {headers, responseType: 'blob' });
+  }
+
   modifyUser(username: string, email:string, firstName:string, lastName: string, phoneNumber: string) {
     const userData: User = {
       id : "",

@@ -5,6 +5,7 @@ import {Bans} from "../entities/Bans";
 import {Returns} from "../entities/Returns";
 import {UserService} from "./userService";
 import {UserSearch} from "../entities/UserSearch";
+import {DomSanitizer, SafeUrl} from "@angular/platform-browser";
 
 @Injectable({
   providedIn: 'root',
@@ -12,6 +13,8 @@ import {UserSearch} from "../entities/UserSearch";
 export class AdminService {
 
   section: number = 0;
+
+  image!: SafeUrl
 
   //Definizione degli arrays
   users!: UserSearch[]
@@ -174,7 +177,7 @@ export class AdminService {
     },
   ];
 
-  constructor(private userService: UserService) {
+  constructor(private sanitizer: DomSanitizer ,private userService: UserService) {
   }
 
 
@@ -196,7 +199,27 @@ export class AdminService {
     if (num == 0) {
       this.userService.getUsers().subscribe(users => {
         this.users = users;
-      })
+        this.users.forEach(user => {
+          if(user.username === "francusso") {
+            this.userService.getUserProfilePicByUser(user.username).subscribe(
+              response => {
+                const url = URL.createObjectURL(response);
+                user.safeImageUrl = this.sanitizer.bypassSecurityTrustUrl(url);
+              },
+              error => {
+                console.error('Errore nel caricamento dell\'immagine', error);
+              }
+            );
+            // setTimeout(()=> {
+            //   user.safeImageUrl = this.image
+            // }, 2000);
+            // console.log("Immagine caricata per francusso: " + user.safeImageUrl)
+            // console.log("Immagine caricata : " + this.userService.getUsers())
+
+          }
+        });
+      });
+
       // }else if(num == 1){
       //   this.userService.getReports().subscribe(reports =>{
       //     this.reports= reports;
@@ -214,8 +237,13 @@ export class AdminService {
       //     this.returns = returns
       //   })
       // }
+
     }
   }
+
+
+
+
 }
 
 

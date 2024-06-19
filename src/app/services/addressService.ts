@@ -122,7 +122,7 @@ export class AddressService {
     }
 
     const addressData: Address = {
-      id: null,
+      id: 0,
       roadType: tipoStrada,
       roadName: nomeStrada,
       houseNumber: numeroCivico,

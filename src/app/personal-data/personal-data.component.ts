@@ -81,6 +81,7 @@ export class PersonalDataComponent implements OnInit{
   }
 
 
+
   //Metodo per selezionare una foto e caricarla sul DB limitando la dimensione a 6MB
   onFileSelected(event: any) {
     const file = event.target.files[0];

@@ -15,8 +15,7 @@
   </div>
 
   <div *ngIf="adminService.section === 0" class="container-fluid">
-    <h1 class="title text-center centra">CERCA UTENTI</h1>
-    <div class="search-container">
+    <div class="search-container mb-2">
       <input type="text" placeholder="Cerca utenti">
     </div>
 
@@ -32,7 +31,9 @@
         <tbody>
         <ng-container *ngFor="let item of adminService.users; let i = index">
           <tr>
-            <td class="text-center align-middle">{{ item.profilePic }}</td>
+            <td class="text-center align-middle">
+              <img [src]="item.safeImageUrl" alt="" width="50" height="50">
+            </td>
             <td class="text-center align-middle">{{ item.username }}</td>
             <td class="text-center align-middle">
               <div class="d-flex flex-row align-items-center justify-content-center">

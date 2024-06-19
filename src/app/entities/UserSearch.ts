@@ -1,8 +1,9 @@
 //DTO relativo ai dati di un utente (LATO USER)
 
+import {SafeUrl} from "@angular/platform-browser";
+
 export interface UserSearch{
-  profilePic: number[];
   username: string;
-  follower: boolean;
-  friend: boolean
+  safeImageUrl: SafeUrl;
+
 }
