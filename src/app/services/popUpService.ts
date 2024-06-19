@@ -12,6 +12,8 @@ export class PopupService {
 
   isAdd: boolean = false;
 
+  aStringa: string = "Motivo del ban"
+
   isAvviso: boolean = true;
 
   isLogin: boolean = true;
@@ -21,6 +23,8 @@ export class PopupService {
   descrizione: string = '';
 
   wichComponent: number = 0;
+
+  operazione!: number;
 
   private stringaSource = new BehaviorSubject<string>('');
 
@@ -61,6 +65,7 @@ export class PopupService {
       case 7:
       case 8:
       case 9:
+      case 10:
         this.dialog.open(AllPopupComponent);
         this.wichComponent = num;
         this.isOther = false;

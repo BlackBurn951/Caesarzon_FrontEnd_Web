@@ -6,6 +6,12 @@ import {Returns} from "../entities/Returns";
 import {UserService} from "./userService";
 import {UserSearch} from "../entities/UserSearch";
 import {DomSanitizer, SafeUrl} from "@angular/platform-browser";
+import {Reviews} from "../entities/Review";
+import {Observable} from "rxjs";
+import {PopupService} from "./popUpService";
+import {HttpClient} from "@angular/common/http";
+import {KeyCloakService} from "./keyCloakService";
+import {ReportResponse} from "../entities/ReportResponseDTO";
 
 @Injectable({
   providedIn: 'root',
@@ -14,170 +20,32 @@ export class AdminService {
 
   section: number = 0;
 
+  tipoRisposta: number = 0;
+
+  usernameUtenteRisposta!: string;
+
+  usernameUtenteDaBannare!: string;
+
   image!: SafeUrl
 
   //Definizione degli arrays
   users!: UserSearch[]
   returns!: Returns []
-  bans: Bans[] = [
-    {
-      motivo: "Violazione delle regole della community",
-      data: "2024-06-01",
-      username: "utente1",
-      descrizioneban: "Ha fatto brutto ED è DEI LUZZI"
-    },
-    {
-      motivo: "Spam eccessivo",
-      data: "2024-06-02",
-      username: "utente2",
-      descrizioneban: "Ha fatto brutto ED è DEI LUZZI"
+  bans!: Bans[]
+  reports!: Reports[]
+  supports!: Supports[]
 
-    },
-    {
-      motivo: "Comportamento offensivo",
-      data: "2024-06-03",
-      username: "utente3",
-      descrizioneban: "Ha fatto brutto ED è DEI LUZZI"
+  private reportURL = 'http://localhost:8090/notify-api/report';
 
-    },
-    {
-      motivo: "Utilizzo di linguaggio inappropriato",
-      data: "2024-06-04",
-      username: "utente4",
-      descrizioneban: "Ha fatto brutto ED è DEI LUZZI"
+  private banURL = 'http://localhost:8090/notify-api/ban';
 
-    },
-    {
-      motivo: "Tentativi di hacking",
-      data: "2024-06-05",
-      username: "utente5",
-      descrizioneban: "Ha fatto brutto ED è DEI LUZZI"
-    }
-  ];
+  private supportURL = 'http://localhost:8090/notify-api/support';
 
-  supports: Supports[] = [
-    {
-      username: "utente1",
-      codice_supporto: "SUPP001",
-      motivo: "Problema tecnico",
-      oggetto: "Errore nel login",
-      descrizione: "Non riesco ad accedere al mio account.",
-      dataRichiesta: "2024-06-01",
-      adminResponse: {
-        explain: "",
-        accept: true,
-      },
-    },
-    {
-      username: "utente2",
-      codice_supporto: "SUPP002",
-      motivo: "Richiesta informazioni",
-      oggetto: "Informazioni su nuove funzionalità",
-      descrizione: "Vorrei sapere di più sulle nuove funzionalità introdotte nell'ultimo aggiornamento.",
-      dataRichiesta: "2024-06-03",
-      adminResponse: {
-        explain: "",
-        accept: true,
-      },
-    },
-    {
-      username: "utente3",
-      codice_supporto: "SUPP003",
-      motivo: "Problema tecnico",
-      oggetto: "Errore di sistema",
-      descrizione: "Ricevo un errore di sistema quando cerco di salvare i dati.",
-      dataRichiesta: "2024-06-05",
-      adminResponse: {
-        explain: "",
-        accept: true,
-      },
-    },
-    {
-      username: "utente4",
-      codice_supporto: "SUPP004",
-      motivo: "Richiesta di assistenza",
-      oggetto: "Aiuto con la configurazione",
-      descrizione: "Non riesco a configurare correttamente il mio profilo.",
-      dataRichiesta: "2024-06-07",
-      adminResponse: {
-        explain: "",
-        accept: true,
-      },
-    },
-    {
-      username: "utente5",
-      codice_supporto: "SUPP005",
-      motivo: "Problema tecnico",
-      oggetto: "Impossibile caricare file",
-      descrizione: "Non riesco a caricare file di grandi dimensioni.",
-      dataRichiesta: "2024-06-09",
-      adminResponse: {
-        explain: "",
-        accept: true,
-      },
-    }
-  ];
+  private returnURL = 'http://localhost:8090/notify-api/return';
 
+  private getUsersUrl = 'http://localhost:8090/user-api/users';
 
-  reports: Reports[] = [
-    {
-      codice_segnalazione: "RPT001",
-      motivo: "Spam",
-      descrizione: "L'utente ha inviato messaggi spam in vari thread.",
-      dataSegnalazione: "2024-06-01",
-      usernameUser2: "user123",
-      adminResponse: {
-        explain: "",
-        accept: true,
-      },
-    },
-    {
-      codice_segnalazione: "RPT002",
-      motivo: "Linguaggio offensivo",
-      descrizione: "L'utente ha utilizzato linguaggio offensivo nei confronti di altri membri.",
-      dataSegnalazione: "2024-06-05",
-      usernameUser2: "user456",
-      adminResponse: {
-        explain: "",
-        accept: true,
-      },
-    },
-    {
-      codice_segnalazione: "RPT003",
-      motivo: "Contenuti inappropriati",
-      descrizione: "L'utente ha postato immagini non appropriate per il contesto del forum.",
-      dataSegnalazione: "2024-06-10",
-      usernameUser2: "user789",
-      adminResponse: {
-        explain: "",
-        accept: true,
-      },
-    },
-    {
-      codice_segnalazione: "RPT004",
-      motivo: "Molestie",
-      descrizione: "L'utente ha molestato un altro membro con messaggi privati.",
-      dataSegnalazione: "2024-06-15",
-      usernameUser2: "user321",
-      adminResponse: {
-        explain: "",
-        accept: true,
-      },
-    },
-    {
-      codice_segnalazione: "RPT005",
-      motivo: "Plagio",
-      descrizione: "L'utente ha copiato contenuti da altri siti senza attribuzione.",
-      dataSegnalazione: "2024-06-20",
-      usernameUser2: "user654",
-      adminResponse: {
-        explain: "",
-        accept: true,
-      },
-    },
-  ];
-
-  constructor(private sanitizer: DomSanitizer ,private userService: UserService) {
+  constructor(private sanitizer: DomSanitizer ,private userService: UserService, private popUp: PopupService, private http: HttpClient, private keycloakService: KeyCloakService) {
   }
 
 
@@ -194,13 +62,13 @@ export class AdminService {
   changeSection(num: number) {
     this.section = num;
     //Chiamata al metodo per svuotare gli arrays+
-    // this.clearArrays()
-    //
+    this.clearArrays()
+
     if (num == 0) {
-      this.userService.getUsers().subscribe(users => {
+      this.getUsers().subscribe(users => {
         this.users = users;
         this.users.forEach(user => {
-          if(user.username === "francusso") {
+          if (user.username === "francusso") {
             this.userService.getUserProfilePicByUser(user.username).subscribe(
               response => {
                 const url = URL.createObjectURL(response);
@@ -210,38 +78,153 @@ export class AdminService {
                 console.error('Errore nel caricamento dell\'immagine', error);
               }
             );
-            // setTimeout(()=> {
-            //   user.safeImageUrl = this.image
-            // }, 2000);
-            // console.log("Immagine caricata per francusso: " + user.safeImageUrl)
-            // console.log("Immagine caricata : " + this.userService.getUsers())
-
           }
         });
       });
-
-      // }else if(num == 1){
-      //   this.userService.getReports().subscribe(reports =>{
-      //     this.reports= reports;
-      //   })
-      // }else if(num == 2){
-      //   this.userService.getSupports().subscribe(supports =>{
-      //     this.supports = supports
-      //   })
-      // }else if(num == 3){
-      //   this.userService.getBans().subscribe(bans =>{
-      //     this.bans = bans
-      //   })
-      // }else if(num == 4){
-      //   this.userService.getReturns().subscribe(returns =>{
-      //     this.returns = returns
-      //   })
-      // }
-
+    } else if (num == 1) {
+      this.getReports(0).subscribe(reports => {
+        this.reports = reports;
+      })
+    } else if (num == 2) {
+      this.getSupports(0).subscribe(supports => {
+        this.supports = supports
+      })
+    } else if (num == 3) {
+      this.getBans().subscribe(bans => {
+        this.bans = bans
+      })
+    } else if (num == 4) {
+      this.getReturns().subscribe(returns => {
+        this.returns = returns
+      })
     }
   }
 
 
+  sendResponseAndDeleteReport(spiegazione: string, acc: boolean, username: string){
+    let reportCode = ""
+    this.reports.forEach(report => {
+      if (report.usernameUser2 === username) {
+          reportCode = report.reportCode
+      }
+    });
+    const reportResponse: ReportResponse = {
+      accept: acc,
+      explain: spiegazione,
+      reportCode: reportCode
+    }
+
+    this.sendReportResponse(reportResponse).subscribe(
+      response => {
+        this.popUp.updateStringa("Recensione inviata correttamente!")
+        this.popUp.openPopups(10, true)
+      },
+      error => {
+        this.popUp.updateStringa("Problemi nell'invio della recensione!.")
+        this.popUp.openPopups(10, true)
+      }
+    );
+  }
+
+  sendReportResponse(reportResponse: ReportResponse): Observable<any> {
+    const headers = this.keycloakService.permaHeader()
+    return this.http.post<any>(this.reportURL, reportResponse, { headers, responseType: 'text' as 'json' });
+  }
+
+
+
+
+
+
+
+
+
+
+  sendReports(motivo: string, descrizione: string, username2: string) {
+    const reports: Reports = {
+      reportCode: "",
+      reason: motivo,
+      description: descrizione,
+      reportDate: "",
+      usernameUser2: username2,
+      usernameUser1: "",
+      explain: ""
+
+    };
+
+    this.sendReport(reports).subscribe(
+      response => {
+        this.popUp.updateStringa("Segnalazione inviata correttamente!")
+        this.popUp.openPopups(10, true)
+      },
+      error => {
+        this.popUp.updateStringa("Problemi nell'invio della segnalazione!.")
+        this.popUp.openPopups(10, true)
+      }
+    );
+  }
+
+  sendReport(report: Reports): Observable<any> {
+    const headers = this.keycloakService.permaHeader()
+    return this.http.post<any>(this.reportURL, report, { headers, responseType: 'text' as 'json' });
+  }
+
+
+  sendHelps(motivo: string, oggetto: string, descrizione: string) {
+    const supports: Supports = {
+      username: "",
+      supportCode: "",
+      type: motivo,
+      text: descrizione,
+      subject: oggetto,
+      dateRequest: "",
+      explain: ""
+    };
+
+    this.sendHelp(supports).subscribe(
+      response => {
+        this.popUp.updateStringa("Richiesta di assistenza inviata correttamente!")
+        this.popUp.openPopups(10, true)
+      },
+      error => {
+        this.popUp.updateStringa("Problemi nell'invio della richiesta di assistenza!.")
+        this.popUp.openPopups(10, true)
+      }
+    );
+  }
+
+  sendHelp(support: Supports): Observable<any> {
+    const headers = this.keycloakService.permaHeader()
+    return this.http.post<any>(this.supportURL, support, { headers, responseType: 'text' as 'json' });
+  }
+
+  getUsers(){
+    const customURL = this.getUsersUrl+"?str=0"
+    const headers = this.keycloakService.permaHeader()
+    return this.http.get<UserSearch[]>(customURL, { headers });
+  }
+
+  getReports(num: number){
+    const customUrl = this.reportURL+"?num="+num
+    const headers = this.keycloakService.permaHeader()
+    return this.http.get<Reports[]>(customUrl, { headers });
+  }
+
+  getSupports(num: number){
+    const customUrl = this.supportURL+"?num="+num
+    const headers = this.keycloakService.permaHeader()
+    return this.http.get<Supports[]>(customUrl, { headers });
+  }
+
+  getBans(){
+    const headers = this.keycloakService.permaHeader()
+    return this.http.get<Bans[]>(this.banURL, { headers });
+  }
+
+  getReturns(){
+    const headers = this.keycloakService.permaHeader()
+    return this.http.get<Returns[]>(this.returnURL, { headers });
+  }
 
 
 }

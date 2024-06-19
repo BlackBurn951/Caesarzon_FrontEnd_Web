@@ -1,4 +1,4 @@
-import {Injectable} from "@angular/core";
+import {Injectable, numberAttribute} from "@angular/core";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {UserRegistration} from "../entities/UserRegistration";
 import {Observable} from "rxjs";
@@ -11,7 +11,6 @@ import {Supports} from "../entities/Supports";
 import {UserSearch} from "../entities/UserSearch";
 import {Bans} from "../entities/Bans";
 import {Returns} from "../entities/Returns";
-import {AdminResponse} from "../entities/AdminResponse";
 
 
 @Injectable({
@@ -31,87 +30,11 @@ export class UserService {
 
   private manageProfilePicURL = 'http://localhost:8090/user-api/image';
 
-  private reportURL = 'http://localhost:8090/notify-api/report';
-
-  private banURL = 'http://localhost:8090/notify-api/ban';
-
   private reviewURL = 'http://localhost:8090/notify-api/review';
-
-  private supportURL = 'http://localhost:8090/notify-api/support';
-
-  private returnURL = 'http://localhost:8090/notify-api/return';
-
-  private getUsersUrl = 'http://localhost:8090/user-api/users';
-
-
 
 
   constructor( private http: HttpClient, private keycloakService: KeyCloakService, private popUp: PopupService) { }
 
-  sendReports(motivo: string, descrizione: string, username2: string) {
-    const adminResponse: AdminResponse = {
-      explain: null,
-      accept: null
-    };
-    const reports: Reports = {
-      codice_segnalazione: "",
-      motivo: motivo,
-      descrizione: descrizione,
-      dataSegnalazione: "",
-      usernameUser2: username2,
-      adminResponse: adminResponse,
-
-    };
-
-    this.sendReport(reports).subscribe(
-      response => {
-        this.popUp.updateStringa("Segnalazione inviata correttamente!")
-        this.popUp.openPopups(10, true)
-      },
-      error => {
-        this.popUp.updateStringa("Problemi nell'invio della segnalazione!.")
-        this.popUp.openPopups(10, true)
-      }
-    );
-  }
-
-  sendReport(report: Reports): Observable<any> {
-    const headers = this.keycloakService.permaHeader()
-    return this.http.post<any>(this.reportURL, report, { headers, responseType: 'text' as 'json' });
-  }
-
-
-  sendHelps(motivo: string, oggetto: string, descrizione: string) {
-    const adminResponse: AdminResponse = {
-      explain: null,
-      accept: null
-    };
-    const supports: Supports = {
-      username: "",
-      codice_supporto: "",
-      motivo: motivo,
-      descrizione: descrizione,
-      oggetto: oggetto,
-      dataRichiesta: "",
-      adminResponse: adminResponse
-    };
-
-    this.sendHelp(supports).subscribe(
-      response => {
-        this.popUp.updateStringa("Richiesta di assistenza inviata correttamente!")
-        this.popUp.openPopups(10, true)
-      },
-      error => {
-        this.popUp.updateStringa("Problemi nell'invio della richiesta di assistenza!.")
-        this.popUp.openPopups(10, true)
-      }
-    );
-  }
-
-  sendHelp(support: Supports): Observable<any> {
-    const headers = this.keycloakService.permaHeader()
-    return this.http.post<any>(this.supportURL, support, { headers, responseType: 'text' as 'json' });
-  }
 
   sendReviews(numStelle: number, descrizione: string) {
     const review: Reviews = {
@@ -247,58 +170,6 @@ export class UserService {
     return this.http.post(this.manageProfilePicURL, formData, { headers, responseType: 'text' as 'json' });
   }
 
-  getUsers(){
-    const customURL = this.getUsersUrl+"?str=0"
-    const headers = this.keycloakService.permaHeader()
-    return this.http.get<UserSearch[]>(customURL, { headers });
-  }
 
-  getReports(){
-    const headers = this.keycloakService.permaHeader()
-    return this.http.get<Reports[]>(this.reportURL, { headers });
-  }
-
-  getSupports(){
-    const headers = this.keycloakService.permaHeader()
-    return this.http.get<Supports[]>(this.supportURL, { headers });
-  }
-
-  getBans(){
-    const headers = this.keycloakService.permaHeader()
-    return this.http.get<Bans[]>(this.banURL, { headers });
-  }
-
-  getReturns(){
-    const headers = this.keycloakService.permaHeader()
-    return this.http.get<Returns[]>(this.returnURL, { headers });
-  }
-
-
-  // sendResponseAndDeleteReport(spiegazione: string, accept: boolean) {
-  //   const adminResponse: AdminResponse = {
-  //     explain: spiegazione,
-  //     accept: accept
-  //   };
-  //
-  //   const report: Reports = {
-  //     motivo:
-  //   }
-  //
-  //   this.sendReview(review).subscribe(
-  //     response => {
-  //       this.popUp.updateStringa("Recensione inviata correttamente!")
-  //       this.popUp.openPopups(10, true)
-  //     },
-  //     error => {
-  //       this.popUp.updateStringa("Problemi nell'invio della recensione!.")
-  //       this.popUp.openPopups(10, true)
-  //     }
-  //   );
-  // }
-  //
-  // sendReview(reviews: Reviews): Observable<any> {
-  //   const headers = this.permaHeader()
-  //   return this.http.post<any>(this.reviewURL, reviews, { headers, responseType: 'text' as 'json' });
-  // }
 
 }

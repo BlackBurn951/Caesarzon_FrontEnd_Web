@@ -29,11 +29,11 @@ export class WarningMessageComponent implements OnInit{
     });
   }
 
-  confermaOperazione(siOno: number, operazione: number){
-    if(siOno === 0){
-      this.cardService.deleteCard()
+  confermaOperazione(siOno: number){
+    if(siOno === 0 && this.popup.operazione == 0){
+      this.popup.openPopups(10, true)
     }else{
-      this.dialogError.close()
+      this.popup.closePopup()
     }
 
   }

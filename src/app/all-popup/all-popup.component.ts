@@ -7,6 +7,7 @@ import {AddressService} from "../services/addressService";
 import {CardsService} from "../services/cardsService";
 import {UserService} from "../services/userService";
 import {BehaviorSubject, Subscription} from "rxjs";
+import {AdminService} from "../services/adminService";
 
 @Component({
   selector: 'app-all-popup',
@@ -18,8 +19,9 @@ export class AllPopupComponent{
   section:number = 0
   sectionLabel:string = "Cerca utenti"
 
-
   ratingSubject = new BehaviorSubject<number>(0);
+
+  rispostaAdminValida: boolean = false;
 
   //Creazione delle variabili base da utilizzare per inviare i dati al server
 
@@ -30,7 +32,7 @@ export class AllPopupComponent{
   valutazione: number = 0;
   descrizioneRecensione!: string;
 
-  rispostaAdmin!: string;
+  rispostaAdmin: string = "";
 
   newPassword: string = '';
   pass: string = '';
@@ -62,7 +64,7 @@ export class AllPopupComponent{
   formCaesarzon!: FormGroup;
 
 
-  constructor(private addressService: AddressService, private cardService: CardsService, public popUpService:PopupService, protected ottieniCittaService: ottieniCittaService, protected formService: FormService, protected userService: UserService){
+  constructor(private addressService: AddressService, private cardService: CardsService, public popUpService:PopupService, protected ottieniCittaService: ottieniCittaService, protected formService: FormService, protected userService: UserService, protected adminService: AdminService){
     this.formCaesarzon= this.formService.getForm();
 
   }
@@ -125,7 +127,7 @@ export class AllPopupComponent{
     }
     //this.utente.cambiaPassword(this.formService.username, this.newPassword);
     this.popUpService.updateStringa('Cambio password avvenuto con successo')
-    this.popUpService.openPopups(10, true);
+    this.popUpService.openPopups(11, true);
 
     this.confirmPasswordError = '';
     this.newPasswordError = '';
@@ -149,14 +151,20 @@ export class AllPopupComponent{
     return !!this.descrizioneRecensione && this.descrizioneRecensione.length >= 5 && this.descrizioneRecensione.length <= 500 && this.valutazione > 0 && this.valutazione <=5 ;
   }
 
-  isRispostaAdminValid(): boolean {
-    return !!this.rispostaAdmin && this.rispostaAdmin.length >= 5 && this.rispostaAdmin.length <= 500;
+  checkValid() {
+    this.rispostaAdminValida = this.rispostaAdmin.length >= 5 && this.rispostaAdmin.length <= 500;
   }
 
+
+
   //Metodi per inviare la risposta dell'admin a segnalazioni e richieste di supporto
-  sendResponse(){
-    if(this.isRispostaAdminValid()){
-      //this.userService.sendResponseAndDeleteReport(this.rispostaAdmin, this.userService.accept)
+  sendResponse(username: string){
+    if(this.rispostaAdminValida){
+      if(this.adminService.tipoRisposta === 0){
+        this.adminService.sendResponseAndDeleteReport(this.rispostaAdmin, true, username)
+      }else (this.adminService.tipoRisposta === 1)
+        //this.userService.sendResponseAndDeleteSupport(this.rispostaAdmin)
+
     }
   }
 
@@ -170,7 +178,7 @@ export class AllPopupComponent{
 
   sendReport(){
     if(this.isFormReportValid()) {
-      this.userService.sendReports(this.motivoSegnalazione, this.descrizioneSegnalazione, this.usernameSegnalato)
+      this.adminService.sendReports(this.motivoSegnalazione, this.descrizioneSegnalazione, this.usernameSegnalato)
     }
   }
 

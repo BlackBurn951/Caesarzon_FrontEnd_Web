@@ -1,14 +1,14 @@
 //DTO relativo ai dati di una segnalazione
 
-import {AdminResponse} from "./AdminResponse";
-
 export interface Reports {
-  codice_segnalazione: string
-  motivo: string
-  descrizione: string
-  dataSegnalazione: string;
-  usernameUser2: string;
 
-  adminResponse: AdminResponse
+  reportCode: string
+  reason: string
+  description: string
+  reportDate: string;
+  usernameUser2: string;
+  usernameUser1: string;
+  explain: string;
+
 
 }
