@@ -63,18 +63,18 @@
               </div>
 
               <div class="row d-flex flex-column align-items-center">
-                <button *ngIf="!keyCloak.getIsAdmin()" type="button" class="btn btn-dark btn-buy mb-2" (click)="instaBuy($event)">Acquista</button>
-                <button *ngIf="keyCloak.getIsAdmin()" type="button" class="btn btn-dark btn-buy mb-2" (click)="instaBuy($event)">Modifica prodotto</button>
+                <button *ngIf="!keyCloak.getAdmin()" type="button" class="btn btn-dark btn-buy mb-2" (click)="instaBuy($event)">Acquista</button>
+                <button *ngIf="keyCloak.getAdmin()" type="button" class="btn btn-dark btn-buy mb-2" (click)="instaBuy($event)">Modifica prodotto</button>
               </div>
 
               <div class="row d-flex flex-column align-items-center">
-                <button *ngIf="!keyCloak.getIsAdmin()" type="button" class="btn btn-dark btn-custom mb-2">Aggiungi al carrello</button>
-                <button *ngIf="keyCloak.getIsAdmin()" type="button" class="btn btn-dark btn-custom mb-2">Rimuovi prodotto</button>
+                <button *ngIf="!keyCloak.getAdmin()" type="button" class="btn btn-dark btn-custom mb-2">Aggiungi al carrello</button>
+                <button *ngIf="keyCloak.getAdmin()" type="button" class="btn btn-dark btn-custom mb-2">Rimuovi prodotto</button>
               </div>
 
               <div class="row d-flex flex-column align-items-center">
-                <button *ngIf="!keyCloak.getIsAdmin()" type="button" class="btn btn-dark btn-custom" (click)="popUpService.openPopups(5, true)">Aggiungi alla lista desideri</button>
-                <button *ngIf="keyCloak.getIsAdmin()" type="button" class="btn btn-dark btn-custom" (click)="popUpService.openPopups(5, true)">Aggiungi disponibilità</button>
+                <button *ngIf="!keyCloak.getAdmin()" type="button" class="btn btn-dark btn-custom" (click)="popUpService.openPopups(5, true)">Aggiungi alla lista desideri</button>
+                <button *ngIf="keyCloak.getAdmin()" type="button" class="btn btn-dark btn-custom" (click)="popUpService.openPopups(5, true)">Aggiungi disponibilità</button>
               </div>
 
               <div class="row pt-4 pl-2">
@@ -152,8 +152,8 @@
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
                 <footer class="blockquote-footer">
                   Publicato in data: <cite title="Source Title">24/02/2024</cite>
-                  <button *ngIf="!keyCloak.getIsAdmin()" class="btn btn-danger ml-2">Segnala</button>
-                  <button *ngIf="keyCloak.getIsAdmin()" class="btn btn-danger ml-2">Rimuovi</button>
+                  <button *ngIf="!keyCloak.getAdmin()" class="btn btn-danger ml-2">Segnala</button>
+                  <button *ngIf="keyCloak.getAdmin()" class="btn btn-danger ml-2">Rimuovi</button>
                 </footer>
               </blockquote>
             </div>

@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import {NgClass, NgIf} from "@angular/common";
 import {Router} from "@angular/router";
 import {PopupService} from "../services/popUpService";
-import {UserService} from "../services/userService";
 import {KeyCloakService} from "../services/keyCloakService";
 import {AdminService} from "../services/adminService";
 
@@ -35,6 +34,8 @@ export class HeaderComponent {
 
 
   changePage(event: Event,page:string) {
+    if(page === "admin-area")
+      this.adminService.section = 0
     this.router.navigate([page]);
     event.preventDefault();
   }

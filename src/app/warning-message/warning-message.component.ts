@@ -30,8 +30,14 @@ export class WarningMessageComponent implements OnInit{
   }
 
   confermaOperazione(siOno: number){
-    if(siOno === 0 && this.popup.operazione == 0){
-      this.popup.openPopups(10, true)
+    if(siOno === 0){
+      if(this.popup.operazione == 0)
+        this.popup.openPopups(10, true)
+      else if(this.popup.operazione == 1){
+
+      }else if(this.popup.operazione == 2){
+
+      }
     }else{
       this.popup.closePopup()
     }

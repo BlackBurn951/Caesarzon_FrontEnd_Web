@@ -26,6 +26,11 @@ export class AdminService {
 
   usernameUtenteDaBannare!: string;
 
+  usernameUtenteBannato!: string;
+
+
+
+
   image!: SafeUrl
 
   //Definizione degli arrays

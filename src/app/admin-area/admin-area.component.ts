@@ -81,6 +81,12 @@ export class AdminAreaComponent implements OnInit{
     this.popUpService.openPopups(10, true)
   }
 
+  rimuoviBan(utente: number){
+    this.popUpService.operazione = 2;
+    this.popUpService.updateStringa("Sei sicuro di voler rimuovere il ban di: " + this.adminService.usernameUtenteBannato+"?")
+    this.popUpService.openPopups(141, false);
+  }
+
 
 
 }
