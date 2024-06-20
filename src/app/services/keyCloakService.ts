@@ -143,7 +143,6 @@ export class KeyCloakService {
     this.setLogin()
     this.isAdmin = false
     this.setTokens("", "")
-    //chiamta a keycloack che invalida il token
     event.preventDefault()
   }
 
