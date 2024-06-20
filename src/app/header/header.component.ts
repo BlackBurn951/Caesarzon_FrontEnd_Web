@@ -4,6 +4,7 @@ import {Router} from "@angular/router";
 import {PopupService} from "../services/popUpService";
 import {UserService} from "../services/userService";
 import {KeyCloakService} from "../services/keyCloakService";
+import {AdminService} from "../services/adminService";
 
 
 
@@ -23,7 +24,7 @@ export class HeaderComponent {
   isMenuOpen = false;
 
 
-  constructor(public popupService:PopupService, private router: Router, protected keyCloak:KeyCloakService){
+  constructor(public popupService:PopupService, private router: Router, protected keyCloak:KeyCloakService, private adminService: AdminService){
   }
   goHomepage(){
     this.router.navigate(['']);
@@ -34,6 +35,12 @@ export class HeaderComponent {
 
 
   changePage(event: Event,page:string) {
+    this.router.navigate([page]);
+    event.preventDefault();
+  }
+
+  goToAdminArea(event: Event, page:string, num: number){
+    this.adminService.section = num;
     this.router.navigate([page]);
     event.preventDefault();
   }

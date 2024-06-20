@@ -1,13 +1,14 @@
 import {Component, OnInit} from '@angular/core';
 import {PopupService} from "../services/popUpService";
 import {ottieniCittaService} from "../services/ottieniCittaService";
-import {FormGroup} from "@angular/forms";
+import {AbstractControl, FormGroup} from "@angular/forms";
 import {FormService} from "../services/formService";
 import {AddressService} from "../services/addressService";
 import {CardsService} from "../services/cardsService";
 import {UserService} from "../services/userService";
 import {BehaviorSubject, Subscription} from "rxjs";
 import {AdminService} from "../services/adminService";
+import {ProductService} from "../services/productService";
 
 @Component({
   selector: 'app-all-popup',
@@ -64,7 +65,7 @@ export class AllPopupComponent{
   formCaesarzon!: FormGroup;
 
 
-  constructor(private addressService: AddressService, private cardService: CardsService, public popUpService:PopupService, protected ottieniCittaService: ottieniCittaService, protected formService: FormService, protected userService: UserService, protected adminService: AdminService){
+  constructor(protected productService: ProductService, private addressService: AddressService, private cardService: CardsService, public popUpService:PopupService, protected ottieniCittaService: ottieniCittaService, protected formService: FormService, protected userService: UserService, protected adminService: AdminService){
     this.formCaesarzon= this.formService.getForm();
 
   }
@@ -127,7 +128,7 @@ export class AllPopupComponent{
     }
     //this.utente.cambiaPassword(this.formService.username, this.newPassword);
     this.popUpService.updateStringa('Cambio password avvenuto con successo')
-    this.popUpService.openPopups(11, true);
+    this.popUpService.openPopups(141, true);
 
     this.confirmPasswordError = '';
     this.newPasswordError = '';
@@ -135,6 +136,21 @@ export class AllPopupComponent{
 
 
   }
+
+
+  areAnyFieldsValid(): boolean {
+    const formDisponibilita = this.formCaesarzon.get('formDisponibilita') as FormGroup;
+    if (!formDisponibilita) {
+      return false;
+    }
+
+    // Verifica se almeno uno dei campi di quantità è valido
+    return Object.keys(formDisponibilita.controls).some(controlName => {
+      const control = formDisponibilita.get(controlName) as AbstractControl;
+      return control?.valid && control?.value !== null && control?.value !== '';
+    });
+  }
+
 
   //Metodo per l'eliminazione dell'account
   eliminaAccount(){

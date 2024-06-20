@@ -2,6 +2,8 @@ import { Component} from '@angular/core';
 import {FormGroup} from "@angular/forms";
 import {PopupService} from "../services/popUpService";
 import {FormService} from "../services/formService";
+import {KeyCloakService} from "../services/keyCloakService";
+import {ProductService} from "../services/productService";
 
 @Component({
   selector: 'app-product-management',
@@ -16,7 +18,7 @@ export class ProductManagementComponent{
   imageUrls: (any | null)[] = [null, null, null, null];
 
 
-  constructor(public formService: FormService, private popUpService: PopupService) {
+  constructor(public formService: FormService, private popUpService: PopupService, protected productService: ProductService) {
     this.formCaesarzon = formService.getForm();
   }
 
@@ -115,9 +117,6 @@ export class ProductManagementComponent{
     else if (red === green && red === blue) return "Grigio";
     else return "Altro";
   }
-
-
-
 
 
 }

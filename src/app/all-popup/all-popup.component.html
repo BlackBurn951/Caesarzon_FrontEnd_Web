@@ -407,6 +407,76 @@
   </div>
 </div>
 
+
+<div class="container-fluidos regLog" *ngIf="popUpService.wichComponent === 11" [ngClass]="{'other': !popUpService.isOther}">
+  <div class="form-group">
+    <div class="d-flex flex-column align-items-center" style="margin-bottom: -2vh">
+      <h1>Aggiungi disponibilità</h1>
+    </div>
+    <button (click)="popUpService.closePopup()" class="btn btn-dark ics">X</button>
+  </div>
+  <form [formGroup]="formCaesarzon" (ngSubmit)="productService.aggiungiDisponibilita()">
+    <div class="form-group gruppo d-flex flex-column align-items-center" formGroupName="formDisponibilita" >
+      <div>
+        <div class="form-group gruppo d-flex flex-column align-items-center">
+          <label for="quantitaXS">Quantità taglia: XS</label>
+          <div>
+            <input type="number" class="form-control gruppoInputs" id="quantitaXS" formControlName="quantitaXS">
+            <div *ngIf="formService.campoNonCorretto('formDisponibilita.quantitaXS')" class="error-message">
+              <label class="err">La quantità deve essere: min 10/max 200.</label>
+            </div>
+          </div>
+        </div>
+        <div class="form-group gruppo d-flex flex-column align-items-center">
+          <label for="quantitaS">Quantità taglia: S</label>
+          <div>
+            <input type="number" class="form-control gruppoInputs" id="quantitaS" formControlName="quantitaS">
+            <div *ngIf="formService.campoNonCorretto('formDisponibilita.quantitaS')" class="error-message">
+              <label class="err">La quantità deve essere: min 10/max 200.</label>
+            </div>
+          </div>
+        </div>
+        <div class="form-group gruppo d-flex flex-column align-items-center">
+          <label for="quantitaM">Quantità taglia: M</label>
+          <div>
+            <input type="number" class="form-control gruppoInputs" id="quantitaM" formControlName="quantitaM">
+            <div *ngIf="formService.campoNonCorretto('formDisponibilita.quantitaM')" class="error-message">
+              <label class="err">La quantità deve essere: min 10/max 200.</label>
+            </div>
+          </div>
+        </div>
+        <div class="form-group gruppo d-flex flex-column align-items-center">
+          <label for="quantitaL">Quantità taglia: L</label>
+          <div>
+            <input type="number" class="form-control gruppoInputs" id="quantitaL" formControlName="quantitaL">
+            <div *ngIf="formService.campoNonCorretto('formDisponibilita.quantitaL')" class="error-message">
+              <label class="err">La quantità deve essere: min 10/max 200.</label>
+            </div>
+          </div>
+        </div>
+        <div class="form-group gruppo d-flex flex-column align-items-center">
+          <label for="quantitaXL">Quantità taglia: XL</label>
+          <div>
+            <input type="number" class="form-control gruppoInputs" id="quantitaXL" formControlName="quantitaXL">
+            <div *ngIf="formService.campoNonCorretto('formDisponibilita.quantitaXL')" class="error-message">
+              <label class="err">La quantità deve essere: min 10/max 200.</label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="d-flex flex-column align-items-center">
+      <button type="submit"
+              class="btn btn-dark custom-btn al"
+              [disabled]="!areAnyFieldsValid()">
+        Aggiungi
+      </button>
+
+    </div>
+  </form>
+</div>
+
 </body>
 
 </html>

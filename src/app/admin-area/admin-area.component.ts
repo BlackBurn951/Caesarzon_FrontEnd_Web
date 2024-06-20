@@ -60,7 +60,7 @@ export class AdminAreaComponent implements OnInit{
     this.popUpService.aStringa = "Motivazione: "
     this.popUpService.operazione = 0;
     this.popUpService.updateStringa("Sei sicuro di voler bannare l'utente: " + this.adminService.usernameUtenteDaBannare+"?")
-    this.popUpService.openPopups(11, false);
+    this.popUpService.openPopups(141, false);
   }
 
   scartaSegnalazione(utente: number){
@@ -70,7 +70,7 @@ export class AdminAreaComponent implements OnInit{
 
     this.popUpService.operazione = 1;
     this.popUpService.updateStringa("Sei sicuro di voler scartare la segnalazione in merito all'utente: " + this.adminService.usernameUtenteDaBannare+"?")
-    this.popUpService.openPopups(11, false);
+    this.popUpService.openPopups(141, false);
   }
 
   inviaRisposta(utente: number){

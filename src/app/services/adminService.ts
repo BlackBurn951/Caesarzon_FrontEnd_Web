@@ -41,8 +41,6 @@ export class AdminService {
 
   private supportURL = 'http://localhost:8090/notify-api/support';
 
-  private returnURL = 'http://localhost:8090/notify-api/return';
-
   private getUsersUrl = 'http://localhost:8090/user-api/users';
 
   constructor(private sanitizer: DomSanitizer ,private userService: UserService, private popUp: PopupService, private http: HttpClient, private keycloakService: KeyCloakService) {
@@ -55,7 +53,6 @@ export class AdminService {
     this.reports = []
     this.supports = []
     this.bans = []
-    this.returns = []
   }
 
   //Al campio della selection vengono svuotate e popolate le rispettive liste con un numero di elementi inziale di 20
@@ -92,10 +89,6 @@ export class AdminService {
     } else if (num == 3) {
       this.getBans().subscribe(bans => {
         this.bans = bans
-      })
-    } else if (num == 4) {
-      this.getReturns().subscribe(returns => {
-        this.returns = returns
       })
     }
   }
@@ -221,10 +214,6 @@ export class AdminService {
     return this.http.get<Bans[]>(this.banURL, { headers });
   }
 
-  getReturns(){
-    const headers = this.keycloakService.permaHeader()
-    return this.http.get<Returns[]>(this.returnURL, { headers });
-  }
 
 
 }

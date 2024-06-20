@@ -66,6 +66,7 @@ export class PopupService {
       case 8:
       case 9:
       case 10:
+      case 11:
         this.dialog.open(AllPopupComponent);
         this.wichComponent = num;
         this.isOther = false;

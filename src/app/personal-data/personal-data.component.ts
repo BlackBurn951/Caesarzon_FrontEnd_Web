@@ -117,7 +117,7 @@ export class PersonalDataComponent implements OnInit{
       this.userService.uploadImage(this.selectedFile).subscribe(
         response => {
           this.popUpService.updateStringa(response)
-          this.popUpService.openPopups(11, true)
+          this.popUpService.openPopups(141, true)
 
         },
         error => {

@@ -23,10 +23,13 @@
       <div  class="bottonis" >
         <li class="nav-item">
           <div class="dropdown">
-            <button class="menu-item btn btn-dark custom-btn dropdown-toggle" type="button" (click)="changePage($event,'personal-data')">
+            <button *ngIf="!keyCloak.getIsAdmin()" class="menu-item btn btn-dark custom-btn dropdown-toggle" type="button" (click)="changePage($event,'personal-data')">
               Profilo
             </button>
-            <div class="dropdown-menu" >
+            <button *ngIf="keyCloak.getIsAdmin()" class="menu-item btn btn-dark custom-btn dropdown-toggle" type="button" (click)="changePage($event,'admin-area')">
+              Gestisci
+            </button>
+            <div *ngIf="!keyCloak.getIsAdmin()" class="dropdown-menu" >
               <a class="dropdown-item" (click)="changePage($event,'personal-data')">Anagrafica</a>
               <a class="dropdown-item" (click)="changePage($event,'address-data')">Indirizzi</a>
               <a class="dropdown-item" (click)="changePage($event, 'payment-data')">Metodi di pagamento</a>
@@ -35,16 +38,25 @@
               <a class="dropdown-item" (click)="changePage($event, 'help-request')">Assistenza</a>
               <a class="dropdown-item" (click)="keyCloak.toggleLogin($event)">Esci</a>
             </div>
+
+            <div *ngIf="keyCloak.getIsAdmin()" class="dropdown-menu" >
+              <a class="dropdown-item" (click)="goToAdminArea($event,'admin-area', 0)">Cerca utenti</a>
+              <a class="dropdown-item" (click)="goToAdminArea($event,'admin-area', 1)">Segnalazioni</a>
+              <a class="dropdown-item" (click)="goToAdminArea($event,'admin-area', 2)">Richieste di supporto</a>
+              <a class="dropdown-item" (click)="goToAdminArea($event,'admin-area', 3)">Utenti bannati</a>
+              <a class="dropdown-item" (click)="keyCloak.toggleLogin($event)">Esci</a>
+            </div>
           </div>
         </li>
 
 
         <li class="nav-item">
-          <button id="carr" class="menu-item btn btn-dark custom-btns" (click)="changePage($event, 'shopping-cart')">Carrello</button>
+          <button  *ngIf="!keyCloak.getIsAdmin()" id="carr" class="menu-item btn btn-dark custom-btns" (click)="changePage($event, 'shopping-cart')">Carrello</button>
+          <button  *ngIf="keyCloak.getIsAdmin()" id="product" class="menu-item btn btn-dark custom-btns" (click)="changePage($event, 'product-management')">Aggiungi prodotto</button>
         </li>
 
         <li id="amici" class="nav-item">
-          <button class="menu-item btn btn-dark custom-btns" (click)="popupService.openPopups(0, true)">Amici</button>
+          <button *ngIf="!keyCloak.getIsAdmin()" class="menu-item btn btn-dark custom-btns" (click)="popupService.openPopups(0, true)">Amici</button>
         </li>
 
       </div>

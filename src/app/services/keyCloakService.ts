@@ -14,6 +14,8 @@ export class KeyCloakService {
   private ACCESS_TOKEN!: string;
   private REFRESH_TOKEN!: string;
 
+  private isAdmin: boolean = true
+
   private isLogged = false;
 
   constructor(private http: HttpClient, private popUp: PopupService) { }
@@ -53,6 +55,11 @@ export class KeyCloakService {
     );
 
   }
+
+  getIsAdmin(){
+    return this.isAdmin;
+  }
+
 
   //Metodo per assegnare i token alla cache
   setTokens(accessToken: string, refreshToken: string) {

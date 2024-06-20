@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import {PopupService} from "../services/popUpService";
 import {Router} from "@angular/router";
+import {KeyCloakService} from "../services/keyCloakService";
 
 @Component({
   selector: 'app-product-page',
@@ -9,7 +10,7 @@ import {Router} from "@angular/router";
 })
 export class ProductPageComponent {
 
-  constructor(public popUpService:PopupService, private router:Router) {
+  constructor(protected keyCloak: KeyCloakService, public popUpService:PopupService, private router:Router) {
   }
 
   ngOnInit() {

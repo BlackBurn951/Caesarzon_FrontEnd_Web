@@ -3,6 +3,7 @@ import { UserManagementContainerComponent } from "../user-management-container/u
 import { FooterComponent } from "../footer/footer.component";
 import { FormsModule } from "@angular/forms";
 import { UserService } from "../services/userService";
+import {AdminService} from "../services/adminService";
 
 @Component({
   selector: 'app-help-request',
@@ -22,7 +23,7 @@ export class HelpRequestComponent {
   oggetto!: string;
   descrizioneRichiesta!: string;
 
-  constructor(private userService: UserService) { }
+  constructor(private adminService: AdminService) { }
 
   //Validazione dei campi
   isFormValid(): boolean {
@@ -32,7 +33,7 @@ export class HelpRequestComponent {
   //Invio della richiesta di supporto previa validazione dei campi
   sendHelpRequest() {
     if (this.isFormValid()) {
-      this.userService.sendHelps(this.motivoRichiesta, this.oggetto, this.descrizioneRichiesta);
+      this.adminService.sendHelps(this.motivoRichiesta, this.oggetto, this.descrizioneRichiesta);
     }
   }
 }

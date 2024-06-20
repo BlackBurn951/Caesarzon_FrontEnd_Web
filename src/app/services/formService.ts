@@ -36,7 +36,8 @@ export class FormService {
       formRegistrazione: this.buildFormRegistrazione(),
       formIndirizzo: this.buildFormIndirizzo(),
       formCarta: this.buildFormCarte(),
-      formDatipersonali: this.buildFormDatiPersonali()
+      formDatipersonali: this.buildFormDatiPersonali(),
+      formDisponibilita: this.buildFormDisponibilita()
     })
 
   }
@@ -49,17 +50,15 @@ export class FormService {
   //Metodo per la creazione del form dei prodotti
   private buildFormProdotti():FormGroup{
     return this.fb.group({
-      nome: ['', Validators.required],
-      marca: ['', Validators.required],
-      descrizione: ['', Validators.required],
+      nome: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(100)]],
+      marca: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(30)]],
+      descrizione: ['', [Validators.required, Validators.minLength(20), Validators.maxLength(1000)]],
       sconto: ['', [Validators.required, Validators.min(0), Validators.max(50)]],
-      quantita: ['', [Validators.required, Validators.min(0), Validators.max(200)]],
       prezzo: ['', [Validators.required, Validators.min(0), Validators.max(1000000)]],
-      coloreP: ['', Validators.required],
-      coloreS: ['', Validators.required],
-      taglia: ['none', Validators.required],
-      sport: ['', Validators.required],
-      categoria: ['', Validators.required]
+      coloreP: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
+      coloreS: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
+      sport: ['', [Validators.required, Validators.minLength(4) , Validators.maxLength(20)]],
+      categoria: ['', [Validators.required, Validators.minLength(12), Validators.maxLength(13)]]
     });
   }
 
@@ -74,6 +73,17 @@ export class FormService {
       confermaPassword: ['', Validators.required],
     });
   }
+
+  private buildFormDisponibilita():FormGroup{
+    return this.fb.group({
+      quantitaXS: ['', [Validators.required, Validators.min(10), Validators.max(200)]],
+      quantitaS: ['', [Validators.required, Validators.min(10), Validators.max(200)]],
+      quantitaM: ['', [Validators.required, Validators.min(10), Validators.max(200)]],
+      quantitaL: ['', [Validators.required, Validators.min(10), Validators.max(200)]],
+      quantitaXL: ['', [Validators.required, Validators.min(10), Validators.max(200)]],
+    });
+  }
+
 
 
   //Metodo per la creazione del form dei dati personali
