@@ -164,10 +164,9 @@ export class UserService {
   uploadImage(file: File): Observable<any> {
     const formData = new FormData();
     formData.append('file', file);
-
     const headers = this.keycloakService.permaHeader()
 
-    return this.http.post(this.manageProfilePicURL, formData, { headers, responseType: 'text' as 'json' });
+    return this.http.put(this.manageProfilePicURL, formData, { headers, responseType: 'text' as 'json' });
   }
 
 

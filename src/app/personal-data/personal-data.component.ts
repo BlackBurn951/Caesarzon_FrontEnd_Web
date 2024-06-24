@@ -111,6 +111,7 @@ export class PersonalDataComponent implements OnInit{
 
   }
 
+
   //Metodo utilizzato nel precedente relativo al caricamento dell'immagine di profilo
   onUpload() {
     if (this.selectedFile) {
