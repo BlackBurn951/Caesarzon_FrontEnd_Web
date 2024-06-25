@@ -4,7 +4,6 @@ import {BehaviorSubject} from "rxjs";
 import {WarningMessageComponent} from "../warning-message/warning-message.component";
 import {RegistrationComponent} from "../registration/registration.component";
 import {AllPopupComponent} from "../all-popup/all-popup.component";
-import {KeyCloakService} from "./keyCloakService";
 
 @Injectable({
   providedIn: 'root',
@@ -13,27 +12,25 @@ export class PopupService {
 
   isAdd: boolean = false;
 
+  aStringa: string = "Motivo del ban"
+
   isAvviso: boolean = true;
 
   isLogin: boolean = true;
 
   isOther: boolean = true;
 
-  rating: number = 1;
-
   descrizione: string = '';
 
   wichComponent: number = 0;
+
+  operazione!: number;
 
   private stringaSource = new BehaviorSubject<string>('');
 
   currentStringa = this.stringaSource.asObservable();
 
   constructor(private dialog: MatDialog) {
-  }
-
-  rate(rating: number) {
-    this.rating = rating;
   }
 
 
@@ -68,6 +65,8 @@ export class PopupService {
       case 7:
       case 8:
       case 9:
+      case 10:
+      case 11:
         this.dialog.open(AllPopupComponent);
         this.wichComponent = num;
         this.isOther = false;

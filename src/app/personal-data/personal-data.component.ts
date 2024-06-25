@@ -8,6 +8,8 @@ import {FormService} from "../services/formService";
 import {UserService} from "../services/userService";
 import {User} from "../entities/User";
 import {KeyCloakService} from "../services/keyCloakService";
+import {resolve} from "@angular/compiler-cli";
+import {DomSanitizer, SafeUrl} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-personal-data',
@@ -27,6 +29,7 @@ import {KeyCloakService} from "../services/keyCloakService";
 export class PersonalDataComponent implements OnInit{
   formCaesarzon!: FormGroup;
 
+  //Creazione dei campi necessari alla visualizzazione dei dati utente
   nome!: string;
   cognome!: string;
   email!: string ;
@@ -34,15 +37,18 @@ export class PersonalDataComponent implements OnInit{
 
   numero!: string;
 
+  selectedFile!: File;
+
+  imageUrl: SafeUrl | undefined;
 
 
-  imageUrls: (any | null)[] = [null];
-
-  constructor(protected formService: FormService, protected userService: UserService, protected popUpService: PopupService) {
+  constructor(private sanitizer: DomSanitizer, protected formService: FormService, protected userService: UserService, protected popUpService: PopupService) {
     this.formCaesarzon = formService.getForm()
 
   }
 
+
+  //All'inizializzazione della pagina vengono caricati tutti i dati relativi all'utente
   ngOnInit(): void {
     this.userService.getUserData().subscribe(
       (userData: User) => {
@@ -57,26 +63,72 @@ export class PersonalDataComponent implements OnInit{
         console.error('Error fetching user data:', error);
       }
     );
+    this.loadImage()
+
+  }
+
+  //Metodo per caricare l'immagine di profilo dal DB
+  loadImage(): void {
+    this.userService.getUserProfilePic().subscribe(
+      response => {
+        const url = URL.createObjectURL(response);
+        this.imageUrl = this.sanitizer.bypassSecurityTrustUrl(url);
+      },
+      error => {
+        console.error('Errore nel caricamento dell\'immagine', error);
+      }
+    );
   }
 
 
 
+  //Metodo per selezionare una foto e caricarla sul DB limitando la dimensione a 6MB
   onFileSelected(event: any) {
     const file = event.target.files[0];
+    this.selectedFile = event.target.files[0];
     const reader = new FileReader();
-    reader.onload = (e: any) => {
-      const preview = document.getElementById('preview');
-      if (preview) { // Verifica se preview non è null
-        preview.style.display = 'block';
-        preview.setAttribute('src', e.target.result);
-      } else {
-        console.error("Elemento 'preview' non trovato nel DOM.");
+    const maxSize = 3 * 1024 * 1024; // 6 MB
+
+
+    if (file) {
+      if (file.size > maxSize) {
+        this.popUpService.updateStringa("La dimensione massima del file è di 6 MB.");
+        this.popUpService.openPopups(104, true)
+      }else{
+        reader.onload = (e: any) => {
+          const preview = document.getElementById('preview');
+          if (preview) {
+            preview.style.display = 'block';
+            preview.setAttribute('src', e.target.result);
+          } else {
+            console.error("Elemento 'preview' non trovato nel DOM.");
+          }
+        };
+        reader.readAsDataURL(file);
+        this.onUpload()
       }
-    };
-    reader.readAsDataURL(file);
+    }
+
   }
 
 
+  //Metodo utilizzato nel precedente relativo al caricamento dell'immagine di profilo
+  onUpload() {
+    if (this.selectedFile) {
+      this.userService.uploadImage(this.selectedFile).subscribe(
+        response => {
+          this.popUpService.updateStringa(response)
+          this.popUpService.openPopups(141, true)
+
+        },
+        error => {
+          console.log(error);
+           }
+      );
+    }
+  }
+
+  //Metodo per abilitare la modifica dei dati per l'utente
   abilitaInput(): void{
     this.userService.inputAbilitato = !this.userService.inputAbilitato;
     this.userService.testoButton = this.userService.inputAbilitato ? "Annulla modifiche" : "Modifica dati";
@@ -89,6 +141,7 @@ export class PersonalDataComponent implements OnInit{
 
   }
 
+  //Metodi vari per matching e assegnamento valori
   setValues(){
     if (this.formCaesarzon.get('formDatipersonali')) {
       this.formCaesarzon.get('formDatipersonali.nome')?.setValue(this.nome);
@@ -99,7 +152,6 @@ export class PersonalDataComponent implements OnInit{
 
     }
   }
-
   setValuess(){
     if (this.formCaesarzon.get('formDatipersonali')) {
       this.nome = this.formCaesarzon.get('formDatipersonali.nome')?.value;
@@ -113,6 +165,7 @@ export class PersonalDataComponent implements OnInit{
     }
   }
 
+  //Controlli di validità dei campi
   valoriUguali() {
     const formDatipersonali = this.formCaesarzon.get('formDatipersonali');
 
@@ -127,13 +180,13 @@ export class PersonalDataComponent implements OnInit{
     return false;
   }
 
-
+  //Metodo per mandare le modifiche apportate ai dati dell'utente
   mandaModifiche(){
     this.setValuess()
     this.userService.modifyUser(this.username, this.email, this.nome, this.cognome, this.numero)
   }
 
-
+  //Metodo per verificare la validità del numero di cellulare che si sta cercando di aggiungere
   isNumeroValid(): boolean {
     const formDatipersonali = this.formCaesarzon.get('formDatipersonali');
     const numero = formDatipersonali?.get('cellulare')?.value;

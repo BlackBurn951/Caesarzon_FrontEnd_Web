@@ -19,7 +19,7 @@
        <h1 class="title" >RICHIEDI ASSISTENZA</h1>
 
        <label>Motivo della richiesta:</label>
-          <select class="form-select selectionIn btn btn-dark custom-bln" name="where">
+          <select class="form-select selectionIn btn btn-dark custom-bln" [ngModel]="motivoRichiesta" name="where">
             <option>Ordine</option>
             <option>Spedizione</option>
             <option>Resi e rimborsi</option>
@@ -30,6 +30,7 @@
             <option>Promozioni e sconti</option>
             <option>Feedback e suggerimenti</option>
             <option>Assistenza personalizzata</option>
+            <!-- ATTENZIONE L'ADMIN AVRà LA POSSIBILITA DI MODIFICARE I SUOI DATI-->
           </select>
         </div>
 
@@ -38,16 +39,16 @@
 
         <div class="d-flex flex-column align-items-center">
           <label>Oggetto:</label>
-          <input class="form-control"  type="text" id="oggetto" maxlength="50"> <!-- Imposta la larghezza a 300px -->
+          <input class="form-control"  type="text" id="oggetto" minlength="5" maxlength="50" [ngModel]="oggetto">
 
           <div class="form-group d-flex flex-column align-items-center">
             <label>Descrizione:</label>
-            <textarea class="form-control"  id="descrizione" rows="6" cols="50" maxlength="500"></textarea>
+            <textarea class="form-control"  id="descrizione" rows="6" cols="50" minlength="5" maxlength="500" [ngModel]="descrizioneRichiesta"></textarea>
           </div>
         </div>
 
       </div>
-      <button type="button" class="btn btn-dark custom-btn">Invia richiesta</button>
+      <button type="button" class="btn btn-dark custom-btn" (click)="sendHelpRequest()" [disabled]="!isFormValid()" >Invia richiesta</button>
 
     </section>
 

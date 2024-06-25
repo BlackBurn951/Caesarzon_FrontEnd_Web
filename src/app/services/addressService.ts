@@ -19,37 +19,39 @@ export class AddressService {
 
   addressesName!: string[];
 
+  nomeIndirizzo!: string;
+
   formCaesarzon!: FormGroup;
 
-  private getAddressURL = 'http://localhost:8090/user-api/address';
+  private manageAddressURL = 'http://localhost:8090/user-api/address';
 
   private getAddressNamesURL = 'http://localhost:8090/user-api/addresses-names';
 
-  private sendAddressURL = 'http://localhost:8090/user-api/address';
 
-  constructor(private userService: UserService, private router: Router, private popUp: PopupService, private http: HttpClient, private keycloak: KeyCloakService, private formService: FormService) {
+  constructor(private userService: UserService, private router: Router, private popUp: PopupService, private http: HttpClient, private keycloakService: KeyCloakService, private formService: FormService) {
     this.formCaesarzon = formService.getForm();
   }
 
+
+  //Metodo per prendere il singolo indirizzo
   getAddresses(nameLista: string): Observable<Address> {
-    const urlWithParams = `${this.getAddressURL}?nameLista=${nameLista}`;
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + this.keycloak.getAccessToken()
-    });
+    const urlWithParams = `${this.manageAddressURL}?nameLista=${nameLista}`;
+
+    const headers = this.keycloakService.permaHeader()
+
     return this.http.get<Address>(urlWithParams, { headers });
   }
 
+  //Metodo per prende la lista degli indirizzi dell'utente
   getAddressesName() {
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + this.keycloak.getAccessToken()
-    });
+    const headers = this.keycloakService.permaHeader()
+
     this.http.get<string[]>(this.getAddressNamesURL, { headers }).subscribe({
       next: (response) => {
         this.addressesName = response;
 
         if (this.addressesName.length > 0) {
+          this.nomeIndirizzo = "Indirizzo 1"
           this.getAddresses(this.addressesName[0]).subscribe({
             next: (response: Address) => {
               this.userService.loading = false;
@@ -74,9 +76,32 @@ export class AddressService {
     });
   }
 
+  //Metodo per eliminare l'indirizzo attualmente selezionato
+  deleteAddress(){
+    const urlWithParams = `${this.manageAddressURL}?addr=${this.nomeIndirizzo}`;
+
+    const headers = this.keycloakService.permaHeader()
+
+    this.http.delete<string>(urlWithParams, { headers , responseType: 'text' as 'json' })
+      .subscribe({
+        next: (response) => {
+          console.log('Indirizzo eliminato con successo:', response);
+          this.popUp.updateStringa(response)
+          this.popUp.openPopups(10, true)
+          setTimeout(()=>{
+            window.location.reload()
+
+          }, 1000);
+
+        },
+        error: (error) => {
+          console.error('Errore durante l\'eliminazione dell\'indirizzo:', error);
+        }
+      });
+  }
 
 
-
+  //Metodo per inviare al server i dati di un indirizzo e aggiungerlo
   sendAddress() {
     const indirizzoForm = this.formCaesarzon.get("formIndirizzo");
     const tipoStrada = indirizzoForm?.get("tipologiaStrada")?.value;
@@ -97,7 +122,7 @@ export class AddressService {
     }
 
     const addressData: Address = {
-      id: null,
+      id: 0,
       roadType: tipoStrada,
       roadName: nomeStrada,
       houseNumber: numeroCivico,
@@ -122,10 +147,11 @@ export class AddressService {
   }
 
   sendAddressData(addressData: Address): Observable<string> {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + this.keycloak.getAccessToken() });
-    return this.http.post(this.sendAddressURL, addressData, { headers, responseType: 'text' }) as Observable<string>;
+    const headers = this.keycloakService.permaHeader()
+    return this.http.post(this.manageAddressURL, addressData, { headers, responseType: 'text' }) as Observable<string>;
   }
 
+  //Metodo per pulire i campi
   clearFields(){
     const formCarta = this.formCaesarzon.get('formIndirizzo') as FormGroup;
     formCarta.patchValue({

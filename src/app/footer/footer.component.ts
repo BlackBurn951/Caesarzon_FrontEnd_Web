@@ -12,6 +12,7 @@ export class FooterComponent {
 
   constructor( private router: Router) {
   }
+
   goToHelpRequests(event: Event)  {
     this.router.navigate(['help-request']);
     event.preventDefault()

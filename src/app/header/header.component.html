@@ -20,13 +20,63 @@
     </div>
 
     <ul *ngIf="keyCloak.getLoggedStatus()" class="navbar-nav ml-auto">
-      <div  class="bottonis" >
+      <div  class="bottonis mt-2">
+        <li class="nav-item">
+          <div id="notiche" *ngIf="keyCloak.getLoggedStatus()">
+            <div class="notifications-container">
+              <button class="notification-button mr-1" (click)="toggleMenus()">
+                <img src="assets/images/icons/bell.png" alt="Icona notifiche" height="24" width="24">
+                <span class="badge" *ngIf="notifyService.getUnreadNotificationsCount() > 0">{{ notifyService.getUnreadNotificationsCount() }}</span>
+              </button>
+
+              <div class="notification-menu" [class.show]="menuOpen">
+                <ng-container *ngIf="notifyService.notifications.length; else noNotifications">
+                  <div *ngFor="let notification of notifyService.notifications">
+                    <table class="notification-table">
+                      <tbody>
+                      <tr class="notification-item" >
+                        <td>
+                          <span>{{ notification.subject }}</span>
+                        </td>
+                        <td style="width: 7vw">
+                          <span >{{ notification.date }}</span>
+                        </td>
+                        <td style="width: 5vw">
+                          <button class="icon-button mr-2" *ngIf="!keyCloak.getAdmin()" (click)="toggleDescription(notification)">
+                            {{ notification.showDescription ? '▲' : '▼' }}
+                          </button>
+                          <button class="icon-button" (click)="removeNotification(notification)">X</button>
+                        </td>
+                      </tr>
+                      <tr *ngIf="notification.showDescription && !keyCloak.getAdmin()">
+                        <td colspan="3">
+                          <div class="notification-body">
+                            <p>{{ notification.explanation }}</p>
+                          </div>
+                        </td>
+                      </tr>
+                      </tbody>
+                    </table>
+                  </div>
+
+                </ng-container>
+                <ng-template #noNotifications>
+                  <p class="notification-item ml-5">Non hai nessuna notifica</p>
+                </ng-template>
+              </div>
+            </div>
+          </div>
+        </li>
+
         <li class="nav-item">
           <div class="dropdown">
-            <button class="menu-item btn btn-dark custom-btn dropdown-toggle" type="button" (click)="changePage($event,'personal-data')">
+            <button *ngIf="!keyCloak.getIsAdmin()" class="menu-item btn btn-dark custom-btn dropdown-toggle" type="button" (click)="changePage($event,'personal-data')">
               Profilo
             </button>
-            <div class="dropdown-menu" >
+            <button *ngIf="keyCloak.getIsAdmin()" class="menu-item btn btn-dark custom-btn dropdown-toggle" type="button" (click)="changePage($event,'admin-area')">
+              Gestisci
+            </button>
+            <div *ngIf="!keyCloak.getIsAdmin()" class="dropdown-menu" >
               <a class="dropdown-item" (click)="changePage($event,'personal-data')">Anagrafica</a>
               <a class="dropdown-item" (click)="changePage($event,'address-data')">Indirizzi</a>
               <a class="dropdown-item" (click)="changePage($event, 'payment-data')">Metodi di pagamento</a>
@@ -35,16 +85,25 @@
               <a class="dropdown-item" (click)="changePage($event, 'help-request')">Assistenza</a>
               <a class="dropdown-item" (click)="keyCloak.toggleLogin($event)">Esci</a>
             </div>
+
+            <div *ngIf="keyCloak.getIsAdmin()" class="dropdown-menu" >
+              <a class="dropdown-item" (click)="goToAdminArea($event,'admin-area', 0)">Cerca utenti</a>
+              <a class="dropdown-item" (click)="goToAdminArea($event,'admin-area', 1)">Segnalazioni</a>
+              <a class="dropdown-item" (click)="goToAdminArea($event,'admin-area', 2)">Richieste di supporto</a>
+              <a class="dropdown-item" (click)="goToAdminArea($event,'admin-area', 3)">Utenti bannati</a>
+              <a class="dropdown-item" (click)="keyCloak.toggleLogin($event)">Esci</a>
+            </div>
           </div>
         </li>
 
 
         <li class="nav-item">
-          <button id="carr" class="menu-item btn btn-dark custom-btns" (click)="changePage($event, 'shopping-cart')">Carrello</button>
+          <button  *ngIf="!keyCloak.getIsAdmin()" id="carr" class="menu-item btn btn-dark custom-btns"  (click)="changePage($event, 'shopping-cart')">Carrello</button>
+          <button  *ngIf="keyCloak.getIsAdmin()" id="product" class="menu-item btn btn-dark custom-btns" (click)="changePage($event, 'product-management')">Aggiungi prodotto</button>
         </li>
 
         <li id="amici" class="nav-item">
-          <button class="menu-item btn btn-dark custom-btns" (click)="popupService.openPopups(0, true)">Amici</button>
+          <button *ngIf="!keyCloak.getIsAdmin()" class="menu-item btn btn-dark custom-btns" (click)="popupService.openPopups(0, true)">Amici</button>
         </li>
 
       </div>
@@ -136,17 +195,8 @@
             Arti marziali
           </a>
           <div class="dropdown-menu" aria-labelledby="ArtiMarziali">
-            <div class="dropdown dropright">
-              <a id="boxe" class="dropdown-toggle">Boxe</a>
-              <div class="dropdown-menu">
-                <a class="dropdown-item">Attrezzatura</a>
-                <a class="dropdown-item">Abbigliamento</a>
-              </div>
-            </div>
-            <a class="dropdown-item" href="#" (click)="changePage($event, 'product-page')">Karate</a>
-            <a class="dropdown-item" href="#" (click)="changePage($event, 'product-page')">Muay Thai</a>
-            <a class="dropdown-item" href="#" (click)="changePage($event, 'product-page')">Judo</a>
-            <a class="dropdown-item" href="#" (click)="changePage($event, 'product-page')">Lotta</a>
+            <a class="dropdown-item" href="#" (click)="changePage($event, 'product-page')">Abbigliamento</a>
+            <a class="dropdown-item" href="#" (click)="changePage($event, 'product-page')">Attrezzatura</a>
           </div>
         </li>
         <li class="nav-item dropdown">
@@ -167,9 +217,7 @@
             <a class="dropdown-item" href="#" (click)="changePage($event, 'product-page')">Attrezzatura</a>
           </div>
         </li>
-        <li id="notiche" *ngIf="keyCloak.getLoggedStatus()">
-          <button class="menu-item btn-xs btn-dark custom-btns">Notifiche<span class="badge">7</span></button>
-        </li>
+
       </ul>
     </div>
   </nav>

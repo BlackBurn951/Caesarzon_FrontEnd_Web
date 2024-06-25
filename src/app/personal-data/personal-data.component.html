@@ -24,10 +24,14 @@
       <div class="form-group">
         <div class="image-upload">
           <input type="file" style="display: none;" id="foto" accept="image/*" (change)="onFileSelected($event)">
-          <img id="preview" src="#" alt="Preview" style="display: none;">
+          <img id="preview" [src]="imageUrl" alt="">
           <label for="foto" class="btn btn-dark custom-btn mt-3">Carica foto</label>
         </div>
       </div>
+
+
+
+
 
     </section>
 

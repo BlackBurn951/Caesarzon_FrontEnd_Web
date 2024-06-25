@@ -2,17 +2,16 @@
   font-family: 'FontGenerico';
   src: url('assets/fonts/Sunny Spells Basic.ttf') format('truetype')
 }
-
+.title{
+  font-weight: bold;
+  font-size: 2rem;
+}
 .custom-btn {
   border-color: black;
   background-color: #FF9C00;
   color: #ffffff;
 }
 
-.title{
-  font-weight: bold;
-  font-size: 2rem;
-}
 .custom-btn:hover,
 .custom-btn:focus{
   border-color: black;
@@ -73,3 +72,5 @@
 .aldos{
   margin-top: -2%;
 }
+
+

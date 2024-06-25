@@ -32,10 +32,16 @@ export class UserAddressDataComponent implements OnInit{
     );
   }
 
+  deleteAddr(){
+    this.popUpService.updateStringa("Sei sicuro di voler eliminare: " + this.addressService.nomeIndirizzo + "?")
+    this.popUpService.openPopups(12, false);
+  }
+
 
 
   onAddressChange(event: Event): void {
     const selectedAddress = (event.target as HTMLSelectElement).value;
+    this.addressService.nomeIndirizzo = selectedAddress
     this.loadAddresses(selectedAddress);
 
   }

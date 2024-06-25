@@ -30,11 +30,16 @@ export class UserPaymentDataComponent implements OnInit{
       }
     );
   }
+  deleteCard(){
+    this.popUpService.updateStringa("Sei sicuro di voler eliminare: " + this.cardService.nomeCarta + "?")
+    this.popUpService.openPopups(12, false);
+  }
 
 
 
   onCardChange(event: Event): void {
     const selectedCard = (event.target as HTMLSelectElement).value;
+    this.cardService.nomeCarta = selectedCard
     this.loadCards(selectedCard);
 
   }

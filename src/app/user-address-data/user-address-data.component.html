@@ -24,40 +24,40 @@
         <div class="d-flex flex-row align-items-center">
           <div class="form-group ml-3">
             <label for="streetName">Tipo strada:</label>
-            <input type="text" class="form-control textBoxAggiunta" id="streetType" [placeholder]="addressService.indirizzoCorrente.roadType" readonly>
+            <input type="text" class="form-control textBoxAggiunta" id="streetType" [placeholder]="addressService.indirizzoCorrente?.roadType" readonly>
           </div>
           <div class="form-group ml-3">
             <label for="streetName">Nome strada:</label>
-            <input type="text" class="form-control textBoxAggiunta" id="streetName" [placeholder]="addressService.indirizzoCorrente.roadName" readonly>
+            <input type="text" class="form-control textBoxAggiunta" id="streetName" [placeholder]="addressService.indirizzoCorrente?.roadName" readonly>
           </div>
           <div class="form-group ml-3">
             <label for="cap">Codice postale (CAP):</label>
-            <input type="text" class="form-control" id="cap" [placeholder]="addressService.indirizzoCorrente.city?.cap" readonly>
+            <input type="text" class="form-control" id="cap" [placeholder]="addressService.indirizzoCorrente?.city?.cap" readonly>
           </div>
           <div class="form-group ml-3">
             <label for="province">Provincia:</label>
-            <input type="text" class="form-control textBoxAggiunta" id="province" [placeholder]="addressService.indirizzoCorrente.city?.province" readonly>
+            <input type="text" class="form-control textBoxAggiunta" id="province" [placeholder]="addressService.indirizzoCorrente?.city?.province" readonly>
           </div>
         </div>
         <div class="d-flex flex-row align-items-center">
           <div class="form-group">
             <label for="houseNumber">N° civico:</label>
-            <input type="text" class="form-control" id="houseNumber" [placeholder]="addressService.indirizzoCorrente.houseNumber" readonly>
+            <input type="text" class="form-control" id="houseNumber" [placeholder]="addressService.indirizzoCorrente?.houseNumber" readonly>
           </div>
           <div class="form-group ml-3">
             <label for="citta">Città:</label>
-            <input type="text" class="form-control" id="citta" [placeholder]="addressService.indirizzoCorrente.city?.city" readonly>
+            <input type="text" class="form-control" id="citta" [placeholder]="addressService.indirizzoCorrente?.city?.city" readonly>
           </div>
           <div class="form-group ml-3">
             <label for="region">Regione:</label>
-            <input type="text" class="form-control textBoxAggiunta" id="region" [placeholder]="addressService.indirizzoCorrente.city?.region" readonly>
+            <input type="text" class="form-control textBoxAggiunta" id="region" [placeholder]="addressService.indirizzoCorrente?.city?.region" readonly>
           </div>
         </div>
       </div>
     </section>
     <div class="row mb-3">
       <button type="button" class="btn btn-dark custom-btn mr-5" (click)="popUpService.openPopups(6, true)">Aggiungi nuovo indirizzo</button>
-      <button type="button" class="btn btn-danger" style="border: black solid 1px">Elimina indirizzo</button>
+      <button type="button" class="btn btn-danger" style="border: black solid 1px" (click)="this.deleteAddr()">Elimina indirizzo</button>
     </div>
   </div>
 </section>

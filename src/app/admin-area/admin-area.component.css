@@ -1,8 +1,13 @@
 .aldo {
-  gap: 4vh;
   margin-top: 2%;
 
 }
+
+.gas{
+  margin-right: auto;
+}
+
+
 
 footer {
   background-color: #352244;
@@ -34,9 +39,6 @@ footer {
   margin: 10px;
 }
 
-.gas{
-  margin-left: auto;
-}
 
 .btn i{
   padding: 10px 20px;
@@ -57,20 +59,15 @@ footer {
   font-size: 20px;
 }
 
-.centra{
-  margin-right: 24%;
-}
 
 .search-container {
-  display: flex;
-  position: relative;
-  width: 58vw;
+  margin-left: 16%;
 }
 
 .search-container input[type=text] {
   padding: 10px;
   width: 58vw;
-  border: 1px solid #ccc;
+  border: 1px solid #000000;
   border-radius: 1rem;
 }
 
@@ -78,8 +75,17 @@ footer {
   font-size: 15px;
 }
 
-.effe{
-  width: 3vw;
+.effes{
+  width: 8vw;
+  height: 5vh;
   border: 1px solid black;
   border-radius: 3px;
 }
+
+.effe{
+  width: 5vw;
+  height: 5vh;
+  border: 1px solid black;
+  border-radius: 3px;
+}
+

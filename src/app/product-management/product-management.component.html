@@ -17,18 +17,33 @@
 
           <div class="form-group gruppo d-flex flex-column align-items-center">
             <label for="nome">Nome prodotto</label>
-            <input type="text" class="form-control gruppoInput" id="nome" formControlName="nome" maxlength="30">
+            <div>
+              <input type="text" class="form-control gruppoInput" id="nome" formControlName="nome" minLength="5" maxlength="100">
+              <div *ngIf="formService.campoNonCorretto('formDeiProdotti.nome')" class="error-message">
+                <label class="err">Il nome non rispetta i requisiti.</label>
+              </div>
+            </div>
           </div>
           <div class="form-group gruppo d-flex flex-column align-items-center">
             <label for="marca">Marca</label>
-            <input type="text" class="form-control gruppoInput" id=marca formControlName="marca" maxlength="30">
+            <div>
+              <input type="text" class="form-control gruppoInput" id=marca formControlName="marca" minLength="2" maxlength="30">
+              <div *ngIf="formService.campoNonCorretto('formDeiProdotti.marca')" class="error-message">
+                <label class="err">La marca non rispetta i requisiti.</label>
+              </div>
+            </div>
           </div>
-          <div class="form-group gruppo d-flex flex-column align-items-center">
+          <div class="form-group gruppo d-flex flex-column align-items-center mt-5">
             <label for="descrizione">Descrizione</label>
-            <textarea type="text" class="form-control gruppoInputDesc" id="descrizione" formControlName="descrizione" maxlength="1000"></textarea>
+            <div>
+              <textarea type="text" class="form-control gruppoInputDesc" id="descrizione" formControlName="descrizione" minLength="20" maxlength="1000"></textarea>
+              <div *ngIf="formService.campoNonCorretto('formDeiProdotti.descrizione')" class="error-message">
+                <label class="err mt-3">La descrizione non rispetta i requisiti.</label>
+              </div>
+            </div>
           </div>
 
-          <div class="form-group gruppo d-flex flex-column align-items-center">
+          <div class="form-group gruppo d-flex flex-column align-items-center mt-5">
             <label for="sconto">Sconto iniziale</label>
             <div>
               <input type="number" class="form-control gruppoInputs" id="sconto" formControlName="sconto" placeholder="%">
@@ -39,15 +54,6 @@
           </div>
 
 
-          <div class="form-group gruppo d-flex flex-column align-items-center">
-            <label for="quantita">Quantità</label>
-            <div>
-              <input type="number" class="form-control gruppoInputs" id="quantita" formControlName="quantita">
-              <div *ngIf="formService.campoNonCorretto('formDeiProdotti.quantita')" class="error-message">
-                <label class="err">La quantità non può superare i 200 pezzi.</label>
-              </div>
-            </div>
-          </div>
 
           <div class="form-group gruppo d-flex flex-column align-items-center">
             <label for="prezzo">Prezzo</label>
@@ -58,6 +64,9 @@
               </div>
             </div>
           </div>
+
+
+
         </div>
 
 
@@ -85,17 +94,6 @@
 
 
           <div class="tagliaSport">
-            <label for="taglia">Taglia</label>
-            <select name="taglia" class="form-select selectionIn btn btn-dark custom-bln" id="taglia" formControlName="taglia">
-              <option value="none">None</option>
-              <option value="XXS">XXS</option>
-              <option value="XS">XS</option>
-              <option value="S">S</option>
-              <option value="M">M</option>
-              <option value="L">L</option>
-              <option value="XL">XL</option>
-              <option value="XXL">XXL</option>
-            </select>
 
             <label for="sport">Sport</label>
             <select name="sport" class="form-select selectionIn btn btn-dark custom-bln" id="sport" formControlName="sport">
@@ -125,7 +123,7 @@
                   <div class="col-md-6 d-flex flex-column align-items-center">
                     <div class="grid-item">
                       <label class="grid-label d-flex flex-column align-items-center" for="file-input{{index}}" (click)="openFileInput($event, index)">
-                        <img *ngIf="imageUrls[index]" [src]="imageUrls[index]" alt="Uploaded Image">
+                        <img *ngIf="imageUrls[index]" [src]="imageUrls[index]" alt="Uploaded Image" width="250px" height="150px">
                         <span class="btn btn-dark custom-btn" *ngIf="!imageUrls[index]">Scegli file</span>
                       </label>
                       <input type="file" id="file-input{{index}}" accept="image/*" style="display: none" (change)="handleFileInput($event, index)">
@@ -145,11 +143,13 @@
 
       <div class="row customButtonContainer">
         <div class="col-md d-flex flex-column align-items-center">
-          <button class="menu-item btn btn-dark custom-btn bottoneA">Gestisci prodotti</button>
+          <label>{{productService.avvisoDisp}}</label>
+          <button type="button" class="menu-item btn btn-dark custom-btn bottoneA" (click)="productService.aggiungiDisp($event)">Aggiungi disponibilità</button>
         </div>
 
         <div class="col-md d-flex flex-column align-items-center">
-          <button type="submit" class="menu-item btn btn-dark custom-btn bottoneA" [disabled]="!formCaesarzon.valid || !areImagesUploaded()">Aggiungi prodotto</button>
+          <label>Assicurati di aver caricato tutte le immagini</label>
+          <button type="submit" class="menu-item btn btn-dark custom-btn bottoneA" [disabled]="!formCaesarzon.get('formDeiProdotti')?.valid || !areImagesUploaded() || !productService.disponibilitaAggiunta">Aggiungi prodotto</button>
         </div>
       </div>
     </form>

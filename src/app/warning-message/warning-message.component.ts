@@ -2,6 +2,10 @@ import {Component, OnInit} from '@angular/core';
 import {MatDialogRef} from "@angular/material/dialog";
 import {PopupService} from "../services/popUpService";
 import {NgIf} from "@angular/common";
+import {AddressService} from "../services/addressService";
+import {CardsService} from "../services/cardsService";
+
+
 
 @Component({
   selector: 'app-warning-message',
@@ -15,7 +19,7 @@ import {NgIf} from "@angular/common";
 export class WarningMessageComponent implements OnInit{
   stringa!: String;
 
-  constructor(private dialogError: MatDialogRef<WarningMessageComponent>, public popup:PopupService) {
+  constructor(private dialogError: MatDialogRef<WarningMessageComponent>, public popup:PopupService, public addressService: AddressService, public cardService: CardsService) {
 
   }
 
@@ -25,9 +29,17 @@ export class WarningMessageComponent implements OnInit{
     });
   }
 
-  confermaOperazione(siOno: number, operazione: number){
+  confermaOperazione(siOno: number){
     if(siOno === 0){
+      if(this.popup.operazione == 0)
+        this.popup.openPopups(10, true)
+      else if(this.popup.operazione == 1){
 
+      }else if(this.popup.operazione == 2){
+
+      }
+    }else{
+      this.popup.closePopup()
     }
 
   }
