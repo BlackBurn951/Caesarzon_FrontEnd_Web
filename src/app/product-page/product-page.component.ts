@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {PopupService} from "../popUpService";
+import {PopupService} from "../services/popUpService";
 import {Router} from "@angular/router";
 
 @Component({

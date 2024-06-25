@@ -440,7 +440,6 @@ export const dominiEmailComuni = [
   'wanadoo.fr',
   'laposte.net',
   'sfr.fr',
-  'example.org',
   'organization.org',
   'nonprofit.org'
 ]

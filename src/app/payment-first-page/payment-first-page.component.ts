@@ -1,9 +1,7 @@
 import { Component } from '@angular/core';
-import {GetUserData} from "../getUserData";
 import {Router} from "@angular/router";
-import {FooterComponent} from "../footer/footer.component";
-import {FormBuilder, FormGroup} from "@angular/forms";
-import {FormService} from "../formService";
+import {FormGroup} from "@angular/forms";
+import {FormService} from "../services/formService";
 
 @Component({
   selector: 'app-payment-first-page',
@@ -17,7 +15,7 @@ export class PaymentFirstPageComponent {
   protected formCaesarzone!: FormGroup;
   protected abilitator!: boolean;
 
-  constructor(protected getUserData: GetUserData, private router: Router, private formService: FormService) {
+  constructor(private router: Router, private formService: FormService) {
     this.formCaesarzone=formService.getForm();
     this.abilitator=false;
   }

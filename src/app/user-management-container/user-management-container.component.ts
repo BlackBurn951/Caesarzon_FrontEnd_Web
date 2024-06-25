@@ -1,22 +1,27 @@
 import { Component } from '@angular/core';
-import {ReactiveFormsModule} from "@angular/forms";
-import {PersonalDataComponent} from "../personal-data/personal-data.component";
-import {NgClass} from "@angular/common";
+import {NgClass, NgIf} from "@angular/common";
 import {Router} from "@angular/router";
-import {PopupService} from "../popUpService";
+import {PopupService} from "../services/popUpService";
+import {MatProgressSpinner} from "@angular/material/progress-spinner";
+import {UserService} from "../services/userService";
+import {AddressService} from "../services/addressService";
+import {CardsService} from "../services/cardsService";
+import {User} from "../entities/User";
 
 @Component({
   selector: 'app-user-management-container',
   standalone: true,
   imports: [
-    NgClass
+    NgClass,
+    MatProgressSpinner,
+    NgIf
   ],
   templateUrl: './user-management-container.component.html',
   styleUrls: ['./user-management-container.component.css', '../../styles.css']
 })
 export class UserManagementContainerComponent {
 
-  constructor(private router:Router, public popUpService: PopupService) {
+  constructor(private router:Router, public popUpService: PopupService, protected addressService: AddressService, private cardsService: CardsService, protected userService: UserService) {
 
   }
 
@@ -29,13 +34,15 @@ export class UserManagementContainerComponent {
     this.router.navigate(['wish-list']);
     event.preventDefault()
   }
+
   openPaymentData(event: Event) {
-    this.router.navigate(['payment-data']);
-    event.preventDefault()
+    this.userService.loading = true;
+    this.cardsService.getCardsName()
   }
-  openAddressData(event: Event) {
-    this.router.navigate(['address-data']);
-    event.preventDefault()
+
+  openAddressData() {
+    this.userService.loading = true;
+    this.addressService.getAddressesName()
   }
 
   openHelpRequest(event: Event) {

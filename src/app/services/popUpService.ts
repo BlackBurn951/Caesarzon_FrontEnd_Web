@@ -1,10 +1,10 @@
 import {Injectable} from "@angular/core";
 import {MatDialog} from "@angular/material/dialog";
 import {BehaviorSubject} from "rxjs";
-import {WarningMessageComponent} from "./warning-message/warning-message.component";
-import {RegistrationComponent} from "./registration/registration.component";
-import {AllPopupComponent} from "./all-popup/all-popup.component";
-import {KeyCloakService} from "./KeyCloakService";
+import {WarningMessageComponent} from "../warning-message/warning-message.component";
+import {RegistrationComponent} from "../registration/registration.component";
+import {AllPopupComponent} from "../all-popup/all-popup.component";
+import {KeyCloakService} from "./keyCloakService";
 
 @Injectable({
   providedIn: 'root',
@@ -29,7 +29,7 @@ export class PopupService {
 
   currentStringa = this.stringaSource.asObservable();
 
-  constructor(private dialog: MatDialog, private key: KeyCloakService) {
+  constructor(private dialog: MatDialog) {
   }
 
   rate(rating: number) {
@@ -42,13 +42,11 @@ export class PopupService {
   }
 
   toggleLoginR(event: Event) {
-    this.key.login('cesare', 'baby12345')
     event.preventDefault()
     this.isLogin = !this.isLogin;
   }
 
   toggleLogin(event: Event) {
-    this.key.refreshAuthVariables()
     event.preventDefault()
     this.isLogin = !this.isLogin;
   }
@@ -68,6 +66,8 @@ export class PopupService {
       case 5:
       case 6:
       case 7:
+      case 8:
+      case 9:
         this.dialog.open(AllPopupComponent);
         this.wichComponent = num;
         this.isOther = false;

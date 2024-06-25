@@ -31,50 +31,69 @@
 
     </section>
 
-    <section class="form-group d-flex flex-column align-items-center">
+    <form [formGroup]="formCaesarzon" (ngSubmit)="mandaModifiche()" >
+      <section class="form-group d-flex flex-column align-items-center" formGroupName="formDatipersonali">
 
 
-      <div class="d-flex flex-column align-items-center">
-        <h1 class="title" >ANAGRAFICA</h1>
+        <div class="d-flex flex-column align-items-center">
+          <h1 class="title" >ANAGRAFICA</h1>
 
-        <div class="d-flex flex-row align-items-center lineaCampi">
+          <div class="d-flex flex-row align-items-center lineaCampi">
 
 
-          <div class="form-group">
-            <label for="nome">Nome:</label>
-            <input class="form-control textBoxAggiunta" type="text" id="nome" maxlength="30" placeholder="{{nome}}" [readonly]="!inputAbilitato">
+            <div class="form-group">
+              <label for="nome">Nome:</label>
+              <input class="form-control textBoxAggiunta" type="text" id="nome" formControlName="nome" minlength="2" maxlength="30"  [readonly]="!userService.inputAbilitato">
+              <div *ngIf="formService.campoNonCorretto('formDatipersonali.nome')" class="error-message">
+                <label class="err"> Il formato del nome non è corretto.</label>
+              </div>
+            </div>
+
+            <div class="form-group ml-3">
+              <label for="cognome">Cognome:</label>
+              <input class="form-control textBoxAggiunta" type="text" id="cognome" formControlName="cognome" minlength="2" maxlength="30" [readonly]="!userService.inputAbilitato">
+              <div *ngIf="formService.campoNonCorretto('formDatipersonali.cognome')" class="error-message">
+                <label class="err"> Il formato del cognome non è corretto.</label>
+              </div>
+            </div>
+
+            <div class="form-group ml-3">
+              <label for="username">Username:</label>
+              <input class="form-control textBoxAggiunta" type="text" id="username" formControlName="username" minlength="5" maxlength="20" readonly>
+              <div *ngIf="formService.campoNonCorretto('formDatipersonali.username')" class="error-message">
+                <label class="err"> Il formato dell' username non è corretto.</label>
+              </div>
+            </div>
           </div>
 
-          <div class="form-group ml-3">
-            <label for="cognome">Cognome:</label>
-            <input class="form-control textBoxAggiunta" type="text" id="cognome" maxlength="30" placeholder="{{cognome}}" [readonly]="!inputAbilitato">
+          <div class="d-flex flex-row align-items-center lineaCampi">
+            <div class="form-group">
+              <label for="email">Email:</label>
+              <input class="form-control textBoxAggiunta" type="text" id="email" maxlength="254" formControlName="email" [readonly]="!userService.inputAbilitato">
+              <div *ngIf="formService.campoNonCorretto('formDatipersonali.email')" class="error-message">
+                <label class="err"> Il formato dell' e-mail non è corretto.</label>
+              </div>
+            </div>
+            <div class="form-group ml-3">
+              <label for="numero">Cellulare:</label>
+              <input class="form-control textBoxAggiunta" type="text" id="numero" formControlName="cellulare" minlength="10" maxlength="10" [readonly]="!userService.inputAbilitato">
+              <div *ngIf="!isNumeroValid()" class="error-message">
+                <label class="err">Il formato del numero non è corretto.</label>
+              </div>
+            </div>
+
           </div>
 
-          <div class="form-group ml-3">
-            <label for="username">Username:</label>
-            <input class="form-control textBoxAggiunta" type="text" id="username" maxlength="30" placeholder="{{username}}" [readonly]="!inputAbilitato">
-          </div>
+        </div>
+        <div class="row">
+          <button type="button" class="btn btn-dark custom-btn modifica mr-5" style="border: black solid 1px" (click)="this.popUpService.openPopups(8, false)">Modifica password</button>
+          <button *ngIf="userService.inputAbilitato" type="submit" class="btn btn-dark custom-btn modifica mr-5" [disabled]="!formCaesarzon.get('formDatipersonali')?.valid || valoriUguali() || !isNumeroValid()">Salva modifiche</button>
+          <button type="button" class="btn btn-dark custom-btn modifica mr-5" (click)="abilitaInput()">{{this.userService.testoButton}}</button>
+          <button type="button" class="btn btn-danger modifica mr-5" style="border: black solid 1px" (click)="this.popUpService.openPopups(9, false)">Elimina account</button>
         </div>
 
-        <div class="d-flex flex-row align-items-center lineaCampi">
-          <div class="form-group">
-            <label for="email">Email:</label>
-            <input class="form-control textBoxAggiunta" type="text" id="email" maxlength="30" placeholder="{{email}}" [readonly]="!inputAbilitato">
-          </div>
-          <div class="form-group ml-3">
-            <label for="numero">Cellulare:</label>
-            <input class="form-control textBoxAggiunta" type="text" id="numero" maxlength="30" placeholder="{{numero}}" [readonly]="!inputAbilitato">
-          </div>
-          <div class="form-group ml-3">
-            <label for="password">Password:</label>
-            <input class="form-control textBoxAggiunta" type="password" id="password" maxlength="30" placeholder="{{password}}" [readonly]="!inputAbilitato">
-          </div>
-        </div>
-
-      </div>
-      <button type="button" class="btn btn-dark custom-btn modifica" (click)="abilitaInput()">{{testoButton}}</button>
-
-    </section>
+      </section>
+    </form>
 
 
   </div>

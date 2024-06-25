@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {MatDialogRef} from "@angular/material/dialog";
-import {PopupService} from "../popUpService";
+import {PopupService} from "../services/popUpService";
 import {NgIf} from "@angular/common";
 
 @Component({

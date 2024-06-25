@@ -42,6 +42,7 @@
 
     <div class="form-group formos">
       <a href="#" (click)="popupService.toggleLoginR($event); cambiaLarghezza(1)" id="registrati-link">Sei nuovo su Caesarzon? Registrati.</a>
+<!--      <a href="#" (click)="keycloakService.prova($event)" id="registrati-link">Sei nuovo su Caesarzon? Registrati.</a>-->
     </div>
 
 
@@ -58,22 +59,31 @@
       <div class="d-flex flex-column align-items-center first-column">
         <div class="form-group formoss">
           <label for="usernameR">Username:</label>
-          <input type="text" class="form-control inputRA" id="usernameR" formControlName="username">
+          <input type="text" class="form-control inputRA" id="usernameR" formControlName="username" minlength="5" maxlength="20">
+          <div *ngIf="formService.campoNonCorretto('formRegistrazione.username')" class="error-message">
+            <label class="err"> Il formato dell' username non è corretto.</label>
+          </div>
         </div>
         <div class="form-group formoss">
           <label for="nome">Nome:</label>
-          <input type="text" class="form-control inputRA" id=nome formControlName="nome">
+          <input type="text" class="form-control inputRA" id=nome formControlName="nome" minlength="2" maxlength="30">
+          <div *ngIf="formService.campoNonCorretto('formRegistrazione.nome')" class="error-message">
+            <label class="err"> Il formato del nome non è corretto.</label>
+          </div>
         </div>
         <div class="form-group formoss">
           <label for="cognome">Cognome:</label>
-          <input type="text" class="form-control inputRA" id=cognome formControlName="cognome">
+          <input type="text" class="form-control inputRA" id=cognome formControlName="cognome" minlength="2" maxlength="30">
+          <div *ngIf="formService.campoNonCorretto('formRegistrazione.cognome')" class="error-message">
+            <label class="err"> Il formato del cognome non è corretto.</label>
+          </div>
         </div>
       </div>
 
       <div class="d-flex flex-column align-items-center second-column">
         <div class="form-group formoss">
           <label for="email">E-mail:</label>
-          <input type="text" class="form-control inputRA" id=email formControlName="email">
+          <input type="text" class="form-control inputRA" id=email formControlName="email" maxlength="254">
           <div *ngIf="formService.campoNonCorretto('formRegistrazione.email')" class="error-message">
             <label class="err"> Il formato dell' e-mail non è corretto.</label>
           </div>
@@ -82,7 +92,7 @@
         <div class="form-group formoss">
           <label for="passwordR">Password:</label>
           <div class="password-input-container">
-            <input type="password" class="form-control inputRA" id="passwordR" formControlName="password">
+            <input type="password" class="form-control inputRA" id="passwordR" formControlName="password" minlength="8" maxlength="20">
             <span class="toggle-password" (click)="togglePassword('passwordR')">
               <img class="iconaOcchio" src="assets/images/icons/view.png" *ngIf="mostraPassword['passwordR']" alt="" width="20">
               <img class="iconaOcchio" src="assets/images/icons/hide.png" *ngIf="!mostraPassword['passwordR']" alt="" width="20">
@@ -96,7 +106,7 @@
         <div class="form-group formoss">
           <label for="passwordR">Conferma password:</label>
           <div class="password-input-container">
-            <input type="password" class="form-control inputRA" id="passwordCR" formControlName="confermaPassword" maxlength="16" (input)="comparaPassword()">
+            <input type="password" class="form-control inputRA" id="passwordCR" formControlName="confermaPassword" minlength="8" maxlength="20" (input)="comparaPassword()">
             <span class="toggle-password" (click)="togglePassword('passwordCR')">
               <img class="iconaOcchio" src="assets/images/icons/view.png" *ngIf="mostraPassword['passwordCR']" alt="" width="20">
               <img class="iconaOcchio" src="assets/images/icons/hide.png" *ngIf="!mostraPassword['passwordCR']" alt="" width="20">

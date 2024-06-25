@@ -7,13 +7,17 @@
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 </head>
-<div class="container-fluid">
-  <button class="btn btn-primary custom-btn" (click)="openPersonalData($event)"><i class="fas fa-address-card"></i></button>
-  <button class="btn btn-primary custom-btn" (click)="openAddressData($event)"><i class="fas fa-map-marker-alt"></i></button>
-  <button class="btn btn-primary custom-btn" (click)="openPaymentData($event)"><i class="fas fa-credit-card"></i></button>
-  <button class="btn btn-primary custom-btn" (click)="openWishList($event)"><i class="fas fa-heart"></i></button>
-  <button class="btn btn-primary custom-btn" ><i class="fas fa-shopping-cart"></i></button>
-  <button class="btn btn-primary custom-btn" (click)="openHelpRequest($event)"><i class="fas fa-headset"></i></button>
-</div>
+<body>
 
+  <div class="container-fluid">
+    <mat-progress-spinner class="uSpinner" *ngIf="this.userService.loading" mode="indeterminate" color="primary"></mat-progress-spinner>
+
+    <button class="btn btn-primary custom-btn" (click)="openPersonalData($event)"><i class="fas fa-address-card"></i></button>
+    <button class="btn btn-primary custom-btn" (click)="openAddressData()"><i class="fas fa-map-marker-alt"></i></button>
+    <button class="btn btn-primary custom-btn" (click)="openPaymentData($event)"><i class="fas fa-credit-card"></i></button>
+    <button class="btn btn-primary custom-btn" (click)="openWishList($event)"><i class="fas fa-heart"></i></button>
+    <button class="btn btn-primary custom-btn" ><i class="fas fa-shopping-cart"></i></button>
+    <button class="btn btn-primary custom-btn" (click)="openHelpRequest($event)"><i class="fas fa-headset"></i></button>
+  </div>
+</body>
 </html>

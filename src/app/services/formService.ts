@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {AbstractControl, FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {PopupService} from "./popUpService";
-import { dominiEmailComuni } from './domini-email-comuni';
+import { dominiEmailComuni } from '../domini-email-comuni';
 
 @Injectable({
   providedIn: 'root',
@@ -33,7 +33,8 @@ export class FormService {
       formDeiProdotti: this.buildFormProdotti(),
       formRegistrazione: this.buildFormRegistrazione(),
       formIndirizzo: this.buildFormIndirizzo(),
-      formPagamento: this.buildFormPagamento()
+      formCarta: this.buildFormPagamento(),
+      formDatipersonali: this.buildFormDatiPersonali()
     })
 
   }
@@ -60,30 +61,46 @@ export class FormService {
 
   private buildFormRegistrazione():FormGroup{
     return this.fb.group({
-      nome: ['', Validators.required],
-      cognome: ['', Validators.required],
-      username: ['', Validators.required],
+      nome: ['', [Validators.required, Validators.pattern(/^[a-zA-Z]{2,}( [a-zA-Z]{2,30})?$/)]],
+      cognome: ['', [Validators.required,  Validators.pattern(/^[a-zA-Z]{2,}( [a-zA-Z]{2,30})?$/)]],
+      username: ['', [Validators.required, Validators.pattern(/^(?=.*[a-zA-Z].*[a-zA-Z].*[a-zA-Z].*[a-zA-Z])[a-zA-Z0-9]{5,20}$/)]],
       email: ['', [Validators.required, Validators.email, this.validaDominioConosciuto.bind(this)]],
-      password: ['', [Validators.required, Validators.minLength(8), Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[A-Za-z\d!@#$%^&*()_+]{8,}$/)]],
+      password: ['', [Validators.required, Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[A-Za-z\d!@#$%^?&*()_+]{8,20}$/)]],
       confermaPassword: ['', Validators.required],
+    });
+  }
+
+  private buildFormDatiPersonali():FormGroup{
+    return this.fb.group({
+      nome: ['', [Validators.required, Validators.pattern(/^[a-zA-Z]{2,}( [a-zA-Z]{2,30})?$/)]],
+      cognome: ['', [Validators.required,  Validators.pattern(/^[a-zA-Z]{2,}( [a-zA-Z]{2,30})?$/)]],
+      username: [''],
+      email: ['', [Validators.required, Validators.email, this.validaDominioConosciuto.bind(this)]],
+      cellulare: [''],
+
     });
   }
 
   private buildFormIndirizzo():FormGroup{
     return this.fb.group({
-      via:  ['',Validators.required],
+      id: [''],
+      tipologiaStrada:  ['',Validators.required],
+      nomeStrada:  ['', [Validators.required, Validators.pattern(/^(?=(?:.*[a-zA-Z]){2,})[a-zA-Z0-9 ]{2,30}$/)]],
+      numeroCivico:  ['', [Validators.required, Validators.pattern(/^[0-9a-zA-Z]{1,8}$/)]],
       citta:  ['',Validators.required],
-      stato:  ['',Validators.required],
       cap:  ['',Validators.required],
+      provincia:  ['',Validators.required],
+      regione:  ['',Validators.required],
+
     });
   }
 
   private buildFormPagamento():FormGroup {
     return this.fb.group({
-      numeroCarta: ['', Validators.required],
-      titolareCarta: ['', Validators.required],
-      dataScadenza: ['', Validators.required],
-      cvv:  ['', Validators.required],
+      numeroCarta: ['', [Validators.required, Validators.pattern(/^\d{16}$/)]],
+      titolareCarta: ['', [Validators.required, Validators.pattern(/^(?=.{5,40}$)[a-zA-Z]+( [a-zA-Z]+){0,3}$/)]],
+      dataScadenza: ['', [Validators.required, this.expirationDateValidator]],
+      cvv:  ['', [Validators.required, Validators.pattern(/^\d{3}$/)]],
     });
   }
 
@@ -107,6 +124,30 @@ export class FormService {
 
     return null;
   }
+
+  expirationDateValidator(control: any): { [key: string]: boolean } | null {
+    if (control.value) {
+      const [year, month] = control.value.split('-').map((val: string) => parseInt(val, 10));
+      if (!isExpirationDateValid(month, year)) {
+        return { 'invalidDate': true };
+      }
+    }
+    return null;
+  }
+}
+
+function isExpirationDateValid(month: number, year: number): boolean {
+  const currentDate = new Date();
+  const currentMonth = currentDate.getMonth() + 1;
+  const currentYear = currentDate.getFullYear();
+
+  if (year < currentYear) {
+    return false;
+  } else if (year === currentYear && month < currentMonth) {
+    return false;
+  }
+
+  return true;
 
 
 }

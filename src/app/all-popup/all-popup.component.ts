@@ -1,7 +1,10 @@
 import { Component } from '@angular/core';
-import {NgForOf, NgIf} from "@angular/common";
-import {ReactiveFormsModule} from "@angular/forms";
-import {PopupService} from "../popUpService";
+import {PopupService} from "../services/popUpService";
+import {ottieniCittaService} from "../services/ottieni.citta.service";
+import {FormGroup} from "@angular/forms";
+import {FormService} from "../services/formService";
+import {AddressService} from "../services/addressService";
+import {CardsService} from "../services/cardsService";
 
 @Component({
   selector: 'app-all-popup',
@@ -12,6 +15,15 @@ export class AllPopupComponent {
 
   section:number = 0
   sectionLabel:string = "Cerca utenti"
+
+
+  newPassword: string = '';
+  pass: string = '';
+  confirmPassword: string = '';
+  newPasswordError: string = '';
+  confirmPasswordError: string = '';
+
+  mostraPassword: { [key: string]: boolean } = { password: false, confermaPassword: false };
 
   users = [
     { name: 'Mario Rossi', imgPath: 'path-to-image-1.jpg' },
@@ -31,13 +43,74 @@ export class AllPopupComponent {
     { name: 'Marco Blu', imgPath: 'path-to-image-9.jpg' }
   ];
 
+  formCaesarzon!: FormGroup;
 
-  constructor(public popUpService:PopupService) {
+
+  constructor(private addressService: AddressService, private cardService: CardsService, public popUpService:PopupService, protected ottieniCittaService: ottieniCittaService, protected formService: FormService){
+    this.formCaesarzon= this.formService.getForm();
+
+  }
+
+  aggiungiIndirizzo(){
+    this.addressService.sendAddress()
+  }
+
+  aggiungiCarta(){
+    this.cardService.sendCard()
   }
 
   changeSection(numb: number, label: string) {
     this.section = numb
     this.sectionLabel = label;
+  }
+
+
+  togglePassword(fieldName: string) {
+    const passwordField = document.getElementById(fieldName) as HTMLInputElement;
+    this.mostraPassword[fieldName] = !this.mostraPassword[fieldName];
+
+    if (this.mostraPassword[fieldName]) {
+      passwordField.type = 'text';
+    } else {
+      passwordField.type = 'password';
+    }
+  }
+
+  validatePassword(): void {
+    this.newPasswordError = '';
+    this.confirmPasswordError = '';
+    const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@$#%^&*()_+]).{8,16}$/;
+
+
+    if (!passwordPattern.test(this.newPassword)) {
+      this.newPasswordError = 'Formato incorretto: es. CiaoCiao69!'
+
+      return;
+    }
+
+
+    if (this.confirmPassword.trim() === '') {
+      this.confirmPasswordError = 'Si prega di confermare la password';
+      return;
+    }
+
+    if (this.newPassword !== this.confirmPassword) {
+      this.confirmPasswordError = 'Le password non corrispondono';
+      return;
+    }
+    //this.utente.cambiaPassword(this.formService.username, this.newPassword);
+    this.popUpService.updateStringa('Cambio password avvenuto con successo')
+    this.popUpService.openPopups(10, true);
+
+    this.confirmPasswordError = '';
+    this.newPasswordError = '';
+    this.popUpService.closePopup()
+
+
+  }
+
+  eliminaAccount(){
+    //this.userService.eliminaAccountDefinitivamente()
   }
 
 }

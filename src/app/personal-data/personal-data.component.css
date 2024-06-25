@@ -28,6 +28,14 @@ footer {
   padding: 8px 12px;
   border-radius: 5px;
 }
+.error-message {
+  color: #ff0a00;
+  position: absolute;
+
+}
+.err{
+  font-weight: normal;
+}
 
 #preview {
   width: 100px;
@@ -39,7 +47,7 @@ footer {
 }
 
 .lineaCampi{
-  margin-top: 5%;
+  margin-top: 1%;
 }
 
 

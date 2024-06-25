@@ -12,14 +12,14 @@
 <header>
   <nav class="navbar navbar-expand-md navbar-light custom-navbar">
 
-    <h1 class="navbar-brand text-light logo" href="#">CAESARZON</h1>
+    <h1 class="navbar-brand text-light logo" style="cursor: pointer" (click)="goHomepage()">CAESARZON</h1>
 
     <div class="search-container d-flex flex-row align-items-center">
       <input type="text" placeholder="Cerca...">
       <button class="btn btn-dark custom-btn ml-1" type="submit" (click)="popupService.openPopups(6, true)">Cerca</button>
     </div>
 
-    <ul *ngIf="userData.isLogged" class="navbar-nav ml-auto">
+    <ul *ngIf="keyCloak.getLoggedStatus()" class="navbar-nav ml-auto">
       <div  class="bottonis" >
         <li class="nav-item">
           <div class="dropdown">
@@ -33,7 +33,7 @@
               <a class="dropdown-item" (click)="changePage($event, 'wish-list')">Lista dei desideri</a>
               <a class="dropdown-item" (click)="changePage($event, 'da-fare')">Ordini</a>
               <a class="dropdown-item" (click)="changePage($event, 'help-request')">Assistenza</a>
-              <a class="dropdown-item" (click)="userData.toggleLogin($event)">Esci</a>
+              <a class="dropdown-item" (click)="keyCloak.toggleLogin($event)">Esci</a>
             </div>
           </div>
         </li>
@@ -50,7 +50,7 @@
       </div>
     </ul>
 
-    <ul *ngIf="!userData.isLogged"  class="navbar-nav ml-auto">
+    <ul *ngIf="!keyCloak.getLoggedStatus()"  class="navbar-nav ml-auto">
       <div class="bottonis">
         <li class="nav-item ">
           <button class="menu-item btn btn-dark custom-btns" (click)="popupService.openPopups(3, true)">Accedi</button>
@@ -167,7 +167,7 @@
             <a class="dropdown-item" href="#" (click)="changePage($event, 'product-page')">Attrezzatura</a>
           </div>
         </li>
-        <li id="notiche" *ngIf="userData.isLogged">
+        <li id="notiche" *ngIf="keyCloak.getLoggedStatus()">
           <button class="menu-item btn-xs btn-dark custom-btns">Notifiche<span class="badge">7</span></button>
         </li>
       </ul>
