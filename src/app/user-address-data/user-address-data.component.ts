@@ -33,7 +33,8 @@ export class UserAddressDataComponent implements OnInit{
   }
 
   deleteAddr(){
-    this.popUpService.updateStringa("Sei sicuro di voler eliminare: " + this.addressService.nomeIndirizzo + "?")
+    this.popUpService.operazione = 1
+    this.popUpService.updateStringa("Sei sicuro di voler eliminare: " + this.addressService.addressMap[this.addressService.nomeIndirizzo] + "?")
     this.popUpService.openPopups(12, false);
   }
 

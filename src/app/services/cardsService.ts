@@ -17,6 +17,8 @@ export class CardsService {
   cartaCorrente!: Card;
 
   cardsName!: string[];
+  cardsMap: { [key: string]: string } = {};
+
 
   nomeCarta!: string;
 
@@ -24,7 +26,7 @@ export class CardsService {
 
   private manageCardURL = 'http://localhost:8090/user-api/card';
 
-  private getCardsNameURL = 'http://localhost:8090/user-api/cards-names';
+  private getCardsNameURL = 'http://localhost:8090/user-api/cards';
 
 
   constructor(private userService: UserService, private router: Router, private popUp: PopupService, private http: HttpClient, private keyCloakService: KeyCloakService, private formService: FormService) {
@@ -33,7 +35,7 @@ export class CardsService {
 
 
   deleteCard(){
-    const urlWithParams = `${this.manageCardURL}?crd=${this.nomeCarta}`;
+    const urlWithParams = `${this.manageCardURL}?card_id=${this.nomeCarta}`;
     const headers = this.keyCloakService.permaHeader()
 
     this.http.delete<string>(urlWithParams, { headers , responseType: 'text' as 'json' })
@@ -41,7 +43,7 @@ export class CardsService {
         next: (response) => {
           console.log('Carta eliminato con successo:', response);
           this.popUp.updateStringa(response)
-          this.popUp.openPopups(10, true)
+          this.popUp.openPopups(18, true)
           setTimeout(()=>{
             window.location.reload()
 
@@ -55,8 +57,8 @@ export class CardsService {
   }
 
 
-  getCards(nameLista: string): Observable<Card> {
-    const urlWithParams = `${this.manageCardURL}?nameLista=${nameLista}`;
+  getCards(idCard: string): Observable<Card> {
+    const urlWithParams = `${this.manageCardURL}?card_id=${idCard}`;
     const headers = this.keyCloakService.permaHeader()
 
     return this.http.get<Card>(urlWithParams, { headers });
@@ -68,10 +70,12 @@ export class CardsService {
     this.http.get<string[]>(this.getCardsNameURL, { headers }).subscribe({
       next: (response) => {
         this.cardsName = response;
+        this.generateCardsMap();
+
+        this.nomeCarta= this.cardsName[0];
+
 
         if (this.cardsName.length > 0) {
-          this.nomeCarta = "Carta 1"
-
           this.getCards(this.cardsName[0]).subscribe({
             next: (response: Card) => {
               this.userService.loading = false;
@@ -96,6 +100,12 @@ export class CardsService {
     });
   }
 
+  generateCardsMap() {
+    this.cardsMap = {};
+    this.cardsName.forEach((cardId, index) => {
+      this.cardsMap[cardId] = `Carta ${index + 1}`;
+    });
+  }
 
   sendCard() {
     const indirizzoForm = this.formCaesarzon.get("formCarta");
@@ -109,7 +119,8 @@ export class CardsService {
       cardNumber: numeroCarta,
       owner: titolareCarta,
       cvv: cvv,
-      expiryDate: dataScadenza
+      expiryDate: dataScadenza,
+      balance: 0
     };
 
     this.sendCardData(cardData).subscribe(

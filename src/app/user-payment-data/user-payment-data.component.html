@@ -20,9 +20,11 @@
 
 
       <div class="form-group d-flex flex-column align-items-center aldos">
-        <label>Seleziona la tua carta di credito:</label>
+        <label>Seleziona una carta:</label>
         <select class="form-select selectionIn btn btn-dark custom-bln" (change)="onCardChange($event)">
-          <option *ngFor="let card of cardService.cardsName" [value]="card">{{card}}</option>
+          <option *ngFor="let cardId of cardService.cardsName" [value]="cardId">
+            {{ cardService.cardsMap[cardId] }}
+          </option>
         </select>
       </div>
 

@@ -28,10 +28,11 @@ export class AdminService {
 
   usernameUtenteBannato!: string;
 
-
-
+  testoRecensione!: string;
 
   image!: SafeUrl
+
+  reviewId!: string;
 
   //Definizione degli arrays
   users!: UserSearch[]
@@ -41,11 +42,15 @@ export class AdminService {
 
   private reportURL = 'http://localhost:8090/notify-api/report';
 
+  private reportAdminURL = 'http://localhost:8090/notify-api/admin/report';
+
   private banURL = 'http://localhost:8090/notify-api/ban';
 
   private supportURL = 'http://localhost:8090/notify-api/support';
 
   private getUsersUrl = 'http://localhost:8090/user-api/users';
+
+  private getReviewURL = 'http://localhost:8090/product-api/review';
 
   constructor(private sanitizer: DomSanitizer ,private userService: UserService, private popUp: PopupService, private http: HttpClient, private keycloakService: KeyCloakService) {
   }
@@ -85,6 +90,11 @@ export class AdminService {
     } else if (num == 1) {
       this.getReports(0).subscribe(reports => {
         this.reports = reports;
+        this.reports.forEach( a =>{
+          this.getReview(a.reviewId).subscribe(response =>{
+            a.reviewText = response
+          })
+        })
       })
     } else if (num == 2) {
       this.getSupports(0).subscribe(supports => {
@@ -102,7 +112,7 @@ export class AdminService {
     let reportCode = ""
     this.reports.forEach(report => {
       if (report.usernameUser2 === username) {
-          reportCode = report.reportCode
+          reportCode = report.id
       }
     });
     const reportResponse: ReportResponse = {
@@ -130,22 +140,34 @@ export class AdminService {
 
 
 
+  deleteReview(reviewId: string, accept: boolean){
+    const headers = this.keycloakService.permaHeader()
+    console.log("review id: "+ reviewId)
+    console.log("accept: "+ accept)
+    const urlWithParams = `${this.reportAdminURL}?review_id=${reviewId}&accept=${accept}`;
+    console.log("URLSSSS: "+ urlWithParams)
+    return this.http.delete<string>(urlWithParams, {headers, responseType: "text" as 'json'});
 
+  }
 
+  getReview(reviewId: string){
+    const headers = this.keycloakService.permaHeader()
+    const urlWithParams = this.getReviewURL+"/"+reviewId;
+    return this.http.get<any>(urlWithParams, {headers, responseType: 'text' as 'json'});
 
-
-
-
+  }
 
   sendReports(motivo: string, descrizione: string, username2: string) {
     const reports: Reports = {
-      reportCode: "",
+      id: "",
       reason: motivo,
       description: descrizione,
       reportDate: "",
       usernameUser2: username2,
       usernameUser1: "",
-      explain: ""
+      explain: "",
+      reviewId: "",
+      reviewText: ""
 
     };
 
@@ -169,8 +191,8 @@ export class AdminService {
 
   sendHelps(motivo: string, oggetto: string, descrizione: string) {
     const supports: Supports = {
+      id: "",
       username: "",
-      supportCode: "",
       type: motivo,
       text: descrizione,
       subject: oggetto,

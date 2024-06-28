@@ -4,6 +4,7 @@ import {PopupService} from "../services/popUpService";
 import {NgIf} from "@angular/common";
 import {AddressService} from "../services/addressService";
 import {CardsService} from "../services/cardsService";
+import {AdminService} from "../services/adminService";
 
 
 
@@ -19,7 +20,7 @@ import {CardsService} from "../services/cardsService";
 export class WarningMessageComponent implements OnInit{
   stringa!: String;
 
-  constructor(private dialogError: MatDialogRef<WarningMessageComponent>, public popup:PopupService, public addressService: AddressService, public cardService: CardsService) {
+  constructor(private adminService: AdminService, private dialogError: MatDialogRef<WarningMessageComponent>, public popup:PopupService, public addressService: AddressService, public cardService: CardsService) {
 
   }
 
@@ -32,10 +33,16 @@ export class WarningMessageComponent implements OnInit{
   confermaOperazione(siOno: number){
     if(siOno === 0){
       if(this.popup.operazione == 0)
-        this.popup.openPopups(10, true)
+        this.adminService.deleteReview(this.adminService.reviewId, true).subscribe( response =>{
+          if(response == "Segnalazione eliminata con successo"){
+            this.popup.updateStringa(response)
+            this.popup.openPopups(123, true);
+          }
+        })
       else if(this.popup.operazione == 1){
-
+        this.addressService.deleteAddress()
       }else if(this.popup.operazione == 2){
+        this.cardService.deleteCard()
 
       }
     }else{

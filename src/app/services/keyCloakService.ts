@@ -59,7 +59,6 @@ export class KeyCloakService {
           })
           this.setAdminStatus(this.ACCESS_TOKEN)
         }
-        console.log("TOKEN: " + this.ACCESS_TOKEN);
       },
       (error) => {
         console.error("Error during request:", error);
@@ -85,7 +84,6 @@ export class KeyCloakService {
   //Metodo per prendere i token dalla cache
   getAccessToken() {
     const token = localStorage.getItem('access_token');
-    console.log("TOKEN NELLA CACHE: " + token)
     if (token) {
       return token;
     } else {

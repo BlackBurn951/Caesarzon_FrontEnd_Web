@@ -17,7 +17,8 @@ export class AddressService {
 
   indirizzoCorrente!: Address;
 
-  addressesName!: string[];
+  addressesName: string[] = [];
+  addressMap: { [key: string]: string } = {};
 
   nomeIndirizzo!: string;
 
@@ -35,9 +36,7 @@ export class AddressService {
 
   //Metodo per prendere il singolo indirizzo
   getAddresses(idAddress: string): Observable<Address> {
-    console.log(idAddress)
     const urlWithParams = `${this.manageAddressURL}?address_id=${idAddress}`;
-
     const headers = this.keycloakService.permaHeader()
 
     return this.http.get<Address>(urlWithParams, { headers });
@@ -45,26 +44,29 @@ export class AddressService {
 
   //Metodo per prende la lista degli indirizzi dell'utente
   getAddressesName() {
-    const headers = this.keycloakService.permaHeader()
+    const headers = this.keycloakService.permaHeader();
 
     this.http.get<string[]>(this.getAddressNamesURL, { headers }).subscribe({
       next: (response) => {
         this.addressesName = response;
+        this.generateAddressMap();
+
+        this.nomeIndirizzo = this.addressesName[0];
 
         if (this.addressesName.length > 0) {
           this.getAddresses(this.addressesName[0]).subscribe({
             next: (response: Address) => {
               this.userService.loading = false;
-              this.indirizzoCorrente = response
+              this.indirizzoCorrente = response;
               this.router.navigate(['address-data']);
             },
             error: (error: any) => {
+              this.userService.loading = false;
               if (error.status === 404) {
-                this.userService.loading = false;
                 this.router.navigate(['address-data']);
               } else {
                 this.userService.loading = false;
-                console.error('Error fetching card:', error);
+                console.error('Error fetching address:', error);
               }
             }
           });
@@ -76,9 +78,17 @@ export class AddressService {
     });
   }
 
+  generateAddressMap() {
+    this.addressMap = {};
+    this.addressesName.forEach((addressId, index) => {
+      this.addressMap[addressId] = `Indirizzo ${index + 1}`;
+    });
+  }
+
+
   //Metodo per eliminare l'indirizzo attualmente selezionato
   deleteAddress(){
-    const urlWithParams = `${this.manageAddressURL}?addr=${this.nomeIndirizzo}`;
+    const urlWithParams = `${this.manageAddressURL}?address_id=${this.nomeIndirizzo}`;
 
     const headers = this.keycloakService.permaHeader()
 
@@ -87,7 +97,7 @@ export class AddressService {
         next: (response) => {
           console.log('Indirizzo eliminato con successo:', response);
           this.popUp.updateStringa(response)
-          this.popUp.openPopups(10, true)
+          this.popUp.openPopups(13, true)
           setTimeout(()=>{
             window.location.reload()
 

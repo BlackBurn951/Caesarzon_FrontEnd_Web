@@ -4,6 +4,7 @@ import {UserService} from "../services/userService";
 import {AdminService} from "../services/adminService";
 import {PopupService} from "../services/popUpService";
 import {DomSanitizer} from "@angular/platform-browser";
+import {Reports} from "../entities/Report";
 
 @Component({
   selector: 'app-admin-area',
@@ -11,7 +12,7 @@ import {DomSanitizer} from "@angular/platform-browser";
   styleUrls: ['./admin-area.component.css', '../../styles.css']
 })
 export class AdminAreaComponent implements OnInit{
-  isCollapsed: boolean[] = [];
+  isCollapsed: any[]  = [];
 
   constructor(private sanitizer: DomSanitizer, private router: Router, private userService: UserService, protected adminService: AdminService, protected popUpService: PopupService) {
   }
@@ -23,15 +24,18 @@ export class AdminAreaComponent implements OnInit{
     console.log(`Changing to page: ${page} for user: ${username}`);
   }
 
+
   toggleCollapse(index: number): void {
     this.isCollapsed[index] = !this.isCollapsed[index];
   }
+
 
   deleteItem(index: number): void {
     this.isCollapsed.splice(index, 1);
   }
 
   ngOnInit(): void {
+    console.log("SIAMO QUIII DAMMI IL TESTO:    "+this.adminService.testoRecensione)
     //Inizialmente la prima pagina mostrata è la ricerca degli utenti quindi carico i primi 20
     this.adminService.getUsers().subscribe(users => {
       this.adminService.users = users;
@@ -52,14 +56,14 @@ export class AdminAreaComponent implements OnInit{
   }
 
 
-  bannaUtente(utente: number){
+  eliminaRecensione(utente: number){
     const user = this.adminService.reports.at(utente);
-    if (user)
+    if (user) {
       this.adminService.usernameUtenteDaBannare = user.usernameUser2;
-
-    this.popUpService.aStringa = "Motivazione: "
+      this.adminService.reviewId = user.reviewId
+    }
     this.popUpService.operazione = 0;
-    this.popUpService.updateStringa("Sei sicuro di voler bannare l'utente: " + this.adminService.usernameUtenteDaBannare+"?")
+    this.popUpService.updateStringa("Sei sicuro di voler eliminare la recensione di: " + this.adminService.usernameUtenteDaBannare+"?")
     this.popUpService.openPopups(141, false);
   }
 

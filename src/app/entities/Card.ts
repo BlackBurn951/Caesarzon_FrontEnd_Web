@@ -5,4 +5,5 @@ export interface Card {
   owner: string
   cvv: string
   expiryDate: Date
+  balance: number
 }

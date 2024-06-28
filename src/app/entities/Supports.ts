@@ -2,9 +2,8 @@
 
 
 export interface Supports {
-
+  id: string;
   username: string
-  supportCode: string
   type: string
   subject: string
   text: string
