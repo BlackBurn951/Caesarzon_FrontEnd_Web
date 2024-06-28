@@ -10,6 +10,9 @@ import {User} from "../entities/User";
 import {KeyCloakService} from "../services/keyCloakService";
 import {resolve} from "@angular/compiler-cli";
 import {DomSanitizer, SafeUrl} from "@angular/platform-browser";
+import {Observable} from "rxjs";
+import {HttpClient} from "@angular/common/http";
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-personal-data',
@@ -41,15 +44,30 @@ export class PersonalDataComponent implements OnInit{
 
   imageUrl: SafeUrl | undefined;
 
+  paypalURL: string = 'http://localhost:8090/product-api/success'
 
-  constructor(private sanitizer: DomSanitizer, protected formService: FormService, protected userService: UserService, protected popUpService: PopupService) {
+
+  constructor(private route: ActivatedRoute, private http: HttpClient, private sanitizer: DomSanitizer, protected formService: FormService, protected userService: UserService, protected popUpService: PopupService, private keycloakService: KeyCloakService) {
     this.formCaesarzon = formService.getForm()
 
+  }
+
+  getSuccess(paymentID: string | null, token: string | null, payerID: string | null): Observable<string> {
+    const headers = this.keycloakService.permaHeader();
+    const customURL = `${this.paypalURL}?paymentId=${paymentID}&token=${token}&PayerID=${payerID}`;
+    return this.http.get(customURL, { headers, responseType: 'text' });
   }
 
 
   //All'inizializzazione della pagina vengono caricati tutti i dati relativi all'utente
   ngOnInit(): void {
+    const paymentID = this.route.snapshot.queryParamMap.get('paymentId');
+    const token = this.route.snapshot.queryParamMap.get('token');
+    const payerID = this.route.snapshot.queryParamMap.get('PayerID');
+    console.log(paymentID);
+    console.log(token);
+    console.log(payerID)
+
     this.userService.getUserData().subscribe(
       (userData: User) => {
         this.formCaesarzon.get('formDatipersonali.nome')?.setValue(userData.firstName);
@@ -64,7 +82,14 @@ export class PersonalDataComponent implements OnInit{
       }
     );
     this.loadImage()
-
+    this.getSuccess(paymentID, token, payerID).subscribe(
+      success => {
+        console.log('Success response:', success);
+      },
+      error => {
+        console.error('Error fetching success response:', error);
+      }
+    );
   }
 
   //Metodo per caricare l'immagine di profilo dal DB

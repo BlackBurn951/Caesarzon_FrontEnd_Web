@@ -75,6 +75,7 @@ export class HomepageComponent implements OnInit{
 
   ngOnInit() {
     this.key.login("guest","9Xz#sWv3Dq2J%8f@6t!g4N&hP7eL$mK1oI5uRcF0bQ@yG2j!H3wXe#4RvB!5ZnC@m2L$p1GkE8zYxW!7uV");
+
   }
 
 

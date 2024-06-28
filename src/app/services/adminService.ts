@@ -35,7 +35,6 @@ export class AdminService {
 
   //Definizione degli arrays
   users!: UserSearch[]
-  returns!: Returns []
   bans!: Bans[]
   reports!: Reports[]
   supports!: Supports[]

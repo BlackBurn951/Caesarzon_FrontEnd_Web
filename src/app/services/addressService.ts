@@ -25,7 +25,7 @@ export class AddressService {
 
   private manageAddressURL = 'http://localhost:8090/user-api/address';
 
-  private getAddressNamesURL = 'http://localhost:8090/user-api/addresses-names';
+  private getAddressNamesURL = 'http://localhost:8090/user-api/addresses';
 
 
   constructor(private userService: UserService, private router: Router, private popUp: PopupService, private http: HttpClient, private keycloakService: KeyCloakService, private formService: FormService) {
@@ -34,8 +34,9 @@ export class AddressService {
 
 
   //Metodo per prendere il singolo indirizzo
-  getAddresses(nameLista: string): Observable<Address> {
-    const urlWithParams = `${this.manageAddressURL}?nameLista=${nameLista}`;
+  getAddresses(idAddress: string): Observable<Address> {
+    console.log(idAddress)
+    const urlWithParams = `${this.manageAddressURL}?address_id=${idAddress}`;
 
     const headers = this.keycloakService.permaHeader()
 
@@ -51,7 +52,6 @@ export class AddressService {
         this.addressesName = response;
 
         if (this.addressesName.length > 0) {
-          this.nomeIndirizzo = "Indirizzo 1"
           this.getAddresses(this.addressesName[0]).subscribe({
             next: (response: Address) => {
               this.userService.loading = false;
@@ -122,7 +122,7 @@ export class AddressService {
     }
 
     const addressData: Address = {
-      id: 0,
+      id: "",
       roadType: tipoStrada,
       roadName: nomeStrada,
       houseNumber: numeroCivico,

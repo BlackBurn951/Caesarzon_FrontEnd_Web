@@ -26,12 +26,12 @@
             <div class="notifications-container">
               <button class="notification-button mr-1" (click)="toggleMenus()">
                 <img src="assets/images/icons/bell.png" alt="Icona notifiche" height="24" width="24">
-                <span class="badge" *ngIf="notifyService.getUnreadNotificationsCount() > 0">{{ notifyService.getUnreadNotificationsCount() }}</span>
+                <span class="badge" *ngIf="notifyCount > 0">{{ notifyCount}}</span>
               </button>
 
               <div class="notification-menu" [class.show]="menuOpen">
-                <ng-container *ngIf="notifyService.notifications.length; else noNotifications">
-                  <div *ngFor="let notification of notifyService.notifications">
+                <ng-container *ngIf="keyCloak.notifications.length; else noNotifications">
+                  <div *ngFor="let notification of keyCloak.notifications">
                     <table class="notification-table">
                       <tbody>
                       <tr class="notification-item" >
@@ -42,13 +42,13 @@
                           <span >{{ notification.date }}</span>
                         </td>
                         <td style="width: 5vw">
-                          <button class="icon-button mr-2" *ngIf="!keyCloak.getAdmin()" (click)="toggleDescription(notification)">
+                          <button class="icon-button mr-2" *ngIf="keyCloak.getAdmin()" (click)="toggleDescription(notification)">
                             {{ notification.showDescription ? '▲' : '▼' }}
                           </button>
                           <button class="icon-button" (click)="removeNotification(notification)">X</button>
                         </td>
                       </tr>
-                      <tr *ngIf="notification.showDescription && !keyCloak.getAdmin()">
+                      <tr *ngIf="notification.showDescription && keyCloak.getAdmin()">
                         <td colspan="3">
                           <div class="notification-body">
                             <p>{{ notification.explanation }}</p>

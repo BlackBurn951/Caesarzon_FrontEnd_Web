@@ -2,7 +2,9 @@ import { Injectable } from "@angular/core";
 import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import {PopupService} from "./popUpService";
 import {jwtDecode} from "jwt-decode";
-
+import {Notifications} from "../entities/Notification";
+import {tap, catchError} from "rxjs/operators";
+import {BehaviorSubject, Observable, throwError} from "rxjs";
 
 @Injectable({
   providedIn: 'root',
@@ -10,16 +12,20 @@ import {jwtDecode} from "jwt-decode";
 export class KeyCloakService {
 
   private keycloakLogoutUrl = 'http://25.24.244.170:8080/realms/CaesarRealm/protocol/openid-connect/logout';
-
-
+  private manageNotifyURL = 'http://localhost:8090/notify-api/user/notifications';
+  private deleteNotifyURL = 'http://localhost:8090/notify-api/notification';
   private accessTokenUrl = 'http://25.24.244.170:8080/realms/CaesarRealm/protocol/openid-connect/token';
 
   private ACCESS_TOKEN!: string;
   private REFRESH_TOKEN!: string;
 
-  private isAdmin: boolean = false
+  private isAdmin: boolean = false;
+  private isLogged: boolean = false;
 
-  private isLogged = false;
+  notifications: Notifications[] = [];
+
+  private notifyCountSubject = new BehaviorSubject<number>(0);
+  notifyCount$ = this.notifyCountSubject.asObservable()
 
   constructor(private http: HttpClient, private popUp: PopupService) { }
 
@@ -48,22 +54,22 @@ export class KeyCloakService {
           this.isLogged = true;
           this.setLogin();
           this.popUp.closePopup()
+          this.getNotify().subscribe(notifies => {
+            this.notifications = notifies;
+          })
           this.setAdminStatus(this.ACCESS_TOKEN)
         }
         console.log("TOKEN: " + this.ACCESS_TOKEN);
-
       },
       (error) => {
         console.error("Error during request:", error);
       }
     );
-
   }
 
   getIsAdmin(){
     return this.isAdmin;
   }
-
 
   //Metodo per assegnare i token alla cache
   setTokens(accessToken: string, refreshToken: string) {
@@ -125,7 +131,6 @@ export class KeyCloakService {
     }
   }
 
-
   toggleLogin(event: MouseEvent) {
     const params = new HttpParams()
       .set('id_token_hint', this.ACCESS_TOKEN)
@@ -186,6 +191,56 @@ export class KeyCloakService {
       console.error("Error decoding token:", error);
       this.isAdmin = false;
     }
+  }
+
+  getNotify(): Observable<Notifications[]> {
+    const headers = this.permaHeader();
+    return this.http.get<Notifications[]>(this.manageNotifyURL, { headers }).pipe(
+      tap(notifications => {
+        this.notifications = notifications;
+        this.updateNotifyCount();
+      })
+    );
+  }
+  // Metodo per marcare come lette le notifiche
+  markRead(): Observable<any> {
+    const headers = this.permaHeader();
+    if (this.notifications.length > 0) {
+      const notificationsToSend = this.notifications.map(({ showDescription, ...rest }) => rest);
+      return this.http.put(this.manageNotifyURL, notificationsToSend, { headers, responseType: 'text' }).pipe(
+        tap(() => {
+          this.notifications.forEach(notification => notification.read = true);
+          this.updateNotifyCount();
+        }),
+        catchError(error => {
+          console.error("Error marking notifications as read:", error);
+          return throwError(error);
+        })
+      );
+    } else {
+      console.warn("No notifications to mark as read");
+      return throwError("No notifications to mark as read");
+    }
+  }
+
+  deleteNotify(notification: Notifications): Observable<any> {
+    const headers = this.permaHeader();
+    const customURL = `${this.deleteNotifyURL}?notify-id=${notification.id}&isUser=true`;
+    return this.http.delete(customURL, { headers, responseType: 'text' }).pipe(
+      tap(() => {
+        this.notifications = this.notifications.filter(n => n.id !== notification.id);
+        this.updateNotifyCount();
+      }),
+      catchError(error => {
+        console.error("Error deleting notification:", error);
+        return throwError(error);
+      })
+    );
+  }
+
+  private updateNotifyCount(): void {
+    const unreadCount = this.notifications.filter(notification => !notification.read).length;
+    this.notifyCountSubject.next(unreadCount);
   }
 
 
