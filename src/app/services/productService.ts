@@ -26,6 +26,7 @@ export class ProductService {
   minPrice!: number;
   maxPrice!: number;
   isClothing!: boolean;
+  isEquipment!: boolean;
 
   constructor(private router: Router, private http: HttpClient, private popUpService:PopupService, private keycloakService: KeyCloakService) {
   }
@@ -38,7 +39,7 @@ export class ProductService {
     })
   }
 
-  applyFilters(): void {
+  applyFilters(event: any): void {
     // Funzione per applicare i filtri ai prodotti
     this.products = this.products.filter(item => {
       // Esempio di filtro per prezzo
@@ -46,6 +47,7 @@ export class ProductService {
         (!this.maxPrice || item.price <= this.maxPrice);
       // Aggiungere altri filtri se necessario
     });
+    event.preventDefault();
   }
 
 
