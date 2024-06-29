@@ -15,9 +15,9 @@ export class ProductPageComponent {
   prodotto!: ProductDTO
   date: Date = new Date();
 
-  day: number = this.date.getDate()
-  month: number = this.date.getMonth() + 1
-  year: number = this.date.getFullYear()
+  day: number = 0
+  month: number = 0
+  year: number = 0
   constructor(protected keyCloak: KeyCloakService, public popUpService:PopupService, private router:Router, private productService: ProductService) {
   }
 
@@ -27,6 +27,8 @@ export class ProductPageComponent {
 
     this.drawGraphs(context!)
     this.getProductData()
+    this.setDataSpedizione()
+
   }
 
   instaBuy(event: Event){
@@ -50,5 +52,13 @@ export class ProductPageComponent {
     this.productService.prendiDatiProdotto().subscribe(response => {
       this.prodotto=response
     })
+  }
+
+  setDataSpedizione() {
+    this.date.setDate(this.date.getDate() + 5);
+
+    this.day= this.date.getDay()
+    this.month= this.date.getMonth()
+    this.year= this.date.getFullYear()
   }
 }
