@@ -5,6 +5,7 @@ import {KeyCloakService} from "./keyCloakService";
 import {HttpClient} from "@angular/common/http";
 import {Router} from "@angular/router";
 import {ProductDTO} from "../entities/ProductDTO";
+import {ProductReview} from "../entities/ProductReview";
 
 
 @Injectable({
@@ -19,8 +20,10 @@ export class ProductService {
 
   urlRicerca: string = 'http://localhost:8090/product-api/search';
   productDataURL: string = 'http://localhost:8090/product-api/product'
+  productReviewURL: string= 'http://localhost:8090/product-api/reviews'
 
   prodotto!: ProductDTO
+  recensioni!: ProductReview[]
 
   ricerca: string = ""
   minPrice!: number;
@@ -84,6 +87,14 @@ export class ProductService {
     });
   }
 
+  prendiRecensioni(productId: string) {
+    const headers = this.keycloakService.permaHeader()
+    return this.http.get<ProductReview[]>(this.productReviewURL+'/'+productId, { headers}).subscribe(response =>{
+      if(response != null){
+        this.recensioni= response
+      }
+    });
+  }
 }
 
 

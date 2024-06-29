@@ -145,17 +145,16 @@
 
       <div class="col">  <!--SEZIONE SINGOLE RECENSIONI-->
 
-        <div class="row">
-
+        <div class="row" *ngFor="let item of productService.recensioni; let i=index">
           <div class="card mb-2">
             <div class="card-header">
-              <b>Nome utente</b>
+              <b>{{item.username}}</b>
             </div>
             <div class="card-body">
               <blockquote class="blockquote mb-0">
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
+                <p>{{item.text}}</p>
                 <footer class="blockquote-footer">
-                  Publicato in data: <cite title="Source Title">24/02/2024</cite>
+                  Publicato in data: <cite title="Source Title">{{item.date}}</cite>
                   <button *ngIf="!keyCloak.getAdmin()" class="btn btn-danger ml-2">Segnala</button>
                   <button *ngIf="keyCloak.getAdmin()" class="btn btn-danger ml-2">Rimuovi</button>
                 </footer>

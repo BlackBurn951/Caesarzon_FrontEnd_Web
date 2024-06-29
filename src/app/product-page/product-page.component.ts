@@ -26,7 +26,6 @@ export class ProductPageComponent {
 
     this.drawGraphs(context!)
     this.setDataSpedizione()
-
   }
 
   instaBuy(event: Event){
