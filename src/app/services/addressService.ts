@@ -70,6 +70,10 @@ export class AddressService {
               }
             }
           });
+        }else{
+          this.userService.loading = false
+          this.router.navigate(['address-data']);
+
         }
       },
       error: (error) => {
@@ -100,8 +104,7 @@ export class AddressService {
           this.popUp.openPopups(13, true)
           setTimeout(()=>{
             window.location.reload()
-
-          }, 1000);
+          }, 2000);
 
         },
         error: (error) => {
@@ -143,14 +146,16 @@ export class AddressService {
       response => {
         this.popUp.closePopup()
         this.popUp.updateStringa("Indirizzo aggiunto con successo!")
-        this.popUp.openPopups(10, true)
+        this.popUp.openPopups(134, true)
         this.clearFields()
-        window.location.reload()
+        setTimeout(()=>{
+          window.location.reload()
+        }, 2000);
       },
       error => {
         this.popUp.closePopup()
         this.popUp.updateStringa("Errore nell'aggiunta dell'indirizzo!")
-        this.popUp.openPopups(10, true)
+        this.popUp.openPopups(1234, true)
         this.clearFields()
       }
     );

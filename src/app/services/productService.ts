@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {ChangeDetectorRef, Injectable} from '@angular/core';
 import {PopupService} from "./popUpService";
 import {ProductSearch} from "../entities/ProductSearch";
 import {KeyCloakService} from "./keyCloakService";
@@ -17,20 +17,28 @@ export class ProductService {
 
   products! : ProductSearch[]
 
+  newProducts!: ProductSearch[];
+  offerProducts!: ProductSearch[];
+
+
   urlRicerca: string = 'http://localhost:8090/product-api/search';
   productDataURL: string = 'http://localhost:8090/product-api/product'
+
+  urlLastNine: string = 'http://localhost:8090/product-api/new';
+  urlOffer: string = 'http://localhost:8090/product-api/product/offer';
 
   prodotto!: ProductDTO
 
   ricerca: string = ""
-  minPrice!: number;
-  maxPrice!: number;
+  minPrice: number = 0;
+  maxPrice: number = 0;
   isClothing!: boolean;
   isEquipment!: boolean;
   sport: string = ""
   coloreSecondario: string = ""
   colorePrimario: string = ""
   marca: string = ""
+  metodoOrdinamento!: number;
 
   constructor(private router: Router, private http: HttpClient, private popUpService:PopupService, private keycloakService: KeyCloakService) {
   }
@@ -41,89 +49,104 @@ export class ProductService {
     this.colorePrimario = ""
     this.coloreSecondario = ""
     this.marca = ""
-    this.getProductsFromServer(0).subscribe(response =>{
+    this.getProductsFromServer().subscribe(response =>{
       this.products = response
       this.router.navigate(['products-list']);
     })
   }
 
-  applyFilters(event: any): void {
-    // Split attuale ricerca into an array of terms
+  applyFilters(): void {
     let ricercaTerms = this.ricerca.split(' ');
-
-    // Remove any empty strings from the array (in case there are any)
     ricercaTerms = ricercaTerms.filter(term => term.trim() !== '');
-
-    // Check if marca is selected
-    if (this.marca) {
-      // If marca is not already in ricercaTerms, add it
-      if (!ricercaTerms.includes(this.marca)) {
-        ricercaTerms.push(this.marca);
-      }
+    if (this.marca && !ricercaTerms.includes(this.marca)) {
+      ricercaTerms.push(this.marca);
     }
-
-    // Check if sport is selected
-    if (this.sport) {
-      // If sport is not already in ricercaTerms, add it
-      if (!ricercaTerms.includes(this.sport)) {
-        ricercaTerms.push(this.sport);
-      }
+    if (this.sport && !ricercaTerms.includes(this.sport)) {
+      ricercaTerms.push(this.sport);
     }
-
-    // Check if colorePrimario is selected
-    if (this.colorePrimario) {
-      // If colorePrimario is not already in ricercaTerms, add it
-      if (!ricercaTerms.includes(this.colorePrimario)) {
-        ricercaTerms.push(this.colorePrimario);
-      }
+    if (this.colorePrimario && !ricercaTerms.includes(this.colorePrimario)) {
+      ricercaTerms.push(this.colorePrimario);
     }
-
-    // Check if coloreSecondario is selected
-    if (this.coloreSecondario) {
-      // If coloreSecondario is not already in ricercaTerms, add it
-      if (!ricercaTerms.includes(this.coloreSecondario)) {
-        ricercaTerms.push(this.coloreSecondario);
-      }
+    if (this.coloreSecondario && !ricercaTerms.includes(this.coloreSecondario)) {
+      ricercaTerms.push(this.coloreSecondario);
     }
-
-    // Update this.ricerca with the updated ricercaTerms array
     this.ricerca = ricercaTerms.join(' ');
 
-    // Chiamiamo nuovamente getProductsFromServer per applicare i filtri
-    if(this.isClothing != undefined || this.isEquipment != undefined || this.minPrice != undefined || this.maxPrice != undefined){} {
-
-    }
-    this.getProductsFromServer(0).subscribe(response => {
+    this.getProductsFromServer().subscribe(response => {
       this.products = response;
       this.ricerca = this.ricerca.replace(this.sport, '');
       this.ricerca = this.ricerca.replace(this.colorePrimario, '');
       this.ricerca = this.ricerca.replace(this.coloreSecondario, '');
       this.ricerca = this.ricerca.replace(this.marca, '');
-
     });
 
-
-    event.preventDefault();
   }
 
+  resetFiltri(event: any){
+    event.preventDefault();
+    this.sport = ""
+    this.colorePrimario = ""
+    this.coloreSecondario = ""
+    this.marca = ""
+    this.isClothing = false;
+    this.isEquipment = false;
+    this.minPrice = 0;
+    this.maxPrice = 0;
+    this.metodoOrdinamento = 0
+    this.getProductsFromServer()
+  }
 
+  getProductsFromServer() {
+    const headers = this.keycloakService.permaHeader();
+    let urlWithParams = `${this.urlRicerca}?search-text=${this.ricerca}`;
 
-  getProductsFromServer(num: number){
-    const headers = this.keycloakService.permaHeader()
-    let urlWithParams;
-    if(num == 0){
-      urlWithParams = `${this.urlRicerca}?search-text=${this.ricerca}`;
-    }else{
-      urlWithParams = `${this.urlRicerca}?search-text=${this.ricerca}&min-price=${this.minPrice}&max-price=${this.maxPrice}&is-clothing=${this.isClothing}`;
-
+    // Aggiungi i parametri di filtro solo se sono stati impostati
+    if (this.minPrice > 0) {
+      urlWithParams += `&min-price=${this.minPrice}`;
     }
-    return this.http.get<ProductSearch[]>(urlWithParams, {headers, responseType: 'json'});
+    if (this.maxPrice > 0) {
+      urlWithParams += `&max-price=${this.maxPrice}`;
+    }
+    if (this.isClothing && !this.isEquipment) {
+      urlWithParams += `&is-clothing=true`;
+    }else if(!this.isClothing && this.isEquipment) {
+      urlWithParams += `&is-clothing=false`;
+    }
+
+    return this.http.get<ProductSearch[]>(urlWithParams, { headers, responseType: 'json' });
+  }
+
+  getLastNineProducts() {
+    const headers = this.keycloakService.permaHeader();
+    return this.http.get<ProductSearch[]>(this.urlLastNine, { headers, responseType: 'json' });
+
+  }
+
+  getOffer() {
+    const headers = this.keycloakService.permaHeader();
+    return this.http.get<ProductSearch[]>(this.urlOffer, { headers, responseType: 'json' });
+
   }
 
   aggiungiDisp(event: Event){
     event.preventDefault();
     this.popUpService.openPopups(11, true)
   }
+
+  reorder(num: number) {
+    switch (num) {
+      case 0: // Ordinamento crescente
+        this.products = this.products.slice().sort((a, b) => a.price - b.price);
+        break;
+      case 1: // Ordinamento decrescente
+        this.products = this.products.slice().sort((a, b) => b.price - a.price);
+        break;
+      default:
+        break;
+    }
+  }
+
+
 
   aggiungiDisponibilita(){
     this.disponibilitaAggiunta = true;
