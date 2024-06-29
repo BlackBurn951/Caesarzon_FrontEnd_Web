@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 
 <head>
   <meta charset="UTF-8">
@@ -31,16 +31,19 @@
       <div class="col-md">  <!--SEZIONE NOME E DESCRIZIONE PRODOTTO -->
         <div class="row">
           <div class="col-md">
-            <p id="product-name"><b>Nome utente</b></p>
-
-            <p id="product-descr">Descrizione prodotto</p>
+            <p id="product-name"><b>{{this.prodotto.name}}</b></p>
+            <p id="product-descr">{{this.prodotto.description}}</p>
+            <p id="product-brand"><b class="bolds">Marca: </b>{{this.prodotto.brand}}</p>
+            <p id="product-primary"><b class="bolds">Colore primario: </b>{{this.prodotto.primaryColor}}</p>
+            <p id="product-secondary"><b class="bolds">Colore secondario: </b>{{this.prodotto.secondaryColor}}</p>
+            <p id="product-sport"><b class="bolds">Sport: </b>{{this.prodotto.sport}}</p>
           </div>
 
         <div class="col-md mt-5"> <!--SEZIONE DATI ACQUISTO -->
           <div class="container buy-section mt-5">
 
               <div class="row pt-4 pl-2">
-                <p id="order-delivery">Consegna prevista entro il </p>
+                <p id="order-delivery">Consegna prevista entro il {{this.day}}/{{this.month}}/{{this.year}}</p>
               </div>
 
               <div class="row pl-2">
@@ -59,7 +62,7 @@
               </div>
 
               <div class="row pt-4 pl-2">
-                <p id="price"><b>25,99$</b></p>
+                <p id="price"><b>{{this.prodotto.price}}€</b></p>
               </div>
 
               <div class="row d-flex flex-column align-items-center">
@@ -200,7 +203,7 @@
         </div>
 
         <div class="row mt-2">
-            <button class="btn btn-primary mr-2">Up</button>
+            <button class="btn btn-primary mr-2" (click)="this.getProductData()">Up</button>
             <button class="btn btn-primary">Down</button>
         </div>
       </div>
