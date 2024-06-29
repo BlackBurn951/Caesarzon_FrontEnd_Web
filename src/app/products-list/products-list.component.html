@@ -5,66 +5,65 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>E-commerce</title>
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    /* Include the modified CSS here */
+    /* Paste the entire CSS code provided above */
+  </style>
 </head>
 <body>
 
-<div class="container">
-  <!-- Filtri -->
-  <div class="filters">
-    <h2>Filtri</h2>
-    <!-- Filtro per range di prezzo -->
-    <div class="filter-item">
-      <label for="price-range">Range di prezzo:</label><br>
-      <input type="range" id="price-range" name="price-range" min="0" max="100" value="50">
-      <span id="price-value">€50</span>
-    </div>
-    <!-- Filtro per taglie -->
-    <div class="filter-item">
-      <label for="sizes">Taglie:</label><br>
-      <select id="sizes" name="sizes">
-        <option value="S">S</option>
-        <option value="M">M</option>
-        <option value="L">L</option>
-        <option value="XL">XL</option>
-      </select>
-    </div>
-    <!-- Filtro per valutazioni -->
-    <div class="filter-item">
-      <label for="ratings">Valutazioni:</label><br>
-      <select id="ratings" name="ratings">
-        <option value="1">1 stella</option>
-        <option value="2">2 stelle</option>
-        <option value="3">3 stelle</option>
-        <option value="4">4 stelle</option>
-        <option value="5">5 stelle</option>
-      </select>
-    </div>
-    <a href="#" class="btn btn-primary" (click)="reload($event)">Aggiorna</a> <!--AGGIORNA CON I NUOVI FILTRI-->
-  </div>
-
+<div class="container-fluid mt-5">
   <div class="row">
-    <div class="col-md-4" *ngFor="let item of productService.products; let i = index">
-      <div class="card" (click)="productService.prendiDatiProdotto(item.productId)">
-        <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
-        <div class="card-body">
-          <h2 class="card-title">{{item.productName}}</h2>
-          <h2 class="card-title">{{item.price}} €</h2>
-          <div *ngIf="item.reviewsNumber > 0">
-            <h4>Numero recensioni: {{item.reviewsNumber}}</h4>
-            <h4>Media recensioni: {{item.averageReview}}</h4>
+    <!-- Colonna per i filtri -->
+    <div class="col-md-3">
+      <div class="filters">
+        <h2>Filtri</h2>
+        <!-- Filtro per range di prezzo -->
+        <div class="filtriPrezzo">
+          <label>Range di prezzo:</label><br>
+          <input class="form-control inpots mb-3"  type="number" [(ngModel)]="productService.minPrice" placeholder="MIN">
+          <input class="form-control inpots mb-3"  type="number" [(ngModel)]="productService.maxPrice" placeholder="MAX">
+        </div>
+
+        <div class="filter-item">
+          <label>Categoria:</label><br>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="attrezzatura" [(ngModel)]="productService.isEquipment">
+            <label class="form-check-label" for="attrezzatura">Attrezzatura</label>
           </div>
-          <div *ngIf="item.reviewsNumber == 0">
-            <h4>Non ci sono ancora recensioni</h4>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="abbigliamento" [(ngModel)]="productService.isClothing">
+            <label class="form-check-label" for="abbigliamento">Abbigliamento</label>
+          </div>
+        </div>
+
+        <a href="#" class="btn btn-dark custom-btn" (click)="productService.applyFilters($event)">Aggiorna</a>
+      </div>
+    </div>
+    <!-- Colonna per i prodotti -->
+    <div class="col-md-9">
+      <div class="containerProdotti">
+        <div class="row">
+          <div class="col-md-4 mb-3" *ngFor="let item of productService.products.slice(0, productService.products.length - (productService.products.length % 3)); let i = index">
+            <div class="product" (click)="productService.prendiDatiProdotto(item.productId)">
+              <img src="https://via.placeholder.com/150" alt="Product Image">
+              <h2>{{item.productName}}</h2>
+              <h2>{{item.price}} €</h2>
+              <div *ngIf="item.reviewsNumber > 0">
+                <h4>Numero recensioni: {{item.reviewsNumber}}</h4>
+                <h4>Media recensioni: {{item.averageReview}}</h4>
+              </div>
+              <div *ngIf="item.reviewsNumber == 0">
+                <h4>Non ci sono ancora recensioni</h4>
+              </div>
+            </div>
           </div>
         </div>
       </div>
+
     </div>
   </div>
-
-
 </div>
 
 </body>
-
 </html>
-
