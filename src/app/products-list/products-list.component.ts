@@ -1,16 +1,20 @@
-import { Component } from '@angular/core';
-import {ActivatedRoute, Router} from "@angular/router";
+import {Component, OnInit} from '@angular/core';
+import { Router} from "@angular/router";
+import {ProductService} from "../services/productService";
 
 @Component({
   selector: 'app-products-list',
   templateUrl: './products-list.component.html',
   styleUrl: './products-list.component.css'
 })
-export class ProductsListComponent {
+export class ProductsListComponent implements OnInit{
 
-  constructor(private route: ActivatedRoute, private router: Router) {
+  constructor(protected productService: ProductService, private router: Router) {
   }
 
+  ngOnInit(){
+    this.productService.getProducts()
+  }
   goToHomepage(id: number) {
     this.router.navigate(['/homepage/']);
   }

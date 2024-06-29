@@ -48,54 +48,23 @@
       </div>
   </div>
   <div class="container-fluid my-4" >
-     <div class="products">
-       <!-- Primo prodotto -->
-       <div class="product">
-         <img src="path_to_image.jpg" alt="Product 1">
-         <h2>Nome Prodotto 1</h2>
-         <p>Descrizione del prodotto 1</p>
-         <p>Prezzo: $XX.XX</p>
-       </div>
+    <ng-container class="product" *ngFor="let item of productService.products; let i = index">
+      <div class="card" (click)="productService.goToProductPage($event, item.productId)">
+        <!--         <img [src]="item.image" [alt]="item.productName">-->
+        <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h2 class="card-title">{{item.productName}}</h2>
+          <div class="container">
+            <div>
+              <p>Media Recensioni: {{ item.averageReview }} ({{ item.reviewsNumber }} recensioni)</p>
+              <p>Prezzo: ${{ item.price }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
 
-       <!-- Secondo prodotto -->
-       <div class="product">
-         <img src="path_to_image.jpg" alt="Product 2">
-         <h2>Nome Prodotto 2</h2>
-         <p>Descrizione del prodotto 2</p>
-         <p>Prezzo: $XX.XX</p>
-       </div>
-
-       <div class="product">
-         <img src="path_to_image.jpg" alt="Product 3">
-         <h2>Nome Prodotto 3</h2>
-         <p>Descrizione del prodotto 3</p>
-         <p>Prezzo: $XX.XX</p>
-       </div>
-
-       <div class="product">
-         <img src="path_to_image.jpg" alt="Product">
-         <h2>Nome Prodotto</h2>
-         <p>Descrizione del prodotto</p>
-         <p>Prezzo: $XX.XX</p>
-       </div>
-
-       <div class="product">
-         <img src="path_to_image.jpg" alt="Product 3">
-         <h2>Nome Prodotto 3</h2>
-         <p>Descrizione del prodotto 3</p>
-         <p>Prezzo: $XX.XX</p>
-       </div>
-
-       <div class="product">
-         <img src="path_to_image.jpg" alt="Product 3">
-         <h2>Nome Prodotto 3</h2>
-         <p>Descrizione del prodotto 3</p>
-         <p>Prezzo: $XX.XX</p>
-       </div>
-
-       <!-- Aggiungi altri prodotti qui -->
-     </div>
-    </div>
+  </div>
   </div>
 </body>
 </html>

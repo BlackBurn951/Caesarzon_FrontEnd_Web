@@ -15,9 +15,11 @@
     <h1 class="navbar-brand text-light logo" style="cursor: pointer" (click)="goHomepage()">CAESARZON</h1>
 
     <div class="search-container d-flex flex-row align-items-center">
-      <input type="text" placeholder="Cerca...">
-      <button class="btn btn-dark custom-btn ml-1" type="submit" (click)="popupService.openPopups(6, true)">Cerca</button>
+      <input type="text" placeholder="Cerca..." [(ngModel)]="this.productService.ricerca">
+      <button class="btn btn-dark custom-btn ml-1" type="submit" (click)="productService.getProducts()">Cerca</button>
     </div>
+
+
 
     <ul *ngIf="keyCloak.getLoggedStatus()" class="navbar-nav ml-auto">
       <div  class="bottonis mt-2">

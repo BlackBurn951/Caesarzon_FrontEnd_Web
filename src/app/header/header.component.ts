@@ -11,6 +11,8 @@ import {MatList, MatListItem} from "@angular/material/list";
 import {MatBadge} from "@angular/material/badge";
 import {Notifications} from "../entities/Notification";
 import {Subscription} from "rxjs";
+import {ProductService} from "../services/productService";
+import {FormsModule} from "@angular/forms";
 
 
 @Component({
@@ -28,7 +30,8 @@ import {Subscription} from "rxjs";
     MatListItem,
     MatBadge,
     DatePipe,
-    NgOptimizedImage
+    NgOptimizedImage,
+    FormsModule
   ],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css', '../../styles.css']
@@ -42,7 +45,7 @@ export class HeaderComponent implements OnDestroy{
   notifyCount = 0;
   private notifyCountSubscription!: Subscription;
 
-  constructor(public popupService:PopupService, private router: Router, protected keyCloak:KeyCloakService, private adminService: AdminService){
+  constructor(protected productService: ProductService, public popupService:PopupService, private router: Router, protected keyCloak:KeyCloakService, private adminService: AdminService){
     this.notifyCountSubscription = this.keyCloak.notifyCount$.subscribe(count => {
       this.notifyCount = count;
     });
