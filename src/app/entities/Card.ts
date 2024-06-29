@@ -4,5 +4,6 @@ export interface Card {
   cardNumber: string
   owner: string
   cvv: string
-  expiryDate: string
+  expiryDate: Date
+  balance: number
 }

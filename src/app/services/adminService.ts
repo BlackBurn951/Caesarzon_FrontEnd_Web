@@ -2,16 +2,14 @@ import { Injectable } from '@angular/core';
 import {Reports} from "../entities/Report";
 import {Supports} from "../entities/Supports";
 import {Bans} from "../entities/Bans";
-import {Returns} from "../entities/Returns";
 import {UserService} from "./userService";
 import {UserSearch} from "../entities/UserSearch";
 import {DomSanitizer, SafeUrl} from "@angular/platform-browser";
-import {Reviews} from "../entities/Review";
 import {Observable} from "rxjs";
 import {PopupService} from "./popUpService";
 import {HttpClient} from "@angular/common/http";
 import {KeyCloakService} from "./keyCloakService";
-import {ReportResponse} from "../entities/ReportResponseDTO";
+import {SupportResponse} from "../entities/SupportResponse";
 
 @Injectable({
   providedIn: 'root',
@@ -20,6 +18,11 @@ export class AdminService {
 
   section: number = 0;
 
+  rispostaAdmin: string = "";
+  idSupport!: string;
+  supportIndex!: number;
+
+  reportIndex!: number;
   tipoRisposta: number = 0;
 
   usernameUtenteRisposta!: string;
@@ -28,10 +31,11 @@ export class AdminService {
 
   usernameUtenteBannato!: string;
 
-
-
+  testoRecensione!: string;
 
   image!: SafeUrl
+
+  reviewId!: string;
 
   //Definizione degli arrays
   users!: UserSearch[]
@@ -41,11 +45,15 @@ export class AdminService {
 
   private reportURL = 'http://localhost:8090/notify-api/report';
 
-  private banURL = 'http://localhost:8090/notify-api/ban';
+  private reportAdminURL = 'http://localhost:8090/notify-api/admin/report';
+
+  private banURL = 'http://localhost:8090/user-api/bans';
 
   private supportURL = 'http://localhost:8090/notify-api/support';
 
   private getUsersUrl = 'http://localhost:8090/user-api/users';
+
+  private getReviewURL = 'http://localhost:8090/product-api/review';
 
   constructor(private sanitizer: DomSanitizer ,private userService: UserService, private popUp: PopupService, private http: HttpClient, private keycloakService: KeyCloakService) {
   }
@@ -85,67 +93,72 @@ export class AdminService {
     } else if (num == 1) {
       this.getReports(0).subscribe(reports => {
         this.reports = reports;
+        this.reports.forEach( a =>{
+          this.getReview(a.reviewId).subscribe(response =>{
+            a.reviewText = response
+          })
+        })
       })
     } else if (num == 2) {
       this.getSupports(0).subscribe(supports => {
         this.supports = supports
       })
     } else if (num == 3) {
-      this.getBans().subscribe(bans => {
+      this.getBans(0).subscribe(bans => {
         this.bans = bans
       })
     }
   }
 
 
-  sendResponseAndDeleteReport(spiegazione: string, acc: boolean, username: string){
-    let reportCode = ""
-    this.reports.forEach(report => {
-      if (report.usernameUser2 === username) {
-          reportCode = report.reportCode
-      }
-    });
-    const reportResponse: ReportResponse = {
-      accept: acc,
-      explain: spiegazione,
-      reportCode: reportCode
-    }
 
-    this.sendReportResponse(reportResponse).subscribe(
-      response => {
-        this.popUp.updateStringa("Recensione inviata correttamente!")
-        this.popUp.openPopups(10, true)
-      },
-      error => {
-        this.popUp.updateStringa("Problemi nell'invio della recensione!.")
-        this.popUp.openPopups(10, true)
-      }
-    );
-  }
 
-  sendReportResponse(reportResponse: ReportResponse): Observable<any> {
+
+
+  deleteReview(reviewId: string, accept: boolean){
     const headers = this.keycloakService.permaHeader()
-    return this.http.post<any>(this.reportURL, reportResponse, { headers, responseType: 'text' as 'json' });
+    const urlWithParams = `${this.reportAdminURL}?review_id=${reviewId}&accept=${accept}`;
+    return this.http.delete<string>(urlWithParams, {headers, responseType: "text" as 'json'});
+
+  }
+
+  inviaRisposta(){
+    this.popUp.closePopup()
+    this.sendResponse().subscribe( response =>{
+      if(response == "Richiesta di supporto eliminata con successo"){
+        this.supports.splice(this.supportIndex, 1);
+        this.rispostaAdmin = ""
+        this.popUp.updateStringa(response)
+        this.popUp.openPopups(123, true);
+      }
+    })
   }
 
 
+  sendResponse(){
+    const headers = this.keycloakService.permaHeader()
+    const urlWithParams = `${this.supportURL}?support-id=${this.idSupport}&explain=${this.rispostaAdmin}`;
+    return this.http.delete<string>(urlWithParams, {headers, responseType: "text" as 'json'});
+  }
 
+  getReview(reviewId: string){
+    const headers = this.keycloakService.permaHeader()
+    const urlWithParams = this.getReviewURL+"/"+reviewId;
+    return this.http.get<any>(urlWithParams, {headers, responseType: 'text' as 'json'});
 
-
-
-
-
-
+  }
 
   sendReports(motivo: string, descrizione: string, username2: string) {
     const reports: Reports = {
-      reportCode: "",
+      id: "",
       reason: motivo,
       description: descrizione,
       reportDate: "",
       usernameUser2: username2,
       usernameUser1: "",
-      explain: ""
+      explain: "",
+      reviewId: "",
+      reviewText: ""
 
     };
 
@@ -169,8 +182,8 @@ export class AdminService {
 
   sendHelps(motivo: string, oggetto: string, descrizione: string) {
     const supports: Supports = {
+      id: "",
       username: "",
-      supportCode: "",
       type: motivo,
       text: descrizione,
       subject: oggetto,
@@ -208,14 +221,15 @@ export class AdminService {
   }
 
   getSupports(num: number){
-    const customUrl = this.supportURL+"?num="+num
+    const customUrl = this.banURL+"?num="+num
     const headers = this.keycloakService.permaHeader()
     return this.http.get<Supports[]>(customUrl, { headers });
   }
 
-  getBans(){
+  getBans(num: number){
+    const customUrl = this.supportURL+"?str="+num
     const headers = this.keycloakService.permaHeader()
-    return this.http.get<Bans[]>(this.banURL, { headers });
+    return this.http.get<Bans[]>(customUrl, { headers });
   }
 
 

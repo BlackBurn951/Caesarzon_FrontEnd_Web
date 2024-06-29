@@ -16,8 +16,12 @@
     <div class="form-group d-flex flex-column align-items-center aldos">
       <label>Seleziona un indirizzo:</label>
       <select class="form-select selectionIn btn btn-dark custom-bln" (change)="onAddressChange($event)">
-        <option *ngFor="let address of addressService.addressesName" [value]="address">{{address}}</option>
+        <option *ngFor="let addressId of addressService.addressesName" [value]="addressId">
+          {{ addressService.addressMap[addressId] }}
+        </option>
       </select>
+
+
     </div>
     <section class="form-group d-flex flex-column align-items-center">
       <div class="d-flex flex-column align-items-center">
