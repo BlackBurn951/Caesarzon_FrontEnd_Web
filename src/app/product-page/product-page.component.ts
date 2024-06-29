@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import {PopupService} from "../services/popUpService";
 import {Router} from "@angular/router";
 import {KeyCloakService} from "../services/keyCloakService";
+import {ProductDTO} from "../entities/ProductDTO";
+import {ProductService} from "../services/productService";
 
 @Component({
   selector: 'app-product-page',
@@ -10,7 +12,13 @@ import {KeyCloakService} from "../services/keyCloakService";
 })
 export class ProductPageComponent {
 
-  constructor(protected keyCloak: KeyCloakService, public popUpService:PopupService, private router:Router) {
+  prodotto!: ProductDTO
+  date: Date = new Date();
+
+  day: number = this.date.getDate()
+  month: number = this.date.getMonth() + 1
+  year: number = this.date.getFullYear()
+  constructor(protected keyCloak: KeyCloakService, public popUpService:PopupService, private router:Router, private productService: ProductService) {
   }
 
   ngOnInit() {
@@ -18,7 +26,7 @@ export class ProductPageComponent {
     const context = can.getContext('2d');
 
     this.drawGraphs(context!)
-
+    this.getProductData()
   }
 
   instaBuy(event: Event){
@@ -36,5 +44,11 @@ export class ProductPageComponent {
     } else {
       console.error('Impossibile ottenere il contesto 2D per il canvas.');
     }
+  }
+
+  getProductData() {
+    this.productService.prendiDatiProdotto().subscribe(response => {
+      this.prodotto=response
+    })
   }
 }
