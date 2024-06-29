@@ -6,5 +6,5 @@ export interface ProductReview{
   evaluation: number
   username: string
   productID: string
-  date: Date
+  date: string
 }

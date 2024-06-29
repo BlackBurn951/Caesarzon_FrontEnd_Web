@@ -81,19 +81,23 @@ export class ProductService {
 
   prendiDatiProdotto(productId: string) {
     const headers = this.keycloakService.permaHeader()
+    console.log(productId)
     return this.http.get<ProductDTO>(this.productDataURL+'/'+productId, { headers}).subscribe(response =>{
       if(response != null){
         this.prodotto = response
-        this.router.navigate(['product-page']);
+        this.prendiRecensioni(productId)
       }
     });
   }
 
   prendiRecensioni(productId: string) {
     const headers = this.keycloakService.permaHeader()
-    return this.http.get<ProductReview[]>(this.productReviewURL+'/'+productId, { headers}).subscribe(response =>{
+    return this.http.get<ProductReview[]>(this.productReviewURL+'?prod-id='+productId, { headers}).subscribe(response =>{
       if(response != null){
         this.recensioni= response
+        console.log(response)
+        console.log(this.recensioni)
+        this.router.navigate(['product-page']);
       }
     });
   }
