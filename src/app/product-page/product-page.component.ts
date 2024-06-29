@@ -12,13 +12,12 @@ import {ProductService} from "../services/productService";
 })
 export class ProductPageComponent {
 
-  prodotto!: ProductDTO
   date: Date = new Date();
 
   day: number = 0
   month: number = 0
   year: number = 0
-  constructor(protected keyCloak: KeyCloakService, public popUpService:PopupService, private router:Router, private productService: ProductService) {
+  constructor(protected keyCloak: KeyCloakService, public popUpService:PopupService, private router:Router, protected productService: ProductService) {
   }
 
   ngOnInit() {
@@ -26,7 +25,6 @@ export class ProductPageComponent {
     const context = can.getContext('2d');
 
     this.drawGraphs(context!)
-    this.getProductData()
     this.setDataSpedizione()
 
   }
@@ -48,11 +46,7 @@ export class ProductPageComponent {
     }
   }
 
-  getProductData() {
-    this.productService.prendiDatiProdotto().subscribe(response => {
-      this.prodotto=response
-    })
-  }
+
 
   setDataSpedizione() {
     this.date.setDate(this.date.getDate() + 5);

@@ -31,12 +31,12 @@
       <div class="col-md">  <!--SEZIONE NOME E DESCRIZIONE PRODOTTO -->
         <div class="row">
           <div class="col-md">
-            <p id="product-name"><b>{{this.prodotto.name}}</b></p>
-            <p id="product-descr">{{this.prodotto.description}}</p>
-            <p id="product-brand"><b class="bolds">Marca: </b>{{this.prodotto.brand}}</p>
-            <p id="product-primary"><b class="bolds">Colore primario: </b>{{this.prodotto.primaryColor}}</p>
-            <p id="product-secondary"><b class="bolds">Colore secondario: </b>{{this.prodotto.secondaryColor}}</p>
-            <p id="product-sport"><b class="bolds">Sport: </b>{{this.prodotto.sport}}</p>
+            <p id="product-name"><b>{{this.productService.prodotto.name}}</b></p>
+            <p id="product-descr">{{this.productService.prodotto.description}}</p>
+            <p id="product-brand"><b class="bolds">Marca: </b>{{this.productService.prodotto.brand}}</p>
+            <p id="product-primary"><b class="bolds">Colore primario: </b>{{this.productService.prodotto.primaryColor}}</p>
+            <p id="product-secondary"><b class="bolds">Colore secondario: </b>{{this.productService.prodotto.secondaryColor}}</p>
+            <p id="product-sport"><b class="bolds">Sport: </b>{{this.productService.prodotto.sport}}</p>
           </div>
 
         <div class="col-md mt-5"> <!--SEZIONE DATI ACQUISTO -->
@@ -63,7 +63,7 @@
               </div>
 
               <div class="row pt-4 pl-2">
-                <p id="price">Prezzo: <b>{{this.prodotto.price}}€</b></p>
+                <p id="price">Prezzo: <b>{{this.productService.prodotto.price}}€</b></p>
               </div>
 
               <div class="row d-flex flex-column align-items-center">
@@ -204,7 +204,7 @@
         </div>
 
         <div class="row mt-2">
-            <button class="btn btn-primary mr-2" (click)="this.getProductData()">Up</button>
+            <button class="btn btn-primary mr-2">Up</button>
             <button class="btn btn-primary">Down</button>
         </div>
       </div>

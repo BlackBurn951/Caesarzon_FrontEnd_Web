@@ -9,7 +9,13 @@ import {ProductService} from "../services/productService";
 })
 export class ProductsListComponent implements OnInit{
 
+  showDetails: boolean = false;
+
   constructor(protected productService: ProductService, private router: Router) {
+
+  }toggleDetails(){
+    this.showDetails = !this.showDetails;
+    console.log(this.showDetails)
   }
 
   ngOnInit(){

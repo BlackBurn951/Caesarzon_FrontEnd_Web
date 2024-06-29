@@ -53,11 +53,45 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.container{
+  align-items: center;
+  justify-content: center;
+  margin-top: 3%;
+}
+
+.card-list {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 3%;
+  margin-bottom: 5%;
+}
+
 .card:hover{
   transform: scale(1.1);
   transition: transform 0.3s ease;
 }
+/* Rendi il bottone "Dettagli" responsivo */
+.btn-primary {
+  display: block; /* Assicura che il pulsante sia un blocco per occupare l'intera larghezza del contenitore */
+  width: 60%; /* Imposta la larghezza al 100% per adattarsi al contenitore genitore */
+}
 
+/* Rendi la descrizione responsiva */
 .card-body {
   max-width: 100%; /* Imposta la larghezza massima al 100% per adattarsi al contenitore genitore */
 }
@@ -70,13 +104,45 @@
 .card-body > .container {
   width: 100%;
 }
+
+
 .card-title {
   font-size: 1rem; /* Imposta una dimensione del titolo della card responsiva */
 }
-.container{
-  align-items: center;
-  justify-content: center;
-  margin-top: 3%;
+
+
+/* Stili per il responsive design */
+@media screen and (max-width: 600px) {
+  .search-container{
+    margin-right: 25%;
+  }
+  .search-container input[type=text] {
+    width: 50%;
+  }
+  .search-container button {
+    width: 30%;
+  }
 }
+
+.btnArrow {
+  width: 50px;
+  height: 50px;
+  margin-top: 20%;
+  border-radius: 50%;
+  border: none;
+  background: none ;
+}
+.btnArrow:hover{
+  background-color: #634080;
+}
+.arrow{
+  width: 20px;
+  height: 20px;
+}
+
+
+
+
+
 
 

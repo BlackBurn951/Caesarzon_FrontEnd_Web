@@ -8,64 +8,63 @@
 </head>
 <body>
 
-
-<div class="containerGenerale">
-  <div class="container pt-5">
-    <!-- Filtri -->
-      <div class="filters">
-        <h2>Filtri</h2>
-
-        <!-- Filtro per range di prezzo -->
-        <div class="filter-item">
-          <label for="price-range">Range di prezzo:</label><br>
-          <input type="range" id="price-range" name="price-range" min="0" max="100" value="50">
-          <span id="price-value">€50</span>
-        </div>
-
-        <!-- Filtro per taglie -->
-        <div class="filter-item">
-          <label for="sizes">Taglie:</label><br>
-          <select id="sizes" name="sizes">
-            <option value="S">S</option>
-            <option value="M">M</option>
-            <option value="L">L</option>
-            <option value="XL">XL</option>
-          </select>
-        </div>
-
-        <!-- Filtro per valutazioni -->
-        <div class="filter-item">
-          <label for="ratings">Valutazioni:</label><br>
-          <select id="ratings" name="ratings">
-            <option value="1">1 stella</option>
-            <option value="2">2 stelle</option>
-            <option value="3">3 stelle</option>
-            <option value="4">4 stelle</option>
-            <option value="5">5 stelle</option>
-          </select>
-        </div>
-        <a href="#" class="btn btn-primary" (click)="reload($event)">Aggiorna</a>  <!--AGGIORNA CON I NUOVI FILTRI-->
-      </div>
+<div class="container">
+  <!-- Filtri -->
+  <div class="filters">
+    <h2>Filtri</h2>
+    <!-- Filtro per range di prezzo -->
+    <div class="filter-item">
+      <label for="price-range">Range di prezzo:</label><br>
+      <input type="range" id="price-range" name="price-range" min="0" max="100" value="50">
+      <span id="price-value">€50</span>
+    </div>
+    <!-- Filtro per taglie -->
+    <div class="filter-item">
+      <label for="sizes">Taglie:</label><br>
+      <select id="sizes" name="sizes">
+        <option value="S">S</option>
+        <option value="M">M</option>
+        <option value="L">L</option>
+        <option value="XL">XL</option>
+      </select>
+    </div>
+    <!-- Filtro per valutazioni -->
+    <div class="filter-item">
+      <label for="ratings">Valutazioni:</label><br>
+      <select id="ratings" name="ratings">
+        <option value="1">1 stella</option>
+        <option value="2">2 stelle</option>
+        <option value="3">3 stelle</option>
+        <option value="4">4 stelle</option>
+        <option value="5">5 stelle</option>
+      </select>
+    </div>
+    <a href="#" class="btn btn-primary" (click)="reload($event)">Aggiorna</a> <!--AGGIORNA CON I NUOVI FILTRI-->
   </div>
-  <div class="container-fluid my-4" >
-    <ng-container class="product" *ngFor="let item of productService.products; let i = index">
-      <div class="card" (click)="productService.goToProductPage($event, item.productId)">
-        <!--         <img [src]="item.image" [alt]="item.productName">-->
+
+  <div class="row">
+    <div class="col-md-4" *ngFor="let item of productService.products; let i = index">
+      <div class="card" (click)="productService.prendiDatiProdotto(item.productId)">
         <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
         <div class="card-body">
           <h2 class="card-title">{{item.productName}}</h2>
-          <div class="container">
-            <div>
-              <p>Media Recensioni: {{ item.averageReview }} ({{ item.reviewsNumber }} recensioni)</p>
-              <p>Prezzo: ${{ item.price }}</p>
-            </div>
+          <h2 class="card-title">{{item.price}} €</h2>
+          <div *ngIf="item.reviewsNumber > 0">
+            <h4>Numero recensioni: {{item.reviewsNumber}}</h4>
+            <h4>Media recensioni: {{item.averageReview}}</h4>
+          </div>
+          <div *ngIf="item.reviewsNumber == 0">
+            <h4>Non ci sono ancora recensioni</h4>
           </div>
         </div>
       </div>
-    </ng-container>
+    </div>
+  </div>
 
-  </div>
-  </div>
+
+</div>
+
 </body>
+
 </html>
 

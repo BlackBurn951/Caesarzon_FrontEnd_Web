@@ -7,6 +7,7 @@ export interface ProductSearch {
   averageReview: number
   reviewsNumber: number
   price: number;
+  productId: string;
 
 }
 

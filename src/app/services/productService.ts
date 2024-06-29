@@ -20,6 +20,8 @@ export class ProductService {
   urlRicerca: string = 'http://localhost:8090/product-api/search';
   productDataURL: string = 'http://localhost:8090/product-api/product'
 
+  prodotto!: ProductDTO
+
   ricerca: string = ""
   minPrice!: number;
   maxPrice!: number;
@@ -72,9 +74,14 @@ export class ProductService {
     this.popUpService.closePopup()
   }
 
-  prendiDatiProdotto() {
+  prendiDatiProdotto(productId: string) {
     const headers = this.keycloakService.permaHeader()
-    return this.http.get<ProductDTO>(this.productDataURL+'/', { headers});
+    return this.http.get<ProductDTO>(this.productDataURL+'/'+productId, { headers}).subscribe(response =>{
+      if(response != null){
+        this.prodotto = response
+        this.router.navigate(['product-page']);
+      }
+    });
   }
 
 }
