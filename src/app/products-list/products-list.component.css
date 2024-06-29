@@ -37,6 +37,9 @@
 .inpots{
   width: 50%;
 }
+.inpotss{
+  width: 30%;
+}
 .products {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(100px, 200px)); /* Dimensione minima 100px e massima 200px */
