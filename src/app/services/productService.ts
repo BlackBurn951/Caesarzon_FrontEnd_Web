@@ -4,6 +4,7 @@ import {ProductSearch} from "../entities/ProductSearch";
 import {KeyCloakService} from "./keyCloakService";
 import {HttpClient} from "@angular/common/http";
 import {Router} from "@angular/router";
+import {ProductDTO} from "../entities/ProductDTO";
 
 
 @Injectable({
@@ -17,6 +18,7 @@ export class ProductService {
   products! : ProductSearch[]
 
   urlRicerca: string = 'http://localhost:8090/product-api/search';
+  productDataURL: string = 'http://localhost:8090/product-api/product'
 
   ricerca: string = ""
   minPrice!: number;
@@ -70,6 +72,10 @@ export class ProductService {
     this.popUpService.closePopup()
   }
 
+  prendiDatiProdotto() {
+    const headers = this.keycloakService.permaHeader()
+    return this.http.get<ProductDTO>(this.productDataURL+'/', { headers});
+  }
 
 }
 
