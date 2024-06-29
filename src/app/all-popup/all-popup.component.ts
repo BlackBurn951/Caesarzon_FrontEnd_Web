@@ -33,8 +33,6 @@ export class AllPopupComponent{
   valutazione: number = 0;
   descrizioneRecensione!: string;
 
-  rispostaAdmin: string = "";
-
   newPassword: string = '';
   pass: string = '';
   confirmPassword: string = '';
@@ -168,21 +166,11 @@ export class AllPopupComponent{
   }
 
   checkValid() {
-    this.rispostaAdminValida = this.rispostaAdmin.length >= 5 && this.rispostaAdmin.length <= 500;
+    this.rispostaAdminValida = this.adminService.rispostaAdmin.length >= 5 && this.adminService.rispostaAdmin.length <= 500;
   }
 
 
 
-  //Metodi per inviare la risposta dell'admin a segnalazioni e richieste di supporto
-  sendResponse(username: string){
-    if(this.rispostaAdminValida){
-      if(this.adminService.tipoRisposta === 0){
-        this.adminService.sendResponseAndDeleteReport(this.rispostaAdmin, true, username)
-      }else (this.adminService.tipoRisposta === 1)
-        //this.userService.sendResponseAndDeleteSupport(this.rispostaAdmin)
-
-    }
-  }
 
 
   //Metodi per inviare recensioni e segnalazioni al server previa validazione dei campi

@@ -35,6 +35,7 @@ export class WarningMessageComponent implements OnInit{
       if(this.popup.operazione == 0)
         this.adminService.deleteReview(this.adminService.reviewId, true).subscribe( response =>{
           if(response == "Segnalazione eliminata con successo"){
+            this.adminService.reports.splice(this.adminService.reportIndex, 1);
             this.popup.updateStringa(response)
             this.popup.openPopups(123, true);
           }
@@ -43,6 +44,7 @@ export class WarningMessageComponent implements OnInit{
         this.addressService.deleteAddress()
       }else if(this.popup.operazione == 2){
         this.cardService.deleteCard()
+      }else if(this.popup.operazione == 3){
 
       }
     }else{

@@ -61,6 +61,7 @@ export class AdminAreaComponent implements OnInit{
     if (user) {
       this.adminService.usernameUtenteDaBannare = user.usernameUser2;
       this.adminService.reviewId = user.reviewId
+      this.adminService.reportIndex = utente;
     }
     this.popUpService.operazione = 0;
     this.popUpService.updateStringa("Sei sicuro di voler eliminare la recensione di: " + this.adminService.usernameUtenteDaBannare+"?")
@@ -79,8 +80,11 @@ export class AdminAreaComponent implements OnInit{
 
   inviaRisposta(utente: number){
     const user = this.adminService.supports.at(utente);
-    if (user)
+    if (user) {
       this.adminService.usernameUtenteRisposta = user.username;
+      this.adminService.idSupport = user.id
+      this.adminService.supportIndex = utente
+    }
     this.popUpService.aStringa = "Rispondi all'utente " + this.adminService.usernameUtenteRisposta
     this.popUpService.openPopups(10, true)
   }
