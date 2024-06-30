@@ -5,10 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>E-commerce</title>
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-  <style>
-    /* Include the modified CSS here */
-    /* Paste the entire CSS code provided above */
-  </style>
 </head>
 <body>
 
@@ -21,24 +17,24 @@
         <!-- Filtro per range di prezzo -->
         <div class="filtriPrezzo">
           <label>Ordinamento per prezzo:</label><br>
-          <button class="form-select inpotss btn btn-dark custom-bln mb-3" (click)="productService.reorder(0)">Crescente</button>
-          <button class="form-select inpotss btn btn-dark custom-bln mb-3" (click)="productService.reorder(1)">Decrescente</button>
+          <button class="btn btn-dark custom-btn form-select inpotss mb-3" [disabled]="productService.decrescente" (click)="productService.reorder(0)">Crescente</button>
+          <button class="btn btn-dark custom-btn form-select inpotss mb-3" [disabled]="productService.crescente" (click)="productService.reorder(1)">Decrescente</button>
 
 
           <label>Range di prezzo:</label><br>
           <label>MIN: {{ productService.minPrice }}</label><br>
-          <input type="range" class="form-control-range mb-3" [(ngModel)]="productService.minPrice" [min]="min" [max]="max" (ngModelChange)="productService.applyFilters()">
+          <input type="range" class="form-control-range slider mb-3" min="1" max="1000" [(ngModel)]="productService.minPrice" [min]="min" [max]="max" (ngModelChange)="productService.applyFilters()">
 
           <label>MAX: {{ productService.maxPrice }}</label><br>
-          <input type="range" class="form-control-range mb-3" [(ngModel)]="productService.maxPrice" [min]="min" [max]="max" (ngModelChange)="productService.applyFilters()">
+          <input type="range" class="form-control-range slider mb-3" min="1" max="1000" [(ngModel)]="productService.maxPrice" [min]="min" [max]="max" (ngModelChange)="productService.applyFilters()">
 
           <div class="iCheck">
             <div>
-              <input type="checkbox" id="attrezzatura" [(ngModel)]="productService.isEquipment" (ngModelChange)="productService.applyFilters()">
+              <input style="cursor: pointer" type="checkbox" id="attrezzatura" [(ngModel)]="productService.isEquipment" (ngModelChange)="productService.applyFilters()">
               <label for="attrezzatura">Attrezzatura</label>
             </div>
             <div>
-              <input type="checkbox" id="abbigliamento" [(ngModel)]="productService.isClothing" (ngModelChange)="productService.applyFilters()">
+              <input style="cursor: pointer" type="checkbox" id="abbigliamento" [(ngModel)]="productService.isClothing" (ngModelChange)="productService.applyFilters()">
               <label for="abbigliamento">Abbigliamento</label>
             </div>
           </div>

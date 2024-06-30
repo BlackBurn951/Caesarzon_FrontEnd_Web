@@ -19,21 +19,20 @@ import {AdminService} from "../services/adminService";
 export class HelpRequestComponent {
 
   //Creazione dei campi necessari all'ìnvio di una richiesta di supporto
-  motivoRichiesta!: string;
-  oggetto!: string;
-  descrizioneRichiesta!: string;
 
-  constructor(private adminService: AdminService) { }
+
+  constructor(protected adminService: AdminService) { }
 
   //Validazione dei campi
   isFormValid(): boolean {
-    return !!this.oggetto && this.oggetto.length >= 5 && this.oggetto.length <= 50 && !!this.descrizioneRichiesta && this.descrizioneRichiesta.length >= 5 && this.descrizioneRichiesta.length <= 500;
+    return !!this.adminService.oggetto && this.adminService.oggetto.length >= 5 && this.adminService.oggetto.length <= 50
+      && !!this.adminService.descrizioneRichiesta && this.adminService.descrizioneRichiesta.length >= 5 && this.adminService.descrizioneRichiesta.length <= 500;
   }
 
   //Invio della richiesta di supporto previa validazione dei campi
   sendHelpRequest() {
     if (this.isFormValid()) {
-      this.adminService.sendHelps(this.motivoRichiesta, this.oggetto, this.descrizioneRichiesta);
+      this.adminService.sendHelps(this.adminService.motivoRichiesta, this.adminService.oggetto, this.adminService.descrizioneRichiesta);
     }
   }
 }

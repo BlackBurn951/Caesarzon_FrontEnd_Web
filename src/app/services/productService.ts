@@ -23,11 +23,13 @@ export class ProductService {
 
 
   urlRicerca: string = 'http://localhost:8090/product-api/search';
+
   productDataURL: string = 'http://localhost:8090/product-api/product'
   productReviewURL: string= 'http://localhost:8090/product-api/reviews'
   reviewScore: string= 'http://localhost:8090/product-api/reviews/score'
 
   urlLastNine: string = 'http://localhost:8090/product-api/new';
+
   urlOffer: string = 'http://localhost:8090/product-api/product/offer';
 
   prodotto!: ProductDTO
@@ -46,6 +48,9 @@ export class ProductService {
   colorePrimario: string = ""
   marca: string = ""
   metodoOrdinamento!: number;
+
+  crescente : boolean = false;
+  decrescente: boolean = false;
 
   constructor(private router: Router, private http: HttpClient, private popUpService:PopupService, private keycloakService: KeyCloakService) {
   }
@@ -91,6 +96,8 @@ export class ProductService {
 
   resetFiltri(event: any){
     event.preventDefault();
+    this.crescente =false
+    this.decrescente =false
     this.sport = ""
     this.colorePrimario = ""
     this.coloreSecondario = ""
@@ -141,6 +148,13 @@ export class ProductService {
   }
 
   reorder(num: number) {
+    if (num === 0) {
+      this.crescente = false;
+      this.decrescente = true;
+    } else if (num === 1) {
+      this.crescente = true;
+      this.decrescente = false;
+    }
     switch (num) {
       case 0: // Ordinamento crescente
         this.products = this.products.slice().sort((a, b) => a.price - b.price);

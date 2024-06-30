@@ -9,6 +9,7 @@ import {UserService} from "../services/userService";
 import {BehaviorSubject, Subscription} from "rxjs";
 import {AdminService} from "../services/adminService";
 import {ProductService} from "../services/productService";
+import {WishListService} from "../services/wishListService";
 
 @Component({
   selector: 'app-all-popup',
@@ -40,6 +41,7 @@ export class AllPopupComponent{
   confirmPasswordError: string = '';
 
 
+
   mostraPassword: { [key: string]: boolean } = { password: false, confermaPassword: false };
 
   users = [
@@ -63,7 +65,7 @@ export class AllPopupComponent{
   formCaesarzon!: FormGroup;
 
 
-  constructor(protected productService: ProductService, private addressService: AddressService, private cardService: CardsService, public popUpService:PopupService, protected ottieniCittaService: ottieniCittaService, protected formService: FormService, protected userService: UserService, protected adminService: AdminService){
+  constructor(protected wishListService:WishListService, protected productService: ProductService, private addressService: AddressService, private cardService: CardsService, public popUpService:PopupService, protected ottieniCittaService: ottieniCittaService, protected formService: FormService, protected userService: UserService, protected adminService: AdminService){
     this.formCaesarzon= this.formService.getForm();
 
   }

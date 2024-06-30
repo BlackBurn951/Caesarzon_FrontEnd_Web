@@ -140,7 +140,10 @@
             </td>
           </tr>
           <tr *ngIf="isCollapsed[i]">
-            <td class="text-center align-middle" colspan="4">{{ item.text }}</td>
+            <td class="text-center align-middle" colspan="4">
+              <strong>Oggetto:</strong> {{ item.subject }}
+              <strong>Descrizione:</strong> {{ item.text }}
+            </td>
           </tr>
         </ng-container>
         </tbody>
