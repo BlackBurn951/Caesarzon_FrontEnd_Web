@@ -8,7 +8,6 @@ import {FormService} from "../services/formService";
 import {UserService} from "../services/userService";
 import {User} from "../entities/User";
 import {KeyCloakService} from "../services/keyCloakService";
-import {resolve} from "@angular/compiler-cli";
 import {DomSanitizer, SafeUrl} from "@angular/platform-browser";
 import {Observable} from "rxjs";
 import {HttpClient} from "@angular/common/http";
@@ -90,6 +89,10 @@ export class PersonalDataComponent implements OnInit{
         console.error('Error fetching success response:', error);
       }
     );
+    this.keycloakService.getNotify().subscribe(notifies => {
+      this.keycloakService.notifications = notifies;
+    })
+
   }
 
   //Metodo per caricare l'immagine di profilo dal DB

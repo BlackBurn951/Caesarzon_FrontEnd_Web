@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {PopupService} from "../services/popUpService";
 import {Router} from "@angular/router";
 import {KeyCloakService} from "../services/keyCloakService";
@@ -7,20 +7,21 @@ import {ProductService} from "../services/productService";
 import {Average} from "../entities/Average";
 import {HttpClient} from "@angular/common/http";
 import {ProductReview} from "../entities/ProductReview";
+import {AdminService} from "../services/adminService";
 
 @Component({
   selector: 'app-product-page',
   templateUrl: './product-page.component.html',
   styleUrls: ['./product-page.component.css', '../../styles.css']
 })
-export class ProductPageComponent {
+export class ProductPageComponent implements OnInit{
 
   date: Date = new Date();
 
   day: number = 0
   month: number = 0
   year: number = 0
-  constructor(protected keyCloak: KeyCloakService, public popUpService:PopupService, private router:Router, protected productService: ProductService, private http: HttpClient) {
+  constructor(protected adminService: AdminService ,protected keyCloak: KeyCloakService, public popUpService:PopupService, private router:Router, protected productService: ProductService, private http: HttpClient) {
   }
 
   ngOnInit() {
@@ -29,6 +30,11 @@ export class ProductPageComponent {
 
     this.drawGraphs(context!)
     this.setDataSpedizione()
+
+    this.keyCloak.getNotify().subscribe(notifies => {
+      this.keyCloak.notifications = notifies;
+    })
+
   }
 
   instaBuy(event: Event){

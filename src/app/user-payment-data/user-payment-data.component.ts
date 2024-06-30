@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {PopupService} from "../services/popUpService";
 import {CardsService} from "../services/cardsService";
 import {Card} from "../entities/Card";
+import {KeyCloakService} from "../services/keyCloakService";
 
 @Component({
   selector: 'app-user-payment-data',
@@ -14,10 +15,15 @@ export class UserPaymentDataComponent implements OnInit{
   constructor(
     public popUpService: PopupService,
     protected cardService: CardsService,
+    private keyCloak: KeyCloakService
   ) { }
 
   ngOnInit() {
     this.cardService.getCardsName()
+    this.keyCloak.getNotify().subscribe(notifies => {
+      this.keyCloak.notifications = notifies;
+    })
+
   }
 
   loadCards(nameLista: string): void {

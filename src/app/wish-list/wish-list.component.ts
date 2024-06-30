@@ -5,6 +5,7 @@ import {NgForOf, NgIf} from "@angular/common";
 import {WishListService} from "../services/wishListService";
 import {ProductService} from "../services/productService";
 import {PopupService} from "../services/popUpService";
+import {KeyCloakService} from "../services/keyCloakService";
 
 @Component({
   selector: 'app-wish-list',
@@ -20,12 +21,17 @@ import {PopupService} from "../services/popUpService";
 })
 export class WishListComponent implements OnInit{
 
-  constructor(protected productService:ProductService, protected wishListService: WishListService, protected popUpService: PopupService) {
+  constructor(private keyCloak: KeyCloakService, protected productService:ProductService, protected wishListService: WishListService, protected popUpService: PopupService) {
 
   }
 
   ngOnInit(): void {
    this.wishListService.getWishS(2)
+
+    this.keyCloak.getNotify().subscribe(notifies => {
+      this.keyCloak.notifications = notifies;
+    })
+
   }
 
 }

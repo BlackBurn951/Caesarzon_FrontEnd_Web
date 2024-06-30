@@ -37,6 +37,10 @@ export class AdminService {
   oggetto: string = '';
   descrizioneRichiesta: string = '';
 
+  motivoSegnalazione!: string;
+  descrizioneSegnalazione!: string;
+  usernameSegnalato!: string;
+
   image!: SafeUrl
 
   reviewId!: string;
@@ -154,13 +158,18 @@ export class AdminService {
 
   }
 
-  sendReports(motivo: string, descrizione: string, username2: string) {
+
+  inviaSegnalazione(){
+    this.popUp.openPopups(1, true);
+  }
+
+  sendReports() {
     const reports: Reports = {
       id: "",
-      reason: motivo,
-      description: descrizione,
+      reason: this.motivoSegnalazione,
+      description: this.descrizioneSegnalazione,
       reportDate: "",
-      usernameUser2: username2,
+      usernameUser2: this.usernameUtenteDaBannare,
       usernameUser1: "",
       explain: "",
       reviewId: "",
@@ -170,6 +179,9 @@ export class AdminService {
 
     this.sendReport(reports).subscribe(
       response => {
+        this.motivoSegnalazione = "";
+        this.descrizioneSegnalazione = ""
+        this.usernameSegnalato = ""
         this.popUp.updateStringa("Segnalazione inviata correttamente!")
         this.popUp.openPopups(10, true)
       },

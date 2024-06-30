@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 import {PopupService} from "../services/popUpService";
 import {KeyCloakService} from "../services/keyCloakService";
@@ -8,7 +8,7 @@ import {KeyCloakService} from "../services/keyCloakService";
   templateUrl: './shopping-cart.component.html',
   styleUrls: ['./shopping-cart.component.css', '../../styles.css']
 })
-export class ShoppingCartComponent {
+export class ShoppingCartComponent implements OnInit{
 
   constructor(private router: Router, private popup: PopupService, private keyCloak: KeyCloakService) {
   }
@@ -19,5 +19,11 @@ export class ShoppingCartComponent {
     else {
       this.popup.openPopups(3, true);
     }
+  }
+
+  ngOnInit(): void {
+    this.keyCloak.getNotify().subscribe(notifies => {
+      this.keyCloak.notifications = notifies;
+    })
   }
 }

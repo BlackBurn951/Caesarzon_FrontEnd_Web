@@ -1,4 +1,4 @@
-import { Component} from '@angular/core';
+import {Component, input, OnInit} from '@angular/core';
 import {FormGroup} from "@angular/forms";
 import {PopupService} from "../services/popUpService";
 import {FormService} from "../services/formService";
@@ -10,7 +10,7 @@ import {ProductService} from "../services/productService";
   templateUrl: './product-management.component.html',
   styleUrls: ['./product-management.component.css', '../../styles.css']
 })
-export class ProductManagementComponent{
+export class ProductManagementComponent implements OnInit{
   tone: string = 'NON SELEZIONATO';
 
   protected formCaesarzon!: FormGroup;
@@ -18,7 +18,7 @@ export class ProductManagementComponent{
   imageUrls: (any | null)[] = [null, null, null, null];
 
 
-  constructor(public formService: FormService, private popUpService: PopupService, protected productService: ProductService) {
+  constructor(private keyCloak:KeyCloakService, public formService: FormService, private popUpService: PopupService, protected productService: ProductService) {
     this.formCaesarzon = formService.getForm();
   }
 
@@ -116,6 +116,12 @@ export class ProductManagementComponent{
     else if (blue > red && blue > green) return "Blu";
     else if (red === green && red === blue) return "Grigio";
     else return "Altro";
+  }
+
+  ngOnInit(): void {
+    this.keyCloak.getNotify().subscribe(notifies => {
+      this.keyCloak.notifications = notifies;
+    })
   }
 
 
