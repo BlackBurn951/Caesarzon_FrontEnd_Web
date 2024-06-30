@@ -5,6 +5,7 @@ import {NgIf} from "@angular/common";
 import {AddressService} from "../services/addressService";
 import {CardsService} from "../services/cardsService";
 import {AdminService} from "../services/adminService";
+import {WishListService} from "../services/wishListService";
 
 
 
@@ -20,7 +21,7 @@ import {AdminService} from "../services/adminService";
 export class WarningMessageComponent implements OnInit{
   stringa!: String;
 
-  constructor(private adminService: AdminService, private dialogError: MatDialogRef<WarningMessageComponent>, public popup:PopupService, public addressService: AddressService, public cardService: CardsService) {
+  constructor(private wishListService:WishListService, private adminService: AdminService, private dialogError: MatDialogRef<WarningMessageComponent>, public popup:PopupService, public addressService: AddressService, public cardService: CardsService) {
 
   }
 
@@ -45,7 +46,13 @@ export class WarningMessageComponent implements OnInit{
       }else if(this.popup.operazione == 2){
         this.cardService.deleteCard()
       }else if(this.popup.operazione == 3){
-
+        this.wishListService.delProductFunction()
+      }else if(this.popup.operazione == 4){
+        this.wishListService.delListProductFunction()
+      }else if(this.popup.operazione == 5){
+        this.wishListService.deleteWishListFunction()
+      }else if(this.popup.operazione == 6){
+        this.wishListService.changeVisFunction()
       }
     }else{
       this.popup.closePopup()

@@ -2,10 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {FooterComponent} from "../footer/footer.component";
 import {UserManagementContainerComponent} from "../user-management-container/user-management-container.component";
 import {NgForOf, NgIf} from "@angular/common";
-import {HttpClient} from "@angular/common/http";
-import {KeyCloakService} from "../services/keyCloakService";
-import {PopupService} from "../services/popUpService";
 import {WishListService} from "../services/wishListService";
+import {ProductService} from "../services/productService";
 
 @Component({
   selector: 'app-wish-list',
@@ -21,7 +19,7 @@ import {WishListService} from "../services/wishListService";
 })
 export class WishListComponent implements OnInit{
 
-  constructor(private http: HttpClient, private keycloakService: KeyCloakService, private popUp: PopupService, protected wishListService: WishListService) {
+  constructor(protected productService:ProductService, protected wishListService: WishListService) {
 
   }
 
