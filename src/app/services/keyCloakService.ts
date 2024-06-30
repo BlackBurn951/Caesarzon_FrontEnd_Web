@@ -19,6 +19,7 @@ export class KeyCloakService {
   private ACCESS_TOKEN!: string;
   private REFRESH_TOKEN!: string;
 
+  private username: string = "francusso"
   private isAdmin: boolean = false;
   private isLogged: boolean = false;
 
@@ -51,6 +52,7 @@ export class KeyCloakService {
       (response:any) => {
         this.setTokens(response.access_token, response.refresh_token);
         if(username != "guest"){
+          this.username = username
           this.isLogged = true;
           this.setLogin();
           this.popUp.closePopup()
@@ -68,6 +70,10 @@ export class KeyCloakService {
 
   getIsAdmin(){
     return this.isAdmin;
+  }
+
+  getUsername(){
+    return this.username;
   }
 
   //Metodo per assegnare i token alla cache

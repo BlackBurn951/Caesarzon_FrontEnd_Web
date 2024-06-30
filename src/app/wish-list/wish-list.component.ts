@@ -1,7 +1,11 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FooterComponent} from "../footer/footer.component";
 import {UserManagementContainerComponent} from "../user-management-container/user-management-container.component";
 import {NgForOf, NgIf} from "@angular/common";
+import {HttpClient} from "@angular/common/http";
+import {KeyCloakService} from "../services/keyCloakService";
+import {PopupService} from "../services/popUpService";
+import {WishListService} from "../services/wishListService";
 
 @Component({
   selector: 'app-wish-list',
@@ -15,16 +19,14 @@ import {NgForOf, NgIf} from "@angular/common";
   templateUrl: './wish-list.component.html',
   styleUrls: ['./wish-list.component.css', '../../styles.css']
 })
-export class WishListComponent {
+export class WishListComponent implements OnInit{
 
-  products = [
-    { name: 'Grosse palle rosse', imgPath: 'path-to-image-1.jpg' },
-    { name: 'Grandi pattini per nani', imgPath: 'path-to-image-2.jpg' },
-    { name: 'Cappelli senza cappelle scappellati', imgPath: 'path-to-image-3.jpg' },
-    { name: 'Cappelli senza cappelle scappellati', imgPath: 'path-to-image-3.jpg' },
-    { name: 'Cappelli senza cappelle scappellati', imgPath: 'path-to-image-3.jpg' },
-    { name: 'Cappelli senza cappelle scappellati', imgPath: 'path-to-image-3.jpg' },
-    { name: 'Cappelli senza cappelle scappellati', imgPath: 'path-to-image-3.jpg' }
-  ];
+  constructor(private http: HttpClient, private keycloakService: KeyCloakService, private popUp: PopupService, protected wishListService: WishListService) {
+
+  }
+
+  ngOnInit(): void {
+   this.wishListService.getWishS(2)
+  }
 
 }

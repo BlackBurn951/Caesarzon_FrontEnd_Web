@@ -7,7 +7,6 @@
 
 
 .table-container{
-
   border: 1px solid black;
   width: 50vw;
   height: 20vw;
@@ -22,9 +21,9 @@ footer {
   bottom: 0;
   width: 100%;
 }
-.table-cell {
-  border: 1px solid black;
+
+
+.visibility{
   display: flex;
-  align-items: center;
-  justify-content: space-between;
 }
+

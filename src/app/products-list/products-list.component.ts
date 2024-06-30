@@ -30,6 +30,7 @@ export class ProductsListComponent{
     event.preventDefault()
   }
 
+
   protected readonly min = min;
   protected readonly max = max;
 }
