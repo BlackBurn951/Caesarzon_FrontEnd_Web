@@ -4,6 +4,9 @@ import {Router} from "@angular/router";
 import {KeyCloakService} from "../services/keyCloakService";
 import {ProductDTO} from "../entities/ProductDTO";
 import {ProductService} from "../services/productService";
+import {Average} from "../entities/Average";
+import {HttpClient} from "@angular/common/http";
+import {ProductReview} from "../entities/ProductReview";
 
 @Component({
   selector: 'app-product-page',
@@ -17,7 +20,7 @@ export class ProductPageComponent {
   day: number = 0
   month: number = 0
   year: number = 0
-  constructor(protected keyCloak: KeyCloakService, public popUpService:PopupService, private router:Router, protected productService: ProductService) {
+  constructor(protected keyCloak: KeyCloakService, public popUpService:PopupService, private router:Router, protected productService: ProductService, private http: HttpClient) {
   }
 
   ngOnInit() {

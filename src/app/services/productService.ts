@@ -25,13 +25,17 @@ export class ProductService {
   urlRicerca: string = 'http://localhost:8090/product-api/search';
   productDataURL: string = 'http://localhost:8090/product-api/product'
   productReviewURL: string= 'http://localhost:8090/product-api/reviews'
+  reviewScore: string= 'http://localhost:8090/product-api/reviews/score'
 
   urlLastNine: string = 'http://localhost:8090/product-api/new';
   urlOffer: string = 'http://localhost:8090/product-api/product/offer';
 
   prodotto!: ProductDTO
   recensioni!: ProductReview[]
+  scoreRecensioni: number[]= [0,0,0,0,0]
 
+  mediaRecensioni: number= 0
+  numeroRecensioni: number= 0
   ricerca: string = ""
   minPrice: number = 0;
   maxPrice: number = 0;
@@ -159,25 +163,45 @@ export class ProductService {
 
   prendiDatiProdotto(productId: string) {
     const headers = this.keycloakService.permaHeader()
-    console.log(productId)
     return this.http.get<ProductDTO>(this.productDataURL+'/'+productId, { headers}).subscribe(response =>{
       if(response != null){
         this.prodotto = response
-        this.prendiRecensioni(productId)
+        this.recensioni= []
+        this.prendiRecensioni(productId) .subscribe({
+          next: (response: ProductReview[])=> {
+            this.recensioni= response
+            this.products.forEach(p =>{
+              if(p.productId===productId) {
+                this.mediaRecensioni= p.averageReview
+                this.numeroRecensioni=  p.reviewsNumber
+              }
+            })
+            this.prendiScoreRecensioni(productId).subscribe(response => {
+              if(response!=null) {
+                this.scoreRecensioni= response
+              }
+            })
+            this.router.navigate(['product-page']);
+          },
+          error: (error: any) => {
+            if(error.status===500) {
+              this.router.navigate(['product-page']);
+            }
+          }
+        });
       }
     });
+
   }
 
   prendiRecensioni(productId: string) {
     const headers = this.keycloakService.permaHeader()
-    return this.http.get<ProductReview[]>(this.productReviewURL+'?prod-id='+productId, { headers}).subscribe(response =>{
-      if(response != null){
-        this.recensioni= response
-        console.log(response)
-        console.log(this.recensioni)
-        this.router.navigate(['product-page']);
-      }
-    });
+    return this.http.get<ProductReview[]>(this.productReviewURL+'?prod-id='+productId, { headers})
+  }
+
+  prendiScoreRecensioni(productId: string) {
+    const headers = this.keycloakService.permaHeader()
+    return this.http.get<number[]>(this.reviewScore+'?prod-id='+productId, { headers})
   }
 }
 

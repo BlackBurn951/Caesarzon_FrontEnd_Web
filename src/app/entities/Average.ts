@@ -1,7 +1,5 @@
 
 export interface Average {
-  motivo: string;
-  data: string;
-  username: string;
-  descrizioneban: string;
+  average: number
+  numberOfReview: number
 }

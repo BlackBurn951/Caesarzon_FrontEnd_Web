@@ -66,6 +66,10 @@
                 <p id="price">Prezzo: <b>{{this.productService.prodotto.price}}€</b></p>
               </div>
 
+            <div class="row pl-2">
+              <p id="discount">Sconto: {{this.productService.prodotto.discount}}%</p>
+            </div>
+
               <div class="row d-flex flex-column align-items-center">
                 <button *ngIf="!keyCloak.getAdmin()" type="button" class="btn btn-dark btn-buy mb-2" (click)="instaBuy($event)">Acquista</button>
                 <button *ngIf="keyCloak.getAdmin()" type="button" class="btn btn-dark btn-buy mb-2" (click)="instaBuy($event)">Modifica prodotto</button>
@@ -100,11 +104,11 @@
         </div>
 
         <div class="row">
-          <p>Stelline</p>
+          <p>Media voto: {{this.productService.mediaRecensioni}}/5</p>
         </div>
 
         <div class="row">
-          <p>numero recensioni</p>
+          <p>Numero recensioni: {{this.productService.numeroRecensioni}}</p>
         </div>
 
         <div class="row">
@@ -143,7 +147,21 @@
       </div>
 
 
-      <div class="col">  <!--SEZIONE SINGOLE RECENSIONI-->
+      <div class="col"><!--SEZIONE SINGOLE RECENSIONI-->
+        <div class="row" *ngIf="productService.recensioni.length===0">
+          <div class="card mb-2">
+            <div class="card-header">
+              <b></b>
+            </div>
+            <div class="card-body">
+              <blockquote class="blockquote mb-0">
+                <p>Il prodotto non ha ancora recensioni <br>Lasciaci la tua!</p>
+                <footer class="blockquote-footer">
+                </footer>
+              </blockquote>
+            </div>
+          </div>
+        </div>
 
         <div class="row" *ngFor="let item of productService.recensioni; let i=index">
           <div class="card mb-2">
@@ -164,48 +182,15 @@
         </div>
 
         <div class="row mt-2">
-            <button class="btn btn-primary mr-2">Up</button>
-            <button class="btn btn-primary">Down</button>
+            <button class="btn btn-dark btn-custom mr-2" *ngIf="productService.recensioni.length>0">Up</button>
+            <button class="btn btn-dark btn-custom mr-5" *ngIf="productService.recensioni.length>0">Down</button>
+            <button class="btn btn-dark btn-buy">Aggiungi recensione</button>
         </div>
       </div>
 
     </div>
   </div>
 
-    <div class="container mt-5 mb-5  pt-5">
-      <div class="row">
-        <div class="col">
-          <div class="card">
-            <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
-            <div class="card-body">
-              <h5 class="card-title">Prodotto 2</h5>
-              <p class="card-text">Descrizione breve del prodotto.</p>
-              <a href="#" class="btn btn-dark">Dettagli</a>
-            </div>
-          </div>
-        </div>
-        <div class="col">
-          <div class="card">
-            <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
-            <div class="card-body">
-              <h5 class="card-title">Prodotto 2</h5>
-              <p class="card-text">Descrizione breve del prodotto.</p>
-              <a href="#" class="btn btn-dark">Dettagli</a>
-            </div>
-          </div>
-        </div>
-        <div class="col">
-          <div class="card">
-            <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
-            <div class="card-body">
-              <h5 class="card-title">Prodotto 2</h5>
-              <p class="card-text">Descrizione breve del prodotto.</p>
-              <a href="#" class="btn btn-dark">Dettagli</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
   </div>
 </body>
 <footer>
