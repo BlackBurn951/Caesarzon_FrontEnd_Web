@@ -33,6 +33,10 @@ export class AdminService {
 
   testoRecensione!: string;
 
+  motivoRichiesta: string = '';
+  oggetto: string = '';
+  descrizioneRichiesta: string = '';
+
   image!: SafeUrl
 
   reviewId!: string;
@@ -123,9 +127,9 @@ export class AdminService {
   }
 
   inviaRisposta(){
-    this.popUp.closePopup()
     this.sendResponse().subscribe( response =>{
       if(response == "Richiesta di supporto eliminata con successo"){
+        this.popUp.closePopup()
         this.supports.splice(this.supportIndex, 1);
         this.rispostaAdmin = ""
         this.popUp.updateStringa(response)
@@ -137,6 +141,8 @@ export class AdminService {
 
   sendResponse(){
     const headers = this.keycloakService.permaHeader()
+    console.log(this.idSupport)
+    console.log(this.rispostaAdmin)
     const urlWithParams = `${this.supportURL}?support-id=${this.idSupport}&explain=${this.rispostaAdmin}`;
     return this.http.delete<string>(urlWithParams, {headers, responseType: "text" as 'json'});
   }
@@ -188,24 +194,26 @@ export class AdminService {
       text: descrizione,
       subject: oggetto,
       dateRequest: "",
-      explain: ""
     };
 
     this.sendHelp(supports).subscribe(
       response => {
+        this.oggetto = ""
+        this.descrizioneRichiesta = ""
+        this.motivoRichiesta = ""
         this.popUp.updateStringa("Richiesta di assistenza inviata correttamente!")
-        this.popUp.openPopups(10, true)
+        this.popUp.openPopups(1440, true)
       },
       error => {
         this.popUp.updateStringa("Problemi nell'invio della richiesta di assistenza!.")
-        this.popUp.openPopups(10, true)
+        this.popUp.openPopups(1440, true)
       }
     );
   }
 
   sendHelp(support: Supports): Observable<any> {
     const headers = this.keycloakService.permaHeader()
-    return this.http.post<any>(this.supportURL, support, { headers, responseType: 'text' as 'json' });
+    return this.http.post<string>(this.supportURL, support, { headers, responseType: 'text' as 'json' });
   }
 
   getUsers(){
@@ -221,7 +229,7 @@ export class AdminService {
   }
 
   getSupports(num: number){
-    const customUrl = this.banURL+"?num="+num
+    const customUrl = this.supportURL+"?num="+num
     const headers = this.keycloakService.permaHeader()
     return this.http.get<Supports[]>(customUrl, { headers });
   }

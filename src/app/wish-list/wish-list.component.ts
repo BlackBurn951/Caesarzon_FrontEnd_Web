@@ -4,6 +4,7 @@ import {UserManagementContainerComponent} from "../user-management-container/use
 import {NgForOf, NgIf} from "@angular/common";
 import {WishListService} from "../services/wishListService";
 import {ProductService} from "../services/productService";
+import {PopupService} from "../services/popUpService";
 
 @Component({
   selector: 'app-wish-list',
@@ -19,7 +20,7 @@ import {ProductService} from "../services/productService";
 })
 export class WishListComponent implements OnInit{
 
-  constructor(protected productService:ProductService, protected wishListService: WishListService) {
+  constructor(protected productService:ProductService, protected wishListService: WishListService, protected popUpService: PopupService) {
 
   }
 

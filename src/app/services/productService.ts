@@ -22,9 +22,11 @@ export class ProductService {
 
 
   urlRicerca: string = 'http://localhost:8090/product-api/search';
+
   productDataURL: string = 'http://localhost:8090/product-api/product'
 
   urlLastNine: string = 'http://localhost:8090/product-api/new';
+
   urlOffer: string = 'http://localhost:8090/product-api/product/offer';
 
   prodotto!: ProductDTO
@@ -88,7 +90,7 @@ export class ProductService {
   resetFiltri(event: any){
     event.preventDefault();
     this.crescente =false
-    this.decrescente =false 
+    this.decrescente =false
     this.sport = ""
     this.colorePrimario = ""
     this.coloreSecondario = ""

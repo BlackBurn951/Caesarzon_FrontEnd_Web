@@ -8,5 +8,4 @@ export interface Supports {
   subject: string
   text: string
   dateRequest: string
-  explain: string;
 }

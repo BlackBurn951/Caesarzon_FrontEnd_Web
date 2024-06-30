@@ -9,6 +9,7 @@ import {Supports} from "../entities/Supports";
 import {WishProduct} from "../entities/WishProduct";
 import {single} from "rxjs";
 import {ProductService} from "./productService";
+import {WishList} from "../entities/WishList";
 
 
 @Injectable({
@@ -19,12 +20,16 @@ export class WishListService{
 
   wishListProducts!: WishProduct;
   wishLists!: BasicWishList[];
-  showProducts: boolean = false;
+  showProductsMap: Record<string, boolean> = {};
 
   wishId! :string;
   productId!: string;
-
+  tipoListe: string= "Liste private"
   visibility!: number;
+  emptyList: boolean = false;
+
+  visibilitaNuovaLista!: string;
+  nomeNuovaLista!: string;
 
 
   section!: number ;
@@ -36,6 +41,10 @@ export class WishListService{
 
   deleteWishListsURL = 'http://localhost:8090/product-api/wishlist/'
 
+  createWishListsURL = 'http://localhost:8090/product-api/wishlist'
+
+  putVisibilityWishListsURL = 'http://localhost:8090/product-api/wishlist/visibility'
+
 
   getWishListsProductsURL = 'http://localhost:8090/product-api/wishlist/products'
 
@@ -44,6 +53,14 @@ export class WishListService{
 
   getWishS(num: number){
     this.section = num
+    if(num === 0){
+      this.tipoListe = "Liste pubbliche"
+    }else if(num === 1){
+      this.tipoListe = "Liste condivise"
+    }else{
+      this.tipoListe = "Liste private"
+
+    }
     this.getWishLists(num).subscribe( response =>{
       this.wishLists = response
     })
@@ -56,16 +73,62 @@ export class WishListService{
   }
 
   getWishListProducts(wishlistId: string) {
-    this.showProducts = !this.showProducts; // Toggle visibility
-    if (this.showProducts) {
-      const customUrl = this.getWishListsProductsURL + "?wish-id=" + wishlistId;
+    this.wishListProducts = { visibility: "", singleWishListProductDTOS: [] }; // Resetta la lista dei prodotti
+    this.emptyList = false; // Resetta il flag della lista vuota
+
+    this.showProductsMap[wishlistId] = !this.showProductsMap[wishlistId];
+    if (this.showProductsMap[wishlistId]) {
+      const customUrl = `${this.getWishListsProductsURL}?wish-id=${wishlistId}`;
       const headers = this.keycloakService.permaHeader();
-      this.http.get<WishProduct>(customUrl, { headers }).subscribe(response => {
-        console.log('WishListProducts Response:', response);
-        this.wishListProducts = response;
+      this.http.get<WishProduct>(customUrl, { headers }).subscribe({
+        next: (response: WishProduct) => {
+          if (response.singleWishListProductDTOS.length > 0) {
+            this.wishListProducts = response;
+            this.emptyList = false;
+          } else {
+            this.emptyList = true;
+          }
+        },
+        error: (error: any) => {
+          if (error.status === 404) {
+            this.emptyList = true;
+          }
+        }
       });
     }
   }
+
+  createNewWishList() {
+    const headers = this.keycloakService.permaHeader();
+
+    const wishList: WishList = {
+      id: "",
+      visibility: this.visibilitaNuovaLista,
+      name: this.nomeNuovaLista,
+      userUsername: ""
+    }
+
+    this.addWishList(wishList).subscribe(
+      response => {
+        this.popUpService.closePopup()
+        this.nomeNuovaLista = ""
+        this.visibilitaNuovaLista = ""
+        this.popUpService.updateStringa(response)
+        this.popUpService.openPopups(177, true)
+      },
+      error => {
+        console.error('Error sending user data:', error);
+      }
+    );
+  }
+
+
+  addWishList(wishList: WishList){
+    const headers = this.keycloakService.permaHeader()
+    return this.http.post<any>(this.createWishListsURL, wishList, { headers, responseType: 'text' as 'json' });
+
+  }
+
 
 
   changeVisibility(num: number, wishId: string){
@@ -86,8 +149,9 @@ export class WishListService{
 
   changeVisFunction(){
     const headers = this.keycloakService.permaHeader();
-    const customUrl = this.deleteWishListsURL+this.wishId+"?visibility="+this.visibility;
-    this.http.put<string>(customUrl, { headers, responseType: 'text' as 'json' }).subscribe(response => {
+    console.log("TOKKEN: " + this.keycloakService.getAccessToken())
+    const customUrl = this.putVisibilityWishListsURL+"?wish-id="+this.wishId+"&visibility="+1;
+    this.http.post<string>(customUrl, { headers, responseType: 'text' as 'json' }).subscribe(response => {
       if(response === "Visibilità cambiata con successo"){
         this.wishLists = this.wishLists.filter(wish => wish.id !== this.wishId);
         this.popUpService.closePopup()
@@ -158,11 +222,10 @@ export class WishListService{
 
 
 
-  deleteWishListproduct(wishId: string, productId: string, nomeProdotto: string){
+  deleteWishListproduct(productId: string, nomeProdotto: string){
     this.popUpService.operazione = 3
     this.popUpService.updateStringa("Sei sicuro di voler eliminare il prodotto: "+nomeProdotto+"?")
     this.popUpService.openPopups(123, false)
-    this.wishId= wishId;
     this.productId = productId;
   }
 

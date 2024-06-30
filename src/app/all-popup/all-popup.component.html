@@ -170,26 +170,23 @@
     <button (click)="popUpService.closePopup()" class="btn btn-dark ics">X</button>
     <div class="d-flex flex-column align-items-center">
       <label for="motivo">Visibilità (potrai cambiarla in seguito)</label>
-      <select name="visibilita" class="form-select selectionIn btn btn-dark custom-bln" >
-        <option value="privata">Privata</option>
-        <option value="pubblica">Pubblica</option>
-        <option value="amici">Amici</option>
-
+      <select [(ngModel)]="wishListService.visibilitaNuovaLista" name="visibilita" class="form-select selectionIn btn btn-dark custom-bln">
+        <option value="" disabled selected>Seleziona la visibilità</option>
+        <option value="Privata">Privata</option>
+        <option value="Pubblica">Pubblica</option>
+        <option value="Condivisa">Condivisa</option>
       </select>
-
     </div>
-
-
   </div>
-
 
   <div class="form-group gruppo d-flex flex-column align-items-center">
     <label for="descrizione">Nome lista</label>
-    <input class="form-control list" maxlength="30">
+    <input [(ngModel)]="wishListService.nomeNuovaLista" class="form-control list" maxlength="30">
   </div>
 
   <div class="d-flex flex-column align-items-center">
-    <button type="submit" class="btn btn-dark custom-btn al" >Crea</button>
+    <button type="submit" class="btn btn-dark custom-btn al" (click)="wishListService.createNewWishList()"
+            [disabled]="!wishListService.nomeNuovaLista || wishListService.nomeNuovaLista.length < 2 || !wishListService.visibilitaNuovaLista">Crea</button>
   </div>
 </div>
 

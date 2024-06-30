@@ -29,7 +29,7 @@
           <table class="table table-striped">
             <thead>
             <tr >
-              <th class="align-items-center" scope="col">Nome Lista</th>
+              <th class="align-items-center" scope="col">Nome Lista  ({{wishListService.tipoListe}})</th>
               <th class="d-flex flex-column align-items-center" scope="col">Azioni</th>
             </tr>
             </thead>
@@ -39,51 +39,53 @@
                 <td>{{ item.name }}</td>
                 <td>
 
-                  <div class="form-group d-flex flex-column align-items-center" *ngIf="wishListService.section == 0">
+                  <div class="form-group d-flex flex-row align-items-center"  *ngIf="wishListService.section == 0">
                     <button class="btn btn-dark custom-btn ml-2" (click)="wishListService.getWishListProducts(item.id)">
-                      Visualizza Prodotti
+                      Prodotti
                     </button>
                     <button class="btn btn-dark custom-btn ml-2" (click)="wishListService.changeVisibility(1, item.id)">
-                      Rendi condivisa
-                    </button>
-                    <button class="btn btn-dark custom-btn ml-2" (click)="wishListService.changeVisibility(2, item.id)">
-                      Rendi privata
-                    </button>
-                    <button class="btn btn-dark custom-btn ml-5" (click)="wishListService.deleteWishListsProducts(item.id, item.name)">
-                      <i class="fas fa-trash"></i>
-                    </button>
-                    <button class="btn btn-dark custom-btn ml-5" (click)="wishListService.deleteWishList(item.id, item.name)">
-                      X
-                    </button>
-                  </div>
-                  <div *ngIf="wishListService.section == 1">
-                    <button class="btn btn-dark custom-btn ml-2" (click)="wishListService.getWishListProducts(item.id)">
-                      Visualizza Prodotti
-                    </button>
-                    <button class="btn btn-dark custom-btn ml-2" (click)="wishListService.changeVisibility(0, item.id)">
-                      Rendi pubblica
+                      Condividi
                     </button>
                     <button class="btn btn-dark custom-btn ml-2 mr-5" (click)="wishListService.changeVisibility(2, item.id)">
                       Rendi privata
                     </button>
-                    <button class="btn btn-dark custom-btn ml-5" (click)="wishListService.deleteWishListsProducts(item.id, item.name)">
+                    <button class="btn btn-dark custom-btn" (click)="wishListService.deleteWishListsProducts(item.id, item.name)">
                       <i class="fas fa-trash"></i>
                     </button>
                     <button class="btn btn-dark custom-btn ml-5" (click)="wishListService.deleteWishList(item.id, item.name)">
                       X
                     </button>
                   </div>
-                  <div *ngIf="wishListService.section == 2">
+
+                  <div class="form-group d-flex flex-row align-items-center"  *ngIf="wishListService.section == 1">
                     <button class="btn btn-dark custom-btn ml-2" (click)="wishListService.getWishListProducts(item.id)">
-                      Visualizza Prodotti
+                      Prodotti
+                    </button>
+                    <button class="btn btn-dark custom-btn ml-2" (click)="wishListService.changeVisibility(0, item.id)">
+                      Pubblica
+                    </button>
+                    <button class="btn btn-dark custom-btn ml-2 mr-5" (click)="wishListService.changeVisibility(2, item.id)">
+                      Rendi privata
+                    </button>
+                    <button class="btn btn-dark custom-btn" (click)="wishListService.deleteWishListsProducts(item.id, item.name)">
+                      <i class="fas fa-trash"></i>
+                    </button>
+                    <button class="btn btn-dark custom-btn ml-5" (click)="wishListService.deleteWishList(item.id, item.name)">
+                      X
+                    </button>
+                  </div>
+
+                  <div class="form-group d-flex flex-row align-items-center "  *ngIf="wishListService.section == 2">
+                    <button class="btn btn-dark custom-btn ml-2" (click)="wishListService.getWishListProducts(item.id)">
+                      Prodotti
                     </button>
                     <button class="btn btn-dark custom-btn ml-2" (click)="wishListService.changeVisibility(1, item.id)">
-                      Rendi condivisa
+                      Condividi
                     </button>
                     <button class="btn btn-dark custom-btn ml-2 mr-5" (click)="wishListService.changeVisibility(0, item.id)">
-                      Rendi pubblica
+                      Pubblica
                     </button>
-                    <button class="btn btn-dark custom-btn ml-5" (click)="wishListService.deleteWishListsProducts(item.id, item.name)">
+                    <button class="btn btn-dark custom-btn" (click)="wishListService.deleteWishListsProducts(item.id, item.name)">
                       <i class="fas fa-trash"></i>
                     </button>
                     <button class="btn btn-dark custom-btn ml-5" (click)="wishListService.deleteWishList(item.id, item.name)">
@@ -93,22 +95,24 @@
 
                 </td>
               </tr>
-              <tr *ngIf="wishListService.showProducts">
+              <tr *ngIf="wishListService.showProductsMap[item.id]">
                 <td colspan="2">
+                  <p *ngIf="wishListService.emptyList">Non hai ancora aggiunto prodotti a questa lista</p>
                   <div *ngFor="let product of wishListService.wishListProducts?.singleWishListProductDTOS">
                     <p class="prodottoOi"  (click)="productService.prendiDatiProdotto(product.productId)" >{{ product.productName }} - {{ product.price }} €</p>
-                    <button class="btn btn-dark custom-btn ml-2" (click)="wishListService.deleteWishListproduct(item.id, product.productId, product.productName)">
+                    <button class="btn btn-dark custom-btn ml-2" (click)="wishListService.deleteWishListproduct(product.productId, product.productName)">
                       <i class="fas fa-minus"></i> Rimuovi Prodotto
                     </button>
                   </div>
                 </td>
               </tr>
             </ng-container>
+
             </tbody>
           </table>
         </div>
       </section>
-      <button type="button" class="btn btn-dark custom-btn mr-5" (click)="wishListService.getWishS(0)">Crea nuova lista desideri</button>
+      <button type="button" class="btn btn-dark custom-btn mr-5" (click)="popUpService.openPopups(4, true)">Crea nuova lista desideri</button>
 
     </div>
 
