@@ -20,4 +20,7 @@ export class ShoppingCartComponent {
       this.popup.openPopups(3, true);
     }
   }
+
+
+
 }
