@@ -10,13 +10,14 @@ import {BehaviorSubject, Subscription} from "rxjs";
 import {AdminService} from "../services/adminService";
 import {ProductService} from "../services/productService";
 import {WishListService} from "../services/wishListService";
+import {KeyCloakService} from "../services/keyCloakService";
 
 @Component({
   selector: 'app-all-popup',
   templateUrl: './all-popup.component.html',
   styleUrls: ['./all-popup.component.css', '../../styles.css']
 })
-export class AllPopupComponent{
+export class AllPopupComponent implements OnInit{
 
   section:number = 0
   sectionLabel:string = "Cerca utenti"
@@ -27,9 +28,7 @@ export class AllPopupComponent{
 
   //Creazione delle variabili base da utilizzare per inviare i dati al server
 
-  motivoSegnalazione!: string;
-  descrizioneSegnalazione!: string;
-  usernameSegnalato!: string;
+
 
   valutazione: number = 0;
   descrizioneRecensione!: string;
@@ -65,7 +64,7 @@ export class AllPopupComponent{
   formCaesarzon!: FormGroup;
 
 
-  constructor(protected wishListService:WishListService, protected productService: ProductService, private addressService: AddressService, private cardService: CardsService, public popUpService:PopupService, protected ottieniCittaService: ottieniCittaService, protected formService: FormService, protected userService: UserService, protected adminService: AdminService){
+  constructor(private keyCloak: KeyCloakService, protected wishListService:WishListService, protected productService: ProductService, private addressService: AddressService, private cardService: CardsService, public popUpService:PopupService, protected ottieniCittaService: ottieniCittaService, protected formService: FormService, protected userService: UserService, protected adminService: AdminService){
     this.formCaesarzon= this.formService.getForm();
 
   }
@@ -101,7 +100,11 @@ export class AllPopupComponent{
     }
   }
 
-
+  ngOnInit(): void {
+    this.keyCloak.getNotify().subscribe(notifies => {
+      this.keyCloak.notifications = notifies;
+    })
+  }
 
   //Metodo che dopo aver validato al password chiama il server che effettuare il cambio
   validatePassword(): void {
@@ -160,7 +163,7 @@ export class AllPopupComponent{
 
   //Metodi per la validazione dei campi
   isFormReportValid(): boolean {
-    return !!this.descrizioneSegnalazione && this.descrizioneSegnalazione.length >= 5 && this.descrizioneSegnalazione.length <= 500;
+    return !!this.adminService.descrizioneSegnalazione && this.adminService.descrizioneSegnalazione.length >= 5 && this.adminService.descrizioneSegnalazione.length <= 500;
   }
 
   isFormReviewValid(): boolean {
@@ -184,7 +187,7 @@ export class AllPopupComponent{
 
   sendReport(){
     if(this.isFormReportValid()) {
-      this.adminService.sendReports(this.motivoSegnalazione, this.descrizioneSegnalazione, this.usernameSegnalato)
+      this.adminService.sendReports()
     }
   }
 

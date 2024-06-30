@@ -71,12 +71,12 @@
   <div class="form-group">
     <div class="d-flex flex-column align-items-center">
       <h1 class="accediLabel">Stai segnalando l'utente</h1>
-      <h2 class="accediLabel">{{usernameSegnalato}}</h2>
+      <h2 class="accediLabel">{{adminService.usernameUtenteDaBannare}}</h2>
     </div>
     <button (click)="popUpService.closePopup()" class="btn btn-dark ics">X</button>
     <div class="d-flex flex-column align-items-center">
       <label for="motivo">Motivo della segnalazione</label>
-      <select name="motivo" [ngModel]="motivoSegnalazione" class="form-select selectionIn btn btn-dark custom-bln" id="motivo" >
+      <select name="motivo" [(ngModel)]="adminService.motivoSegnalazione" class="form-select selectionIn btn btn-dark custom-bln" id="motivo" >
         <option value="spam">Spam</option>
         <option value="contenuto_ripetitivo">Contenuto Ripetitivo</option>
         <option value="link_sospetti">Link Sospetti o Dannosi</option>
@@ -96,7 +96,7 @@
 
   <div class="form-group gruppo d-flex flex-column align-items-center">
     <label for="descrizione">Descrizione</label>
-    <textarea class="form-control gruppoInputDesc" id="descrizione" minlength="5" maxlength="500" [ngModel]="descrizioneSegnalazione"></textarea>
+    <textarea class="form-control gruppoInputDesc" id="descrizione" minlength="5" maxlength="500" [(ngModel)]="adminService.descrizioneSegnalazione"></textarea>
   </div>
 
   <div class="d-flex flex-column align-items-center">

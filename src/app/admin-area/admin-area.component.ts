@@ -5,6 +5,7 @@ import {AdminService} from "../services/adminService";
 import {PopupService} from "../services/popUpService";
 import {DomSanitizer} from "@angular/platform-browser";
 import {Reports} from "../entities/Report";
+import {KeyCloakService} from "../services/keyCloakService";
 
 @Component({
   selector: 'app-admin-area',
@@ -14,7 +15,7 @@ import {Reports} from "../entities/Report";
 export class AdminAreaComponent implements OnInit{
   isCollapsed: any[]  = [];
 
-  constructor(private sanitizer: DomSanitizer, private router: Router, private userService: UserService, protected adminService: AdminService, protected popUpService: PopupService) {
+  constructor(private keycloack: KeyCloakService, private sanitizer: DomSanitizer, private router: Router, private userService: UserService, protected adminService: AdminService, protected popUpService: PopupService) {
   }
 
   // Metodo per navigare ai dati personali dell'utente
@@ -53,6 +54,10 @@ export class AdminAreaComponent implements OnInit{
         }
       });
     });
+
+    this.keycloack.getNotify().subscribe(notifies => {
+      this.keycloack.notifications = notifies;
+    })
   }
 
 

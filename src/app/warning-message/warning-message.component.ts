@@ -6,6 +6,7 @@ import {AddressService} from "../services/addressService";
 import {CardsService} from "../services/cardsService";
 import {AdminService} from "../services/adminService";
 import {WishListService} from "../services/wishListService";
+import {KeyCloakService} from "../services/keyCloakService";
 
 
 
@@ -21,7 +22,7 @@ import {WishListService} from "../services/wishListService";
 export class WarningMessageComponent implements OnInit{
   stringa!: String;
 
-  constructor(private wishListService:WishListService, private adminService: AdminService, private dialogError: MatDialogRef<WarningMessageComponent>, public popup:PopupService, public addressService: AddressService, public cardService: CardsService) {
+  constructor(private keyCloak: KeyCloakService, private wishListService:WishListService, private adminService: AdminService, private dialogError: MatDialogRef<WarningMessageComponent>, public popup:PopupService, public addressService: AddressService, public cardService: CardsService) {
 
   }
 
@@ -29,6 +30,10 @@ export class WarningMessageComponent implements OnInit{
     this.popup.currentStringa.subscribe((value) => {
       this.stringa = value;
     });
+    this.keyCloak.getNotify().subscribe(notifies => {
+      this.keyCloak.notifications = notifies;
+    })
+
   }
 
   confermaOperazione(siOno: number){

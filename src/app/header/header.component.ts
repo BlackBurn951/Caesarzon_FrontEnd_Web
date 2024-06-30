@@ -1,4 +1,4 @@
-import {Component, OnDestroy} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {DatePipe, NgClass, NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
 import {Event, Router} from "@angular/router";
 import {PopupService} from "../services/popUpService";
@@ -10,7 +10,7 @@ import {MatIconButton} from "@angular/material/button";
 import {MatList, MatListItem} from "@angular/material/list";
 import {MatBadge} from "@angular/material/badge";
 import {Notifications} from "../entities/Notification";
-import {Subscription} from "rxjs";
+import {count, Subscription} from "rxjs";
 import {ProductService} from "../services/productService";
 import {FormsModule} from "@angular/forms";
 
@@ -36,7 +36,7 @@ import {FormsModule} from "@angular/forms";
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css', '../../styles.css']
 })
-export class HeaderComponent implements OnDestroy{
+export class HeaderComponent implements OnDestroy, OnInit{
 
   isMenuOpen = false;
 
@@ -86,6 +86,12 @@ export class HeaderComponent implements OnDestroy{
 
   toggleDescription(notification: Notifications): void {
     notification.showDescription = !notification.showDescription;
+  }
+
+  ngOnInit(): void {
+    this.keyCloak.getNotify().subscribe(notifies => {
+      this.keyCloak.notifications = notifies;
+    })
   }
 
 

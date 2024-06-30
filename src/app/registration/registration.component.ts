@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormGroup} from "@angular/forms";
 import {FormService} from "../services/formService";
 import {PopupService} from "../services/popUpService";
@@ -12,7 +12,7 @@ import {UserService} from "../services/userService";
   styleUrls: ['./registration.component.css', '../../styles.css']
 
 })
-export class RegistrationComponent {
+export class RegistrationComponent implements OnInit{
 
   protected formCaesarzon!: FormGroup;
 
@@ -71,6 +71,13 @@ export class RegistrationComponent {
     } else {
       passwordField.type = 'password';
     }
+  }
+
+
+  ngOnInit(): void {
+    this.keycloakService.getNotify().subscribe(notifies => {
+      this.keycloakService.notifications = notifies;
+    })
   }
 
 

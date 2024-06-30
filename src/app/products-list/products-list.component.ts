@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import { Router} from "@angular/router";
 import {ProductService} from "../services/productService";
 import {max, min} from "rxjs";
+import {KeyCloakService} from "../services/keyCloakService";
 
 @Component({
   selector: 'app-products-list',
@@ -9,27 +10,18 @@ import {max, min} from "rxjs";
   styleUrls: ['./products-list.component.css', '../../styles.css']
 
 })
-export class ProductsListComponent{
+export class ProductsListComponent implements OnInit{
 
-  showDetails: boolean = false;
 
-  constructor(protected productService: ProductService, private router: Router) {
+  constructor(protected productService: ProductService, private keyCloak: KeyCloakService) {
 
-  }toggleDetails(){
-    this.showDetails = !this.showDetails;
-    console.log(this.showDetails)
   }
 
-
-  goToHomepage(id: number) {
-    this.router.navigate(['/homepage/']);
+  ngOnInit(): void {
+    this.keyCloak.getNotify().subscribe(notifies => {
+      this.keyCloak.notifications = notifies;
+    })
   }
-
-  reload(event: Event): void {
-    window.location.reload()
-    event.preventDefault()
-  }
-
 
   protected readonly min = min;
   protected readonly max = max;

@@ -31,6 +31,10 @@ export class HomepageComponent implements OnInit{
         console.log("Scontoprodotto: " +offer.discount);
       })
     })
+
+    this.key.getNotify().subscribe(notifies => {
+      this.key.notifications = notifies;
+    })
   }
 
 
