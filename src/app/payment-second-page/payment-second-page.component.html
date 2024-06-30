@@ -19,26 +19,18 @@
               <div class="feed-item-list">
                 <div>
                   <h5 class="font-size-16 mb-1">Specifiche per la spedizione</h5>
-                  <p class="text-muted text-truncate mb-4">Seleziona un indirizzo registrato</p>
+                  <p class="text-muted text-truncate mb-4">Invia a</p>
                   <div class="mb-3">
                     <div class="row">
-                      <div class="col-lg-4 col-sm-6">
-                        <div data-bs-toggle="collapse">
-                          <label class="card-radio-label mb-0">
-                            <input type="radio" name="address" id="info-address1" class="address-radio-input" checked="">
-                            <div class="card-radio text-truncate p-3">
-                              <span class="fs-14 mb-4 d-block">Indirizzo 1</span>
-                              <span class="fs-14 mb-2 d-block">Via Roma</span>
-                              <span class="text-muted fw-normal text-wrap mb-1 d-block">104, Verona, Italia</span>
-
-                              <span class="text-muted fw-normal d-block">CAP 012-345-6789</span>
-                            </div>
+                      <div class="col-lg-4 col-sm-6" *ngFor="let address of addressService.addresses; let i = index">
+                        <div  class="card-radio-label mb-0">
+                          <label class="card-radio text-truncate p-3">
+                            <span class="fs-14 mb-2 d-block">{{keyCloak.getNomeUtente()}} {{keyCloak.getCognomeNomeUtente()}}</span>
+                            <span class="fs-14 mb-2 d-block">{{ address?.roadName }}</span>
+                            <span class="fs-14 mb-2 d-block">{{ address?.houseNumber }}</span>
+                            <span class="text-muted fw-normal text-wrap mb-1 d-block">{{ address?.city?.city }}, {{ address?.city?.province }}</span>
+                            <span class="text-muted fw-normal d-block">CAP {{ address?.city?.cap }}</span>
                           </label>
-                          <div class="edit-btn bg-light  rounded">
-                            <a href="#" data-bs-toggle="tooltip" data-placement="top" title="" data-bs-original-title="Edit">
-                              <i class="bx bx-pencil font-size-16"></i>
-                            </a>
-                          </div>
                         </div>
                       </div>
                     </div>
@@ -64,43 +56,15 @@
                 </div>
 
                 <div class="row">
-                  <div class="col-lg-4 col-sm-6">
-                    <div data-bs-toggle="collapse">
-                      <label class="card-radio-label mb-0">
-                        <input type="radio" name="payment" id="info-payment1" class="card-radio-input" checked="">
-                        <div class="card-radio text-truncate p-3">
-                          <span class="fs-14 mb-4 d-block">Carta 1</span>
-                          <span class="fs-14 mb-2 d-block">2831239124791</span>
-                          <span class="text-muted fw-normal text-wrap mb-1 d-block">Mario Rossi</span>
-                          <span class="text-muted fw-normal d-block">CVV 104</span>
-                        </div>
+                  <div class="col-lg-4 col-sm-6" *ngFor="let cards of cardService.cards; let i = index">
+                    <div  class="card-radio-label mb-0">
+                      <label class="card-radio text-truncate p-3">
+                        <span class="fs-14 mb-2 d-block">{{cards.owner}}</span>
+                        <span class="fs-14 mb-2 d-block">{{ cards.cardNumber }}</span>
+                        <span class="text-muted fw-normal text-wrap mb-1 d-block">{{ cards.expiryDate}}</span>
                       </label>
-                      <div class="edit-btn bg-light  rounded">
-                        <a href="#" data-bs-toggle="tooltip" data-placement="top" title="" data-bs-original-title="Edit"><i class="bx bx-pencil font-size-16"></i>
-                        </a>
-                      </div>
                     </div>
                   </div>
-
-                  <div class="col-lg-4 col-sm-6">
-                    <div data-bs-toggle="collapse">
-                      <label class="card-radio-label mb-0">
-                        <input type="radio" name="payment" id="info-payment2" class="card-radio-input" checked="">
-                        <div class="card-radio text-truncate p-3">
-                          <span class="fs-14 mb-4 d-block">Carta 2</span>
-                          <span class="fs-14 mb-2 d-block">83271837298</span>
-                          <span class="text-muted fw-normal text-wrap mb-1 d-block">Gaia Bianchi</span>
-                          <span class="text-muted fw-normal d-block">CVV 208</span>
-                        </div>
-                      </label>
-                      <div class="edit-btn bg-light  rounded">
-                        <a href="#" data-bs-toggle="tooltip" data-placement="top" title="" data-bs-original-title="Edit">
-                          <i class="bx bx-pencil font-size-16"></i>
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-
                 </div>
 
               </div>

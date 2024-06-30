@@ -20,6 +20,9 @@ export class KeyCloakService {
   private ACCESS_TOKEN!: string;
   private REFRESH_TOKEN!: string;
 
+  private nomeUtente!: string;
+  private cognomeUtente!: string;
+
   private username!: string;
   private isAdmin: boolean = false;
   private isLogged: boolean = false;
@@ -35,6 +38,20 @@ export class KeyCloakService {
   refreshAuthVariables(){
     this.ACCESS_TOKEN = "";
     this.REFRESH_TOKEN = "";
+  }
+  setNomeUtente(nome: string): void {
+    this.nomeUtente = nome
+  }
+
+  setCognomeNomeUtente(cognome: string){
+    this.cognomeUtente = cognome
+  }
+  getNomeUtente(){
+    return this.nomeUtente
+  }
+
+  getCognomeNomeUtente(){
+    return this.cognomeUtente
   }
 
   //Metodo per ricevere i token da KeyCloak per l'utente

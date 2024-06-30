@@ -1,8 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {FooterComponent} from "../footer/footer.component";
 import {Router} from "@angular/router";
 import {AddressService} from "../services/addressService";
 import {KeyCloakService} from "../services/keyCloakService";
+import {User} from "../entities/User";
+import {UserService} from "../services/userService";
+import {CardsService} from "../services/cardsService";
 
 @Component({
   selector: 'app-payment-second-page',
@@ -11,7 +13,7 @@ import {KeyCloakService} from "../services/keyCloakService";
 })
 export class PaymentSecondPageComponent implements OnInit{
 
-  constructor(private keyCloak: KeyCloakService, private router: Router) {
+  constructor(protected cardService: CardsService, private userService: UserService, protected addressService:AddressService, protected keyCloak: KeyCloakService, private router: Router) {
   }
   goBackToCart() {
     this.router.navigate(['shopping-cart']);
@@ -21,5 +23,19 @@ export class PaymentSecondPageComponent implements OnInit{
     this.keyCloak.getNotify().subscribe(notifies => {
       this.keyCloak.notifications = notifies;
     })
+    this.userService.getUserData().subscribe(
+      (userData: User) => {
+        this.keyCloak.setNomeUtente(userData.firstName)
+        this.keyCloak.setCognomeNomeUtente(userData.lastName)
+
+      },
+      error => {
+        console.error('Error fetching user data:', error);
+      }
+    );
+    this.addressService.getAddressesNamePayment()
+    this.cardService.getCardsNamePayment()
+
   }
+
 }

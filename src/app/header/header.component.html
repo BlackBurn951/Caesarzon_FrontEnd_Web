@@ -100,7 +100,7 @@
 
 
         <li class="nav-item">
-          <button  *ngIf="!keyCloak.getIsAdmin()" id="carr" class="menu-item btn btn-dark custom-btns"  (click)="changePage($event, 'shopping-cart')">Carrello</button>
+          <button  *ngIf="!keyCloak.getIsAdmin()" id="carr" class="menu-item btn btn-dark custom-btns"  (click)="changePage($event,'payment-second-page')">Carrello</button>
           <button  *ngIf="keyCloak.getIsAdmin()" id="product" class="menu-item btn btn-dark custom-btns" (click)="changePage($event, 'product-management')">Aggiungi prodotto</button>
         </li>
 

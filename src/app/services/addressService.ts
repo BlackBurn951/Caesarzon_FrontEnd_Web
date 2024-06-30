@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
-import {Observable, tap} from 'rxjs';
+import {forkJoin, Observable, tap} from 'rxjs';
 import { Address } from "../entities/Address";
 import { KeyCloakService } from "./keyCloakService";
 import { FormGroup } from "@angular/forms";
@@ -22,6 +22,8 @@ export class AddressService {
 
   nomeIndirizzo!: string;
 
+  addresses!: Address[];
+
   formCaesarzon!: FormGroup;
 
   private manageAddressURL = 'http://localhost:8090/user-api/address';
@@ -38,9 +40,36 @@ export class AddressService {
   getAddresses(idAddress: string): Observable<Address> {
     const urlWithParams = `${this.manageAddressURL}?address_id=${idAddress}`;
     const headers = this.keycloakService.permaHeader()
-
     return this.http.get<Address>(urlWithParams, { headers });
   }
+
+  getAddressesNamePayment() {
+    const headers = this.keycloakService.permaHeader();
+    this.http.get<string[]>(this.getAddressNamesURL, { headers }).subscribe({
+      next: (response) => {
+        console.log("Address id: " + response);
+        this.addressesName = response;
+
+        // Creo un array di observable per ogni chiamata a getAddresses
+        const requests = this.addressesName.map(addr => this.getAddresses(addr));
+
+        // Utilizzo forkJoin per eseguire tutte le richieste in parallelo
+        forkJoin(requests).subscribe(
+          (addresses: Address[]) => {
+            console.log("Addresses fetched:", addresses);
+            this.addresses = addresses; // Assegno tutti gli indirizzi alla lista addresses
+          },
+          (error) => {
+            console.error('Error fetching addresses:', error);
+          }
+        );
+      },
+      error: (error) => {
+        console.error('Error fetching address names:', error);
+      }
+    });
+  }
+
 
   //Metodo per prende la lista degli indirizzi dell'utente
   getAddressesName() {

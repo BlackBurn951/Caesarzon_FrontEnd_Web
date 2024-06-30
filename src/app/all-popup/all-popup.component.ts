@@ -129,7 +129,7 @@ export class AllPopupComponent implements OnInit{
       this.confirmPasswordError = 'Le password non corrispondono';
       return;
     }
-    //this.utente.cambiaPassword(this.formService.username, this.newPassword);
+    this.userService.cambioPassword(this.newPassword);
     this.popUpService.updateStringa('Cambio password avvenuto con successo')
     this.popUpService.openPopups(141, true);
 
@@ -186,7 +186,11 @@ export class AllPopupComponent implements OnInit{
   }
 
   sendReport(){
+    console.log("SOno nel culo")
+
     if(this.isFormReportValid()) {
+      console.log("dopo culo")
+
       this.adminService.sendReports()
     }
   }

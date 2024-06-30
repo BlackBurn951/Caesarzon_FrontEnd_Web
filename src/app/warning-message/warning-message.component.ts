@@ -58,6 +58,14 @@ export class WarningMessageComponent implements OnInit{
         this.wishListService.deleteWishListFunction()
       }else if(this.popup.operazione == 6){
         this.wishListService.changeVisFunction()
+      }else if(this.popup.operazione == 7){
+        this.adminService.deleteReview(this.adminService.reviewId, false).subscribe( response =>{
+          if(response == "Segnalazione eliminata con successo"){
+            this.adminService.reports.splice(this.adminService.reportIndex, 1);
+            this.popup.updateStringa(response)
+            this.popup.openPopups(123, true);
+          }
+        })
       }
     }else{
       this.popup.closePopup()

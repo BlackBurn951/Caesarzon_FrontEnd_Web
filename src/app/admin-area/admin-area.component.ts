@@ -75,10 +75,11 @@ export class AdminAreaComponent implements OnInit{
 
   scartaSegnalazione(utente: number){
     const user = this.adminService.reports.at(utente);
-    if (user)
+    if (user) {
       this.adminService.usernameUtenteDaBannare = user.usernameUser2;
+    }
 
-    this.popUpService.operazione = 1;
+    this.popUpService.operazione = 7;
     this.popUpService.updateStringa("Sei sicuro di voler scartare la segnalazione in merito all'utente: " + this.adminService.usernameUtenteDaBannare+"?")
     this.popUpService.openPopups(141, false);
   }

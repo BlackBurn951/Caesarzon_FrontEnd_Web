@@ -130,6 +130,8 @@ export class AdminService {
 
   }
 
+
+
   inviaRisposta(){
     this.sendResponse().subscribe( response =>{
       if(response == "Richiesta di supporto eliminata con successo"){
@@ -164,12 +166,13 @@ export class AdminService {
   }
 
   sendReports() {
+    console.log("SOno nella funzione")
     const reports: Reports = {
       id: "",
       reason: this.motivoSegnalazione,
       description: this.descrizioneSegnalazione,
       reportDate: "",
-      usernameUser2: this.usernameUtenteDaBannare,
+      usernameUser2: "cesare",
       usernameUser1: "",
       explain: "",
       reviewId: "",
@@ -182,17 +185,24 @@ export class AdminService {
         this.motivoSegnalazione = "";
         this.descrizioneSegnalazione = ""
         this.usernameSegnalato = ""
+        this.popUp.closePopup()
         this.popUp.updateStringa("Segnalazione inviata correttamente!")
-        this.popUp.openPopups(10, true)
+        this.popUp.openPopups(14124, true)
       },
       error => {
+        this.motivoSegnalazione = "";
+        this.descrizioneSegnalazione = ""
+        this.usernameSegnalato = ""
+        this.popUp.closePopup()
         this.popUp.updateStringa("Problemi nell'invio della segnalazione!.")
-        this.popUp.openPopups(10, true)
+        this.popUp.openPopups(1123, true)
       }
     );
   }
 
   sendReport(report: Reports): Observable<any> {
+    console.log("SOno nella chiamata")
+
     const headers = this.keycloakService.permaHeader()
     return this.http.post<any>(this.reportURL, report, { headers, responseType: 'text' as 'json' });
   }

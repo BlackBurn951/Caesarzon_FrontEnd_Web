@@ -71,21 +71,22 @@
   <div class="form-group">
     <div class="d-flex flex-column align-items-center">
       <h1 class="accediLabel">Stai segnalando l'utente</h1>
-      <h2 class="accediLabel">{{adminService.usernameUtenteDaBannare}}</h2>
+      <h2 class="accediLabel">Aldogay</h2>
     </div>
     <button (click)="popUpService.closePopup()" class="btn btn-dark ics">X</button>
     <div class="d-flex flex-column align-items-center">
       <label for="motivo">Motivo della segnalazione</label>
       <select name="motivo" [(ngModel)]="adminService.motivoSegnalazione" class="form-select selectionIn btn btn-dark custom-bln" id="motivo" >
         <option value="spam">Spam</option>
-        <option value="contenuto_ripetitivo">Contenuto Ripetitivo</option>
-        <option value="link_sospetti">Link Sospetti o Dannosi</option>
-        <option value="attività_automatizzata">Attività Automatizzata</option>
-        <option value="contenuto_offensivo">Contenuto Offensivo</option>
-        <option value="violazione_regole">Violazione delle Regole della Piattaforma</option>
-        <option value="informazioni_false">Informazioni False o Fraudolente</option>
-        <option value="violazione_privacy">Violazione della Privacy</option>
-        <option value="nudo_o_atti_sesso">Nudo o Atti Sessuali</option>
+        <option value="Contenuto Ripetitivo">Contenuto Ripetitivo</option>
+        <option value="Link Sospetti o Dannosi">Link Sospetti o Dannosi</option>
+        <option value="Attività Automatizzata">Attività Automatizzata</option>
+        <option value="Contenuto Offensivo">Contenuto Offensivo</option>
+        <option value="Violazione delle Regole della Piattaforma">Violazione delle Regole della Piattaforma</option>
+        <option value="Informazioni False o Fraudolente">Informazioni False o Fraudolente</option>
+        <option value="Violazione della Privacy">Violazione della Privacy</option>
+        <option value="Nudo o Atti Sessuali">Nudo o Atti Sessuali</option>
+
       </select>
 
     </div>

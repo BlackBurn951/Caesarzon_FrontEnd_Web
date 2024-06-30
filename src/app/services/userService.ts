@@ -11,6 +11,7 @@ import {Supports} from "../entities/Supports";
 import {UserSearch} from "../entities/UserSearch";
 import {Bans} from "../entities/Bans";
 import {Returns} from "../entities/Returns";
+import {PasswordChange} from "../entities/PasswordChange";
 
 
 @Injectable({
@@ -27,6 +28,8 @@ export class UserService {
 
 
   private manageUserDataURL = 'http://localhost:8090/user-api/user';
+
+  private managePasswordURL = 'http://localhost:8090/user-api/password';
 
   private manageProfilePicURL = 'http://localhost:8090/user-api/image';
 
@@ -60,6 +63,24 @@ export class UserService {
     return this.http.post<any>(this.reviewURL, reviews, { headers, responseType: 'text' as 'json' });
   }
 
+
+  cambioPassword(password: string){
+    const passwordChange: PasswordChange = {
+      username: "",
+      password: password
+    };
+
+    this.sendPasswordChange(passwordChange).subscribe(
+      response => {
+        this.popUp.updateStringa("Password cambiata correttamente!")
+        this.popUp.openPopups(10345, true)
+      },
+      error => {
+        this.popUp.updateStringa("Problemi nel cambio della password.")
+        this.popUp.openPopups(10435, true)
+      }
+    );
+  }
 
 
   sendUser(username: string, email:string, firstName:string, lastName: string, credentialValue: string) {
@@ -107,6 +128,13 @@ export class UserService {
           console.error('Errore durante l\'eliminazione dell\'account', error);
         }
       });
+  }
+
+
+  sendPasswordChange(passwordChange: PasswordChange): Observable<any> {
+    const headers = this.keycloakService.permaHeader()
+    const customUrl = this.managePasswordURL+"?recovery=false"
+    return this.http.put<any>(customUrl, passwordChange, { headers, responseType: 'text' as 'json' });
   }
 
   sendUserData(userData: UserRegistration): Observable<any> {
