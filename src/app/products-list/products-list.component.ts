@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import { Router} from "@angular/router";
 import {ProductService} from "../services/productService";
+import {max, min} from "rxjs";
 
 @Component({
   selector: 'app-products-list',
@@ -8,7 +9,7 @@ import {ProductService} from "../services/productService";
   styleUrls: ['./products-list.component.css', '../../styles.css']
 
 })
-export class ProductsListComponent implements OnInit{
+export class ProductsListComponent{
 
   showDetails: boolean = false;
 
@@ -19,9 +20,7 @@ export class ProductsListComponent implements OnInit{
     console.log(this.showDetails)
   }
 
-  ngOnInit(){
-    this.productService.getProducts()
-  }
+
   goToHomepage(id: number) {
     this.router.navigate(['/homepage/']);
   }
@@ -30,4 +29,7 @@ export class ProductsListComponent implements OnInit{
     window.location.reload()
     event.preventDefault()
   }
+
+  protected readonly min = min;
+  protected readonly max = max;
 }

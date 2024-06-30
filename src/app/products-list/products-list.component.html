@@ -20,47 +20,118 @@
         <h2>Filtri</h2>
         <!-- Filtro per range di prezzo -->
         <div class="filtriPrezzo">
+          <label>Ordinamento per prezzo:</label><br>
+          <button class="form-select inpotss btn btn-dark custom-bln mb-3" (click)="productService.reorder(0)">Crescente</button>
+          <button class="form-select inpotss btn btn-dark custom-bln mb-3" (click)="productService.reorder(1)">Decrescente</button>
+
+
           <label>Range di prezzo:</label><br>
-          <input class="form-control inpots mb-3"  type="number" [(ngModel)]="productService.minPrice" placeholder="MIN">
-          <input class="form-control inpots mb-3"  type="number" [(ngModel)]="productService.maxPrice" placeholder="MAX">
+          <label>MIN: {{ productService.minPrice }}</label><br>
+          <input type="range" class="form-control-range mb-3" [(ngModel)]="productService.minPrice" [min]="min" [max]="max" (ngModelChange)="productService.applyFilters()">
+
+          <label>MAX: {{ productService.maxPrice }}</label><br>
+          <input type="range" class="form-control-range mb-3" [(ngModel)]="productService.maxPrice" [min]="min" [max]="max" (ngModelChange)="productService.applyFilters()">
+
+          <div class="iCheck">
+            <div>
+              <input type="checkbox" id="attrezzatura" [(ngModel)]="productService.isEquipment" (ngModelChange)="productService.applyFilters()">
+              <label for="attrezzatura">Attrezzatura</label>
+            </div>
+            <div>
+              <input type="checkbox" id="abbigliamento" [(ngModel)]="productService.isClothing" (ngModelChange)="productService.applyFilters()">
+              <label for="abbigliamento">Abbigliamento</label>
+            </div>
+          </div>
+
+
+          <label class="mt-3" >Categoria:</label><br>
+          <select class="form-select inpotss btn btn-dark custom-bln mb-3" [(ngModel)]="productService.sport" (ngModelChange)="productService.applyFilters()">
+            <option value="">Tutto</option>
+            <option value="Atletica">Atletica</option>
+            <option value="Tennis">Tennis</option>
+            <option value="Pallavolo">Pallavolo</option>
+            <option value="Basket">Basket</option>
+            <option value="Nuoto">Nuoto</option>
+            <option value="Calcio">Calcio</option>
+            <option value="Arti Marziali">Arti Marziali</option>
+            <option value="Ciclismo">Ciclismo</option>
+            <option value="Sci">Sci</option>
+          </select>
+
+          <label>Colore primario:</label><br>
+          <select class="form-select inpotss btn btn-dark custom-bln mb-3" [(ngModel)]="productService.colorePrimario" (ngModelChange)="productService.applyFilters()">
+            <option value="">Tutto</option>
+            <option value="Bianco">Bianco</option>
+            <option value="Nero">Nero</option>
+            <option value="Grigio">Grigio</option>
+            <option value="Rosso">Rosso</option>
+            <option value="Blu">Blu</option>
+            <option value="Verde">Verde</option>
+            <option value="Giallo">Giallo</option>
+            <option value="Arancione">Arancione</option>
+            <option value="Viola">Viola</option>
+            <option value="Rosa">Rosa</option>
+          </select>
+
+          <label>Colore secondario:</label><br>
+          <select class="form-select inpotss btn btn-dark custom-bln mb-3" [(ngModel)]="productService.coloreSecondario" (ngModelChange)="productService.applyFilters()">
+            <option value="">Tutto</option>
+            <option value="Bianco">Bianco</option>
+            <option value="Nero">Nero</option>
+            <option value="Grigio">Grigio</option>
+            <option value="Rosso">Rosso</option>
+            <option value="Blu">Blu</option>
+            <option value="Verde">Verde</option>
+            <option value="Giallo">Giallo</option>
+            <option value="Arancione">Arancione</option>
+            <option value="Viola">Viola</option>
+            <option value="Rosa">Rosa</option>
+          </select>
+
+          <label>Marca:</label><br>
+          <select class="form-select inpotss btn btn-dark custom-bln mb-3" [(ngModel)]="productService.marca" (ngModelChange)="productService.applyFilters()">
+            <option value="">Tutto</option>
+            <option value="Adidas">Adidas</option>
+            <option value="Nike">Nike</option>
+            <option value="Puma">Puma</option>
+            <option value="Wilson">Wilson</option>
+          </select>
         </div>
 
-        <div class="filter-item">
-          <label>Categoria:</label><br>
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" id="attrezzatura" [(ngModel)]="productService.isEquipment">
-            <label class="form-check-label" for="attrezzatura">Attrezzatura</label>
-          </div>
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" id="abbigliamento" [(ngModel)]="productService.isClothing">
-            <label class="form-check-label" for="abbigliamento">Abbigliamento</label>
-          </div>
-        </div>
 
-        <a href="#" class="btn btn-dark custom-btn" (click)="productService.applyFilters($event)">Aggiorna</a>
+
+
+        <a href="#" class="btn btn-dark custom-btn" (click)="productService.resetFiltri($event)">Reimposta filtri</a>
       </div>
     </div>
     <!-- Colonna per i prodotti -->
     <div class="col-md-9">
-      <div class="containerProdotti">
-        <div class="row">
-          <div class="col-md-4 mb-3" *ngFor="let item of productService.products.slice(0, productService.products.length - (productService.products.length % 3)); let i = index">
-            <div class="product" (click)="productService.prendiDatiProdotto(item.productId)">
-              <img src="https://via.placeholder.com/150" alt="Product Image">
-              <h2>{{item.productName}}</h2>
-              <h2>{{item.price}} €</h2>
-              <div *ngIf="item.reviewsNumber > 0">
-                <h4>Numero recensioni: {{item.reviewsNumber}}</h4>
-                <h4>Media recensioni: {{item.averageReview}}</h4>
-              </div>
-              <div *ngIf="item.reviewsNumber == 0">
-                <h4>Non ci sono ancora recensioni</h4>
-              </div>
+      <div class="container-fluid collection ml-5">
+        <!-- Imagine a loop produced this... -->
+        <div class="product" *ngFor="let item of productService.products; let i = index" (click)="productService.prendiDatiProdotto(item.productId)">
+          <a class="product__image"  (click)="productService.prendiDatiProdotto(item.productId)"><img src="assets/images/360_F_565224180_QNRiRQkf9Fw0dKRoZGwUknmmfk51SuSS.jpg"></a>
+          <div class="product__name" >
+            <p>
+              <a>{{item.productName}}</a>
+            </p>
+          </div>
+          <div class="product__price">
+            <p>Prezzo: {{item.price}}€
+            <p *ngIf="item.discount > 0">
+              Sconto: {{ item.discount }}%
+              <span style="color: red" *ngIf="item.discount > 10"> HOT</span>
+            </p>
+
+            <div *ngIf="item.reviewsNumber > 0">
+              <h4>Numero recensioni: {{item.reviewsNumber}}</h4>
+              <h4>Media recensioni: {{item.averageReview}}</h4>
+            </div>
+            <div *ngIf="item.reviewsNumber == 0">
+              <h4>Non ci sono ancora recensioni</h4>
             </div>
           </div>
         </div>
       </div>
-
     </div>
   </div>
 </div>

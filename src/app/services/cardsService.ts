@@ -47,7 +47,7 @@ export class CardsService {
           setTimeout(()=>{
             window.location.reload()
 
-          }, 1000);
+          }, 2000);
 
         },
         error: (error) => {
@@ -92,6 +92,10 @@ export class CardsService {
               }
             }
           });
+        }else{
+          this.userService.loading = false
+          this.router.navigate(['payment-data']);
+
         }
       },
       error: (error) => {
@@ -127,14 +131,16 @@ export class CardsService {
       response => {
         this.popUp.closePopup()
         this.popUp.updateStringa("Carta aggiunta con successo!")
-        this.popUp.openPopups(10, true)
+        this.popUp.openPopups(144, true)
         this.clearFields()
-        window.location.reload()
+        setTimeout(()=>{
+          window.location.reload()
+        }, 2000);
       },
       error => {
         this.popUp.closePopup()
         this.popUp.updateStringa("Errore nell'aggiunta della carta!")
-        this.popUp.openPopups(10, true)
+        this.popUp.openPopups(155, true)
         this.clearFields()
       }
     );

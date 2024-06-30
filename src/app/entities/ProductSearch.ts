@@ -8,6 +8,7 @@ export interface ProductSearch {
   reviewsNumber: number
   price: number;
   productId: string;
+  discount: number;
 
 }
 

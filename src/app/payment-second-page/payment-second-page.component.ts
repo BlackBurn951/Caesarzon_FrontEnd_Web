@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import {FooterComponent} from "../footer/footer.component";
 import {Router} from "@angular/router";
+import {AddressService} from "../services/addressService";
 
 @Component({
   selector: 'app-payment-second-page',
@@ -9,7 +10,7 @@ import {Router} from "@angular/router";
 })
 export class PaymentSecondPageComponent {
 
-  constructor(private router: Router) {
+  constructor(private addressService: AddressService, private router: Router) {
   }
   goBackToCart() {
     this.router.navigate(['shopping-cart']);

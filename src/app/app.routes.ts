@@ -1,14 +1,13 @@
 import {HomepageComponent} from "./homepage/homepage.component";
 import {RegistrationComponent} from "./registration/registration.component";
 import {ProductPageComponent} from "./product-page/product-page.component";
-import {ApplicationRef, DoBootstrap, NgModule} from "@angular/core";
+import {ApplicationRef, ChangeDetectorRef, DoBootstrap, NgModule} from "@angular/core";
 import {ProductsListComponent} from "./products-list/products-list.component";
 import {ProductManagementComponent} from "./product-management/product-management.component";
 import {ShoppingCartComponent} from "./shopping-cart/shopping-cart.component";
 import {PersonalDataComponent} from "./personal-data/personal-data.component";
 import {FooterComponent} from "./footer/footer.component";
 import {UserPaymentDataComponent} from "./user-payment-data/user-payment-data.component";
-import {PaymentFirstPageComponent} from "./payment-first-page/payment-first-page.component";
 import {HelpRequestComponent} from "./help-request/help-request.component";
 import {UserManagementContainerComponent} from "./user-management-container/user-management-container.component";
 import {UserAddressDataComponent} from "./user-address-data/user-address-data.component";
@@ -42,7 +41,6 @@ export const routes: Routes = [
   {path: 'shopping-cart', component: ShoppingCartComponent},
   {path: 'personal-data', component: PersonalDataComponent},
   {path: 'payment-data', component: UserPaymentDataComponent},
-  {path: 'payment-first-page', component: PaymentFirstPageComponent},
   {path: 'payment-second-page', component: PaymentSecondPageComponent},
   {path: 'help-request', component: HelpRequestComponent},
   {path: 'address-data', component: UserAddressDataComponent},
@@ -59,7 +57,6 @@ export const routes: Routes = [
     ProductManagementComponent,
     ShoppingCartComponent,
     AllPopupComponent,
-    PaymentFirstPageComponent,
     UserAddressDataComponent,
     UserPaymentDataComponent,
     PaymentSecondPageComponent,
