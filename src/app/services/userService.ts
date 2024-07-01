@@ -96,14 +96,14 @@ export class UserService {
     this.sendUserData(userData).subscribe(
       response => {
         this.popUp.updateStringa("Account creato correttamente! Verrai reinderizzato")
-        this.popUp.openPopups(10, true)
+        this.popUp.openPopups(103, true)
         setTimeout(() => {
           this.keycloakService.login(username, credentialValue);
         }, 3000);
       },
       error => {
         this.popUp.updateStringa("Problemi nella creazione dell'account, riprova più tardi.")
-        this.popUp.openPopups(10, true)
+        this.popUp.openPopups(1034, true)
         console.error('Error sending user data:', error);
       }
     );
@@ -174,7 +174,7 @@ export class UserService {
     this.modifyUserData(userData).subscribe(
       response => {
         this.popUp.updateStringa("Dati modificati con successo!")
-        this.popUp.openPopups(10, true)
+        this.popUp.openPopups(1450, true)
         this.testoButton = "Modifica dati"
         this.inputAbilitato = false
       },
@@ -187,7 +187,7 @@ export class UserService {
 
   modifyUserData(userData: User): Observable<any> {
     const headers = this.keycloakService.permaHeader()
-    return this.http.put<any>(this.manageUserDataURL, userData, { headers, responseType: 'text' as 'json' });
+    return this.http.put<string>(this.manageUserDataURL, userData, { headers, responseType: 'text' as 'json' });
   }
 
   uploadImage(file: File): Observable<any> {

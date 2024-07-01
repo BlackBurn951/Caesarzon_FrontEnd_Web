@@ -5,6 +5,7 @@ import {KeyCloakService} from "../services/keyCloakService";
 import {User} from "../entities/User";
 import {UserService} from "../services/userService";
 import {CardsService} from "../services/cardsService";
+import {CartService} from "../services/cartService";
 
 @Component({
   selector: 'app-payment-second-page',
@@ -13,8 +14,9 @@ import {CardsService} from "../services/cardsService";
 })
 export class PaymentSecondPageComponent implements OnInit{
 
-  constructor(protected cardService: CardsService, private userService: UserService, protected addressService:AddressService, protected keyCloak: KeyCloakService, private router: Router) {
+  constructor(protected cartService: CartService, protected cardService: CardsService, private userService: UserService, protected addressService:AddressService, protected keyCloak: KeyCloakService, private router: Router) {
   }
+
   goBackToCart() {
     this.router.navigate(['shopping-cart']);
   }
@@ -35,6 +37,7 @@ export class PaymentSecondPageComponent implements OnInit{
     );
     this.addressService.getAddressesNamePayment()
     this.cardService.getCardsNamePayment()
+    this.cartService.getCart()
 
   }
 

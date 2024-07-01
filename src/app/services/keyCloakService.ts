@@ -218,7 +218,7 @@ export class KeyCloakService {
   }
 
   private startTokenRefreshTimer() {
-    const refreshInterval = 4 * 60 * 1000; // 30 minuti in millisecondi, puoi modificare l'intervallo a seconda delle tue esigenze
+    const refreshInterval = 14 * 60 * 1000; // 30 minuti in millisecondi, puoi modificare l'intervallo a seconda delle tue esigenze
 
     setInterval(() => {
       this.refreshToken().subscribe(
