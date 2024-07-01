@@ -34,6 +34,10 @@ export class UserManagementContainerComponent implements OnInit{
     this.router.navigate(['wish-list']);
   }
 
+  openOrderSummary() {
+    this.router.navigate(['order-summary']);
+  }
+
   openPaymentData() {
     this.userService.loading = true;
     this.cardsService.getCardsName()

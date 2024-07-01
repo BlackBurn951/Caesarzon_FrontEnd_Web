@@ -12,7 +12,6 @@ import {Logout} from "../entities/Logout";
   providedIn: 'root',
 })
 export class KeyCloakService {
-  private keycloakLogoutUrl = 'http://25.24.244.170:8080/realms/CaesarRealm/protocol/openid-connect/logout';
   private manageNotifyURL = 'http://localhost:8090/notify-api/user/notifications';
   private manageNotifyAdminURL = 'http://localhost:8090/notify-api/admin/notifications';
   private deleteNotifyURL = 'http://localhost:8090/notify-api/notification';
@@ -25,7 +24,7 @@ export class KeyCloakService {
   private nomeUtente!: string;
   private cognomeUtente!: string;
 
-  private username!: string;
+  private username: string = ""
   private isAdmin: boolean = false;
   private isLogged: boolean = false;
 

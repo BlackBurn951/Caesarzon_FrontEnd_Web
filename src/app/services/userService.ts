@@ -32,29 +32,7 @@ export class UserService {
   constructor( private http: HttpClient, private keycloakService: KeyCloakService, private popUp: PopupService) { }
 
 
-  sendReviews(numStelle: number, descrizione: string) {
-    const review: Reviews = {
-      numStelle: numStelle,
-      descrizione: descrizione,
-      dataRecensione: ""
-    };
 
-    this.sendReview(review).subscribe(
-      response => {
-        this.popUp.updateStringa("Recensione inviata correttamente!")
-        this.popUp.openPopups(10, true)
-      },
-      error => {
-        this.popUp.updateStringa("Problemi nell'invio della recensione!.")
-        this.popUp.openPopups(10, true)
-      }
-    );
-  }
-
-  sendReview(reviews: Reviews): Observable<any> {
-    const headers = this.keycloakService.permaHeader()
-    return this.http.post<any>(this.reviewURL, reviews, { headers, responseType: 'text' as 'json' });
-  }
 
 
   cambioPassword(password: string){

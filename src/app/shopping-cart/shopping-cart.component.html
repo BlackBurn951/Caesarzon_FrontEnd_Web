@@ -24,6 +24,7 @@
                 <!-- Imagine a loop produced this... -->
                 <div class="product" *ngFor="let item of cartService.productInCart">
                   <a class="product__image" href="#"></a>
+
                   <div class="product__name">
                     <p>
                       <a href="#">{{item.name}}</a>
@@ -31,6 +32,37 @@
                   </div>
                   <div class="product__price">
                     <p>{{item.total/item.quantity}}
+                  </div>
+                  <div style="display: flex;">
+                    <div class="product__quantity" >
+                      <select >
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                      </select>
+                    </div>
+                    <div class="product__size" >
+                      <select >
+                        <option value="XS">XS</option>
+                        <option value="S">S</option>
+                        <option value="M">M</option>
+                        <option value="L">L</option>
+                        <option value="XL">XL</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="product__options" >
+                    <a href="#">Salva per dopo</a>
+                  </div>
+                  <div class="product__options" >
+                    <a href="#">Rimuovi</a>
                   </div>
                 </div>
               </div>

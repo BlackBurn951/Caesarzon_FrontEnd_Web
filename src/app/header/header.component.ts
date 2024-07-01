@@ -69,6 +69,22 @@ export class HeaderComponent implements OnDestroy, OnInit{
     this.router.navigate([page]);
   }
 
+  changeSection(event: MouseEvent, num:number, page:string, numResult: number){
+    if(num === 0){
+      this.adminService.getUsers()
+      this.goToAdminArea(event, page, numResult)
+    }else if(num === 1){
+      this.adminService.getReports(0)
+      this.goToAdminArea(event, page, numResult)
+    }else if(num === 2){
+      this.adminService.getSupports(0)
+      this.goToAdminArea(event, page, numResult)
+    }else if(num === 3){
+      this.adminService.getBans(0)
+      this.goToAdminArea(event, page, numResult)
+    }
+  }
+
   goToAdminArea(event: MouseEvent, page:string, num: number){
     this.adminService.section = num;
     event.preventDefault()

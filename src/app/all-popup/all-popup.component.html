@@ -90,8 +90,6 @@
       </select>
 
     </div>
-
-
   </div>
 
 
@@ -115,24 +113,24 @@
     <button (click)="popUpService.closePopup()" class="btn btn-dark ics">X</button>
     <div class="d-flex flex-column align-items-center">
       <div class="stars">
-        <span class="star" (click)="rate(1)" [ngClass]="{'filled': valutazione >= 1}">★</span>
-        <span class="star" (click)="rate(2)" [ngClass]="{'filled': valutazione >= 2}">★</span>
-        <span class="star" (click)="rate(3)" [ngClass]="{'filled': valutazione >= 3}">★</span>
-        <span class="star" (click)="rate(4)" [ngClass]="{'filled': valutazione >= 4}">★</span>
-        <span class="star" (click)="rate(5)" [ngClass]="{'filled': valutazione == 5}">★</span>
+        <span class="star" (click)="rate(1)" [ngClass]="{'filled': productService.valutazioneRecensione >= 1}">★</span>
+        <span class="star" (click)="rate(2)" [ngClass]="{'filled': productService.valutazioneRecensione >= 2}">★</span>
+        <span class="star" (click)="rate(3)" [ngClass]="{'filled': productService.valutazioneRecensione >= 3}">★</span>
+        <span class="star" (click)="rate(4)" [ngClass]="{'filled': productService.valutazioneRecensione >= 4}">★</span>
+        <span class="star" (click)="rate(5)" [ngClass]="{'filled': productService.valutazioneRecensione == 5}">★</span>
       </div>
     </div>
 
-    <input type="hidden" id="rating" name="rating" [value]="valutazione">
+    <input type="hidden" id="rating" name="rating" [(ngModel)]="productService.valutazioneRecensione">
   </div>
 
   <div class="form-group gruppo d-flex flex-column align-items-center">
     <label for="descrizione">Descrizione</label>
-    <textarea [ngModel]="descrizioneRecensione" class="form-control gruppoInputDesc" minlength="5" maxlength="500"></textarea>
+    <textarea [(ngModel)]="productService.descrizioneRecensione" class="form-control gruppoInputDesc" minlength="5" maxlength="500"></textarea>
   </div>
 
   <div class="d-flex flex-column align-items-center">
-    <button type="submit" class="btn btn-dark custom-btn al" [disabled]="!isFormReviewValid()" (click)="sendReview()">Invia</button>
+    <button type="submit" class="btn btn-dark custom-btn al" [disabled]="!isFormReviewValid()" (click)="productService.addReview()">Invia</button>
   </div>
 </div>
 
@@ -148,6 +146,7 @@
     <div class="d-flex flex-row align-items-center">
       <label for="selectCard">Seleziona lista dei desideri:</label>
       <select class="form-select selectionIn btn btn-dark custom-bln ml-2" id="selectCard" (change)="wishListService.updateWishListID($event)">
+        <option></option>
         <option *ngFor="let names of wishListService.wishLists" [value]="names.id">{{ names.name }}</option>
       </select>
 

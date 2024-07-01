@@ -20,6 +20,9 @@ export class ProductService {
 
   productDataURL: string = 'http://localhost:8090/product-api/product'
   productReviewURL: string= 'http://localhost:8090/product-api/reviews'
+
+  addProductReviewURL: string= 'http://localhost:8090/product-api/review'
+
   reviewScore: string= 'http://localhost:8090/product-api/reviews/score'
 
   urlLastNine: string = 'http://localhost:8090/product-api/new';
@@ -32,7 +35,7 @@ export class ProductService {
   avvisoDisp: string = "Disponibilità ancora non aggiunta"
   disponibilitaAggiunta: boolean = false;
 
-  products! : ProductSearch[]
+  products: ProductSearch[] = []
 
   newProducts!: ProductSearch[];
   offerProducts!: ProductSearch[];
@@ -57,13 +60,49 @@ export class ProductService {
   crescente : boolean = false;
   decrescente: boolean = false;
 
+
+  valutazioneRecensione: number = 1
+  descrizioneRecensione: string = ""
+
   constructor(private formService: FormService, private router: Router, private http: HttpClient, private popUpService:PopupService, private keycloakService: KeyCloakService) {
     this.formCaesarzon = formService.getForm();
 
   }
 
-  addReview(productId: string){
 
+
+
+  addReview(){
+    const review: ProductReview ={
+      id: "",
+      text: this.descrizioneRecensione,
+      evaluation: this.valutazioneRecensione,
+      username: "",
+      productID: this.prodotto.id,
+      date: ""
+    }
+
+    this.sendReviewData(review).subscribe(response =>{
+      if(response === "Recensione aggiunta"){
+        this.popUpService.closePopup()
+        this.popUpService.updateStringa(response)
+        this.popUpService.openPopups(69, true)
+        this.valutazioneRecensione = 1
+        this.descrizioneRecensione = ""
+      }else{
+        this.popUpService.closePopup()
+        this.popUpService.updateStringa("Errore o limite di recensioni raggiunte")
+        this.popUpService.openPopups(69, true)
+        this.valutazioneRecensione = 1
+        this.descrizioneRecensione = ""
+      }
+    })
+
+  }
+
+  sendReviewData(reviewData: ProductReview){
+    const headers = this.keycloakService.permaHeader();
+    return this.http.post<string>(this.addProductReviewURL, reviewData,{ headers, responseType: 'text' as 'json' });
   }
 
 
@@ -98,12 +137,31 @@ export class ProductService {
         this.prendiRecensioni(productId) .subscribe({
           next: (response: ProductReview[])=> {
             this.recensioni= response
-            this.products.forEach(p =>{
-              if(p.productId===productId) {
-                this.mediaRecensioni= p.averageReview
-                this.numeroRecensioni=  p.reviewsNumber
-              }
-            })
+            if(this.products.length > 0){
+              this.products.forEach(p =>{
+                if(p.productId===productId) {
+                  this.mediaRecensioni= p.averageReview
+                  this.numeroRecensioni=  p.reviewsNumber
+                }
+              })
+            }
+            if(this.offerProducts.length > 0){
+              this.offerProducts.forEach(p =>{
+                if(p.productId===productId) {
+                  this.mediaRecensioni= p.averageReview
+                  this.numeroRecensioni=  p.reviewsNumber
+                }
+              })
+            }
+            if(this.newProducts.length > 0){
+              this.newProducts.forEach(p =>{
+                if(p.productId===productId) {
+                  this.mediaRecensioni= p.averageReview
+                  this.numeroRecensioni=  p.reviewsNumber
+                }
+              })
+            }
+
             this.prendiScoreRecensioni(productId).subscribe(response => {
               if(response!=null) {
                 this.scoreRecensioni= response

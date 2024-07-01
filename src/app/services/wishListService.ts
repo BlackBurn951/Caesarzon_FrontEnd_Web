@@ -70,7 +70,7 @@ export class WishListService{
       this.tipoListe = "Liste private"
 
     }
-    this.getWishLists(num, 0).subscribe( response =>{
+    this.getWishLists(0, num).subscribe( response =>{
       this.wishLists = response
     })
   }
@@ -114,7 +114,14 @@ export class WishListService{
 
   createNewWishList() {
     const headers = this.keycloakService.permaHeader();
-
+    let visNum: number;
+    if(this.visibilitaNuovaLista === "Pubblica"){
+      visNum = 0
+    }else if(this.visibilitaNuovaLista === "Condivisa"){
+      visNum = 1
+    }else{
+      visNum = 2
+    }
     const wishList: WishList = {
       id: "",
       visibility: this.visibilitaNuovaLista,
@@ -129,6 +136,7 @@ export class WishListService{
         this.visibilitaNuovaLista = ""
         this.popUpService.updateStringa(response)
         this.popUpService.openPopups(177, true)
+        this.getWishLists(0, visNum)
       },
       error => {
         console.error('Error sending user data:', error);
@@ -169,10 +177,12 @@ export class WishListService{
   updateWishListID(event: Event) {
     const selectElement = event.target as HTMLSelectElement;
     const selectedId = selectElement.value;
+    console.log("Selected Wish List ID: ", selectedId); // Aggiungi questo per vedere se viene chiamato
     this.setWishListID(selectedId);
   }
 
-  setWishListID(id: string){
+  setWishListID(id: string) {
+    console.log("Setting Wish List ID: ", id); // Aggiungi questo per vedere se l'ID viene settato
     this.wishListToAddProduct = id;
   }
 

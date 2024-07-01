@@ -89,10 +89,10 @@
             </div>
 
             <div *ngIf="keyCloak.getIsAdmin()" class="dropdown-menu" >
-              <a class="dropdown-item" (click)="goToAdminArea($event,'admin-area', 0)">Cerca utenti</a>
-              <a class="dropdown-item" (click)="goToAdminArea($event,'admin-area', 1)">Segnalazioni</a>
-              <a class="dropdown-item" (click)="goToAdminArea($event,'admin-area', 2)">Richieste di supporto</a>
-              <a class="dropdown-item" (click)="goToAdminArea($event,'admin-area', 3)">Utenti bannati</a>
+              <a class="dropdown-item" (click)="changeSection($event, 0, 'admin-area',0)">Cerca utenti</a>
+              <a class="dropdown-item" (click)="changeSection($event, 1, 'admin-area',0)">Segnalazioni</a>
+              <a class="dropdown-item" (click)="changeSection($event, 2, 'admin-area',0)">Richieste di supporto</a>
+              <a class="dropdown-item" (click)="changeSection($event, 3, 'admin-area',0)">Utenti bannati</a>
               <a class="dropdown-item" (click)="keyCloak.toggleLogin()">Esci</a>
             </div>
           </div>

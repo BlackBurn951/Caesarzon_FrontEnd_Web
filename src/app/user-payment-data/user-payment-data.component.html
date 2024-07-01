@@ -34,23 +34,23 @@
           <div class="d-flex flex-row align-items-center">
             <div class="form-group">
               <label for="cardNumber">Numero della carta:</label>
-              <input type="text" class="form-control textBoxAggiunta" id="cardNumber" [placeholder]="cardService.cartaCorrente?.cardNumber" readonly>
+              <input type="text" class="form-control textBoxAggiunta" id="cardNumber" [placeholder]="cardService.cartaCorrente.cardNumber" readonly>
             </div>
 
             <div class="form-group ml-3">
               <label for="cardHolderName">Titolare della carta:</label>
-              <input type="text" class="form-control textBoxAggiunta" id="cardHolderName" [placeholder]="cardService.cartaCorrente?.owner" readonly>
+              <input type="text" class="form-control textBoxAggiunta" id="cardHolderName" [placeholder]="cardService.cartaCorrente.owner" readonly>
             </div>
           </div>
 
           <div class="d-flex flex-row align-items-center">
             <div class="form-group">
               <label for="expirationDate">Data di scadenza:</label>
-              <input type="text" class="form-control textBoxAggiunta" id="expirationDate" [placeholder]="cardService.cartaCorrente?.expiryDate"  readonly>
+              <input type="text" class="form-control textBoxAggiunta" id="expirationDate" [placeholder]="cardService.cartaCorrente.expiryDate"  readonly>
             </div>
             <div class="form-group ml-3">
               <label for="cvv">Codice di sicurezza (CVV):</label>
-              <input type="text" class="form-control" id="cvv" [placeholder]="cardService.cartaCorrente?.cvv" readonly>
+              <input type="text" class="form-control" id="cvv" [placeholder]="cardService.cartaCorrente.cvv" readonly>
             </div>
           </div>
 

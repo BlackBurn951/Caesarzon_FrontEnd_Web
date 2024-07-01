@@ -24,6 +24,7 @@ export class UserPaymentDataComponent implements OnInit{
       this.keyCloak.notifications = notifies;
     })
 
+
   }
 
   loadCards(nameLista: string): void {

@@ -30,9 +30,6 @@ export class AllPopupComponent implements OnInit{
 
 
 
-  valutazione: number = 0;
-  descrizioneRecensione!: string;
-
   newPassword: string = '';
   pass: string = '';
   confirmPassword: string = '';
@@ -69,9 +66,7 @@ export class AllPopupComponent implements OnInit{
 
   }
 
-  rate(rating: number) {
-    this.ratingSubject.next(rating);
-  }
+
 
   aggiungiIndirizzo(){
     this.addressService.sendAddress()
@@ -160,6 +155,9 @@ export class AllPopupComponent implements OnInit{
     this.userService.deleteUser()
   }
 
+  rate(value: number) {
+    this.productService.valutazioneRecensione = value;
+  }
 
   //Metodi per la validazione dei campi
   isFormReportValid(): boolean {
@@ -167,7 +165,7 @@ export class AllPopupComponent implements OnInit{
   }
 
   isFormReviewValid(): boolean {
-    return !!this.descrizioneRecensione && this.descrizioneRecensione.length >= 5 && this.descrizioneRecensione.length <= 500 && this.valutazione > 0 && this.valutazione <=5 ;
+    return !!this.productService.descrizioneRecensione && this.productService.descrizioneRecensione.length >= 5 && this.productService.descrizioneRecensione.length <= 500 && this.productService.valutazioneRecensione > 0 && this.productService.valutazioneRecensione <=5 ;
   }
 
   checkValid() {
@@ -175,22 +173,8 @@ export class AllPopupComponent implements OnInit{
   }
 
 
-
-
-
-  //Metodi per inviare recensioni e segnalazioni al server previa validazione dei campi
-  sendReview(){
-    if(this.isFormReviewValid()){
-      this.userService.sendReviews(this.valutazione, this.descrizioneRecensione)
-    }
-  }
-
   sendReport(){
-    console.log("SOno nel culo")
-
     if(this.isFormReportValid()) {
-      console.log("dopo culo")
-
       this.adminService.sendReports()
     }
   }

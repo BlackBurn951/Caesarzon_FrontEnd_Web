@@ -32,6 +32,7 @@ import { MatSelectModule } from "@angular/material/select";
 import { AdminManagementContainerComponent } from "./admin-management-container/admin-management-container.component";
 import {TokenInterceptor} from "./token.interceptor";
 import {OrdersuccessComponent} from "./ordersuccess/ordersuccess.component";
+import {OrderSummaryComponent} from "./order-summary/order-summary.component";
 
 export const routes: Routes = [
   { path: '', component: HomepageComponent },
@@ -47,7 +48,8 @@ export const routes: Routes = [
   { path: 'address-data', component: UserAddressDataComponent },
   { path: 'wish-list', component: WishListComponent },
   { path: 'admin-area', component: AdminAreaComponent },
-  { path: 'order-final', component: OrdersuccessComponent }
+  { path: 'order-final', component: OrdersuccessComponent },
+  { path: 'order-summary', component: OrderSummaryComponent }
 ];
 
 @NgModule({

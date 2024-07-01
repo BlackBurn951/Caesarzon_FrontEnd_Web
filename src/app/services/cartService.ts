@@ -23,6 +23,9 @@ export class CartService {
 
   productInCart!: ProductCart[];
 
+
+  unvaiable!: Unvailable[]
+
   productIds: string[] = []
 
   payPal: boolean = false;
@@ -102,14 +105,13 @@ export class CartService {
     this.payPal = true;
   }
 
-
   checkAva(){
     this.productInCart.forEach(a =>{
       this.productIds.push(a.id)
       console.log(a.id);
     })
     const headers = this.keyCloakService.permaHeader();
-    return this.http.post<Unvailable[]>(this.doOrderURL, this.productIds,{headers});
+    return this.http.post<Unvailable[]>(this.checkAvaURL, this.productIds,{headers});
   }
 
   doSuccess() {
@@ -128,7 +130,7 @@ export class CartService {
       addressID: this.addressId,
       cardID: this.cardId,
       productsIds : this.productIds,
-      total: this.totaleConSconto + 5
+      total: 0
     }
 
     console.log("paypalle: " + this.payPal);

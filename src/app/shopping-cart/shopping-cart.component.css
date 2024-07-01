@@ -1,8 +1,8 @@
 .left-containers{
   background-color: #F7F7F7;
   border: 1px solid black;
-  max-height: 30vh;
-  min-height: 30vh;
+  max-height: 50%;
+  min-height: 50%;
   overflow: auto;
 }
 p{
@@ -64,40 +64,48 @@ a:active {
   grid-gap: 25px;
   grid-template-columns: repeat(3, 1fr);
 
-//--- JUST VISUAL STYLING BELOW
 margin: 60px auto;
   max-width: 800px;
 }
 
 .product {
-  margin: 0 25%;
-//--- JUST VISUAL STYLING BELOW
-&__image {
+  border: 1px solid black;
+  margin: 0 5%;
+}
+.product__image {
   background-color: #e5e5e5;
   display: block;
-  min-height: 200px;
+  min-height: 150px;
   width: 100%;
 }
 
-  &__name {
+.product__name p {
+  text-align: center;
+  font-family: sans-serif;
+  font-size: 16px;
+  font-weight: bold;
+}
 
-    p {
-      font-family: sans-serif;
-      font-size: 16px;
-      font-weight: bold;
+.product__quantity{
+  margin-left: 2.5vw;
+}
 
-      a {
-        color: #000000;
-        text-decoration: none;
-      }
-    }
-  }
+.product__size{
+  margin-left: 2vw;
+}
 
-  &__price {
+.product__options a{
+  margin-left: 2.5vw;
 
-    p {
-      font-family: sans-serif;
-      font-size: 14px;
-    }
-  }
+}
+
+.product__name p a {
+  color: #000000;
+  text-decoration: none;
+}
+
+.product__price p {
+  text-align: center;
+  font-family: sans-serif;
+  font-size: 14px;
 }

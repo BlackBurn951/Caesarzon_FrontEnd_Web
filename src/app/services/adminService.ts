@@ -76,8 +76,8 @@ export class AdminService {
   //Al campio della selection vengono svuotate e popolate le rispettive liste con un numero di elementi inziale di 20
   changeSection(num: number) {
     this.section = num;
-    //Chiamata al metodo per svuotare gli arrays+
     this.clearArrays()
+    this.userService.loading = true
 
     if (num == 0) {
       this.getUsers().subscribe(users => {
@@ -95,6 +95,7 @@ export class AdminService {
             );
           }
         });
+        this.userService.loading = false
       });
     } else if (num == 1) {
       this.getReports(0).subscribe(reports => {
@@ -104,14 +105,18 @@ export class AdminService {
             a.reviewText = response
           })
         })
+        this.userService.loading = false
+
       })
     } else if (num == 2) {
       this.getSupports(0).subscribe(supports => {
         this.supports = supports
+        this.userService.loading = false
       })
     } else if (num == 3) {
       this.getBans(0).subscribe(bans => {
         this.bans = bans
+        this.userService.loading = false
       })
     }
   }

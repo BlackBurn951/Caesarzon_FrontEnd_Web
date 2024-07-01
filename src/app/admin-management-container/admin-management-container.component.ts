@@ -3,6 +3,7 @@ import {MatProgressSpinner} from "@angular/material/progress-spinner";
 import {NgIf} from "@angular/common";
 import {AdminService} from "../services/adminService";
 import {KeyCloakService} from "../services/keyCloakService";
+import {UserService} from "../services/userService";
 
 @Component({
   selector: 'app-admin-management-container',
@@ -16,7 +17,7 @@ import {KeyCloakService} from "../services/keyCloakService";
 })
 export class AdminManagementContainerComponent implements OnInit{
 
-  constructor(private keycloack: KeyCloakService, protected adminService: AdminService) {
+  constructor(protected userService: UserService, private keycloack: KeyCloakService, protected adminService: AdminService) {
   }
 
   ngOnInit(): void {

@@ -1,8 +1,10 @@
-import {Component, OnInit} from '@angular/core';
+import {Component,OnInit} from '@angular/core';
 import { PopupService } from "../services/popUpService";
 import {Address} from "../entities/Address";
 import {AddressService} from "../services/addressService";
 import {KeyCloakService} from "../services/keyCloakService";
+import {Event} from "@angular/router";
+import {EventData} from "@angular/cdk/testing";
 
 @Component({
   selector: 'app-user-address-data',
@@ -46,13 +48,11 @@ export class UserAddressDataComponent implements OnInit{
 
 
 
-  onAddressChange(event: Event): void {
+  onAddressChange(event: any): void {
     const selectedAddress = (event.target as HTMLSelectElement).value;
-    this.addressService.nomeIndirizzo = selectedAddress
+    this.addressService.nomeIndirizzo = selectedAddress;
     this.loadAddresses(selectedAddress);
-
   }
-
 
 
 }

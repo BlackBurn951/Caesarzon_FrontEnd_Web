@@ -10,7 +10,7 @@
 <body>
 
 <div class="container-fluid">
-<!--  <mat-progress-spinner class="uSpinner" *ngIf="this.userService.loading" mode="indeterminate" color="primary"></mat-progress-spinner>-->
+  <mat-progress-spinner class="uSpinner" *ngIf="this.userService.loading" mode="indeterminate" color="primary"></mat-progress-spinner>
   <button class="btn btn-primary custom-btn" (click)="adminService.changeSection(0)"><i class="fas fa-search"></i></button>
   <button class="btn btn-primary custom-btn mt-4" (click)="adminService.changeSection(1)"><i class="fas fa-exclamation-circle"></i></button>
   <button class="btn btn-primary custom-btn mt-4" (click)="adminService.changeSection(2)"><i class="fas fa-headset"></i></button>

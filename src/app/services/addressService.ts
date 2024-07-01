@@ -17,12 +17,11 @@ export class AddressService {
 
   indirizzoCorrente!: Address;
 
-  addressesName: string[] = [];
+  addressesName!: string[];
+  addresses!: Address[];
   addressMap: { [key: string]: string } = {};
 
   nomeIndirizzo!: string;
-
-  addresses!: Address[];
 
   formCaesarzon!: FormGroup;
 
@@ -33,6 +32,13 @@ export class AddressService {
 
   constructor(private userService: UserService, private router: Router, private popUp: PopupService, private http: HttpClient, private keycloakService: KeyCloakService, private formService: FormService) {
     this.formCaesarzon = formService.getForm();
+  }
+
+
+  resetAddresses(){
+    this.addressesName = []
+    this.addresses = []
+    this.addressMap = {}
   }
 
 

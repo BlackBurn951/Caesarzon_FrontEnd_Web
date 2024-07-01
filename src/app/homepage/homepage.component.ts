@@ -21,7 +21,9 @@ export class HomepageComponent implements OnInit{
 
 
   ngOnInit() {
-    this.key.login("guest","CiaoSonoguest69!");
+    if(this.key.getUsername() == ""){
+      this.key.login("guest","CiaoSonoguest69!");
+    }
     this.productService.getLastNineProducts().subscribe(products => {
       this.productService.newProducts = products;
     })

@@ -13,12 +13,6 @@
   overflow: auto;
 
 }
-
-.titless{
-  font-weight: bold;
-  font-size: 2rem;
-  margin-right: 3vw;
-}
 footer {
   background-color: #352244;
   text-align: center;
@@ -32,7 +26,11 @@ footer {
 .visibility{
   display: flex;
 }
-
+.titless{
+  font-weight: bold;
+  font-size: 2rem;
+  margin-right: 3vw;
+}
 .prodottoOi{
   cursor: pointer;
 }

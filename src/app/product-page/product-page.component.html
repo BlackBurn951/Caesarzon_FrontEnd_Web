@@ -167,7 +167,7 @@
                 <p>{{item.text}}</p>
                 <footer class="blockquote-footer">
                   Publicato in data: <cite title="Source Title">{{item.date}}</cite>
-                  <button *ngIf="!keyCloak.getAdmin()" class="btn btn-danger ml-2">Segnala</button>
+                  <button *ngIf="!keyCloak.getAdmin()" class="btn btn-danger ml-2" (click)="popUpService.openPopups(1, true)">Segnala</button>
                   <button *ngIf="keyCloak.getAdmin()" class="btn btn-danger ml-2">Rimuovi</button>
                 </footer>
               </blockquote>
@@ -178,7 +178,7 @@
         <div class="row mt-2">
             <button class="btn btn-dark btn-custom mr-2" *ngIf="productService.recensioni.length>0">Up</button>
             <button class="btn btn-dark btn-custom mr-5" *ngIf="productService.recensioni.length>0">Down</button>
-            <button class="btn btn-dark btn-buy" (click)="productService.addReview(productService.prodotto.id)" >Aggiungi recensione</button>
+            <button class="btn btn-dark btn-buy" (click)="popUpService.openPopups(2, true)">Aggiungi recensione</button>
         </div>
       </div>
 
