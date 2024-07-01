@@ -9,7 +9,6 @@ import {Observable} from "rxjs";
 import {PopupService} from "./popUpService";
 import {HttpClient} from "@angular/common/http";
 import {KeyCloakService} from "./keyCloakService";
-import {SupportResponse} from "../entities/SupportResponse";
 
 @Injectable({
   providedIn: 'root',
@@ -23,7 +22,6 @@ export class AdminService {
   supportIndex!: number;
 
   reportIndex!: number;
-  tipoRisposta: number = 0;
 
   usernameUtenteRisposta!: string;
 
@@ -182,12 +180,13 @@ export class AdminService {
 
     this.sendReport(reports).subscribe(
       response => {
-        this.motivoSegnalazione = "";
-        this.descrizioneSegnalazione = ""
-        this.usernameSegnalato = ""
-        this.popUp.closePopup()
-        this.popUp.updateStringa("Segnalazione inviata correttamente!")
-        this.popUp.openPopups(14124, true)
+        if(response === "Segnalazione inviata con sucesso!")
+          this.motivoSegnalazione = "";
+          this.descrizioneSegnalazione = ""
+          this.usernameSegnalato = ""
+          this.popUp.closePopup()
+          this.popUp.updateStringa("Segnalazione inviata correttamente!")
+          this.popUp.openPopups(14124, true)
       },
       error => {
         this.motivoSegnalazione = "";
@@ -220,11 +219,12 @@ export class AdminService {
 
     this.sendHelp(supports).subscribe(
       response => {
-        this.oggetto = ""
-        this.descrizioneRichiesta = ""
-        this.motivoRichiesta = ""
-        this.popUp.updateStringa("Richiesta di assistenza inviata correttamente!")
-        this.popUp.openPopups(1440, true)
+        if(response === "Richiesta di supporto inviata con successo!")
+          this.oggetto = ""
+          this.descrizioneRichiesta = ""
+          this.motivoRichiesta = ""
+          this.popUp.updateStringa("Richiesta di assistenza inviata correttamente!")
+          this.popUp.openPopups(1440, true)
       },
       error => {
         this.popUp.updateStringa("Problemi nell'invio della richiesta di assistenza!.")

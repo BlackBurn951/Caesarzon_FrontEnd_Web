@@ -2,11 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {PopupService} from "../services/popUpService";
 import {Router} from "@angular/router";
 import {KeyCloakService} from "../services/keyCloakService";
-import {ProductDTO} from "../entities/ProductDTO";
 import {ProductService} from "../services/productService";
-import {Average} from "../entities/Average";
 import {HttpClient} from "@angular/common/http";
-import {ProductReview} from "../entities/ProductReview";
 import {AdminService} from "../services/adminService";
 import {WishListService} from "../services/wishListService";
 import {CartService} from "../services/cartService";
@@ -23,7 +20,7 @@ export class ProductPageComponent implements OnInit{
   day: number = 0
   month: number = 0
   year: number = 0
-  constructor(private cartService:CartService, private wishListService: WishListService, protected adminService: AdminService ,protected keyCloak: KeyCloakService, public popUpService:PopupService, private router:Router, protected productService: ProductService, private http: HttpClient) {
+  constructor(private cartService:CartService, private wishListService: WishListService, protected adminService: AdminService ,protected keyCloak: KeyCloakService, public popUpService:PopupService, private router:Router, protected productService: ProductService) {
   }
 
   ngOnInit() {
@@ -89,6 +86,7 @@ export class ProductPageComponent implements OnInit{
       console.error('Impossibile ottenere il contesto 2D per il canvas.');
     }
   }
+
 
 
 
