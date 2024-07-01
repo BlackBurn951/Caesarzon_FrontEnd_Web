@@ -16,12 +16,14 @@ export class ShoppingCartComponent implements OnInit{
 
 
   goToPayment() {
-    if(this.keyCloak.getLoggedStatus()) {
-      this.router.navigate(['payment-first-page'])
-    }
-    else {
-      this.popup.openPopups(3, true);
-    }
+    this.cartService.checkAva().subscribe(res => {
+      if(res === null) {
+        this.router.navigate(['payment-second-page']);
+      }else{
+        this.popup.updateStringa("Sono cambiate le seguenti disponibilità")
+        this.popup.openPopups(2343, true)
+      }
+    })
   }
 
   ngOnInit(): void {

@@ -70,9 +70,9 @@ export class KeyCloakService {
 
     this.http.post(this.accessTokenUrl, body.toString(), { headers, withCredentials: true }).subscribe(
       (response:any) => {
+        this.username = username
         this.setTokens(response.access_token, response.refresh_token);
         if(username != "guest"){
-          this.username = username
           this.isLogged = true;
           this.setLogin();
           this.popUp.closePopup()
@@ -150,7 +150,7 @@ export class KeyCloakService {
     if (isAdminString) {
       return isAdminString === 'true';
     } else {
-      return this.isLogged;
+      return this.isAdmin
     }
   }
 

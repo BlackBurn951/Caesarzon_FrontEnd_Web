@@ -11,6 +11,7 @@ import {single} from "rxjs";
 import {ProductService} from "./productService";
 import {WishList} from "../entities/WishList";
 import {ChangeVisibility} from "../entities/ChangeVisibility";
+import {SendWishlistProductDTO} from "../entities/SenProductWishList";
 
 
 @Injectable({
@@ -33,12 +34,19 @@ export class WishListService{
   nomeNuovaLista!: string;
 
 
+  productIdToAdd: string = "";
+
+  wishListToAddProduct: string = "";
+
   section!: number ;
   constructor(private http: HttpClient, private popUpService:PopupService, private keycloakService: KeyCloakService) {
   }
 
   getWishListsURL = 'http://localhost:8090/product-api/wishlists'
 
+  getAllUserWishListsURL = 'http://localhost:8090/product-api/wishlists/all'
+
+  addProductToWishListURL = 'http://localhost:8090/product-api/wishlist/product'
 
   deleteWishListsURL = 'http://localhost:8090/product-api/wishlist/'
 
@@ -62,15 +70,20 @@ export class WishListService{
       this.tipoListe = "Liste private"
 
     }
-    this.getWishLists(num).subscribe( response =>{
+    this.getWishLists(num, 0).subscribe( response =>{
       this.wishLists = response
     })
   }
 
-  getWishLists(num: number){
-    const customUrl = this.getWishListsURL+"?usr="+this.keycloakService.getUsername()+"&visibility="+num
+  getWishLists(num: number, vis: number){
+    const customUrl = this.getWishListsURL+"?usr="+this.keycloakService.getUsername()+"&visibility="+vis
     const headers = this.keycloakService.permaHeader()
     return this.http.get<BasicWishList[]>(customUrl, { headers });
+  }
+
+  getAllUserWishLists(){
+    const headers = this.keycloakService.permaHeader()
+    return this.http.get<BasicWishList[]>(this.getAllUserWishListsURL, { headers });
   }
 
   getWishListProducts(wishlistId: string) {
@@ -124,6 +137,28 @@ export class WishListService{
   }
 
 
+  addProductToWishList(){
+    const wishList : SendWishlistProductDTO ={
+      productID: this.productIdToAdd,
+      wishlistID: this.wishListToAddProduct
+    }
+
+    console.log("ID PRODOTTTOOOOOOOO: " + this.productIdToAdd)
+    console.log("ID LISTA DESIDERIIIIII: " + this.wishListToAddProduct)
+    const headers = this.keycloakService.permaHeader()
+    return this.http.post<string>(this.addProductToWishListURL, wishList, { headers, responseType: 'text' as 'json' }).subscribe(response =>{
+      if(response === "Prodotto aggiunto alla lista"){
+        this.popUpService.closePopup()
+        this.popUpService.updateStringa(response)
+        this.popUpService.openPopups(324,true)
+      }else{
+        this.popUpService.closePopup()
+        this.popUpService.updateStringa(response)
+        this.popUpService.openPopups(324,true)
+      }
+    });
+  }
+
   addWishList(wishList: WishList){
     const headers = this.keycloakService.permaHeader()
     return this.http.post<any>(this.createWishListsURL, wishList, { headers, responseType: 'text' as 'json' });
@@ -131,6 +166,15 @@ export class WishListService{
   }
 
 
+  updateWishListID(event: Event) {
+    const selectElement = event.target as HTMLSelectElement;
+    const selectedId = selectElement.value;
+    this.setWishListID(selectedId);
+  }
+
+  setWishListID(id: string){
+    this.wishListToAddProduct = id;
+  }
 
   changeVisibility(num: number, wishId: string){
     let vis = "";

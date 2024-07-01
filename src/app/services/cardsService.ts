@@ -17,6 +17,7 @@ export class CardsService {
   cartaCorrente!: Card;
 
   cardsName!: string[];
+
   cardsMap: { [key: string]: string } = {};
 
   cards!: Card[];
@@ -58,6 +59,8 @@ export class CardsService {
             });
 
             this.cards = cards; // Assegno i dati delle carte all'array cards
+
+
           },
           (error) => {
             console.error('Error fetching cards:', error);
@@ -163,6 +166,7 @@ export class CardsService {
     console.log("cvv: " + cvv)
 
     const cardData: Card = {
+      id: "",
       cardNumber: numeroCartaFormattato,
       owner: titolareCarta,
       cvv: cvv,

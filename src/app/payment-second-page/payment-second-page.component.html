@@ -25,6 +25,7 @@
                       <div class="col-lg-4 col-sm-6" *ngFor="let address of addressService.addresses; let i = index">
                         <div  class="card-radio-label mb-0">
                           <label class="card-radio text-truncate p-3">
+                            <input type="radio" name="selectedAddress" (click)="cartService.takeAddressId(address.id)">
                             <span class="fs-14 mb-2 d-block">{{keyCloak.getNomeUtente()}} {{keyCloak.getCognomeNomeUtente()}}</span>
                             <span class="fs-14 mb-2 d-block">{{ address?.roadName }}</span>
                             <span class="fs-14 mb-2 d-block">{{ address?.houseNumber }}</span>
@@ -56,17 +57,20 @@
                 </div>
 
                 <div class="row">
-                  <div class="col-lg-4 col-sm-6" *ngFor="let cards of cardService.cards; let i = index">
-                    <div  class="card-radio-label mb-0">
+                  <div class="col-lg-4 col-sm-6" *ngFor="let card of cardService.cards; let i = index">
+                    <div class="card-radio-label mb-0">
                       <label class="card-radio text-truncate p-3">
-                        <span class="fs-14 mb-2 d-block">{{cards.owner}}</span>
-                        <span class="fs-14 mb-2 d-block">{{ cards.cardNumber }}</span>
-                        <span class="text-muted fw-normal text-wrap mb-1 d-block">{{ cards.expiryDate}}</span>
+                        <input type="radio" name="selectedCard" [(ngModel)]="cartService.selectedCardId" [value]="card.id" (click)="cartService.takeCardId(card.id)">
+                        <span class="fs-14 mb-2 d-block">{{ card.owner }}</span>
+                        <span class="fs-14 mb-2 d-block">{{ card.cardNumber }}</span>
+                        <span class="text-muted fw-normal text-wrap mb-1 d-block">{{ card.expiryDate }}</span>
                       </label>
+
                     </div>
                   </div>
-                </div>
 
+                </div>
+                <input class="checkout" type="checkbox" [(ngModel)]="cartService.payPal" (click)="cartService.changePay()">Paga con PayPal
               </div>
             </li>
           </ol>
@@ -80,8 +84,7 @@
         </div> <!-- end col -->
         <div class="col">
           <div class="text-end mt-2 mt-sm-0">
-            <a href="#" class="btn btn-success">
-              <i class="mdi mdi-cart-outline me-1"></i> Procedi </a>
+            <button class="btn btn-dark custom-btns" (click)="pay()">Procedi al pagamento</button>
           </div>
         </div> <!-- end col -->
       </div> <!-- end row-->
@@ -106,7 +109,7 @@
                   <h5 class="font-size-16 text-truncate"><a href="#" class="text-dark">{{cartProduct.name}}</a></h5>
                   <p class="text-muted mb-0 mt-1">{{cartProduct.total}} | {{cartProduct.size}} x {{cartProduct.quantity}}</p>
                 </td>
-                <td>$260</td>
+                <td>{{cartProduct.total}}</td>
               </tr>
               <tr>
                 <td colspan="1">
@@ -118,7 +121,7 @@
                 <td colspan="1">
                   <h5 class="font-size-14 m-0">Sconto :</h5>
                 </td>
-                <td>- € {{cartService.totaleSenzaSconto}} - {{cartService.totaleConSconto}}</td>
+                <td>- € {{getRoundedDifference()}}</td>
               </tr>
 
               <tr>
@@ -132,7 +135,7 @@
                 <td colspan="1">
                   <h5 class="font-size-14 m-0">Totale:</h5>
                 </td>
-                <td>€ {{cartService.totaleConSconto}}</td>
+                <td>€ {{cartService.totaleConSconto + 5}}</td>
               </tr>
               </tbody>
             </table>

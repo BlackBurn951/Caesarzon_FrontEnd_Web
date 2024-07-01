@@ -147,10 +147,10 @@
     <button (click)="popUpService.closePopup()" class="btn btn-dark ics">X</button>
     <div class="d-flex flex-row align-items-center">
       <label for="selectCard">Seleziona lista dei desideri:</label>
-      <select class="form-select selectionIn btn btn-dark custom-bln ml-2" id="selectCard">
-        <option value="card1">Lista 1</option>
-        <option value="card2">Lista 2</option>
+      <select class="form-select selectionIn btn btn-dark custom-bln ml-2" id="selectCard" (change)="wishListService.updateWishListID($event)">
+        <option *ngFor="let names of wishListService.wishLists" [value]="names.id">{{ names.name }}</option>
       </select>
+
     </div>
     <button class="btn btn-dark custom-btn mt-3" (click)="popUpService.openPopups(4, true)">Crea una nuova lista</button>
 
@@ -158,7 +158,7 @@
 
 
   <div class="d-flex flex-column align-items-center">
-    <button type="submit" class="btn btn-dark custom-btn al" >Aggiungi</button>
+    <button type="submit" class="btn btn-dark custom-btn al" (click)="wishListService.addProductToWishList()" >Aggiungi</button>
   </div>
 </div>
 

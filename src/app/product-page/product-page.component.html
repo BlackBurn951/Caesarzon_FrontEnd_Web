@@ -37,6 +37,17 @@
             <p id="product-primary"><b class="bolds">Colore primario: </b>{{this.productService.prodotto.primaryColor}}</p>
             <p id="product-secondary"><b class="bolds">Colore secondario: </b>{{this.productService.prodotto.secondaryColor}}</p>
             <p id="product-sport"><b class="bolds">Sport: </b>{{this.productService.prodotto.sport}}</p>
+            <div *ngIf="this.productService.prodotto.is_clothing" class="row pl-2">
+              <p>Seleziona la taglia desiderata:</p>
+              <select class="ml-4" name="quantity-selection" (change)="updateSize($event)">
+                <option value=""></option>
+                <option value="XS">XS</option>
+                <option value="S">S</option>
+                <option value="M">M</option>
+                <option value="L">L</option>
+                <option value="XL">XL</option>
+              </select>
+            </div>
           </div>
 
         <div class="col-md mt-5"> <!--SEZIONE DATI ACQUISTO -->
@@ -47,8 +58,8 @@
               </div>
 
               <div class="row pl-2">
-                  <p>Seleziona la quantità desiderata:</p>
-                  <select name ="quantity-selection" id="quantity">
+                <p>Seleziona la quantità desiderata:</p>
+                <select name="quantity-selection" id="quantity" (change)="updateQuantity($event)">
                   <option value="1">1</option>
                   <option value="2">2</option>
                   <option value="3">3</option>
@@ -59,10 +70,11 @@
                   <option value="8">8</option>
                   <option value="9">9</option>
                   <option value="10">10</option>
-                  </select>
+                </select>
               </div>
 
-              <div class="row pt-4 pl-2">
+
+            <div class="row pt-4 pl-2">
                 <p id="price">Prezzo: <b>{{this.productService.prodotto.price}}€</b></p>
               </div>
 
@@ -76,13 +88,13 @@
               </div>
 
               <div class="row d-flex flex-column align-items-center">
-                <button *ngIf="!keyCloak.getAdmin()" type="button" class="btn btn-dark btn-custom mb-2">Aggiungi al carrello</button>
+                <button *ngIf="!keyCloak.getAdmin()" type="button" class="btn btn-dark btn-custom mb-2" (click)="addProductToCart()">Aggiungi al carrello</button>
                 <button *ngIf="keyCloak.getAdmin()" type="button" class="btn btn-dark btn-custom mb-2">Rimuovi prodotto</button>
               </div>
 
               <div class="row d-flex flex-column align-items-center">
-                <button *ngIf="!keyCloak.getAdmin()" type="button" class="btn btn-dark btn-custom" (click)="popUpService.openPopups(5, true)">Aggiungi alla lista desideri</button>
-                <button *ngIf="keyCloak.getAdmin()" type="button" class="btn btn-dark btn-custom" (click)="popUpService.openPopups(5, true)">Aggiungi disponibilità</button>
+                <button *ngIf="!keyCloak.getAdmin()" type="button" class="btn btn-dark btn-custom" (click)="addProductWishList()">Aggiungi alla lista desideri</button>
+                <button *ngIf="keyCloak.getAdmin()" type="button" class="btn btn-dark btn-custom" >Aggiungi disponibilità</button>
               </div>
 
               <div class="row pt-4 pl-2">

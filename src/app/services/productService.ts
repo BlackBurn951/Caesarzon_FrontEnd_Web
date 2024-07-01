@@ -6,12 +6,17 @@ import {HttpClient} from "@angular/common/http";
 import {Router} from "@angular/router";
 import {ProductDTO} from "../entities/ProductDTO";
 import {ProductReview} from "../entities/ProductReview";
+import {UserRegistration} from "../entities/UserRegistration";
+import {Observable} from "rxjs";
+import {Form, FormGroup} from "@angular/forms";
+import {FormService} from "./formService";
 
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProductService {
+  protected formCaesarzon!: FormGroup;
 
   avvisoDisp: string = "Disponibilità ancora non aggiunta"
   disponibilitaAggiunta: boolean = false;
@@ -52,7 +57,9 @@ export class ProductService {
   crescente : boolean = false;
   decrescente: boolean = false;
 
-  constructor(private router: Router, private http: HttpClient, private popUpService:PopupService, private keycloakService: KeyCloakService) {
+  constructor(private formService: FormService, private router: Router, private http: HttpClient, private popUpService:PopupService, private keycloakService: KeyCloakService) {
+    this.formCaesarzon = formService.getForm();
+
   }
 
 
@@ -208,6 +215,33 @@ export class ProductService {
 
   }
 
+
+
+  sendProductDate(productDTO: ProductDTO){
+    this.sendProductDateToServer(productDTO).subscribe(
+      response => {
+        this.popUpService.updateStringa("Prodotto agggiunto con successo!")
+        this.popUpService.openPopups(103, true)
+        setTimeout(() => {
+          this.popUpService.closePopup()
+        }, 3000);
+        this.resetFields()
+      },
+      error => {
+        this.popUpService.updateStringa("Problemi nell'aggiunta del prodotto.")
+        this.popUpService.openPopups(1034, true)
+        this.resetFields()
+        console.error('Error sending product data:', error);
+      }
+    );
+  }
+
+
+  sendProductDateToServer(productDTO: ProductDTO): Observable<any> {
+    const headers = this.keycloakService.permaHeader()
+    return this.http.post<any>(this.productDataURL, productDTO, { headers, responseType: 'text' as 'json' });
+  }
+
   prendiRecensioni(productId: string) {
     const headers = this.keycloakService.permaHeader()
     return this.http.get<ProductReview[]>(this.productReviewURL+'?prod-id='+productId, { headers})
@@ -216,6 +250,30 @@ export class ProductService {
   prendiScoreRecensioni(productId: string) {
     const headers = this.keycloakService.permaHeader()
     return this.http.get<number[]>(this.reviewScore+'?prod-id='+productId, { headers})
+  }
+
+
+
+
+
+  resetFields(){
+    this.formService.setFormData(this.formCaesarzon.value);
+
+    const nome = this.formCaesarzon.get('formDeiProdotti.nome')?.setValue("");
+    const marca = this.formCaesarzon.get('formDeiProdotti.marca')?.setValue("");
+    const descrizione = this.formCaesarzon.get('formDeiProdotti.descrizione')?.setValue("");
+    const sconto = this.formCaesarzon.get('formDeiProdotti.sconto')?.setValue(0);
+    const prezzo = this.formCaesarzon.get('formDeiProdotti.prezzo')?.setValue(0);
+    const coloreP = this.formCaesarzon.get('formDeiProdotti.coloreP')?.setValue("");
+    const coloreS = this.formCaesarzon.get('formDeiProdotti.coloreS')?.setValue("");
+    const sport = this.formCaesarzon.get('formDeiProdotti.sport')?.setValue("");
+    const categoria = this.formCaesarzon.get('formDeiProdotti.categoria')?.setValue(false);
+
+    const quantitaXS = this.formCaesarzon.get('formDisponibilita.quantitaXS')?.setValue(0);
+    const quantitaS = this.formCaesarzon.get('formDisponibilita.quantitaS')?.setValue(0);
+    const quantitaM = this.formCaesarzon.get('formDisponibilita.quantitaM')?.setValue(0);
+    const quantitaL = this.formCaesarzon.get('formDisponibilita.quantitaL')?.setValue(0);
+    const quantitaXL = this.formCaesarzon.get('formDisponibilita.quantitaXL')?.setValue(0);
   }
 }
 

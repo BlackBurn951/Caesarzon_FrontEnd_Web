@@ -1,16 +1,11 @@
-import {Injectable, numberAttribute} from "@angular/core";
+import {Injectable} from "@angular/core";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {UserRegistration} from "../entities/UserRegistration";
 import {Observable} from "rxjs";
 import {KeyCloakService} from "./keyCloakService";
 import {User} from "../entities/User";
 import {PopupService} from "./popUpService";
-import {Reports} from "../entities/Report";
 import {Reviews} from "../entities/Review";
-import {Supports} from "../entities/Supports";
-import {UserSearch} from "../entities/UserSearch";
-import {Bans} from "../entities/Bans";
-import {Returns} from "../entities/Returns";
 import {PasswordChange} from "../entities/PasswordChange";
 
 
@@ -20,15 +15,12 @@ import {PasswordChange} from "../entities/PasswordChange";
 export class UserService {
 
   testoButton: string = "Modifica dati";
+
   inputAbilitato: boolean = false;
 
   loading: boolean = false;
 
-  accept!: boolean;
-
-
   private manageUserDataURL = 'http://localhost:8090/user-api/user';
-
 
   private managePasswordURL = 'http://localhost:8090/user-api/password';
 

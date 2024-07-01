@@ -8,6 +8,8 @@ import {Average} from "../entities/Average";
 import {HttpClient} from "@angular/common/http";
 import {ProductReview} from "../entities/ProductReview";
 import {AdminService} from "../services/adminService";
+import {WishListService} from "../services/wishListService";
+import {CartService} from "../services/cartService";
 
 @Component({
   selector: 'app-product-page',
@@ -21,7 +23,7 @@ export class ProductPageComponent implements OnInit{
   day: number = 0
   month: number = 0
   year: number = 0
-  constructor(protected adminService: AdminService ,protected keyCloak: KeyCloakService, public popUpService:PopupService, private router:Router, protected productService: ProductService, private http: HttpClient) {
+  constructor(private cartService:CartService, private wishListService: WishListService, protected adminService: AdminService ,protected keyCloak: KeyCloakService, public popUpService:PopupService, private router:Router, protected productService: ProductService, private http: HttpClient) {
   }
 
   ngOnInit() {
@@ -35,6 +37,40 @@ export class ProductPageComponent implements OnInit{
       this.keyCloak.notifications = notifies;
     })
 
+  }
+
+  updateQuantity(event: Event) {
+    const selectElement = event.target as HTMLSelectElement;
+    this.cartService.quantity = parseInt(selectElement.value, 10);
+  }
+
+  updateSize(event: Event) {
+    const selectElement = event.target as HTMLSelectElement;
+    this.cartService.size = selectElement.value;
+  }
+
+  addProductToCart(){
+    if (!this.keyCloak.getLoggedStatus() || this.keyCloak.getUsername() === "guest"){
+      this.popUpService.openPopups(3, true)
+    }else{
+      this.cartService.productIdToAddCart = this.productService.prodotto.id
+      if(this.cartService.size === "" && this.productService.prodotto.is_clothing){
+        this.popUpService.updateStringa("Seleziona la taglia desiderata")
+        this.popUpService.openPopups(23432, true)
+      }else{
+        this.cartService.addProductCart()
+
+      }
+    }
+
+  }
+
+  addProductWishList(){
+    this.wishListService.productIdToAdd = this.productService.prodotto.id;
+    this.wishListService.getAllUserWishLists().subscribe(a => {
+      this.wishListService.wishLists = a
+    })
+    this.popUpService.openPopups(5, true)
   }
 
   instaBuy(event: Event){
