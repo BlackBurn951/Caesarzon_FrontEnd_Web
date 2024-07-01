@@ -6,16 +6,18 @@ import {Notifications} from "../entities/Notification";
 import {tap, catchError} from "rxjs/operators";
 import {BehaviorSubject, Observable, throwError} from "rxjs";
 import {Router} from "@angular/router";
+import {Logout} from "../entities/Logout";
 
 @Injectable({
   providedIn: 'root',
 })
 export class KeyCloakService {
-  private keycloakLogoutUrl = 'http://25.24.244.170:8080/auth/realms/CaesarRealm/protocol/openid-connect/logout';
+  private keycloakLogoutUrl = 'http://25.24.244.170:8080/realms/CaesarRealm/protocol/openid-connect/logout';
   private manageNotifyURL = 'http://localhost:8090/notify-api/user/notifications';
   private manageNotifyAdminURL = 'http://localhost:8090/notify-api/admin/notifications';
   private deleteNotifyURL = 'http://localhost:8090/notify-api/notification';
   private accessTokenUrl = 'http://25.24.244.170:8080/realms/CaesarRealm/protocol/openid-connect/token';
+  private logoutURL = 'http://localhost:8090/user-api/logout';
 
   private ACCESS_TOKEN!: string;
   private REFRESH_TOKEN!: string;
@@ -152,39 +154,36 @@ export class KeyCloakService {
     }
   }
 
-  toggleLogin() {
-    // const url = `${this.keycloakLogoutUrl}?redirect_uri=http://localhost:4200`;
-    // const headers = new HttpHeaders({
-    //   'Content-Type': 'application/x-www-form-urlencoded'
-    // });
-    //
-    // this.http.get(url, { headers, responseType: 'text' }).subscribe({
-    //   next: () => {
-    //     this.notifications = [];
-    //     console.log("Logout successful");
-    //     this.isLogged = false;
-    //     this.isAdmin = false;
-    //     this.refreshAuthVariables();
-    //     localStorage.removeItem('access_token');
-    //     localStorage.removeItem('refresh_token');
-    //     localStorage.removeItem('isLogged');
-    //     localStorage.removeItem('isAdmin');
-    //   },
-    //   error: (err: any) => {
-    //     console.error('Logout failed', err);
-    //   }
-    // });
-    this.notifications = [];
-    console.log("Logout successful");
-    this.isLogged = false;
-    this.isAdmin = false;
-    this.refreshAuthVariables();
-    localStorage.removeItem('access_token');
-    localStorage.removeItem('refresh_token');
-    localStorage.removeItem('isLogged');
-    localStorage.removeItem('isAdmin');
-    this.router.navigate(['']);
+
+
+  toggleLogin(){
+    const logout: Logout ={
+      logout: true
+    }
+
+    const headers = this.permaHeader()
+    return this.http.put<string>(this.logoutURL, logout, { headers, responseType: 'text' as 'json' }).subscribe( response=>{
+        if(response === "Logout avvenuto con successo!"){
+          this.notifications = [];
+          console.log("Logout successful");
+          this.isLogged = false;
+          this.isAdmin = false;
+          this.refreshAuthVariables();
+          localStorage.removeItem('access_token');
+          localStorage.removeItem('refresh_token');
+          localStorage.removeItem('isLogged');
+          localStorage.removeItem('isAdmin');
+          this.router.navigate(['']);
+
+        }else{
+          console.log("Logout failed");
+
+        }
+      }
+    )
   }
+
+
 
 
   //Metodo per creare l'header contenente l'access token

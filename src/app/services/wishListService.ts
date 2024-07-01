@@ -10,6 +10,7 @@ import {WishProduct} from "../entities/WishProduct";
 import {single} from "rxjs";
 import {ProductService} from "./productService";
 import {WishList} from "../entities/WishList";
+import {ChangeVisibility} from "../entities/ChangeVisibility";
 
 
 @Injectable({
@@ -149,9 +150,14 @@ export class WishListService{
 
   changeVisFunction(){
     const headers = this.keycloakService.permaHeader();
-    console.log("TOKKEN: " + this.keycloakService.getAccessToken())
-    const customUrl = this.putVisibilityWishListsURL+"?wish-id="+this.wishId+"&visibility="+1;
-    this.http.post<string>(customUrl, { headers, responseType: 'text' as 'json' }).subscribe(response => {
+
+    console.log("visibilità: " + this.visibility);
+    const change: ChangeVisibility = {
+      visibility: this.visibility,
+      wishId: this.wishId
+    }
+
+    this.http.put<string>(this.putVisibilityWishListsURL, change,{ headers, responseType: 'text' as 'json' }).subscribe(response => {
       if(response === "Visibilità cambiata con successo"){
         this.wishLists = this.wishLists.filter(wish => wish.id !== this.wishId);
         this.popUpService.closePopup()

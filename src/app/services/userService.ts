@@ -29,6 +29,7 @@ export class UserService {
 
   private manageUserDataURL = 'http://localhost:8090/user-api/user';
 
+
   private managePasswordURL = 'http://localhost:8090/user-api/password';
 
   private manageProfilePicURL = 'http://localhost:8090/user-api/image';
@@ -200,6 +201,9 @@ export class UserService {
 
     return this.http.put(this.manageProfilePicURL, formData, { headers, responseType: 'text'});
   }
+
+
+
 
 
 
