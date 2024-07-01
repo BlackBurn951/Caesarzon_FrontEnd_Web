@@ -20,95 +20,17 @@
 
           <div class="row">
             <div class="container left-containers ml-2">  <!-- CARRELLO -->
-              <div class="form-check">
-                <div class="row mt-2">
-                  <div class="col">
-                    <div class="row product-row">  <!--RIGA DEL SINGOLO PRODOTTO -->
-                      <div class="col-5 align-content-center">
-                        <p>Immagine prod</p>
-                      </div>
-
-                      <div class="col">
-                        <div class="row">
-                          <p>Nome prod</p>
-                        </div>
-                        <div class="row">
-                          <div class="col-3 pl-0">
-                            <p>Quantità</p>
-                          </div>
-                          <div class="col-1 pl-0">
-                            <select name ="quantity-selection" id="quantity">
-                              <option value="1">1</option>
-                              <option value="2">2</option>
-                              <option value="3">3</option>
-                              <option value="4">4</option>
-                              <option value="5">5</option>
-                              <option value="6">6</option>
-                              <option value="7">7</option>
-                              <option value="8">8</option>
-                              <option value="9">9</option>
-                              <option value="10">10</option>
-                            </select>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <a href="#">Acquista più tardi</a>
-                        </div>
-                        <div class="row mt-2">
-                          <input class="form-check-input" type="checkbox" value="in-cart" id="flexCheckDefaults" checked>
-                          <label class="form-check-label" for="flexCheckDefaults">
-                            Nel ordine
-                          </label>
-                        </div>
-                        <div class="row mt-2">
-                          <a href="#">Rimuovi</a>
-                        </div>
-                      </div>
-                    </div>
+              <div class="collection">
+                <!-- Imagine a loop produced this... -->
+                <div class="product" *ngFor="let item of cartService.productInCart">
+                  <a class="product__image" href="#"></a>
+                  <div class="product__name">
+                    <p>
+                      <a href="#">{{item.name}}</a>
+                    </p>
                   </div>
-                  <div class="col">
-                    <div class="row product-row">  <!--RIGA DEL SINGOLO PRODOTTO -->
-                      <div class="col-5 align-content-center">
-                        <p>Immagine prod</p>
-                      </div>
-
-                      <div class="col">
-                        <div class="row">
-                          <p>Nome prod</p>
-                        </div>
-                        <div class="row">
-                          <div class="col-3 pl-0">
-                            <p>Quantità</p>
-                          </div>
-                          <div class="col-1 pl-0">
-                            <select name ="quantity-selection">
-                              <option value="1">1</option>
-                              <option value="2">2</option>
-                              <option value="3">3</option>
-                              <option value="4">4</option>
-                              <option value="5">5</option>
-                              <option value="6">6</option>
-                              <option value="7">7</option>
-                              <option value="8">8</option>
-                              <option value="9">9</option>
-                              <option value="10">10</option>
-                            </select>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <a href="#">Acquista più tardi</a>
-                        </div>
-                        <div class="row mt-2">
-                          <input class="form-check-input" type="checkbox" value="in-cart" id="flexCheckDefault"  checked>
-                          <label class="form-check-label" for="flexCheckDefault">
-                            Nel ordine
-                          </label>
-                        </div>
-                        <div class="row mt-2">
-                          <a href="#">Rimuovi</a>
-                        </div>
-                      </div>
-                    </div>
+                  <div class="product__price">
+                    <p>{{item.total/item.quantity}}
                   </div>
                 </div>
               </div>
