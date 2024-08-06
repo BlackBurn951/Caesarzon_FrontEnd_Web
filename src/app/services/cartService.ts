@@ -4,9 +4,10 @@ import { KeyCloakService } from "./keyCloakService";
 import { ProductCart } from "../entities/ProductCart";
 import {Unvailable} from "../entities/Unvaiable";
 import {Buy} from "../entities/Buy";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {SendProductOrderDTO} from "../entities/SendProductToCart";
 import {PopupService} from "./popUpService";
+import {PayPal} from "../entities/PayPal";
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +19,8 @@ export class CartService {
   checkAvaURL: string = 'http://localhost:8090/product-api/pre-order';
 
   doOrderURL: string = 'http://localhost:8090/product-api/purchase';
+
+  doSuccesURL: string = 'http://localhost:8090/product-api/success';
 
   ordineInviato!: boolean;
 
@@ -42,7 +45,7 @@ export class CartService {
   size: string = "";
   quantity: number = 1;
 
-  constructor(private popUp: PopupService, private router:Router, private http: HttpClient, private keyCloakService: KeyCloakService) { }
+  constructor(private route: ActivatedRoute, private popUp: PopupService, private router:Router, private http: HttpClient, private keyCloakService: KeyCloakService) { }
 
   addProductCart(){
 
@@ -115,7 +118,27 @@ export class CartService {
   }
 
   doSuccess() {
+    const buy: Buy = {
+      addressID: this.addressId,
+      cardID: this.cardId,
+      productsIds: this.productIds,
+      total: this.totaleConSconto + 5
+    };
 
+    this.route.queryParamMap.subscribe(params => {
+      const paymentId = params.get('paymentId');
+      const token = params.get('token');
+      const payerId = params.get('payerId');
+
+      const pay: PayPal = {
+        paymentId: paymentId!,
+        token: token!,
+        payerId: payerId!,
+        buyDTO: buy
+      };
+
+      console.log('PayPal details:', pay);
+    });
   }
 
 
@@ -132,8 +155,7 @@ export class CartService {
       productsIds : this.productIds,
       total: 0
     }
-
-    console.log("paypalle: " + this.payPal);
+    console.log("PAYPAL ABILITATO?: " + this.payPal)
     const custmUrl = this.doOrderURL+"?pay-method="+this.payPal
     const headers = this.keyCloakService.permaHeader();
     return this.http.post<string>(custmUrl, buy,{headers, responseType: 'text' as 'json'}).subscribe(response => {
@@ -142,11 +164,14 @@ export class CartService {
         this.popUp.openPopups(45, true)
       }else{
         if(response === "Ordine effettuato con successo!"){
+          this.ordineInviato = true
           this.router.navigate(['order-final']);
         }
       }
     })
   }
+
+
 
 
   takeAddressId(addressId: string){

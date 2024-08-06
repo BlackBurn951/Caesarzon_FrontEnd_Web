@@ -31,30 +31,19 @@
                     </p>
                   </div>
                   <div class="product__price">
-                    <p>{{item.total/item.quantity}}
+                    <p>{{item.total}}
                   </div>
-                  <div style="display: flex;">
-                    <div class="product__quantity" >
-                      <select >
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                        <option value="6">6</option>
-                        <option value="7">7</option>
-                        <option value="8">8</option>
-                        <option value="9">9</option>
-                        <option value="10">10</option>
+                  <div class="product__details row" style="display: flex">
+                    <div class="col-6 ml-3">
+                      <label for="quantity">Quantità:</label>
+                      <select id="quantity" class="form-control" [(ngModel)]="item.quantity">
+                        <option *ngFor="let qty of [1,2,3,4,5,6,7,8,9,10]" [value]="qty">{{qty}}</option>
                       </select>
                     </div>
-                    <div class="product__size" >
-                      <select >
-                        <option value="XS">XS</option>
-                        <option value="S">S</option>
-                        <option value="M">M</option>
-                        <option value="L">L</option>
-                        <option value="XL">XL</option>
+                    <div *ngIf="item.size != null" class="col-6 mr-3">
+                      <label for="size">Taglia:</label>
+                      <select id="size" class="form-control" [(ngModel)]="item.size">
+                        <option *ngFor="let size of ['XS','S', 'M', 'L', 'XL']" [value]="size">{{size}}</option>
                       </select>
                     </div>
                   </div>
