@@ -26,7 +26,6 @@ export class CartService {
 
   productInCart!: ProductCart[];
 
-
   unvaiable!: Unvailable[]
 
   productIds: string[] = []
@@ -36,9 +35,18 @@ export class CartService {
   cardId: string = ""
   addressId: string = ""
 
-
   totaleSenzaSconto: number = 0;
   totaleConSconto: number = 0;
+
+  private buy: Buy | undefined;
+
+  setBuy(buy: Buy) {
+    this.buy = buy;
+  }
+
+  getBuy(): Buy | undefined {
+    return this.buy;
+  }
 
 
   productIdToAddCart: string = ""
@@ -118,17 +126,16 @@ export class CartService {
   }
 
   doSuccess() {
-    const buy: Buy = {
-      addressID: this.addressId,
-      cardID: this.cardId,
-      productsIds: this.productIds,
-      total: this.totaleConSconto + 5
-    };
-
     this.route.queryParamMap.subscribe(params => {
       const paymentId = params.get('paymentId');
       const token = params.get('token');
-      const payerId = params.get('payerId');
+      const payerId = params.get('PayerID');
+
+      const buy = this.getBuy();
+      if (!buy) {
+        console.error('Buy object is undefined');
+        return;
+      }
 
       const pay: PayPal = {
         paymentId: paymentId!,
@@ -139,8 +146,12 @@ export class CartService {
 
       console.log('PayPal details:', pay);
     });
-  }
 
+    const headers = this.keyCloakService.permaHeader();
+    return this.http.post<string>(this.doSuccesURL, { headers }).subscribe(response => {
+      this.ordineInviato = response !== "Errore...";
+    });
+  }
 
   takeCardId(cardId: string){
     this.cardId = cardId;
@@ -149,21 +160,25 @@ export class CartService {
   }
 
   purchase(){
-    const buy :Buy ={
+    const buy: Buy = {
       addressID: this.addressId,
       cardID: this.cardId,
       productsIds : this.productIds,
-      total: 0
+      total: this.totaleConSconto + 5
     }
+    this.setBuy(buy)
     console.log("PAYPAL ABILITATO?: " + this.payPal)
+
     const custmUrl = this.doOrderURL+"?pay-method="+this.payPal
     const headers = this.keyCloakService.permaHeader();
-    return this.http.post<string>(custmUrl, buy,{headers, responseType: 'text' as 'json'}).subscribe(response => {
+    return this.http.post<string>(custmUrl, this.getBuy(),{headers, responseType: 'text' as 'json'}).subscribe(response => {
       if(response === "Errore...") {
         this.popUp.updateStringa("ERRORE ALDOS")
         this.popUp.openPopups(45, true)
       }else{
-        if(response === "Ordine effettuato con successo!"){
+        if(response != "Ordine effettuato con successo!"){
+          window.location.href = response;
+        }else{
           this.ordineInviato = true
           this.router.navigate(['order-final']);
         }
