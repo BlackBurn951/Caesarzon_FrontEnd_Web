@@ -33,29 +33,28 @@
             </tr>
             </thead>
             <tbody>
-            <ng-container *ngFor="let item of wishListService.wishLists; let i = index">
+            <ng-container *ngFor="let item of orderService.orders; let i = index">
               <tr>
-                <td>{{ item.name }}</td>
+                <td>{{ item.orderNumber }}</td>
                 <td>
-
-                  <div class="form-group d-flex flex-row align-items-center"  *ngIf="wishListService.section == 0">
-                    <button class="btn btn-dark custom-btn ml-2" (click)="wishListService.getWishListProducts(item.id)">
+                  <div class="form-group d-flex flex-row align-items-center">
+                    <button class="btn btn-dark custom-btn ml-2" (click)="orderService.getProductsInOder(item.id)">
                       Prodotti
                     </button>
-                    <button class="btn btn-dark custom-btn ml-5" (click)="wishListService.deleteWishList(item.id, item.name)">
+                    <button class="btn btn-dark custom-btn ml-5">
                       Dettagli ordine
                     </button>
-                    <button class="btn btn-dark custom-btn ml-5" (click)="wishListService.deleteWishList(item.id, item.name)">
+                    <button class="btn btn-dark custom-btn ml-5">
                       Richiedi reso
                     </button>
                   </div>
 
                 </td>
               </tr>
-              <tr *ngIf="wishListService.showProductsMap[item.id]">
+              <tr *ngIf="orderService.showProductsMapOrder[item.id]">
                 <td colspan="2">
-                  <div *ngFor="let product of wishListService.wishListProducts?.singleWishListProductDTOS">
-                    <p class="prodottoOi"  (click)="productService.prendiDatiProdotto(product.productId)" >{{ product.productName }} - {{ product.price }} €</p>
+                  <div *ngFor="let product of orderService.productInOrder">
+                    <p class="prodottoOi">{{ product.name }} - {{ product.total }} €</p>
                   </div>
                 </td>
               </tr>

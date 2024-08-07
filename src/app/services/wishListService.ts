@@ -22,6 +22,7 @@ export class WishListService{
 
   wishListProducts!: WishProduct;
   wishLists!: BasicWishList[];
+
   showProductsMap: Record<string, boolean> = {};
 
   wishId! :string;
