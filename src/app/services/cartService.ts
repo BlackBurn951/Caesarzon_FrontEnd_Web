@@ -38,17 +38,6 @@ export class CartService {
   totaleSenzaSconto: number = 0;
   totaleConSconto: number = 0;
 
-  private buy: Buy | undefined;
-
-  setBuy(buy: Buy) {
-    this.buy = buy;
-  }
-
-  getBuy(): Buy | undefined {
-    return this.buy;
-  }
-
-
   productIdToAddCart: string = ""
   size: string = "";
   quantity: number = 1;
@@ -125,33 +114,56 @@ export class CartService {
     return this.http.post<Unvailable[]>(this.checkAvaURL, this.productIds,{headers});
   }
 
+
+  buy!: Buy;
+
   doSuccess() {
     this.route.queryParamMap.subscribe(params => {
       const paymentId = params.get('paymentId');
       const token = params.get('token');
       const payerId = params.get('PayerID');
 
-      const buy = this.getBuy();
-      if (!buy) {
-        console.error('Buy object is undefined');
+      if (!paymentId || !token || !payerId) {
+        console.error('Missing payment parameters');
         return;
       }
 
+      // Retrieve this.buy from session storage
+      const buyData = sessionStorage.getItem('buy');
+      if (buyData) {
+        this.buy = JSON.parse(buyData);
+      } else {
+        console.error('No buy data found in session storage');
+        return;
+      }
+
+      console.log("NEL DO SUCCESS")
+      console.log("ADDRESS ID: " + this.buy.addressID)
+      console.log("CARD ID: " + this.buy.cardID)
+      this.buy.productsIds.forEach(productId => {console.log("PRODUCTID: " + productId)})
+      console.log("TOTALE: " + this.buy.total)
+
       const pay: PayPal = {
-        paymentId: paymentId!,
-        token: token!,
-        payerId: payerId!,
-        buyDTO: buy
+        paymentId: paymentId,
+        token: token,
+        payerId: payerId,
+        buyDTO: this.buy
       };
 
       console.log('PayPal details:', pay);
-    });
 
-    const headers = this.keyCloakService.permaHeader();
-    return this.http.post<string>(this.doSuccesURL, { headers }).subscribe(response => {
-      this.ordineInviato = response !== "Errore...";
+      const headers = this.keyCloakService.permaHeader();
+      this.http.post<string>(this.doSuccesURL, pay, { headers }).subscribe(response => {
+        console.log('Success response:', response);
+        this.ordineInviato = response !== "Errore...";
+      }, error => {
+        // Handle HTTP error
+        console.error('HTTP error:', error);
+      });
     });
   }
+
+
 
   takeCardId(cardId: string){
     this.cardId = cardId;
@@ -159,32 +171,41 @@ export class CartService {
     this.payPal = false;
   }
 
-  purchase(){
-    const buy: Buy = {
+  purchase() {
+    this.buy = {
       addressID: this.addressId,
       cardID: this.cardId,
-      productsIds : this.productIds,
+      productsIds: this.productIds,
       total: this.totaleConSconto + 5
     }
-    this.setBuy(buy)
+
     console.log("PAYPAL ABILITATO?: " + this.payPal)
 
-    const custmUrl = this.doOrderURL+"?pay-method="+this.payPal
+    console.log("ADDRESS ID: " + this.buy.addressID)
+    console.log("CARD ID: " + this.buy.cardID)
+    this.buy.productsIds.forEach(productId => {console.log("PRODUCTID: " + productId)})
+    console.log("TOTALE: " + this.buy.total)
+
+    // Store this.buy in session storage
+    sessionStorage.setItem('buy', JSON.stringify(this.buy));
+
+    const custmUrl = this.doOrderURL + "?pay-method=" + this.payPal;
     const headers = this.keyCloakService.permaHeader();
-    return this.http.post<string>(custmUrl, this.getBuy(),{headers, responseType: 'text' as 'json'}).subscribe(response => {
-      if(response === "Errore...") {
+    return this.http.post<string>(custmUrl, this.buy, { headers, responseType: 'text' as 'json' }).subscribe(response => {
+      if (response === "Errore...") {
         this.popUp.updateStringa("ERRORE ALDOS")
         this.popUp.openPopups(45, true)
-      }else{
-        if(response != "Ordine effettuato con successo!"){
+      } else {
+        if (response != "Ordine effettuato con successo!") {
           window.location.href = response;
-        }else{
+        } else {
           this.ordineInviato = true
           this.router.navigate(['order-final']);
         }
       }
     })
   }
+
 
 
 
