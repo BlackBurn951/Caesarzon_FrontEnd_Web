@@ -5,7 +5,7 @@ export interface OrderDTO {
   expectedDeliveryDate: string
   purchaseDate: string
   refundDate: string
-  refund: string
+  refund: boolean
   addressID: string
   cardID: string
   orderTotal: number

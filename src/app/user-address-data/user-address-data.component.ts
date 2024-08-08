@@ -30,7 +30,7 @@ export class UserAddressDataComponent implements OnInit{
 
 
   loadAddresses(nameLista: string): void {
-    this.addressService.getAddresses(nameLista).subscribe(
+    this.addressService.getAddress(nameLista).subscribe(
       (data: Address) => {
         this.addressService.indirizzoCorrente = data;
       },

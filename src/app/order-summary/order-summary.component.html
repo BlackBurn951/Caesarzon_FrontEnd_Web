@@ -12,67 +12,141 @@
     <app-user-management-container></app-user-management-container>
   </div>
 
-  <div class="container-fluid d-flex flex-row align-items-center">
-    <div class="container-fluid d-flex flex-column align-items-center aldos">
-      <h1 class="titless">ORDINI EFFETTUATI</h1>
+  <div class="container-fluid d-flex flex-column align-items-center">
+    <h1 class="titless">ORDINI EFFETTUATI</h1>
 
-      <div class="form-group d-flex flex-row align-items-center">
-        <div class="visibility mb-3">
-          <button type="button" class="btn btn-dark custom-btn mr-5" (click)="wishListService.getWishS(0)">Ordini</button>
-          <button type="button" class="btn btn-dark custom-btn mr-5" (click)="wishListService.getWishS(1)">Resi</button>
-        </div>
-      </div>
+    <div class="form-group d-flex flex-row align-items-center visibility mb-3">
+      <button type="button" class="btn btn-dark custom-btn mr-5" (click)="orderService.changeSection()">Ordini</button>
+      <button type="button" class="btn btn-dark custom-btn mr-5" (click)="orderService.changeSection()">Resi</button>
+    </div>
 
-      <section class="form-group d-flex flex-column align-items-center">
-        <div class="table-container">
-          <table class="table table-striped">
-            <thead>
-            <tr >
-              <th class="align-items-center" scope="col">Numero ordine</th>
-              <th class="d-flex flex-column align-items-center" scope="col">Azioni</th>
-            </tr>
-            </thead>
-            <tbody>
+    <section class="form-group d-flex flex-column align-items-center">
+      <div class="table-container">
+        <table class="table table-striped">
+          <thead>
+          <tr>
+            <th scope="col">Numero ordine</th>
+            <th scope="col" class="text-center">Azioni</th>
+          </tr>
+          </thead>
+          <tbody>
+          <ng-container *ngIf="orderService.section; else refundSection">
             <ng-container *ngFor="let item of orderService.orders; let i = index">
               <tr>
                 <td>{{ item.orderNumber }}</td>
                 <td>
-                  <div class="form-group d-flex flex-row align-items-center">
-                    <button class="btn btn-dark custom-btn ml-2" (click)="orderService.getProductsInOder(item.id)">
-                      Prodotti
-                    </button>
-                    <button class="btn btn-dark custom-btn ml-5">
-                      Dettagli ordine
-                    </button>
-                    <button class="btn btn-dark custom-btn ml-5">
-                      Richiedi reso
-                    </button>
+                  <div class="d-flex justify-content-center">
+                    <button class="btn btn-dark custom-btn ml-2" (click)="orderService.getProductsInOder(item.id)">Prodotti</button>
+                    <button class="btn btn-dark custom-btn ml-5" (click)="orderService.mostraDettagliOrdine(item.cardID, item.addressID, item.id)">Dettagli ordine</button>
+                    <button class="btn btn-dark custom-btn ml-5" (click)="richiediReso(i)">Richiedi reso</button>
                   </div>
-
                 </td>
               </tr>
               <tr *ngIf="orderService.showProductsMapOrder[item.id]">
                 <td colspan="2">
-                  <div *ngFor="let product of orderService.productInOrder">
-                    <p class="prodottoOi">{{ product.name }} - {{ product.total }} €</p>
+                  <div *ngFor="let product of orderService.productsMap[item.id]">
+                    <p class="prodottoOi" (click)="productService.prendiDatiProdotto(product.id)">
+                      {{ product.name }} - <strong>Prezzo:</strong> {{ getRoundedTotal(product.total,0) }} €<br>
+                      <strong>Importo pagato:</strong> {{ getRoundedTotal(product.total, product.discountTotal) }} € -
+                      <strong>Sconto applicato:</strong> {{getRoundedTotal(product.discountTotal, 0)}} €<br>
+                      <strong>Quantità:</strong> {{ product.quantity }}
+                      <ng-container *ngIf="['XS', 'S', 'M', 'L', 'XL'].includes(product.size)">
+                        - <strong>Taglia:</strong> {{ product.size }}
+                      </ng-container>
+                    </p>
                   </div>
                 </td>
               </tr>
+              <tr *ngIf="orderService.detailsShowMap[item.id]">
+                <td colspan="2">
+                  <p class="prodottoOi">
+                    <strong>Data acquisto:</strong> {{item.purchaseDate}}<br>
+                    <strong>Stato dell'ordine:</strong> {{item.orderState}}<br>
+                    <strong>Totale ordine:</strong> {{getRoundedTotal(item.orderTotal, 0)}} €<br>
+                    <strong>Consegna prevista:</strong> {{item.expectedDeliveryDate}}<br>
+                    <strong>Indirizzo di spedizione:</strong>
+                    {{orderService.orderDetailsMap[item.id]?.indirizzoOrdine?.roadType}}
+                    {{orderService.orderDetailsMap[item.id]?.indirizzoOrdine?.roadName}}
+                    {{orderService.orderDetailsMap[item.id]?.indirizzoOrdine?.houseNumber}},
+                    {{orderService.orderDetailsMap[item.id]?.indirizzoOrdine?.city?.city}},
+                    {{orderService.orderDetailsMap[item.id]?.indirizzoOrdine?.city?.cap}},
+                    {{orderService.orderDetailsMap[item.id]?.indirizzoOrdine?.city?.province}}<br>
+                    <ng-container *ngIf="item.cardID != null">
+                      <strong>Pagamento con carta:</strong> {{orderService.orderDetailsMap[item.id]?.cartaOrdine?.owner}}
+                      {{orderService.orderDetailsMap[item.id]?.cartaOrdine?.cardNumber}}
+                    </ng-container>
+                    <ng-container *ngIf="item.cardID == null">
+                      <strong>Pagamento tramite PayPal</strong>
+                    </ng-container>
+                  </p>
+                </td>
+              </tr>
             </ng-container>
+          </ng-container>
 
-            </tbody>
-          </table>
-        </div>
-      </section>
-    </div>
+          <!-- Sezione per i resi -->
+          <ng-template #refundSection>
+            <ng-container *ngFor="let item of orderService.refundOrders; let i = index">
+              <tr>
+                <td>{{ item.orderNumber }}</td>
+                <td>
+                  <div class="d-flex justify-content-center">
+                    <button class="btn btn-dark custom-btn ml-2" (click)="orderService.getProductsInOder(item.id)">Prodotti</button>
+                    <button class="btn btn-dark custom-btn ml-5" (click)="orderService.mostraDettagliOrdine(item.cardID, item.addressID, item.id)">Dettagli ordine</button>
+                  </div>
+                </td>
+              </tr>
+              <tr *ngIf="orderService.showProductsMapOrder[item.id]">
+                <td colspan="2">
+                  <div *ngFor="let product of orderService.productsMap[item.id]">
+                    <p class="prodottoOi" (click)="productService.prendiDatiProdotto(product.id)">
+                      {{ product.name }} - <strong>Prezzo:</strong> {{ getRoundedTotal(product.total,0) }} €<br>
+                      <strong>Importo pagato:</strong> {{ getRoundedTotal(product.total, product.discountTotal) }} € -
+                      <strong>Sconto applicato:</strong> {{getRoundedTotal(product.discountTotal, 0)}} €<br>
+                      <strong>Quantità:</strong> {{ product.quantity }}
+                      <ng-container *ngIf="['XS', 'S', 'M', 'L', 'XL'].includes(product.size)">
+                        - <strong>Taglia:</strong> {{ product.size }}
+                      </ng-container>
+                    </p>
+                  </div>
+                </td>
+              </tr>
+              <tr *ngIf="orderService.detailsShowMap[item.id]">
+                <td colspan="2">
+                  <p class="prodottoOi">
+                    <strong>Data acquisto:</strong> {{item.purchaseDate}}<br>
+                    <strong>Stato dell'ordine:</strong> {{item.orderState}}<br>
+                    <strong>Totale ordine:</strong> {{getRoundedTotal(item.orderTotal, 0)}} €<br>
+                    <strong>Consegna prevista:</strong> {{item.expectedDeliveryDate}}<br>
+                    <strong>Indirizzo di spedizione:</strong>
+                    {{orderService.orderDetailsMap[item.id]?.indirizzoOrdine?.roadType}}
+                    {{orderService.orderDetailsMap[item.id]?.indirizzoOrdine?.roadName}}
+                    {{orderService.orderDetailsMap[item.id]?.indirizzoOrdine?.houseNumber}},
+                    {{orderService.orderDetailsMap[item.id]?.indirizzoOrdine?.city?.city}},
+                    {{orderService.orderDetailsMap[item.id]?.indirizzoOrdine?.city?.cap}},
+                    {{orderService.orderDetailsMap[item.id]?.indirizzoOrdine?.city?.province}}<br>
+                    <ng-container *ngIf="item.cardID != null">
+                      <strong>Pagamento con carta:</strong> {{orderService.orderDetailsMap[item.id]?.cartaOrdine?.owner}}
+                      {{orderService.orderDetailsMap[item.id]?.cartaOrdine?.cardNumber}}
+                    </ng-container>
+                    <ng-container *ngIf="item.cardID == null">
+                      <strong>Pagamento tramite PayPal</strong>
+                    </ng-container>
+                  </p>
+                </td>
+              </tr>
+            </ng-container>
+          </ng-template>
 
+          </tbody>
+        </table>
+      </div>
+    </section>
   </div>
-
 </section>
 
 <footer>
   <app-footer></app-footer>
 </footer>
-
 </body>
 </html>

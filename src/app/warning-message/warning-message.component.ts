@@ -7,6 +7,7 @@ import {CardsService} from "../services/cardsService";
 import {AdminService} from "../services/adminService";
 import {WishListService} from "../services/wishListService";
 import {KeyCloakService} from "../services/keyCloakService";
+import {OrderService} from "../services/orderService";
 
 
 
@@ -22,7 +23,7 @@ import {KeyCloakService} from "../services/keyCloakService";
 export class WarningMessageComponent implements OnInit{
   stringa!: String;
 
-  constructor(private keyCloak: KeyCloakService, private wishListService:WishListService, private adminService: AdminService, private dialogError: MatDialogRef<WarningMessageComponent>, public popup:PopupService, public addressService: AddressService, public cardService: CardsService) {
+  constructor(private orderService: OrderService, private keyCloak: KeyCloakService, private wishListService:WishListService, private adminService: AdminService, private dialogError: MatDialogRef<WarningMessageComponent>, public popup:PopupService, public addressService: AddressService, public cardService: CardsService) {
 
   }
 
@@ -66,7 +67,21 @@ export class WarningMessageComponent implements OnInit{
             this.popup.openPopups(123, true);
           }
         })
+      }else if(this.popup.operazione == 8){
+        this.orderService.richiediReso().subscribe(response => {
+          if(response == "Reso inviato con successo!"){
+            const refundedOrder = this.orderService.orders[this.orderService.orderIndex];
+            this.orderService.orders.splice(this.orderService.orderIndex, 1);
+
+            this.orderService.refundOrders.push(refundedOrder);
+
+            this.popup.updateStringa(response);
+            this.popup.openPopups(123, true);
+          }
+        })
       }
+
+
     }else{
       this.popup.closePopup()
     }

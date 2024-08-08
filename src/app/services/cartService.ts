@@ -8,6 +8,8 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {SendProductOrderDTO} from "../entities/SendProductToCart";
 import {PopupService} from "./popUpService";
 import {PayPal} from "../entities/PayPal";
+import {AddressService} from "./addressService";
+import {CardsService} from "./cardsService";
 
 @Injectable({
   providedIn: 'root'
@@ -43,7 +45,7 @@ export class CartService {
   size: string = "";
   quantity: number = 1;
 
-  constructor(private route: ActivatedRoute, private popUp: PopupService, private router:Router, private http: HttpClient, private keyCloakService: KeyCloakService) { }
+  constructor(private cardsService:CardsService, private addressService:AddressService, private route: ActivatedRoute, private popUp: PopupService, private router:Router, private http: HttpClient, private keyCloakService: KeyCloakService) { }
 
   addProductCart(){
 
@@ -159,28 +161,21 @@ export class CartService {
 
 
 
-  takeCardId(cardId: string){
-    this.cardId = cardId;
-    this.selectedCardId = cardId;
+  takeCardId(cardId: number){
+    this.cardId = this.cardsService.cardsName[cardId]
+    this.selectedCardId = this.cardsService.cardsName[cardId]
     this.payPal = false;
   }
 
   purchase() {
+    const diff = parseFloat(this.totaleConSconto.toFixed(2));
     this.buy = {
       addressID: this.addressId,
       cardID: this.cardId,
       productsIds: this.productIds,
-      total: this.totaleConSconto + 5
-    }
+      total: diff
+    };
 
-    console.log("PAYPAL ABILITATO?: " + this.payPal)
-
-    console.log("ADDRESS ID: " + this.buy.addressID)
-    console.log("CARD ID: " + this.buy.cardID)
-    this.buy.productsIds.forEach(productId => {console.log("PRODUCTID: " + productId)})
-    console.log("TOTALE: " + this.buy.total)
-
-    // Store this.buy in session storage
     sessionStorage.setItem('buy', JSON.stringify(this.buy));
 
     const custmUrl = this.doOrderURL + "?pay-method=" + this.payPal;
@@ -204,7 +199,7 @@ export class CartService {
 
 
 
-  takeAddressId(addressId: string){
-    this.addressId = addressId
+  takeAddressId(addressId: number){
+    this.addressId = this.addressService.addressesName[addressId]
   }
 }

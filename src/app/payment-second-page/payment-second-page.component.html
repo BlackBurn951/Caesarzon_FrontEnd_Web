@@ -25,7 +25,7 @@
                       <div class="col-lg-4 col-sm-6" *ngFor="let address of addressService.addresses; let i = index">
                         <div  class="card-radio-label mb-0">
                           <label class="card-radio text-truncate p-3">
-                            <input type="radio" name="selectedAddress" (click)="cartService.takeAddressId(address.id)">
+                            <input type="radio" name="selectedAddress" (click)="cartService.takeAddressId(i)">
                             <span class="fs-14 mb-2 d-block">{{keyCloak.getNomeUtente()}} {{keyCloak.getCognomeNomeUtente()}}</span>
                             <span class="fs-14 mb-2 d-block">{{ address?.roadName }}</span>
                             <span class="fs-14 mb-2 d-block">{{ address?.houseNumber }}</span>
@@ -60,7 +60,7 @@
                   <div class="col-lg-4 col-sm-6" *ngFor="let card of cardService.cards; let i = index">
                     <div class="card-radio-label mb-0">
                       <label class="card-radio text-truncate p-3">
-                        <input type="radio" name="selectedCard" [(ngModel)]="cartService.selectedCardId" [value]="card.id" (click)="cartService.takeCardId(card.id)">
+                        <input type="radio" name="selectedCard" [(ngModel)]="cartService.selectedCardId" [value]="card.id" (click)="cartService.takeCardId(i)">
                         <span class="fs-14 mb-2 d-block">{{ card.owner }}</span>
                         <span class="fs-14 mb-2 d-block">{{ card.cardNumber }}</span>
                         <span class="text-muted fw-normal text-wrap mb-1 d-block">{{ card.expiryDate }}</span>
@@ -135,7 +135,7 @@
                 <td colspan="1">
                   <h5 class="font-size-14 m-0">Totale:</h5>
                 </td>
-                <td>€ {{cartService.totaleConSconto + 5}}</td>
+                <td>€ {{getRoundedTotal()}}</td>
               </tr>
               </tbody>
             </table>

@@ -206,7 +206,6 @@ export class WishListService{
   changeVisFunction(){
     const headers = this.keycloakService.permaHeader();
 
-    console.log("visibilità: " + this.visibility);
     const change: ChangeVisibility = {
       visibility: this.visibility,
       wishId: this.wishId

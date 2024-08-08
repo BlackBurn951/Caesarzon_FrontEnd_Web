@@ -39,6 +39,10 @@ export class PaymentSecondPageComponent implements OnInit{
     return difference.toFixed(2);
   }
 
+  getRoundedTotal(): string {
+    const difference = this.cartService.totaleConSconto+5;
+    return difference.toFixed(2);
+  }
 
   ngOnInit(): void {
     this.keyCloak.getNotify().subscribe(notifies => {

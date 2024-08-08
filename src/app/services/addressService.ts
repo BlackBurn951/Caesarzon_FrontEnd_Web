@@ -18,7 +18,9 @@ export class AddressService {
   indirizzoCorrente!: Address;
 
   addressesName!: string[];
+
   addresses!: Address[];
+
   addressMap: { [key: string]: string } = {};
 
   nomeIndirizzo!: string;
@@ -43,7 +45,7 @@ export class AddressService {
 
 
   //Metodo per prendere il singolo indirizzo
-  getAddresses(idAddress: string): Observable<Address> {
+  getAddress(idAddress: string): Observable<Address> {
     const urlWithParams = `${this.manageAddressURL}?address_id=${idAddress}`;
     const headers = this.keycloakService.permaHeader()
     return this.http.get<Address>(urlWithParams, { headers });
@@ -56,8 +58,8 @@ export class AddressService {
         console.log("Address id: " + response);
         this.addressesName = response;
 
-        // Creo un array di observable per ogni chiamata a getAddresses
-        const requests = this.addressesName.map(addr => this.getAddresses(addr));
+        // Creo un array di observable per ogni chiamata a getAddress
+        const requests = this.addressesName.map(addr => this.getAddress(addr));
 
         // Utilizzo forkJoin per eseguire tutte le richieste in parallelo
         forkJoin(requests).subscribe(
@@ -89,7 +91,7 @@ export class AddressService {
         this.nomeIndirizzo = this.addressesName[0];
 
         if (this.addressesName.length > 0) {
-          this.getAddresses(this.addressesName[0]).subscribe({
+          this.getAddress(this.addressesName[0]).subscribe({
             next: (response: Address) => {
               this.userService.loading = false;
               this.indirizzoCorrente = response;
