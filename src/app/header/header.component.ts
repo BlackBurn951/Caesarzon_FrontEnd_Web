@@ -13,6 +13,7 @@ import {Notifications} from "../entities/Notification";
 import {count, Subscription} from "rxjs";
 import {ProductService} from "../services/productService";
 import {FormsModule} from "@angular/forms";
+import {FriendFollowerService} from "../services/friendFollowerService";
 
 
 @Component({
@@ -45,7 +46,7 @@ export class HeaderComponent implements OnDestroy, OnInit{
   notifyCount = 0;
   private notifyCountSubscription!: Subscription;
 
-  constructor(protected productService: ProductService, public popupService:PopupService, private router: Router, protected keyCloak:KeyCloakService, private adminService: AdminService){
+  constructor(protected friendFollow: FriendFollowerService, protected productService: ProductService, public popupService:PopupService, private router: Router, protected keyCloak:KeyCloakService, private adminService: AdminService){
     this.notifyCountSubscription = this.keyCloak.notifyCount$.subscribe(count => {
       this.notifyCount = count;
     });

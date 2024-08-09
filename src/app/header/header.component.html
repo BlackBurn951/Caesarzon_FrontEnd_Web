@@ -105,7 +105,7 @@
         </li>
 
         <li id="amici" class="nav-item">
-          <button *ngIf="!keyCloak.getIsAdmin()" class="menu-item btn btn-dark custom-btns" (click)="popupService.openPopups(0, true)">Amici</button>
+          <button *ngIf="!keyCloak.getIsAdmin()" class="menu-item btn btn-dark custom-btns" (click)="friendFollow.takeFirst20User()">Amici</button>
         </li>
 
       </div>

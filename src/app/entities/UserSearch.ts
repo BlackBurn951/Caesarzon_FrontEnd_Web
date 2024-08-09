@@ -4,6 +4,8 @@ import {SafeUrl} from "@angular/platform-browser";
 
 export interface UserSearch{
   username: string;
-  safeImageUrl: SafeUrl;
+  safeImageUrl:  number[]
+  follower: boolean
+  friend: boolean
 
 }

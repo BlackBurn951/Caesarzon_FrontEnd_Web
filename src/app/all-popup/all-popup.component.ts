@@ -11,6 +11,7 @@ import {AdminService} from "../services/adminService";
 import {ProductService} from "../services/productService";
 import {WishListService} from "../services/wishListService";
 import {KeyCloakService} from "../services/keyCloakService";
+import {FriendFollowerService} from "../services/friendFollowerService";
 
 @Component({
   selector: 'app-all-popup',
@@ -40,28 +41,11 @@ export class AllPopupComponent implements OnInit{
 
   mostraPassword: { [key: string]: boolean } = { password: false, confermaPassword: false };
 
-  users = [
-    { name: 'Mario Rossi', imgPath: 'path-to-image-1.jpg' },
-    { name: 'Giulia Bianchi', imgPath: 'path-to-image-2.jpg' },
-    { name: 'Luca Verdi', imgPath: 'path-to-image-3.jpg' }
-  ];
-
-  usersFollow = [
-    { name: 'Anna Gialli', imgPath: 'path-to-image-4.jpg' },
-    { name: 'Paolo Neri', imgPath: 'path-to-image-5.jpg' },
-    { name: 'Sara Marroni', imgPath: 'path-to-image-6.jpg' }
-  ];
-
-  usersFriend = [
-    { name: 'Giovanni Celesti', imgPath: 'path-to-image-7.jpg' },
-    { name: 'Eleonora Rosa', imgPath: 'path-to-image-8.jpg' },
-    { name: 'Marco Blu', imgPath: 'path-to-image-9.jpg' }
-  ];
 
   formCaesarzon!: FormGroup;
 
 
-  constructor(private keyCloak: KeyCloakService, protected wishListService:WishListService, protected productService: ProductService, private addressService: AddressService, private cardService: CardsService, public popUpService:PopupService, protected ottieniCittaService: ottieniCittaService, protected formService: FormService, protected userService: UserService, protected adminService: AdminService){
+  constructor(protected friendFollow: FriendFollowerService, private keyCloak: KeyCloakService, protected wishListService:WishListService, protected productService: ProductService, private addressService: AddressService, private cardService: CardsService, public popUpService:PopupService, protected ottieniCittaService: ottieniCittaService, protected formService: FormService, protected userService: UserService, protected adminService: AdminService){
     this.formCaesarzon= this.formService.getForm();
 
   }
