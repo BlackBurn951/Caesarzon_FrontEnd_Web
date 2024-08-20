@@ -71,7 +71,7 @@ export class KeyCloakService {
       (response:any) => {
         this.username = username
         this.setTokens(response.access_token, response.refresh_token);
-        if(username != "guest"){
+        if(username != "testman5"){
           this.isLogged = true;
           this.setLogin();
           this.popUp.closePopup()

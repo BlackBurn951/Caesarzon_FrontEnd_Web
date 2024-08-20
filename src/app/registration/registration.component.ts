@@ -4,6 +4,7 @@ import {FormService} from "../services/formService";
 import {PopupService} from "../services/popUpService";
 import {KeyCloakService} from "../services/keyCloakService";
 import {UserService} from "../services/userService";
+import {PasswordChange} from "../entities/PasswordChange";
 
 
 @Component({
@@ -17,14 +18,13 @@ export class RegistrationComponent implements OnInit{
   protected formCaesarzon!: FormGroup;
 
   password! : string;
-  username!: string;
 
   mostraPassword: { [key: string]: boolean } = { password: false, confermaPassword: false };
 
   passwordDifferenti: boolean = false;
 
 
-  constructor(public formService: FormService, public popupService: PopupService, public keycloakService: KeyCloakService, private userService: UserService) {
+  constructor(public formService: FormService, public popupService: PopupService, public keycloakService: KeyCloakService, protected userService: UserService) {
     this.formCaesarzon = formService.getForm();
   }
 
@@ -79,6 +79,7 @@ export class RegistrationComponent implements OnInit{
       this.keycloakService.notifications = notifies;
     })
   }
+
 
 
 

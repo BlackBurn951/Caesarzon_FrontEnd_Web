@@ -7,6 +7,7 @@ import {User} from "../entities/User";
 import {PopupService} from "./popUpService";
 import {Reviews} from "../entities/Review";
 import {PasswordChange} from "../entities/PasswordChange";
+import {OtpDTO} from "../entities/OtpDTO";
 
 
 @Injectable({
@@ -18,6 +19,16 @@ export class UserService {
 
   inputAbilitato: boolean = false;
 
+  codice: string[] = ['', '', '', '', ''];
+
+  lunghezzaCodice!:boolean;
+
+  username: string = "";
+
+  stringaOtp!: string;
+
+  otpSbagliato!:boolean;
+
   loading: boolean = false;
 
   private manageUserDataURL = 'http://localhost:8090/user-api/user';
@@ -25,6 +36,8 @@ export class UserService {
   private managePasswordURL = 'http://localhost:8090/user-api/password';
 
   private manageProfilePicURL = 'http://localhost:8090/user-api/image';
+
+  private otpURL = 'http://localhost:8090/user-api/otp';
 
   private reviewURL = 'http://localhost:8090/notify-api/review';
 
@@ -35,7 +48,7 @@ export class UserService {
 
   cambioPassword(password: string){
     const passwordChange: PasswordChange = {
-      username: "",
+      username: this.username,
       password: password
     };
 
@@ -99,10 +112,11 @@ export class UserService {
       });
   }
 
+  recoveryPass: number = 1
 
   sendPasswordChange(passwordChange: PasswordChange): Observable<any> {
     const headers = this.keycloakService.permaHeader()
-    const customUrl = this.managePasswordURL+"?recovery=false"
+    const customUrl = this.managePasswordURL+"?recovery="+this.recoveryPass
     return this.http.put<any>(customUrl, passwordChange, { headers, responseType: 'text' as 'json' });
   }
 
@@ -171,6 +185,67 @@ export class UserService {
   }
 
 
+  passwordDimenticata(passwordChange: PasswordChange){
+    const headers = this.keycloakService.permaHeader()
+    const customUrl = this.managePasswordURL+"?recovery=0"
+    return this.http.put<string>(customUrl, passwordChange, { headers, responseType: 'text' as 'json' });
+  }
+
+
+  sendOTP(){
+    const headers = this.keycloakService.permaHeader()
+    let codiceCompleto = this.codice[0]+this.codice[1]+this.codice[2]+this.codice[3]+this.codice[4];
+    const customUrl = this.otpURL
+    const otp: OtpDTO = {
+      username: this.username,
+      otp: codiceCompleto
+    };
+    return this.http.put<string>(customUrl, otp,{ headers, responseType: 'text' as 'json' }).subscribe(response => {
+      if(response === "Otp valido!"){
+        this.recoveryPass = 2
+        this.popUp.openPopups(8, true)
+      }else{
+        this.otpSbagliato = true
+        this.popUp.updateStringa(response)
+        this.popUp.openPopups(104, true)
+      }
+    })
+
+  }
+
+  forgotPass(event: Event) {
+    event.preventDefault()
+    if(this.username === ""){
+      this.popUp.updateStringa("Inserisci prima un username!")
+      this.popUp.openPopups(104, true);
+    }else{
+      this.loading = true
+      console.log("USERNAME: " + this.username)
+      const passwordChange: PasswordChange = {
+        username: this.username,
+        password: ""
+      };
+      this.passwordDimenticata(passwordChange).subscribe(response => {
+        console.log("RISPOSTA: " + response)
+        if(response === "Problemi nell'invio dell'otp..."){
+          this.loading = false
+          this.popUp.updateStringa(response)
+          this.popUp.openPopups(104, true);
+        }else if(response === "Utente non trovato..."){
+          this.loading = false
+          this.popUp.updateStringa(response)
+          this.popUp.openPopups(104, true);
+        }else{
+          this.popUp.closePopup()
+          this.stringaOtp = response
+          this.loading = false
+          this.popUp.updateStringa(response)
+          this.popUp.openPopups(12, true);
+        }
+
+      })
+    }
+  }
 
 
 

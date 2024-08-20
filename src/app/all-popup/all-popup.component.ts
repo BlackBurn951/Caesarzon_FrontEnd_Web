@@ -67,6 +67,31 @@ export class AllPopupComponent implements OnInit{
 
 
 
+
+  updateCodice(index: number, event: Event): void {
+    const inputElement = event.target as HTMLInputElement;
+    this.userService.codice[index] = inputElement.value;
+
+    const spaziVuoti = this.userService.codice.filter(val => val === '').length;
+    this.userService.lunghezzaCodice = spaziVuoti === 0;
+
+    if (inputElement.value === '' && index > 0) {
+      const prevIndex = index - 1;
+      const prevInput = document.getElementById(`input${prevIndex}`) as HTMLInputElement | null;
+      if (prevInput) {
+        prevInput.focus();
+      }
+    } else {
+      const nextIndex = index + 1;
+      if (nextIndex < this.userService.codice.length) {
+        const nextInput = document.getElementById(`input${nextIndex}`) as HTMLInputElement | null;
+        if (nextInput) {
+          nextInput.focus();
+        }
+      }
+    }
+  }
+
   //Metodo per cambiare la visibilità della text field della password
   togglePassword(fieldName: string) {
     const passwordField = document.getElementById(fieldName) as HTMLInputElement;

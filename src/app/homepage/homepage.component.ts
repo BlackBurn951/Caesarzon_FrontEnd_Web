@@ -22,7 +22,7 @@ export class HomepageComponent implements OnInit{
 
   ngOnInit() {
     if(this.key.getUsername() == ""){
-      this.key.login("guest","CiaoSonoguest69!");
+      this.key.login("testman5","CiaoCiao!3");
     }
     this.productService.getLastNineProducts().subscribe(products => {
       this.productService.newProducts = products;

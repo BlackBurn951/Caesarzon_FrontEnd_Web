@@ -19,13 +19,16 @@ export class FormService {
     this.createForm();
   }
 
-  setFormData(formData: any) {
-    this.datiForm = { ...this.datiForm, ...formData };
+  cifraDigitata(event: KeyboardEvent): void {
+    const charCode = event.key;
+
+    if (isNaN(Number(charCode)) && charCode !== 'Backspace' && charCode !== 'Tab' ) {
+      event.preventDefault();
+    }
   }
 
-
-  getFormData() {
-    return this.datiForm;
+  setFormData(formData: any) {
+    this.datiForm = { ...this.datiForm, ...formData };
   }
 
 

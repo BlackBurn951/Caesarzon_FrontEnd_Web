@@ -192,3 +192,61 @@ label {
   right: 5.5vw;
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.userInput {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+
+div.error-message {
+  color: #ff0a00;
+  text-align: center;
+}
+
+
+input{
+  margin: 10px;
+  height: 35px;
+  width: 65px;
+  border:none;
+  border-radius: 5px;
+  text-align: center;
+  font-size: 1.2rem;
+  background: #eef2f3;
+}
+
+

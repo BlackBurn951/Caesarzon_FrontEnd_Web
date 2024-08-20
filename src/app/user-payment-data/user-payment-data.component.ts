@@ -40,7 +40,7 @@ export class UserPaymentDataComponent implements OnInit{
   deleteCard(){
     this.popUpService.operazione = 2
     this.popUpService.updateStringa("Sei sicuro di voler eliminare: " + this.cardService.cardsMap[this.cardService.nomeCarta] + "?")
-    this.popUpService.openPopups(12, false);
+    this.popUpService.openPopups(104, false);
   }
 
 

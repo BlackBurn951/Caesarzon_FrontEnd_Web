@@ -33,6 +33,7 @@ import { AdminManagementContainerComponent } from "./admin-management-container/
 import {TokenInterceptor} from "./token.interceptor";
 import {OrdersuccessComponent} from "./ordersuccess/ordersuccess.component";
 import {OrderSummaryComponent} from "./order-summary/order-summary.component";
+import {MatProgressSpinner} from "@angular/material/progress-spinner";
 
 export const routes: Routes = [
   { path: '', component: HomepageComponent },
@@ -66,33 +67,34 @@ export const routes: Routes = [
     PaymentSecondPageComponent,
     AdminAreaComponent
   ],
-  imports: [
-    RouterModule.forRoot(routes),
-    NgIf,
-    NgClass,
-    FormsModule,
-    NgForOf,
-    BrowserModule,
-    MatDialogModule,
-    ReactiveFormsModule,
-    FooterComponent,
-    PersonalDataComponent,
-    BrowserModule,
-    HttpClientModule,
-    UserManagementContainerComponent,
-    BrowserAnimationsModule,
-    MatAutocompleteTrigger,
-    MatAutocompleteModule,
-    MatOption,
-    ReactiveFormsModule,
-    CommonModule,
-    MatOptionModule,
-    MatInputModule,
-    MatSelectModule,
-    NoopAnimationsModule,
-    NgOptimizedImage,
-    AdminManagementContainerComponent
-  ],
+    imports: [
+        RouterModule.forRoot(routes),
+        NgIf,
+        NgClass,
+        FormsModule,
+        NgForOf,
+        BrowserModule,
+        MatDialogModule,
+        ReactiveFormsModule,
+        FooterComponent,
+        PersonalDataComponent,
+        BrowserModule,
+        HttpClientModule,
+        UserManagementContainerComponent,
+        BrowserAnimationsModule,
+        MatAutocompleteTrigger,
+        MatAutocompleteModule,
+        MatOption,
+        ReactiveFormsModule,
+        CommonModule,
+        MatOptionModule,
+        MatInputModule,
+        MatSelectModule,
+        NoopAnimationsModule,
+        NgOptimizedImage,
+        AdminManagementContainerComponent,
+        MatProgressSpinner
+    ],
   providers: [
     KeyCloakService,
     FormService,
