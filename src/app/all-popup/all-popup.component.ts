@@ -12,6 +12,7 @@ import {ProductService} from "../services/productService";
 import {WishListService} from "../services/wishListService";
 import {KeyCloakService} from "../services/keyCloakService";
 import {FriendFollowerService} from "../services/friendFollowerService";
+import {UserSearch} from "../entities/UserSearch";
 
 @Component({
   selector: 'app-all-popup',
@@ -63,10 +64,20 @@ export class AllPopupComponent implements OnInit{
   changeSection(numb: number, label: string) {
     this.section = numb
     this.sectionLabel = label;
+    this.friendFollow.salvaCambiamenti()
   }
 
 
 
+
+  chiudiPopUpESalvaUtenti(){
+    this.popUpService.closePopup()
+    this.friendFollow.salvaCambiamenti()
+  }
+
+  isUserInFollow(user: UserSearch): boolean {
+    return this.friendFollow.usersFollow.some(followedUser => followedUser.username === user.username);
+  }
 
   updateCodice(index: number, event: Event): void {
     const inputElement = event.target as HTMLInputElement;

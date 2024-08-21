@@ -172,6 +172,7 @@ export class KeyCloakService {
           localStorage.removeItem('refresh_token');
           localStorage.removeItem('isLogged');
           localStorage.removeItem('isAdmin');
+          this.login("testman5","CiaoCiao!3");
           this.router.navigate(['']);
 
         }else{
