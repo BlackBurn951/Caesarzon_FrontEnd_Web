@@ -205,7 +205,9 @@ export class UserService {
     return this.http.put<string>(customUrl, otp,{ headers, responseType: 'text' as 'json' }).subscribe(response => {
       if(response === "Otp valido!"){
         this.recoveryPass = 2
-        this.popUp.openPopups(8, true)
+        this.popUp.openPopups(8, false)
+        this.codice =  ['', '', '', '', ''];
+
       }else{
         this.otpSbagliato = true
         this.popUp.updateStringa(response)

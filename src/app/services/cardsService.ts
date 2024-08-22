@@ -16,13 +16,13 @@ export class CardsService {
 
   cartaCorrente!: Card;
 
-  cardsName!: string[];
+  cardsName: string[] = []
 
   cardsMap: { [key: string]: string } = {};
 
-  cards!: Card[];
+  cards: Card[] = []
 
-  nomeCarta!: string;
+  nomeCarta: string = ""
 
   formCaesarzon!: FormGroup;
 
@@ -180,7 +180,7 @@ export class CardsService {
         this.clearFields();
         setTimeout(() => {
           window.location.reload();
-        }, 2000);
+        }, 1500);
       },
       error => {
         this.popUp.closePopup();

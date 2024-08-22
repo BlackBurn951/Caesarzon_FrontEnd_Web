@@ -47,6 +47,12 @@ export class CartService {
 
   constructor(private cardsService:CardsService, private addressService:AddressService, private route: ActivatedRoute, private popUp: PopupService, private router:Router, private http: HttpClient, private keyCloakService: KeyCloakService) { }
 
+
+  salvaPerDopo(event: Event, idProdotto: string){
+
+  }
+
+
   addProductCart(){
 
     const productToAddCart: SendProductOrderDTO ={

@@ -9,7 +9,9 @@
 
 </head>
 
-<body >
+<body>
+<mat-progress-spinner class="uSpinner" *ngIf="this.userService.loading" mode="indeterminate" color="primary"></mat-progress-spinner>
+
 <div class="container-fluidos regLog" *ngIf="popUpService.wichComponent === 0" [ngClass]="{'other': popUpService.isOther}">
   <div class="form-group d-flex flex-column align-items-center">
     <div class="d-flex flex-row align-items-center">
@@ -27,11 +29,11 @@
 
     <div class="table-container">
 
-      <div *ngIf="section === 0" class="table-row ciela">
+      <div *ngIf="section === 0" class="table-row">
         <div *ngFor="let user of friendFollow.users; let i = index">
-          <div (click)="this.popUpService.openPopups(13, true)" class="table-cell mb-2 d-flex align-items-center">
+          <div class="table-cell mb-2 d-flex align-items-center">
             <img class="mr-2" [src]="user.safeImageUrl" alt="Foto">
-            <label class="flex-grow-1 ciela">{{ user.username }}</label>
+            <label class="flex-grow-1">{{ user.username }}</label>
             <button *ngIf="!isUserInFollow(user)" class="btn btn-dark custom-btn mr-1" (click)="this.friendFollow.addFollowersOrFriends(i, true)">
               <i class="fas fa-user-plus"></i>
             </button>
@@ -40,25 +42,25 @@
       </div>
 
 
-      <div *ngIf="section === 1" class="table-row ciela">
+      <div *ngIf="section === 1" class="table-row">
         <div *ngFor="let user of friendFollow.usersFollow; let i = index">
-          <div (click)="this.popUpService.openPopups(13, true)" class="table-cell mb-2">
+          <div class="table-cell mb-2">
             <img class="mr-2" [src]="user.safeImageUrl" alt="Foto">
-            <label class="ciela" >{{ user.username }}</label>
+            <label>{{ user.username }}</label>
             <div>
               <button *ngIf="!isUserInFriend(user)" class="btn btn-dark custom-btn ml-1 mt-1 mb-1" (click)="this.friendFollow.addFollowersOrFriends(i, false)"><i class="fas fa-heart"></i></button>
-              <button class="btn btn-danger buut mr-1 ml-1 mt-1 mb-1 mr-1"><i class="fas fa-user-minus" (click)="this.friendFollow.deleteFollowers(i)"></i></button>
+              <button class="btn btn-danger buut mr-1 ml-1 mt-1 mb-1 mr-1"><i class="fas fa-user-minus" (click)="this.friendFollow.deleteFollowers(user.username)"></i></button>
             </div>
 
           </div>
         </div>
       </div>
 
-      <div *ngIf="section === 2" class="table-row ciela">
+      <div *ngIf="section === 2" class="table-row">
         <div *ngFor="let user of friendFollow.usersFriend; let i = index">
           <div (click)="this.popUpService.openPopups(13, true)" class="table-cell mb-2">
             <img class="mr-2" [src]="user.safeImageUrl" alt="Foto">
-            <label class="ciela">{{ user.username }}</label>
+            <label>{{ user.username }}</label>
             <button class="btn btn-danger buut  mr-1 mt-1 mb-1 ml-1" (click)="this.friendFollow.deleteFriends(i)"><i class="fas fa-user-minus"></i></button>
           </div>
         </div>
@@ -299,6 +301,7 @@
             <div *ngIf="formCaesarzon.get('formCarta.dataScadenza')?.hasError('invalidDate')" class="error-message">
               <label class="err">La data di scadenza non può essere nel passato.</label>
             </div>
+
           </div>
           <div class="form-group ml-3">
             <label for="cvv">Codice di sicurezza (CVV):</label>
@@ -325,31 +328,27 @@
     <button (click)="popUpService.closePopup()" class="btn btn-dark ics">X</button>
     <div class="d-flex flex-row align-items-center">
       <div class="form-group">
-        <label for="newPassword">Nuova password:</label>
-        <input type="password" id="newPassword" class="form-control mb-2" style="width: 15vw" [(ngModel)]="newPassword" >
+        <label for="password">Nuova password:</label>
+        <input type="password" id="password" class="form-control mb-2" style="width: 15vw" [(ngModel)]="newPassword">
         <div *ngIf="newPasswordError" class="error-message">
           {{ newPasswordError }}
         </div>
+
       </div>
-      <span class="toggle-password position-absolute" (click)="togglePassword('newPassword')">
-          <img src="/assets/images/icons/view.png" *ngIf="mostraPassword['newPassword']" alt="Mostra Password" width="20">
-          <img src="/assets/images/icons/hide.png" *ngIf="!mostraPassword['newPassword']" alt="Nascondi Password" width="20">
-      </span>
+
 
 
     </div>
     <div class="d-flex flex-row align-items-center">
       <div class="form-group">
-        <label for="confirmPassword">Conferma password:</label>
-        <input type="password" id="confirmPassword" class="form-control mb-2" style="width: 15vw" [(ngModel)]="confirmPassword">
+        <label for="confermaPassword">Conferma password:</label>
+        <input type="password" id="confermaPassword" class="form-control mb-2" style="width: 15vw" [(ngModel)]="confirmPassword">
         <div *ngIf="confirmPasswordError" class="error-message">
           {{ confirmPasswordError }}
         </div>
+
       </div>
-      <span class="toggle-password position-absolute" (click)="togglePassword('confirmPassword')">
-            <img src="/assets/images/icons/view.png" *ngIf="mostraPassword['confirmPassword']" alt="Mostra Password" width="20">
-            <img src="/assets/images/icons/hide.png" *ngIf="!mostraPassword['confirmPassword']" alt="Nascondi Password" width="20">
-      </span>
+
 
 
     </div>
@@ -366,13 +365,10 @@
     <button (click)="popUpService.closePopup()" class="btn btn-dark ics">X</button>
     <div class="d-flex flex-row align-items-center">
       <div class="form-group">
-        <label for="newPassword">Password:</label>
-        <input type="password" id="pass" class="form-control mb-2" style="width: 15vw" [(ngModel)]="pass" >
+        <label for="verifyPassword">Password:</label>
+        <input type="password" id="verifyPassword" class="form-control mb-2" style="width: 15vw" [(ngModel)]="pass" >
       </div>
-      <span class="toggle-password position-absolute" (click)="togglePassword('pass')">
-          <img src="/assets/images/icons/view.png" *ngIf="mostraPassword['newPassword']" alt="Mostra Password" width="20">
-          <img src="/assets/images/icons/hide.png" *ngIf="!mostraPassword['newPassword']" alt="Nascondi Password" width="20">
-      </span>
+
 
     </div>
 

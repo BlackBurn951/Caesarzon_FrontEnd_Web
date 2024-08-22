@@ -16,13 +16,12 @@ export class AdminAreaComponent implements OnInit{
   isCollapsed: any[]  = [];
 
   constructor(private keycloack: KeyCloakService, private sanitizer: DomSanitizer, private router: Router, private userService: UserService, protected adminService: AdminService, protected popUpService: PopupService) {
+    this.isCollapsed = [];
   }
 
   // Metodo per navigare ai dati personali dell'utente
   changePage( page: string, username: string) {
     this.router.navigate([page]);
-
-    console.log(`Changing to page: ${page} for user: ${username}`);
   }
 
 
@@ -36,7 +35,6 @@ export class AdminAreaComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    console.log("SIAMO QUIII DAMMI IL TESTO:    "+this.adminService.testoRecensione)
     //Inizialmente la prima pagina mostrata è la ricerca degli utenti quindi carico i primi 20
     this.adminService.getUsers().subscribe(users => {
       this.adminService.users = users;

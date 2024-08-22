@@ -24,13 +24,9 @@ export class AllPopupComponent implements OnInit{
   section:number = 0
   sectionLabel:string = "Cerca utenti"
 
-  ratingSubject = new BehaviorSubject<number>(0);
-
   rispostaAdminValida: boolean = false;
 
   //Creazione delle variabili base da utilizzare per inviare i dati al server
-
-
 
   newPassword: string = '';
   pass: string = '';
@@ -39,8 +35,7 @@ export class AllPopupComponent implements OnInit{
   confirmPasswordError: string = '';
 
 
-
-  mostraPassword: { [key: string]: boolean } = { password: false, confermaPassword: false };
+  mostraPassword: { [key: string]: boolean } = { password: false, confermaPassword: false};
 
 
   formCaesarzon!: FormGroup;
@@ -48,9 +43,16 @@ export class AllPopupComponent implements OnInit{
 
   constructor(protected friendFollow: FriendFollowerService, private keyCloak: KeyCloakService, protected wishListService:WishListService, protected productService: ProductService, private addressService: AddressService, private cardService: CardsService, public popUpService:PopupService, protected ottieniCittaService: ottieniCittaService, protected formService: FormService, protected userService: UserService, protected adminService: AdminService){
     this.formCaesarzon= this.formService.getForm();
-
   }
 
+  resetVariables(){
+    this.newPassword = ''
+    this.pass = ''
+    this.confirmPassword = ''
+    this.newPasswordError = ''
+    this.confirmPasswordError = ''
+    this.mostraPassword = {password: false, confermaPassword: false}
+  }
 
 
   aggiungiIndirizzo(){
@@ -76,11 +78,18 @@ export class AllPopupComponent implements OnInit{
   }
 
   isUserInFollow(user: UserSearch): boolean {
-    return this.friendFollow.usersFollow.some(followedUser => followedUser.username === user.username);
+    if(this.friendFollow.usersFollow)
+      return this.friendFollow.usersFollow.some(followedUser => followedUser.username === user.username);
+    else
+      return false
   }
 
   isUserInFriend(user: UserSearch): boolean {
-    return this.friendFollow.usersFriend.some(friendsUser => friendsUser.username === user.username);
+    if(this.friendFollow.usersFriend && this.friendFollow.usersFriend.length > 0)
+      return this.friendFollow.usersFriend.some(friendsUser => friendsUser.username === user.username);
+    else{
+      return false
+    }
   }
 
   updateCodice(index: number, event: Event): void {
@@ -107,19 +116,9 @@ export class AllPopupComponent implements OnInit{
     }
   }
 
-  //Metodo per cambiare la visibilità della text field della password
-  togglePassword(fieldName: string) {
-    const passwordField = document.getElementById(fieldName) as HTMLInputElement;
-    this.mostraPassword[fieldName] = !this.mostraPassword[fieldName];
-
-    if (this.mostraPassword[fieldName]) {
-      passwordField.type = 'text';
-    } else {
-      passwordField.type = 'password';
-    }
-  }
 
   ngOnInit(): void {
+    this.resetVariables()
     this.keyCloak.getNotify().subscribe(notifies => {
       this.keyCloak.notifications = notifies;
     })
@@ -202,5 +201,13 @@ export class AllPopupComponent implements OnInit{
       this.adminService.sendReports()
     }
   }
+
+
+
+
+
+
+
+
 
 }

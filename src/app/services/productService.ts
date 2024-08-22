@@ -37,11 +37,11 @@ export class ProductService {
 
   products: ProductSearch[] = []
 
-  newProducts!: ProductSearch[];
-  offerProducts!: ProductSearch[];
+  newProducts: ProductSearch[]  = [];
+  offerProducts: ProductSearch[] = [];
 
   prodotto!: ProductDTO
-  recensioni!: ProductReview[]
+  recensioni: ProductReview[] = []
   scoreRecensioni: number[]= [0,0,0,0,0]
 
   mediaRecensioni: number= 0

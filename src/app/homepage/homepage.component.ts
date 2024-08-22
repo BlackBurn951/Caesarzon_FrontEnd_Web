@@ -14,11 +14,12 @@ import {ProductService} from "../services/productService";
 
 
 export class HomepageComponent implements OnInit{
-  indexNovita = 0;
+  indexNovita: number = 0;
   indexOfferte: number = 0;
-  constructor(private key: KeyCloakService, protected productService: ProductService) {
-  }
 
+  constructor(private key: KeyCloakService, protected productService: ProductService) {
+
+  }
 
   ngOnInit() {
     if(this.key.getUsername() == ""){
@@ -30,7 +31,6 @@ export class HomepageComponent implements OnInit{
     this.productService.getOffer().subscribe(products => {
       this.productService.offerProducts = products;
       products.forEach(offer => {
-        console.log("Scontoprodotto: " +offer.discount);
       })
     })
 

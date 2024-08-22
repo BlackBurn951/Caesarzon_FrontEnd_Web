@@ -150,7 +150,7 @@ export class FormService {
   }
 
   //Metodo per la validazione della data di scadenza
-  expirationDateValidator(control: any): { [key: string]: boolean } | null {
+  expirationDateValidator = (control: AbstractControl): { [key: string]: boolean } | null => {
     if (control.value) {
       const [year, month] = control.value.split('-').map((val: string) => parseInt(val, 10));
       if (!this.isExpirationDateValid(month, year)) {
@@ -160,11 +160,9 @@ export class FormService {
     return null;
   }
 
-  //Metodo per la validazione della data di scadenza
+
+  // Funzione di utilità per la validazione della data di scadenza
   isExpirationDateValid(month: number, year: number): boolean {
-    if(month === null || year === null){
-      return false
-    }
     const currentDate = new Date();
     const currentMonth = currentDate.getMonth() + 1;
     const currentYear = currentDate.getFullYear();
@@ -176,8 +174,6 @@ export class FormService {
     }
 
     return true;
-
-
   }
 
 }

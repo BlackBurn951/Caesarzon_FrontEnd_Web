@@ -32,7 +32,7 @@
               </button>
 
               <div class="notification-menu" [class.show]="menuOpen">
-                <ng-container *ngIf="keyCloak.notifications.length; else noNotifications">
+                <ng-container *ngIf="keyCloak.notifications && keyCloak.notifications.length; else noNotifications">
                   <div *ngFor="let notification of keyCloak.notifications">
                     <table class="notification-table">
                       <tbody>

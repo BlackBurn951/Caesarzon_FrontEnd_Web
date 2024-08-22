@@ -19,9 +19,6 @@ import {KeyCloakService} from "../services/keyCloakService";
 })
 export class HelpRequestComponent implements OnInit{
 
-  //Creazione dei campi necessari all'ìnvio di una richiesta di supporto
-
-
   constructor(private keyCloak: KeyCloakService, protected adminService: AdminService) { }
 
   //Validazione dei campi

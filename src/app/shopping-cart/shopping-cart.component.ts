@@ -14,7 +14,6 @@ export class ShoppingCartComponent implements OnInit{
   constructor(private router: Router, private popup: PopupService, private keyCloak: KeyCloakService, protected cartService: CartService) {
   }
 
-
   goToPayment() {
     this.cartService.checkAva().subscribe(res => {
       if(res === null) {

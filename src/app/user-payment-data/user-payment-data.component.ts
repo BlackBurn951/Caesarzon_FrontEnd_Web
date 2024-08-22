@@ -23,8 +23,6 @@ export class UserPaymentDataComponent implements OnInit{
     this.keyCloak.getNotify().subscribe(notifies => {
       this.keyCloak.notifications = notifies;
     })
-
-
   }
 
   formatCardNumber(cardNumber: string | undefined): any{

@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
-import {forkJoin, Observable, tap} from 'rxjs';
+import {Injectable, OnInit} from '@angular/core';
+import { HttpClient} from '@angular/common/http';
+import {forkJoin, Observable} from 'rxjs';
 import { Address } from "../entities/Address";
 import { KeyCloakService } from "./keyCloakService";
 import { FormGroup } from "@angular/forms";
@@ -10,20 +10,24 @@ import {PopupService} from "./popUpService";
 import {Router} from "@angular/router";
 import {UserService} from "./userService";
 
+
 @Injectable({
   providedIn: 'root'
 })
-export class AddressService {
+export class AddressService implements OnInit{
+
+  ngOnInit(): void {
+  }
 
   indirizzoCorrente!: Address;
 
-  addressesName!: string[];
+  addressesName: string[] = [];
 
   addresses!: Address[];
 
   addressMap: { [key: string]: string } = {};
 
-  nomeIndirizzo!: string;
+  nomeIndirizzo: string = ""
 
   formCaesarzon!: FormGroup;
 
@@ -136,12 +140,12 @@ export class AddressService {
     this.http.delete<string>(urlWithParams, { headers , responseType: 'text' as 'json' })
       .subscribe({
         next: (response) => {
-          console.log('Indirizzo eliminato con successo:', response);
           this.popUp.updateStringa(response)
-          this.popUp.openPopups(13, true)
+          this.popUp.openPopups(104, true)
+          this.clearFields()
           setTimeout(()=>{
             window.location.reload()
-          }, 2000);
+          }, 1500);
 
         },
         error: (error) => {
@@ -218,5 +222,7 @@ export class AddressService {
 
     });
   }
+
+
 
 }

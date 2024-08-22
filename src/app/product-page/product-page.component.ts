@@ -24,7 +24,15 @@ export class ProductPageComponent implements OnInit{
   constructor(private userService:UserService, private cartService:CartService, private wishListService: WishListService, protected adminService: AdminService ,protected keyCloak: KeyCloakService, public popUpService:PopupService, private router:Router, protected productService: ProductService) {
   }
 
+  resetVariables(){
+    this.day = 0
+    this.month = 0
+    this.year = 0
+    this.date = new Date()
+  }
+
   ngOnInit() {
+    this.resetVariables()
     const can= document.getElementById("5-star-graph") as HTMLCanvasElement
     const context = can.getContext('2d');
 

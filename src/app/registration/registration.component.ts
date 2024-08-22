@@ -4,30 +4,33 @@ import {FormService} from "../services/formService";
 import {PopupService} from "../services/popUpService";
 import {KeyCloakService} from "../services/keyCloakService";
 import {UserService} from "../services/userService";
-import {PasswordChange} from "../entities/PasswordChange";
-
 
 @Component({
   selector: 'app-registration',
   templateUrl: './registration.component.html',
   styleUrls: ['./registration.component.css', '../../styles.css']
-
 })
+
 export class RegistrationComponent implements OnInit{
 
   protected formCaesarzon!: FormGroup;
 
-  password! : string;
+  password : string = ''
 
   mostraPassword: { [key: string]: boolean } = { password: false, confermaPassword: false };
 
   passwordDifferenti: boolean = false;
 
-
   constructor(public formService: FormService, public popupService: PopupService, public keycloakService: KeyCloakService, protected userService: UserService) {
     this.formCaesarzon = formService.getForm();
   }
 
+  ngOnInit(): void {
+    this.password = ''
+    this.keycloakService.getNotify().subscribe(notifies => {
+      this.keycloakService.notifications = notifies;
+    })
+  }
 
   //Metodo per modificare la grandezza del popUp a seconda se si è nel login o nella registrazione di un nuovo utente
   cambiaLarghezza(num: number) {
@@ -73,12 +76,6 @@ export class RegistrationComponent implements OnInit{
     }
   }
 
-
-  ngOnInit(): void {
-    this.keycloakService.getNotify().subscribe(notifies => {
-      this.keycloakService.notifications = notifies;
-    })
-  }
 
 
 

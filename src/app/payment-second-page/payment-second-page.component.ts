@@ -15,7 +15,7 @@ import {PopupService} from "../services/popUpService";
 })
 export class PaymentSecondPageComponent implements OnInit{
 
-  constructor(protected cartService: CartService, protected cardService: CardsService, private userService: UserService, protected addressService:AddressService, protected keyCloak: KeyCloakService, private router: Router, private popUp: PopupService) {
+  constructor(protected cartService: CartService, protected cardService: CardsService, private userService: UserService, protected addressService:AddressService, protected keyCloak: KeyCloakService, private router: Router, protected popUp: PopupService) {
   }
 
   goBackToCart() {

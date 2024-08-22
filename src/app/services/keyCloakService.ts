@@ -306,8 +306,11 @@ export class KeyCloakService {
 
     return this.http.delete(customURL, { headers, responseType: 'text' }).pipe(
       tap(() => {
-        this.notifications = this.notifications.filter(n => n.id !== notification.id);
-        this.updateNotifyCount();
+        if(this.notifications.length > 0){
+          this.notifications = this.notifications.filter(n => n.id !== notification.id);
+          this.updateNotifyCount();
+        }
+
       }),
       catchError(error => {
         console.error("Error deleting notification:", error);
@@ -317,8 +320,11 @@ export class KeyCloakService {
   }
 
   private updateNotifyCount(): void {
-    const unreadCount = this.notifications.filter(notification => !notification.read).length;
-    this.notifyCountSubject.next(unreadCount);
+    if(this.notifications && this.notifications.length > 0) {
+      const unreadCount = this.notifications.filter(notification => !notification.read).length;
+      this.notifyCountSubject.next(unreadCount);
+    }
+
   }
 
 

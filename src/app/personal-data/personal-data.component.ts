@@ -32,12 +32,11 @@ export class PersonalDataComponent implements OnInit{
   formCaesarzon!: FormGroup;
 
   //Creazione dei campi necessari alla visualizzazione dei dati utente
-  nome!: string;
-  cognome!: string;
-  email!: string ;
-  username!: string;
-
-  numero!: string;
+  nome: string = ''
+  cognome: string = ''
+  email: string  = ''
+  username: string = ''
+  numero: string = ''
 
   selectedFile!: File;
 
@@ -48,25 +47,21 @@ export class PersonalDataComponent implements OnInit{
 
   constructor(private route: ActivatedRoute, private http: HttpClient, private sanitizer: DomSanitizer, protected formService: FormService, protected userService: UserService, protected popUpService: PopupService, private keycloakService: KeyCloakService) {
     this.formCaesarzon = formService.getForm()
-
   }
 
-  getSuccess(paymentID: string | null, token: string | null, payerID: string | null): Observable<string> {
-    const headers = this.keycloakService.permaHeader();
-    const customURL = `${this.paypalURL}?paymentId=${paymentID}&token=${token}&PayerID=${payerID}`;
-    return this.http.get(customURL, { headers, responseType: 'text' });
+  resetVaraibles(){
+    this.nome = ''
+    this.cognome = ''
+    this.numero = ''
+    this.email = ''
+    this.username = ''
   }
+
 
 
   //All'inizializzazione della pagina vengono caricati tutti i dati relativi all'utente
   ngOnInit(): void {
-    const paymentID = this.route.snapshot.queryParamMap.get('paymentId');
-    const token = this.route.snapshot.queryParamMap.get('token');
-    const payerID = this.route.snapshot.queryParamMap.get('PayerID');
-    console.log(paymentID);
-    console.log(token);
-    console.log(payerID)
-
+    this.resetVaraibles()
     this.userService.getUserData().subscribe(
       (userData: User) => {
         this.formCaesarzon.get('formDatipersonali.nome')?.setValue(userData.firstName);
@@ -81,17 +76,7 @@ export class PersonalDataComponent implements OnInit{
       }
     );
     this.loadImage()
-    this.getSuccess(paymentID, token, payerID).subscribe(
-      success => {
-        console.log('Success response:', success);
-      },
-      error => {
-        console.error('Error fetching success response:', error);
-      }
-    );
-    this.keycloakService.getNotify().subscribe(notifies => {
-      this.keycloakService.notifications = notifies;
-    })
+
 
   }
 
@@ -222,7 +207,10 @@ export class PersonalDataComponent implements OnInit{
       return true;
     }
     const numeroPattern = /^\d{10}$/;
-    return numeroPattern.test(numero);
+    if(numero === "Inserisci un numero di telefono"){
+      return true;
+    }
+    return numeroPattern.test(numero) ;
   }
 
 

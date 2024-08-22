@@ -26,10 +26,7 @@
       <label for="passwordR">Password:</label>
       <div class="password-input-container">
         <input type="password" class="form-control inputLogin" id="password" [(ngModel)]="password">
-        <span class="toggle-password" (click)="togglePassword('password')">
-          <img class="iconaOcchio" src="assets/images/icons/view.png" *ngIf="mostraPassword['password']" alt="" width="20">
-          <img class="iconaOcchio" src="assets/images/icons/hide.png" *ngIf="!mostraPassword['password']" alt="" width="20">
-        </span>
+
       </div>
 
       <a href="#" (click)="this.userService.forgotPass($event)">Ho dimenticato la password.</a>
@@ -94,10 +91,7 @@
           <label for="passwordR">Password:</label>
           <div class="password-input-container">
             <input type="password" class="form-control inputRA" id="passwordR" formControlName="password" minlength="8" maxlength="20">
-            <span class="toggle-password" (click)="togglePassword('passwordR')">
-              <img class="iconaOcchio" src="assets/images/icons/view.png" *ngIf="mostraPassword['passwordR']" alt="" width="20">
-              <img class="iconaOcchio" src="assets/images/icons/hide.png" *ngIf="!mostraPassword['passwordR']" alt="" width="20">
-            </span>
+
           </div>
           <div *ngIf="formService.campoNonCorretto('formRegistrazione.password')" class="error-message" >
             Formato incorretto: es. CiaoCiao69!
@@ -107,11 +101,8 @@
         <div class="form-group formoss">
           <label for="passwordR">Conferma password:</label>
           <div class="password-input-container">
-            <input type="password" class="form-control inputRA" id="passwordCR" formControlName="confermaPassword" minlength="8" maxlength="20" (input)="comparaPassword()">
-            <span class="toggle-password" (click)="togglePassword('passwordCR')">
-              <img class="iconaOcchio" src="assets/images/icons/view.png" *ngIf="mostraPassword['passwordCR']" alt="" width="20">
-              <img class="iconaOcchio" src="assets/images/icons/hide.png" *ngIf="!mostraPassword['passwordCR']" alt="" width="20">
-            </span>
+            <input type="password" class="form-control inputRA" id="passwordCR" minlength="8" maxlength="20" (input)="comparaPassword()">
+
           </div>
           <div *ngIf="passwordDifferenti" class="error-message">
             Le password non corrispondono.

@@ -22,13 +22,13 @@ export class FriendFollowerService {
   saveFollowURL: string = 'http://localhost:8090/user-api/followers'
 
 
-  users !: UserSearch[]
+  users: UserSearch[] = []
 
-  usersFollow !: UserSearch[]
+  usersFollow : UserSearch[] = []
 
-  usersFriend !: UserSearch[]
+  usersFriend : UserSearch[] = []
 
-  usersFriendFollowBuffer !: UserSearch[]
+  usersFriendFollowBuffer : UserSearch[] =[]
 
 
 
@@ -70,75 +70,89 @@ export class FriendFollowerService {
       const selectedUser = this.users[index];
       console.log('Utente selezionato da "Cerca utenti":', selectedUser);
 
-      this.users.splice(index, 1);
       console.log('Array users dopo la rimozione:', this.users);
 
-      if (this.usersFollow) {
-        this.usersFollow.push(selectedUser);
-        console.log('Array usersFollow dopo l\'aggiunta:', this.usersFollow);
-      } else {
-        console.error('usersFollow è null o undefined');
+      if (!this.usersFollow) {
+        this.usersFollow = [];
       }
+      this.usersFollow.push(selectedUser);
+      console.log('Array usersFollow dopo l\'aggiunta:', this.usersFollow);
 
-      if (this.usersFriendFollowBuffer) {
-        this.usersFriendFollowBuffer.push(selectedUser);
-        console.log('Array usersFriendFollowBuffer dopo l\'aggiunta:', this.usersFriendFollowBuffer);
-      } else {
-        console.error('usersFriendFollowBuffer è null o undefined');
+      if (!this.usersFriendFollowBuffer) {
+        this.usersFriendFollowBuffer = [];
       }
+      this.usersFriendFollowBuffer.push(selectedUser);
+      console.log('Array usersFriendFollowBuffer dopo l\'aggiunta:', this.usersFriendFollowBuffer);
     } else {
       const selectedUser = this.usersFollow[index];
       console.log('Utente selezionato da "Seguiti":', selectedUser);
 
-      selectedUser.friend = true;
-      console.log('Flag "friend" impostato a true per l\'utente:', selectedUser);
+      if (selectedUser) {
+        selectedUser.friend = true;
+        console.log('Flag "friend" impostato a true per l\'utente:', selectedUser);
 
-      this.usersFollow.splice(index, 1);
-      console.log('Array usersFollow dopo la rimozione:', this.usersFollow);
+        console.log('Array usersFollow dopo la rimozione:', this.usersFollow);
 
-      if (this.usersFriend) {
+        if (!this.usersFriend) {
+          this.usersFriend = [];
+        }
         this.usersFriend.push(selectedUser);
         console.log('Array usersFriend dopo l\'aggiunta:', this.usersFriend);
-      } else {
-        console.error('usersFriend è null o undefined');
-      }
 
-      if (this.usersFriendFollowBuffer) {
+        if (!this.usersFriendFollowBuffer) {
+          this.usersFriendFollowBuffer = [];
+        }
         this.usersFriendFollowBuffer.push(selectedUser);
         console.log('Array usersFriendFollowBuffer dopo l\'aggiunta:', this.usersFriendFollowBuffer);
       } else {
-        console.error('usersFriendFollowBuffer è null o undefined');
+        console.error('Utente selezionato non trovato in usersFollow');
       }
     }
   }
 
 
-
   salvaCambiamenti() {
     const headers = this.keyCloakService.permaHeader();
-    this.http.post<string>(this.saveFollowURL, this.usersFriendFollowBuffer, { headers , responseType: 'text' as 'json' })
-      .subscribe(
-        response => {
-          this.usersFriendFollowBuffer = []
-          console.log('Successo:', response);
-        },
-        error => {
-          this.usersFriendFollowBuffer = []
-          console.error('Errore:', error);
-        }
-      );
+    if(this.usersFriendFollowBuffer.length > 0){
+      this.http.post<string>(this.saveFollowURL, this.usersFriendFollowBuffer, { headers , responseType: 'text' as 'json' })
+        .subscribe(
+          response => {
+            this.usersFriendFollowBuffer = []
+            console.log('Successo:', response);
+          },
+          error => {
+            this.usersFriendFollowBuffer = []
+            console.error('Errore:', error);
+          }
+        );
+    }
   }
 
-  deleteFollowers(index: number) {
-    const selectedUser = this.usersFollow[index];
-    this.usersFollow.splice(index, 1);
-    const customUrl= this.saveFollowURL+"/"+selectedUser.username
-    const headers = this.keyCloakService.permaHeader();
-    this.http.delete<string>(customUrl, { headers , responseType: 'text' as 'json' }).subscribe(response =>{
-      console.log(response);
-    })
+  deleteFollowers(username: string) {
+    // Trova l'indice dell'utente basato sullo username
+    const userIndex = this.usersFollow.findIndex(user => user.username === username);
 
+    // Controlla se l'utente esiste
+    if (userIndex !== -1) {
+      // Rimuovi l'utente da usersFollow e usersFriend
+      this.usersFollow.splice(userIndex, 1);
+      this.usersFriend.splice(userIndex, 1);
+
+      // Crea l'URL personalizzato
+      const customUrl = this.saveFollowURL + "/" + username;
+
+      // Prepara gli header
+      const headers = this.keyCloakService.permaHeader();
+
+      // Effettua la richiesta DELETE
+      this.http.delete<string>(customUrl, { headers, responseType: 'text' as 'json' }).subscribe(response => {
+        console.log(response);
+      });
+    } else {
+      console.log("Utente non trovato");
+    }
   }
+
 
   deleteFriends(index: number){
     const selectedUser = this.usersFriend[index];
