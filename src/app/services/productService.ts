@@ -230,7 +230,7 @@ export class ProductService {
 
   prendiRecensioni(productId: string) {
     const headers = this.keycloakService.permaHeader()
-    return this.http.get<ProductReview[]>(this.productReviewURL+'?prod-id='+productId, { headers})
+    return this.http.get<ProductReview[]>(this.productReviewURL+'?prod-id='+productId+'&str=0', { headers})
   }
 
   prendiScoreRecensioni(productId: string) {

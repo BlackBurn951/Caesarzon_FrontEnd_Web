@@ -27,6 +27,11 @@ export class UserPaymentDataComponent implements OnInit{
 
   }
 
+  formatCardNumber(cardNumber: string | undefined): any{
+    if(cardNumber)
+    return cardNumber.replace(/(\d{4})(?=\d)/g, '$1-');
+  }
+
   loadCards(nameLista: string): void {
     this.cardService.getCards(nameLista).subscribe(
       (data: Card) => {

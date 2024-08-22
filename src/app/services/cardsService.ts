@@ -157,17 +157,15 @@ export class CardsService {
     const dataScadenza = indirizzoForm?.get("dataScadenza")?.value;
     const cvv = indirizzoForm?.get("cvv")?.value;
 
-    const numeroCartaFormattato = this.formatCardNumber(numeroCarta);
 
     console.log("numero carta: " + numeroCarta)
-    console.log("numero carta formattato: " + numeroCartaFormattato)
     console.log("Titolare carta: " + titolareCarta)
     console.log("data: " + dataScadenza)
     console.log("cvv: " + cvv)
 
     const cardData: Card = {
       id: "",
-      cardNumber: numeroCartaFormattato,
+      cardNumber: numeroCarta,
       owner: titolareCarta,
       cvv: cvv,
       expiryDate: dataScadenza,
@@ -193,14 +191,7 @@ export class CardsService {
     );
   }
 
-  formatCardNumber(cardNumber: string): string {
-    // Rimuove tutti i caratteri non numerici dalla stringa
-    const numericString = cardNumber.replace(/\D/g, '');
 
-    const formattedCardNumber = numericString.replace(/(.{4})/g, '$1-');
-
-    return formattedCardNumber.slice(0, -1);
-  }
 
 
   sendCardData(cardData: Card): Observable<string> {

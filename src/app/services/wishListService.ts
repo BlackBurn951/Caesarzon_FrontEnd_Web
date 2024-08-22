@@ -23,11 +23,14 @@ export class WishListService{
   wishListProducts!: WishProduct;
   wishLists!: BasicWishList[];
 
+  userWishLists!: BasicWishList[];
+
   showProductsMap: Record<string, boolean> = {};
 
   wishId! :string;
   productId!: string;
   tipoListe: string= "Liste private"
+  tipoListeUser: string= "Liste pubbliche"
   visibility!: number;
   emptyList: boolean = false;
 
@@ -40,6 +43,7 @@ export class WishListService{
   wishListToAddProduct: string = "";
 
   section!: number ;
+  sectionProfil!: number;
   constructor(private http: HttpClient, private popUpService:PopupService, private keycloakService: KeyCloakService) {
   }
 
@@ -61,6 +65,18 @@ export class WishListService{
   deleteWishProductURL = 'http://localhost:8090/product-api/wishlist/product'
 
 
+  getUserWishList(num: number){
+    this.sectionProfil = num
+    if(num === 0){
+      this.tipoListeUser = "Liste pubbliche"
+    }else{
+      this.tipoListeUser = "Liste condivise con te"
+    }
+    this.getWishLists(num).subscribe( response =>{
+      this.userWishLists = response
+    })
+  }
+
   getWishS(num: number){
     this.section = num
     if(num === 0){
@@ -71,12 +87,12 @@ export class WishListService{
       this.tipoListe = "Liste private"
 
     }
-    this.getWishLists(0, num).subscribe( response =>{
+    this.getWishLists(num).subscribe( response =>{
       this.wishLists = response
     })
   }
 
-  getWishLists(num: number, vis: number){
+  getWishLists(vis: number){
     const customUrl = this.getWishListsURL+"?usr="+this.keycloakService.getUsername()+"&visibility="+vis
     const headers = this.keycloakService.permaHeader()
     return this.http.get<BasicWishList[]>(customUrl, { headers });
@@ -137,7 +153,7 @@ export class WishListService{
         this.visibilitaNuovaLista = ""
         this.popUpService.updateStringa(response)
         this.popUpService.openPopups(177, true)
-        this.getWishLists(0, visNum)
+        this.getWishLists(visNum)
       },
       error => {
         console.error('Error sending user data:', error);

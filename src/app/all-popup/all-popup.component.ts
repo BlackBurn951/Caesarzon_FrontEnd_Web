@@ -79,6 +79,10 @@ export class AllPopupComponent implements OnInit{
     return this.friendFollow.usersFollow.some(followedUser => followedUser.username === user.username);
   }
 
+  isUserInFriend(user: UserSearch): boolean {
+    return this.friendFollow.usersFriend.some(friendsUser => friendsUser.username === user.username);
+  }
+
   updateCodice(index: number, event: Event): void {
     const inputElement = event.target as HTMLInputElement;
     this.userService.codice[index] = inputElement.value;

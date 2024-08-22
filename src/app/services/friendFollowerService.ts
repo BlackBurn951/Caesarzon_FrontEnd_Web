@@ -32,6 +32,7 @@ export class FriendFollowerService {
 
 
 
+
   constructor(private popUp: PopupService, private http: HttpClient, private keyCloakService: KeyCloakService) {
     this.users = [];
     this.usersFollow = [];
@@ -63,9 +64,6 @@ export class FriendFollowerService {
   }
 
 
-  getFollowersOrFriend() {
-
-  }
 
   addFollowersOrFriends(index: number, cerca: boolean) {
     if (cerca) {
@@ -116,8 +114,6 @@ export class FriendFollowerService {
 
 
 
-
-
   salvaCambiamenti() {
     const headers = this.keyCloakService.permaHeader();
     this.http.post<string>(this.saveFollowURL, this.usersFriendFollowBuffer, { headers , responseType: 'text' as 'json' })
@@ -133,7 +129,33 @@ export class FriendFollowerService {
       );
   }
 
-  deleteFollowersOrFriends() {
+  deleteFollowers(index: number) {
+    const selectedUser = this.usersFollow[index];
+    this.usersFollow.splice(index, 1);
+    const customUrl= this.saveFollowURL+"/"+selectedUser.username
+    const headers = this.keyCloakService.permaHeader();
+    this.http.delete<string>(customUrl, { headers , responseType: 'text' as 'json' }).subscribe(response =>{
+      console.log(response);
+    })
 
+  }
+
+  deleteFriends(index: number){
+    const selectedUser = this.usersFriend[index];
+    selectedUser.friend = false;
+    this.usersFriendFollowBuffer.push(selectedUser);
+    this.usersFriend.splice(index, 1);
+    const headers = this.keyCloakService.permaHeader();
+    this.http.post<string>(this.saveFollowURL, this.usersFriendFollowBuffer, { headers , responseType: 'text' as 'json' })
+      .subscribe(
+        response => {
+          this.usersFriendFollowBuffer = []
+          console.log('Successo:', response);
+        },
+        error => {
+          this.usersFriendFollowBuffer = []
+          console.error('Errore:', error);
+        }
+      );
   }
 }

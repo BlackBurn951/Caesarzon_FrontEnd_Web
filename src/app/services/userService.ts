@@ -27,6 +27,8 @@ export class UserService {
 
   stringaOtp!: string;
 
+  nomeProfilo!: string;
+
   otpSbagliato!:boolean;
 
   loading: boolean = false;
