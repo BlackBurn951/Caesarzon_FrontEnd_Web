@@ -26,7 +26,7 @@ export class WishListComponent implements OnInit{
   }
 
   ngOnInit(): void {
-   this.wishListService.getWishS(2)
+   this.wishListService.getWishS(2, '')
 
     this.keyCloak.getNotify().subscribe(notifies => {
       this.keyCloak.notifications = notifies;

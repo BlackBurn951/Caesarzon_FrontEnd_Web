@@ -70,7 +70,17 @@ export class AllPopupComponent implements OnInit{
   }
 
 
+  apriListe(username: string){
+    this.userService.nomeProfilo= username
+    this.wishListService.getWishS(0, username)
+    this.popUpService.openPopups(13, false)
+  }
 
+
+  back(){
+    this.popUpService.closePopup()
+    this.popUpService.openPopups(0, false)
+  }
 
   chiudiPopUpESalvaUtenti(){
     this.popUpService.closePopup()
@@ -203,7 +213,11 @@ export class AllPopupComponent implements OnInit{
   }
 
 
+  highlightedRow: number = -1;
 
+  apripopup() {
+    // Logica per aprire il popup
+  }
 
 
 

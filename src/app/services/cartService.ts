@@ -10,13 +10,14 @@ import {PopupService} from "./popUpService";
 import {PayPal} from "../entities/PayPal";
 import {AddressService} from "./addressService";
 import {CardsService} from "./cardsService";
+import {ChangeCart} from "../entities/ChangeCart";
 
 @Injectable({
   providedIn: 'root'
 })
 export class CartService {
 
-  getCartURL: string = 'http://localhost:8090/product-api/cart'
+  getCartURL: string = 'http://localhost:8090/product-api/cart' //ANche per eliminare
 
   checkAvaURL: string = 'http://localhost:8090/product-api/pre-order';
 
@@ -24,11 +25,18 @@ export class CartService {
 
   doSuccesURL: string = 'http://localhost:8090/product-api/success';
 
+  saveLaterURL: string = 'http://localhost:8090/product-api/cart/product/';
+
+  changeQuantityURL: string = 'http://localhost:8090/product-api/cart/product/{id}?quantity=INTERO&size=M&action=QUALSISI NUMERO TRANNE LO 0  MODIFIC QUANTITA';
+
+
+
   ordineInviato!: boolean;
 
-  productInCart!: ProductCart[];
+  productInCart: ProductCart[] = []
+  productLater: ProductCart[] = []
 
-  unvaiable!: Unvailable[]
+  unvaiable: Unvailable[] = []
 
   productIds: string[] = []
 
@@ -48,9 +56,6 @@ export class CartService {
   constructor(private cardsService:CardsService, private addressService:AddressService, private route: ActivatedRoute, private popUp: PopupService, private router:Router, private http: HttpClient, private keyCloakService: KeyCloakService) { }
 
 
-  salvaPerDopo(event: Event, idProdotto: string){
-
-  }
 
 
   addProductCart(){
@@ -90,17 +95,89 @@ export class CartService {
     const headers = this.keyCloakService.permaHeader();
     return this.http.get<ProductCart[]>(this.getCartURL, { headers }).subscribe(response => {
       if (response != null) {
-        this.productInCart = response;
+        this.productInCart = [];
+        this.productLater = [];
         this.totaleSenzaSconto = 0;
         this.totaleConSconto = 0;
 
-        this.productInCart.forEach(product => {
-          this.totaleSenzaSconto += product.total;
-          this.totaleConSconto += product.discountTotal;
+        response.forEach(product => {
+          console.log("valore buy later: " + product.buyLater)
+          if (product.buyLater) {
+            this.productLater.push(product);
+          } else {
+            this.productInCart.push(product);
+            this.totaleSenzaSconto += product.total;
+            this.totaleConSconto += product.discountTotal;
+          }
         });
       }
     });
   }
+
+
+  saveLater(idProdotto: string){
+    const headers = this.keyCloakService.permaHeader();
+    const customURL = this.saveLaterURL+idProdotto+'?action=0'
+
+    const changeCart: ChangeCart = {
+      size: "",
+      quantity: 0
+    }
+    return this.http.put<string>(customURL, changeCart,{ headers }).subscribe(response => {
+      if (response === "Ordine modificato con successo!") {
+        console.log(response)
+      }else{
+        console.log(response)
+      }
+    });
+
+  }
+
+  putInCart(size: string, quantity: number, idProduct: string){
+
+    const productToAddCart: SendProductOrderDTO ={
+      productID: idProduct,
+      size: size,
+      quantity: quantity
+    }
+
+    const headers = this.keyCloakService.permaHeader();
+    return this.http.post<string>(this.getCartURL, productToAddCart,{headers, responseType: 'text' as 'json'}).subscribe(response => {
+      if(response == "Ordine creato con successo!"){
+        this.size = ""
+        this.quantity = 1
+        this.productIdToAddCart = ""
+      }
+    })
+  }
+
+
+  removeFromCart(idProdotto: string){
+    const headers = this.keyCloakService.permaHeader();
+    const customURL = this.getCartURL+'/'+idProdotto
+    return this.http.delete<string>(customURL,{ headers }).subscribe(response => {
+      if (response === "Prodotto cancellato con successo") {
+        console.log(response)
+      }else{
+        console.log(response)
+      }
+    });
+
+  }
+
+  svuotaCarrello(){
+    const headers = this.keyCloakService.permaHeader();
+    return this.http.delete<string>(this.getCartURL, { headers, responseType: 'text' as 'json' }).subscribe(response => {
+      if (response === "Carello svuotato con successo!") {
+        this.productInCart = []
+        this.productLater = []
+        console.log(response)
+      }else{
+        console.log(response)
+      }
+    });
+  }
+
 
   changePay(){
     this.selectedCardId = null;

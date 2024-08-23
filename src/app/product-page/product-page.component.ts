@@ -86,9 +86,7 @@ export class ProductPageComponent implements OnInit{
   }
 
   drawGraphs(ctx: CanvasRenderingContext2D) {
-    // Ora puoi disegnare sul canvas utilizzando il contesto 2D
     if (ctx) {
-      // Esempio di disegno di un rettangolo rosso sul canvas
       ctx.fillStyle = 'red';
       ctx.fillRect(10, 10, 100, 100);
     } else {

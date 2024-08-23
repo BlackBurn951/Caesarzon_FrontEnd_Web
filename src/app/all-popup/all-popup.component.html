@@ -21,7 +21,6 @@
     </div>
     <h1 class="mt-2">{{sectionLabel}}</h1>
     <button (click)="chiudiPopUpESalvaUtenti()" class="btn btn-dark ics">X</button>
-
   </div>
 
   <div class="d-flex flex-column align-items-center">
@@ -29,44 +28,60 @@
 
     <div class="table-container">
 
+      <!-- Sezione Cerca utenti -->
       <div *ngIf="section === 0" class="table-row">
-        <div *ngFor="let user of friendFollow.users; let i = index">
-          <div class="table-cell mb-2 d-flex align-items-center">
-            <img class="mr-2" [src]="user.safeImageUrl" alt="Foto">
-            <label class="flex-grow-1">{{ user.username }}</label>
-            <button *ngIf="!isUserInFollow(user)" class="btn btn-dark custom-btn mr-1" (click)="this.friendFollow.addFollowersOrFriends(i, true)">
-              <i class="fas fa-user-plus"></i>
+        <div *ngFor="let user of friendFollow.users; let i = index"
+             class="table-cell mb-2 d-flex align-items-center user-row"
+             (click)="this.apriListe(user.username)"
+             [ngClass]="{'highlighted': highlightedRow === i}"
+             (mouseenter)="highlightedRow = i"
+             (mouseleave)="highlightedRow = -1">
+          <img class="mr-2" [src]="user.safeImageUrl" alt="Foto">
+          <label class="flex-grow-1">{{ user.username }}</label>
+          <button *ngIf="!isUserInFollow(user)" class="btn btn-dark custom-btn mr-1" (click)="this.friendFollow.addFollowersOrFriends(i, true)">
+            <i class="fas fa-user-plus"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Sezione Seguiti -->
+      <div *ngIf="section === 1" class="table-row">
+        <div *ngFor="let user of friendFollow.usersFollow; let i = index"
+             class="table-cell mb-2 d-flex align-items-center user-row"
+             (click)="this.apriListe(user.username)"
+             [ngClass]="{'highlighted': highlightedRow === i}"
+             (mouseenter)="highlightedRow = i"
+             (mouseleave)="highlightedRow = -1">
+          <img class="mr-2" [src]="user.safeImageUrl" alt="Foto">
+          <label>{{ user.username }}</label>
+          <div>
+            <button *ngIf="!isUserInFriend(user)" class="btn btn-dark custom-btn ml-1 mt-1 mb-1" (click)="this.friendFollow.addFollowersOrFriends(i, false)">
+              <i class="fas fa-heart"></i>
+            </button>
+            <button class="btn btn-danger buut mr-1 ml-1 mt-1 mb-1 mr-1" (click)="this.friendFollow.deleteFollowers(user.username)">
+              <i class="fas fa-user-minus"></i>
             </button>
           </div>
         </div>
       </div>
 
-
-      <div *ngIf="section === 1" class="table-row">
-        <div *ngFor="let user of friendFollow.usersFollow; let i = index">
-          <div class="table-cell mb-2">
-            <img class="mr-2" [src]="user.safeImageUrl" alt="Foto">
-            <label>{{ user.username }}</label>
-            <div>
-              <button *ngIf="!isUserInFriend(user)" class="btn btn-dark custom-btn ml-1 mt-1 mb-1" (click)="this.friendFollow.addFollowersOrFriends(i, false)"><i class="fas fa-heart"></i></button>
-              <button class="btn btn-danger buut mr-1 ml-1 mt-1 mb-1 mr-1"><i class="fas fa-user-minus" (click)="this.friendFollow.deleteFollowers(user.username)"></i></button>
-            </div>
-
-          </div>
-        </div>
-      </div>
-
+      <!-- Sezione Amici -->
       <div *ngIf="section === 2" class="table-row">
-        <div *ngFor="let user of friendFollow.usersFriend; let i = index">
-          <div (click)="this.popUpService.openPopups(13, true)" class="table-cell mb-2">
-            <img class="mr-2" [src]="user.safeImageUrl" alt="Foto">
-            <label>{{ user.username }}</label>
-            <button class="btn btn-danger buut  mr-1 mt-1 mb-1 ml-1" (click)="this.friendFollow.deleteFriends(i)"><i class="fas fa-user-minus"></i></button>
-          </div>
+        <div *ngFor="let user of friendFollow.usersFriend; let i = index"
+             class="table-cell mb-2 d-flex align-items-center user-row"
+             (click)="this.apriListe(user.username)"
+             [ngClass]="{'highlighted': highlightedRow === i}"
+             (mouseenter)="highlightedRow = i"
+             (mouseleave)="highlightedRow = -1">
+          <img class="mr-2" [src]="user.safeImageUrl" alt="Foto">
+          <label>{{ user.username }}</label>
+          <button class="btn btn-danger buut mr-1 mt-1 mb-1 ml-1" (click)="this.friendFollow.deleteFriends(i)">
+            <i class="fas fa-user-minus"></i>
+          </button>
         </div>
       </div>
-    </div>
 
+    </div>
 
   </div>
 </div>
@@ -509,70 +524,57 @@
 
 
 <div class="container-fluidos regLog" *ngIf="popUpService.wichComponent === 13" [ngClass]="{'other': !popUpService.isOther}">
-  <div class="form-group">
-    <div class="d-flex flex-column align-items-center">
-      <h3>Profilo di {{ this.userService.nomeProfilo}}</h3>
-    </div>
+  <div class="form-group d-flex justify-content-between align-items-center">
+    <button (click)="back()" class="btn btn-dark custom-btn">Indietro</button>
     <button (click)="popUpService.closePopup()" class="btn btn-dark ics">X</button>
   </div>
 
-  <div class="container-fluid d-flex flex-row align-items-center">
-    <div class="container-fluid d-flex flex-column align-items-center aldos">
-      <h1 class="titless">LISTE DEI DESIDERI</h1>
+  <div class="container-fluid d-flex flex-column align-items-center">
+    <h1 class="titless">Liste dei desideri di {{ this.userService.nomeProfilo }}</h1>
 
-      <div class="form-group d-flex flex-row align-items-center">
-        <div class="visibility mb-3">
-          <button type="button" class="btn btn-dark custom-btn mr-5" (click)="wishListService.getUserWishList(0)">Pubbliche</button>
-          <button type="button" class="btn btn-dark custom-btn mr-5" (click)="wishListService.getUserWishList(1)">Condivise con te</button>
-        </div>
-      </div>
-
-      <section class="form-group d-flex flex-column align-items-center">
-        <div class="table-container">
-          <table class="table table-striped">
-            <thead>
-            <tr >
-              <th class="align-items-center" scope="col">Nome Lista  ({{wishListService.tipoListeUser}})</th>
-              <th class="d-flex flex-column align-items-center" scope="col">Azioni</th>
-            </tr>
-            </thead>
-            <tbody>
-            <ng-container *ngFor="let item of wishListService.wishLists; let i = index">
-              <tr>
-                <td>{{ item.name }}</td>
-                <td>
-
-                  <div class="form-group d-flex flex-row align-items-center"  *ngIf="wishListService.sectionProfil == 0">
-                    <button class="btn btn-dark custom-btn ml-2" (click)="wishListService.getWishListProducts(item.id)">
-                      Prodotti
-                    </button>
-                  </div>
-
-                  <div class="form-group d-flex flex-row align-items-center"  *ngIf="wishListService.sectionProfil == 1">
-                    <button class="btn btn-dark custom-btn ml-2" (click)="wishListService.getWishListProducts(item.id)">
-                      Prodotti
-                    </button>
-                  </div>
-
-                </td>
-              </tr>
-              <tr *ngIf="wishListService.showProductsMap[item.id]">
-                <td colspan="2">
-                  <div *ngFor="let product of wishListService.wishListProducts?.singleWishListProductDTOS">
-                    <p class="prodottoOi"  (click)="productService.prendiDatiProdotto(product.productId)" >{{ product.productName }} - {{ product.price }} €</p>
-                  </div>
-                </td>
-              </tr>
-            </ng-container>
-
-            </tbody>
-          </table>
-        </div>
-      </section>
+    <div class="form-group d-flex justify-content-center mb-3">
+      <button type="button" class="btn btn-dark custom-btn mr-3" (click)="wishListService.getWishS(0, this.userService.nomeProfilo)">Pubbliche</button>
+      <button type="button" class="btn btn-dark custom-btn" (click)="wishListService.getWishS(1, this.userService.nomeProfilo)">Condivise con te</button>
     </div>
 
+    <section class="form-group d-flex flex-column align-items-center">
+      <div class="table-container" style="overflow-x: auto;">
+        <table class="table table-striped">
+          <thead>
+          <tr>
+            <th scope="col">Nome Lista ({{wishListService.tipoListeUser}})</th>
+            <th scope="col" class="text-center">Azioni</th>
+          </tr>
+          </thead>
+          <tbody>
+          <ng-container *ngFor="let item of wishListService.wishLists; let i = index">
+            <tr>
+              <td>{{ item.name }}</td>
+              <td class="text-center">
+                <button class="btn btn-dark custom-btn ml-2" (click)="wishListService.getWishListProducts(item.id)">
+                  Prodotti
+                </button>
+              </td>
+            </tr>
+            <tr *ngIf="wishListService.showProductsMap[item.id]">
+              <td colspan="2">
+                <p *ngIf="wishListService.wishListProducts.singleWishListProductDTOS.length === 0">{{ this.userService.nomeProfilo }} non ha ancora aggiunto prodotti a questa lista.</p>
+                <div *ngFor="let product of wishListService.wishListProducts?.singleWishListProductDTOS">
+                  <p class="prodottoOi" (click)="productService.prendiDatiProdotto(product.productId)">
+                    {{ product.productName }} - {{ product.price }} €
+                  </p>
+                </div>
+              </td>
+            </tr>
+          </ng-container>
+          </tbody>
+        </table>
+      </div>
+    </section>
   </div>
 </div>
+
+
 
 
 </body>

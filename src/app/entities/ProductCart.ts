@@ -7,5 +7,6 @@ export interface ProductCart {
   quantity: number
   name: string
   size: string
+  buyLater: boolean
 
 }

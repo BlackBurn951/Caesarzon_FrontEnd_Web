@@ -1,8 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {Router} from "@angular/router";
 import {KeyCloakService} from "../services/keyCloakService";
-import {HttpClient} from "@angular/common/http";
 import {ProductService} from "../services/productService";
+import {UserService} from "../services/userService";
 
 
 @Component({
@@ -17,7 +16,7 @@ export class HomepageComponent implements OnInit{
   indexNovita: number = 0;
   indexOfferte: number = 0;
 
-  constructor(private key: KeyCloakService, protected productService: ProductService) {
+  constructor(private key: KeyCloakService, protected productService: ProductService, protected userService: UserService) {
 
   }
 
@@ -30,9 +29,8 @@ export class HomepageComponent implements OnInit{
     })
     this.productService.getOffer().subscribe(products => {
       this.productService.offerProducts = products;
-      products.forEach(offer => {
-      })
     })
+
 
     this.key.getNotify().subscribe(notifies => {
       this.key.notifications = notifies;

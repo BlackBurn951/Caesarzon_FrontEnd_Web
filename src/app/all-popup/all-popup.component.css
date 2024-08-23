@@ -205,6 +205,14 @@ label {
   justify-content: center;
 }
 
+.user-row {
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.user-row.highlighted {
+  background-color: #f0f0f0; /* Colore di sfondo quando si passa il mouse */
+}
 
 
 

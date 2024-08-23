@@ -6,116 +6,118 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pagina prodotto</title>
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-
 </head>
 
 <body>
-    <div class="container-fluid">
-      <div class="row">
+<div class="container-fluid py-5">
+  <div class="row">
 
-        <div class="col-md-9">  <!--LISTA DEI PRODOTTI-->
-          <div class="row">
-            <p class="label-containers">Carrello</p>
-          </div>
+    <!-- SEZIONE PRODOTTI -->
+    <div class="col-lg-8">
 
-          <div class="row">
-            <div class="container left-containers ml-2">  <!-- CARRELLO -->
-              <div class="collection">
-                <!-- Imagine a loop produced this... -->
-                <div class="product" *ngFor="let item of cartService.productInCart">
-                  <a class="product__image" href="#"></a>
-
-                  <div class="product__name">
-                    <p>
-                      <a href="#">{{item.name}}</a>
-                    </p>
-                  </div>
-                  <div class="product__price">
-                    <p>{{item.total}}
-                  </div>
-                  <div class="product__details row" style="display: flex">
-                    <div class="col-6 ml-3">
-                      <label for="quantity">Quantità:</label>
-                      <select id="quantity" class="form-control" [(ngModel)]="item.quantity">
-                        <option *ngFor="let qty of [1,2,3,4,5,6,7,8,9,10]" [value]="qty">{{qty}}</option>
-                      </select>
-                    </div>
-                    <div *ngIf="item.size != null" class="col-6 mr-3">
-                      <label for="size">Taglia:</label>
-                      <select id="size" class="form-control" [(ngModel)]="item.size">
-                        <option *ngFor="let size of ['XS','S', 'M', 'L', 'XL']" [value]="size">{{size}}</option>
-                      </select>
-                    </div>
-                  </div>
-                  <div class="product__options" >
-                    <a href="#" (click)="this.cartService.salvaPerDopo($event, item.id)">Salva per dopo</a>
-                  </div>
-                  <div class="product__options" >
-                    <a href="#">Rimuovi</a>
-                  </div>
+      <!-- CARRELLO -->
+      <div class="section">
+        <h2 class="section-title">Carrello</h2>
+         <div class="product-list" *ngIf="cartService.productInCart.length === 0">
+           <h4 class="section-title">Non hai ancora aggiunto prodotti al carrello</h4>
+         </div>
+        <div class="product-list" *ngIf="cartService.productInCart.length > 0">
+          <div class="product-card" *ngFor="let item of cartService.productInCart; let i = index">
+            <div class="product-image">
+              <img [src]="item.id" alt="{{item.name}}">
+            </div>
+            <div class="product-details">
+              <h5 class="product-name">{{item.name}}</h5>
+              <div class="product-info">
+                <div class="info-group">
+                  <label>Quantità:</label>
+                  <select class="form-control quantity-select" [(ngModel)]="item.quantity">
+                    <option *ngFor="let qty of quantities" [value]="qty">{{qty}}</option>
+                  </select>
                 </div>
+                <div class="info-group" *ngIf="item.size">
+                  <label>Taglia:</label>
+                  <select class="form-control size-select" [(ngModel)]="item.size">
+                    <option *ngFor="let size of sizes" [value]="size">{{size}}</option>
+                  </select>
+                </div>
+                <div class="info-group">
+                  <label>Prezzo:</label>
+                  <p class="product-price">{{item.total | currency:'EUR'}}</p>
+                </div>
+              </div>
+              <div class="product-actions">
+                <button class="btn btn-link" (click)="salvaPerDopo(item.id)">Salva per dopo</button>
+                <button class="btn btn-link text-danger" (click)="rimuoviDalCarrello(item.id)">Rimuovi dal carrello</button>
               </div>
             </div>
           </div>
-
-          <div class="row">
-            <div class="container left-containers ml-2">  <!-- SALVA PER DOPO -->
-              <div class="collection">
-                <!-- Imagine a loop produced this... -->
-                <div class="product" *ngFor="let item of cartService.productInCart">
-                  <a class="product__image" href="#"></a>
-
-                  <div class="product__name">
-                    <p>
-                      <a href="#">{{item.name}}</a>
-                    </p>
-                  </div>
-                  <div class="product__price">
-                    <p>{{item.total}}
-                  </div>
-                  <div class="product__details row" style="display: flex">
-                    <div class="col-6 ml-3">
-                      <label for="quantity">Quantità:</label>
-                      <select id="quantity" class="form-control" [(ngModel)]="item.quantity">
-                        <option *ngFor="let qty of [1,2,3,4,5,6,7,8,9,10]" [value]="qty">{{qty}}</option>
-                      </select>
-                    </div>
-                    <div *ngIf="item.size != null" class="col-6 mr-3">
-                      <label for="size">Taglia:</label>
-                      <select id="size" class="form-control" [(ngModel)]="item.size">
-                        <option *ngFor="let size of ['XS','S', 'M', 'L', 'XL']" [value]="size">{{size}}</option>
-                      </select>
-                    </div>
-                  </div>
-                  <div class="product__options" >
-                    <a href="#" (click)="this.cartService.salvaPerDopo($event, item.id)">Salva per dopo</a>
-                  </div>
-                  <div class="product__options" >
-                    <a href="#">Rimuovi</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-        <div class="col md mt-5">  <!--SEZIONE DI ACQUISTO-->
-
-          <div class="container container-total mt-5 mb-2">
-            <div class="row d-flex flex-column align-items-center mt-4">
-              <p class="para">Prodotti nel carrello 25</p>
-            </div>
-            <div class="row d-flex flex-column align-items-center">
-              <p class="para">Totale carrello 25</p>
-            </div>
-            <div class="row d-flex flex-column align-items-center">
-              <button type="button" class="btn btn-dark custom-btn mt-5 mb-2" (click)="goToPayment()">Acquista</button>
-            </div>
-          </div>
-
         </div>
+      </div>
 
+      <!-- SALVATI PER DOPO -->
+      <div class="section mt-5" *ngIf="cartService.productLater.length > 0">
+        <h2 class="section-title">Salvati per dopo</h2>
+        <div class="product-list"  >
+          <div class="product-card" *ngFor="let item of cartService.productLater; let i = index">
+            <div class="product-image">
+              <img [src]="item.id" alt="{{item.name}}">
+            </div>
+            <div class="product-details">
+              <h5 class="product-name">{{item.name}}</h5>
+              <div class="product-info">
+                <div class="info-group">
+                  <label>Quantità:</label>
+                  <select class="form-control quantity-select" [(ngModel)]="item.quantity">
+                    <option *ngFor="let qty of quantities" [value]="qty">{{qty}}</option>
+                  </select>
+                </div>
+                <div class="info-group" *ngIf="item.size">
+                  <label>Taglia:</label>
+                  <select class="form-control size-select" [(ngModel)]="item.size">
+                    <option *ngFor="let size of sizes" [value]="size">{{size}}</option>
+                  </select>
+                </div>
+                <div class="info-group">
+                  <label>Prezzo:</label>
+                  <p class="product-price">{{item.total | currency:'EUR'}}</p>
+                </div>
+              </div>
+              <div class="product-actions">
+                <button class="btn btn-link" (click)="spostaNelCarrello(item.id)">Sposta nel carrello</button>
+                <button class="btn btn-link text-danger" (click)="rimuoviDaSalvati(item.id)">Rimuovi dal carrello</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- SEZIONE RIEPILOGO -->
+    <div class="col-lg-4" *ngIf="cartService.productInCart.length > 0">
+      <div class="summary-card">
+        <button class="btn btn-primary btn-block mb-4" (click)="this.cartService.svuotaCarrello()">Svuota carrello</button>
+
+        <h3>Riepilogo Ordine</h3>
+        <div class="summary-details">
+          <div class="summary-item">
+            <span>Prodotti nel carrello:</span>
+            <span>{{cartService.productInCart.length}}</span>
+          </div>
+          <div class="summary-item">
+            <span>Totale:</span>
+            <span>{{getTotalPrice() | currency:'EUR'}}</span>
+          </div>
+        </div>
+        <button class="btn btn-primary btn-block mt-4" (click)="goToPayment()">Procedi all'acquisto</button>
       </div>
     </div>
-</body>
 
+  </div>
+</div>
+</body>
+<footer>
+  <app-footer></app-footer>
+</footer>
 </html>
