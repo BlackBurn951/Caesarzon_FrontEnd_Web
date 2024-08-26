@@ -24,7 +24,7 @@
         <div class="product-list" *ngIf="cartService.productInCart.length > 0">
           <div class="product-card" *ngFor="let item of cartService.productInCart; let i = index">
             <div class="product-image">
-              <img [src]="item.id" alt="{{item.name}}">
+              <img [src]="item.id" alt="">
             </div>
             <div class="product-details">
               <h5 class="product-name">{{item.name}}</h5>
@@ -61,7 +61,7 @@
         <div class="product-list"  >
           <div class="product-card" *ngFor="let item of cartService.productLater; let i = index">
             <div class="product-image">
-              <img [src]="item.id" alt="{{item.name}}">
+              <img [src]="item.id" alt="">
             </div>
             <div class="product-details">
               <h5 class="product-name">{{item.name}}</h5>
@@ -97,9 +97,9 @@
     <!-- SEZIONE RIEPILOGO -->
     <div class="col-lg-4" *ngIf="cartService.productInCart.length > 0">
       <div class="summary-card">
-        <button class="btn btn-primary btn-block mb-4" (click)="this.cartService.svuotaCarrello()">Svuota carrello</button>
+        <button class="btn btn-dark custom-btn mb-4 ml-5" (click)="this.cartService.confermaSvuotoCarrello()">Svuota carrello</button>
 
-        <h3>Riepilogo Ordine</h3>
+        <h3>Totale carrello</h3>
         <div class="summary-details">
           <div class="summary-item">
             <span>Prodotti nel carrello:</span>
@@ -110,7 +110,7 @@
             <span>{{getTotalPrice() | currency:'EUR'}}</span>
           </div>
         </div>
-        <button class="btn btn-primary btn-block mt-4" (click)="goToPayment()">Procedi all'acquisto</button>
+        <button class="btn btn-dark custom-btn mt-4 ml-5" (click)="goToPayment()">Procedi all'acquisto</button>
       </div>
     </div>
 

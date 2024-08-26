@@ -83,7 +83,7 @@ body {
 .product-price {
   font-size: 1.1rem;
   font-weight: 600;
-  color: #28a745;
+  color: #000000;
   margin-top: 5px;
 }
 
@@ -97,12 +97,12 @@ body {
   font-size: 0.9rem;
   padding: 0;
   text-decoration: none;
-  color: #007bff;
+  color: #c82333;
   transition: color 0.2s ease;
 }
 
 .product-actions .btn-link:hover {
-  color: #0056b3;
+  color: #86111f;
 }
 
 .product-actions .text-danger:hover {
@@ -140,19 +140,11 @@ body {
   color: #555;
 }
 
-.btn-primary {
-  background-color: #28a745;
-  border-color: #28a745;
-  font-size: 1.1rem;
+.btn-bello {
   padding: 10px 0;
-  border-radius: 5px;
   transition: background-color 0.2s ease;
 }
 
-.btn-primary:hover {
-  background-color: #218838;
-  border-color: #1e7e34;
-}
 
 /* Media Queries */
 @media (max-width: 992px) {

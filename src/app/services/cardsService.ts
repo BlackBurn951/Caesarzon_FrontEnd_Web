@@ -84,10 +84,11 @@ export class CardsService {
           console.log('Carta eliminato con successo:', response);
           this.popUp.updateStringa(response)
           this.popUp.openPopups(18, true)
-          setTimeout(()=>{
-            window.location.reload()
-
-          }, 2000);
+          if(!this.keyCloakService.getIsAdmin()){
+            setTimeout(()=>{
+              window.location.reload()
+            }, 1500);
+          }
 
         },
         error: (error) => {
@@ -105,8 +106,14 @@ export class CardsService {
 
   getCardsName() {
     const headers = this.keyCloakService.permaHeader()
+    let urlWithParams = ''
+    if (this.keyCloakService.getIsAdmin()) {
+      urlWithParams = this.getCardsNameURL+'/'+this.userService.username
+    }else{
+      urlWithParams = this.getCardsNameURL
+    }
 
-    this.http.get<string[]>(this.getCardsNameURL, { headers }).subscribe({
+    this.http.get<string[]>(urlWithParams, { headers }).subscribe({
       next: (response) => {
         this.cardsName = response;
         this.generateCardsMap();
@@ -178,9 +185,12 @@ export class CardsService {
         this.popUp.updateStringa("Carta aggiunta con successo!");
         this.popUp.openPopups(144, true);
         this.clearFields();
-        setTimeout(() => {
-          window.location.reload();
-        }, 1500);
+        if(!this.keyCloakService.getIsAdmin()){
+          setTimeout(() => {
+            window.location.reload();
+          }, 1500);
+        }
+
       },
       error => {
         this.popUp.closePopup();
@@ -196,7 +206,11 @@ export class CardsService {
 
   sendCardData(cardData: Card): Observable<string> {
     const headers = this.keyCloakService.permaHeader()
-    return this.http.post(this.manageCardURL, cardData, { headers, responseType: 'text' }) as Observable<string>;
+    if (this.keyCloakService.getIsAdmin()) {
+      const customURL = this.manageCardURL + '/' + this.userService.username
+      return this.http.post(customURL, cardData, {headers, responseType: 'text'}) as Observable<string>;
+    }
+      return this.http.post(this.manageCardURL, cardData, { headers, responseType: 'text' }) as Observable<string>;
   }
 
   clearFields(){
@@ -206,7 +220,9 @@ export class CardsService {
       titolareCarta: '',
       dataScadenza: '',
       cvv: '',
-
     });
+
+    this.formService.resetFormErrors(formCarta)
+
   }
 }

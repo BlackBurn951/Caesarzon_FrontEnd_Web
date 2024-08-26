@@ -8,6 +8,7 @@ import {AdminService} from "../services/adminService";
 import {WishListService} from "../services/wishListService";
 import {KeyCloakService} from "../services/keyCloakService";
 import {OrderService} from "../services/orderService";
+import {CartService} from "../services/cartService";
 
 
 
@@ -23,7 +24,7 @@ import {OrderService} from "../services/orderService";
 export class WarningMessageComponent implements OnInit{
   stringa!: String;
 
-  constructor(private orderService: OrderService, private keyCloak: KeyCloakService, private wishListService:WishListService, private adminService: AdminService, private dialogError: MatDialogRef<WarningMessageComponent>, public popup:PopupService, public addressService: AddressService, public cardService: CardsService) {
+  constructor(private cartService: CartService, private orderService: OrderService, private keyCloak: KeyCloakService, private wishListService:WishListService, private adminService: AdminService, private dialogError: MatDialogRef<WarningMessageComponent>, public popup:PopupService, public addressService: AddressService, public cardService: CardsService) {
 
   }
 
@@ -79,6 +80,18 @@ export class WarningMessageComponent implements OnInit{
             this.popup.openPopups(123, true);
           }
         })
+      }else if(this.popup.operazione == 9){
+        this.cartService.svuotaCarrello()
+      }else if(this.popup.operazione == 10){
+        this.adminService.rimuoviBan().subscribe(response =>{
+          if(response === "Utente sbannato con successo"){
+            this.popup.updateStringa(response);
+            this.popup.openPopups(123, true);
+          }
+        });
+
+      }else if(this.popup.operazione == 11){
+        this.adminService.adminDeleteUser()
       }
 
 

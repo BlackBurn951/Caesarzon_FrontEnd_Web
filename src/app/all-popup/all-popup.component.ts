@@ -28,9 +28,9 @@ export class AllPopupComponent implements OnInit{
 
   //Creazione delle variabili base da utilizzare per inviare i dati al server
 
-  newPassword: string = '';
+
+
   pass: string = '';
-  confirmPassword: string = '';
   newPasswordError: string = '';
   confirmPasswordError: string = '';
 
@@ -46,9 +46,9 @@ export class AllPopupComponent implements OnInit{
   }
 
   resetVariables(){
-    this.newPassword = ''
+    this.userService.newPassword = ''
     this.pass = ''
-    this.confirmPassword = ''
+    this.userService.confirmPassword = ''
     this.newPasswordError = ''
     this.confirmPasswordError = ''
     this.mostraPassword = {password: false, confermaPassword: false}
@@ -141,23 +141,23 @@ export class AllPopupComponent implements OnInit{
     const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@$#%^&*()_+]).{8,16}$/;
 
 
-    if (!passwordPattern.test(this.newPassword)) {
+    if (!passwordPattern.test(this.userService.newPassword)) {
       this.newPasswordError = 'Formato incorretto: es. CiaoCiao69!'
 
       return;
     }
 
 
-    if (this.confirmPassword.trim() === '') {
+    if (this.userService.confirmPassword.trim() === '') {
       this.confirmPasswordError = 'Si prega di confermare la password';
       return;
     }
 
-    if (this.newPassword !== this.confirmPassword) {
+    if (this.userService.newPassword !== this.userService.confirmPassword) {
       this.confirmPasswordError = 'Le password non corrispondono';
       return;
     }
-    this.userService.cambioPassword(this.newPassword);
+    this.userService.cambioPassword(this.userService.newPassword);
     this.popUpService.updateStringa('Cambio password avvenuto con successo')
     this.popUpService.openPopups(141, true);
 
@@ -165,6 +165,13 @@ export class AllPopupComponent implements OnInit{
     this.newPasswordError = '';
     this.popUpService.closePopup()
 
+
+  }
+
+  closePopUpAddressCard(){
+    this.addressService.clearFields()
+    this.cardService.clearFields()
+    this.popUpService.closePopup()
 
   }
 

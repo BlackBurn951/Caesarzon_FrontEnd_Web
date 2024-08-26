@@ -17,8 +17,6 @@ export class RegistrationComponent implements OnInit{
 
   password : string = ''
 
-  mostraPassword: { [key: string]: boolean } = { password: false, confermaPassword: false };
-
   passwordDifferenti: boolean = false;
 
   constructor(public formService: FormService, public popupService: PopupService, public keycloakService: KeyCloakService, protected userService: UserService) {
@@ -60,21 +58,12 @@ export class RegistrationComponent implements OnInit{
   comparaPassword() {
     const confermaPasswordValue = this.formCaesarzon.get('formRegistrazione.confermaPassword')?.value;
     const passwordValue = this.formCaesarzon.get('formRegistrazione.password')?.value;
+    console.log("PASSWORDCONFERMA: "+ confermaPasswordValue)
+    console.log("PASSWORDVALUE: "+ passwordValue)
 
     this.passwordDifferenti = confermaPasswordValue !== passwordValue;
   }
 
-  //Metodo per cambiare la visibilità del campo relativo alla password
-  togglePassword(fieldName: string) {
-    const passwordField = document.getElementById(fieldName) as HTMLInputElement;
-    this.mostraPassword[fieldName] = !this.mostraPassword[fieldName];
-
-    if (this.mostraPassword[fieldName]) {
-      passwordField.type = 'text';
-    } else {
-      passwordField.type = 'password';
-    }
-  }
 
 
 

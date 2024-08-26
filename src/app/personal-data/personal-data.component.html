@@ -90,7 +90,8 @@
 
         </div>
         <div class="row">
-          <button type="button" class="btn btn-dark custom-btn modifica mr-5" style="border: black solid 1px" (click)="this.popUpService.openPopups(8, false)">Modifica password</button>
+          <button *ngIf="!this.keycloakService.getIsAdmin()" type="button" class="btn btn-dark custom-btn modifica mr-5" style="border: black solid 1px" (click)="this.popUpService.openPopups(8, false)">Modifica password</button>
+          <button *ngIf="this.keycloakService.getIsAdmin()" type="button" class="btn btn-dark custom-btn modifica mr-5" style="border: black solid 1px" (click)="eliminaProfiloUtente()">Elimina profilo</button>
           <button *ngIf="userService.inputAbilitato" type="submit" class="btn btn-dark custom-btn modifica mr-5" [disabled]="!formCaesarzon.get('formDatipersonali')?.valid || valoriUguali() || !isNumeroValid()">Salva modifiche</button>
           <button type="button" class="btn btn-dark custom-btn modifica mr-5" (click)="abilitaInput()">{{this.userService.testoButton}}</button>
           <button type="button" class="btn btn-danger modifica mr-5" style="border: black solid 1px" (click)="this.popUpService.openPopups(9, false)">Elimina account</button>

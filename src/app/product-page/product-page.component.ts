@@ -56,7 +56,7 @@ export class ProductPageComponent implements OnInit{
   }
 
   addProductToCart(){
-    if (!this.keyCloak.getLoggedStatus() || this.keyCloak.getUsername() === "guest"){
+    if (!this.keyCloak.getLoggedStatus() || this.keyCloak.getUsername() === "Guest"){
       this.popUpService.openPopups(3, true)
     }else{
       this.cartService.productIdToAddCart = this.productService.prodotto.id

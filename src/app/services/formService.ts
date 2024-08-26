@@ -176,6 +176,23 @@ export class FormService {
     return true;
   }
 
+  resetFormErrors(formGroup: FormGroup): void {
+    Object.keys(formGroup.controls).forEach((key) => {
+      const control = formGroup.get(key);
+      if (control instanceof FormGroup) {
+        // Se il controllo è un FormGroup, esegui il reset in modo ricorsivo
+        this.resetFormErrors(control);
+      } else if (control instanceof AbstractControl) {
+        // Resetta gli errori del controllo
+        control.setErrors(null);
+        control.markAsPristine();  // Opzionale: imposta il controllo come non modificato
+        control.markAsUntouched(); // Opzionale: imposta il controllo come non toccato
+      }
+    });
+  }
+
+
+
 }
 
 

@@ -1,4 +1,4 @@
 export interface OtpDTO {
-  otp: string
+  password: string
   username: string
 }

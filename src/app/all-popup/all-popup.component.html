@@ -216,7 +216,7 @@
   <div class="d-flex flex-column align-items-center aggiunta" formGroupName="formIndirizzo">
 
     <h1>Aggiugi un nuovo indirizzo</h1>
-    <button type="button" (click)="popUpService.closePopup()" class="btn btn-dark ics">X</button>
+    <button type="button" (click)="closePopUpAddressCard()" class="btn btn-dark ics">X</button>
 
     <div class="d-flex flex-row align-items-center" >
         <div class="form-group ml-3 d-flex flex-column">
@@ -286,7 +286,7 @@
     <div class="d-flex flex-column align-items-center aggiunta" formGroupName="formCarta">
 
       <h1>Aggiungi una nuova carta</h1>
-      <button type="button" (click)="popUpService.closePopup()" class="btn btn-dark ics">X</button>
+      <button type="button" (click)="closePopUpAddressCard()" class="btn btn-dark ics">X</button>
 
 
       <div class="d-flex flex-column align-items-center">
@@ -344,7 +344,7 @@
     <div class="d-flex flex-row align-items-center">
       <div class="form-group">
         <label for="password">Nuova password:</label>
-        <input type="password" id="password" class="form-control mb-2" style="width: 15vw" [(ngModel)]="newPassword">
+        <input type="password" id="password" class="form-control mb-2" style="width: 15vw" [(ngModel)]="userService.newPassword">
         <div *ngIf="newPasswordError" class="error-message">
           {{ newPasswordError }}
         </div>
@@ -357,7 +357,7 @@
     <div class="d-flex flex-row align-items-center">
       <div class="form-group">
         <label for="confermaPassword">Conferma password:</label>
-        <input type="password" id="confermaPassword" class="form-control mb-2" style="width: 15vw" [(ngModel)]="confirmPassword">
+        <input type="password" id="confermaPassword" class="form-control mb-2" style="width: 15vw" [(ngModel)]="userService.confirmPassword">
         <div *ngIf="confirmPasswordError" class="error-message">
           {{ confirmPasswordError }}
         </div>
@@ -525,7 +525,7 @@
 
 <div class="container-fluidos regLog" *ngIf="popUpService.wichComponent === 13" [ngClass]="{'other': !popUpService.isOther}">
   <div class="form-group d-flex justify-content-between align-items-center">
-    <button (click)="back()" class="btn btn-dark custom-btn">Indietro</button>
+    <button (click)="back()" class="btn btn-dark custom-btn mr-1 mt-1">Indietro</button>
     <button (click)="popUpService.closePopup()" class="btn btn-dark ics">X</button>
   </div>
 

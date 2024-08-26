@@ -31,7 +31,7 @@
                 <span class="badge" *ngIf="notifyCount > 0">{{ notifyCount}}</span>
               </button>
 
-              <div class="notification-menu" [class.show]="menuOpen">
+              <div class="notification-menu" [class.show]="this.keyCloak.menuOpen">
                 <ng-container *ngIf="keyCloak.notifications && keyCloak.notifications.length; else noNotifications">
                   <div *ngFor="let notification of keyCloak.notifications">
                     <table class="notification-table">
@@ -78,7 +78,7 @@
             <button *ngIf="keyCloak.getIsAdmin()" class="menu-item btn btn-dark custom-btn dropdown-toggle" type="button" (click)="changePage($event,'admin-area')">
               Gestisci
             </button>
-            <div *ngIf="!keyCloak.getIsAdmin()" class="dropdown-menu" >
+            <div *ngIf="!keyCloak.getIsAdmin() && keyCloak.getLoggedStatus()" class="dropdown-menu" >
               <a class="dropdown-item" (click)="changePage($event,'personal-data')">Anagrafica</a>
               <a class="dropdown-item" (click)="changePage($event,'address-data')">Indirizzi</a>
               <a class="dropdown-item" (click)="changePage($event, 'payment-data')">Metodi di pagamento</a>

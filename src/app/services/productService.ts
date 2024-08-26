@@ -202,6 +202,8 @@ export class ProductService {
     );
   }
 
+
+
   sendProductDateToServer(productDTO: ProductDTO): Observable<any> {
     const headers = this.keycloakService.permaHeader()
     return this.http.post<any>(this.productDataURL, productDTO, { headers, responseType: 'text' as 'json' });

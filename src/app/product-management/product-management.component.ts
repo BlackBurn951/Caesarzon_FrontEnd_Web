@@ -5,6 +5,7 @@ import {FormService} from "../services/formService";
 import {KeyCloakService} from "../services/keyCloakService";
 import {ProductService} from "../services/productService";
 import {ProductDTO} from "../entities/ProductDTO";
+import {AdminService} from "../services/adminService";
 
 
 class AvailabilitiesSingle{
@@ -24,7 +25,7 @@ export class ProductManagementComponent implements OnInit{
   imageUrls: (any | null)[] = [null, null, null, null];
 
 
-  constructor(private keyCloak:KeyCloakService, public formService: FormService, private popUpService: PopupService, protected productService: ProductService) {
+  constructor(protected adminService: AdminService, private keyCloak:KeyCloakService, public formService: FormService, private popUpService: PopupService, protected productService: ProductService) {
     this.formCaesarzon = formService.getForm();
   }
 
@@ -40,6 +41,7 @@ export class ProductManagementComponent implements OnInit{
     }
 
   }
+
 
   // Metodo per aggiungere il prodotto
   aggiungiProdotto() {
@@ -131,6 +133,34 @@ export class ProductManagementComponent implements OnInit{
     } else {
       return imagesUploaded;
     }
+  }
+
+  controlloValidit(){
+
+    console.log("Stato delform");
+
+    console.log("Nome prodotto:", this.formCaesarzon.get('formDeiProdotti.nome')?.value);
+    console.log("Marca:", this.formCaesarzon.get('formDeiProdotti.marca')?.value);
+    console.log("Descrizione:", this.formCaesarzon.get('formDeiProdotti.descrizione')?.value);
+    console.log("Sconto:", this.formCaesarzon.get('formDeiProdotti.sconto')?.value);
+    console.log("Prezzo:", this.formCaesarzon.get('formDeiProdotti.prezzo')?.value);
+    console.log("Colore primario:", this.formCaesarzon.get('formDeiProdotti.coloreP')?.value);
+    console.log("Colore secondario:", this.formCaesarzon.get('formDeiProdotti.coloreS')?.value);
+    console.log("Sport:", this.formCaesarzon.get('formDeiProdotti.sport')?.value);
+    console.log("Categoria:", this.formCaesarzon.get('formDeiProdotti.categoria')?.value);
+
+    console.log("Quantità XS:", this.formCaesarzon.get('formDisponibilita.quantitaXS')?.value);
+    console.log("Quantità S:", this.formCaesarzon.get('formDisponibilita.quantitaS')?.value);
+    console.log("Quantità M:", this.formCaesarzon.get('formDisponibilita.quantitaM')?.value);
+    console.log("Quantità L:", this.formCaesarzon.get('formDisponibilita.quantitaL')?.value);
+    console.log("Quantità XL:", this.formCaesarzon.get('formDisponibilita.quantitaXL')?.value);
+
+    console.log(
+      "Form Valid:", this.formCaesarzon.get('formDeiProdotti')?.valid,
+      "Images Uploaded:", this.areImagesUploaded(),
+      "Disponibilità Aggiunta:", this.productService.disponibilitaAggiunta
+    );
+
   }
 
   //Metodo per caricare le immagini del prodotto limitanto la dimensione a 6MB

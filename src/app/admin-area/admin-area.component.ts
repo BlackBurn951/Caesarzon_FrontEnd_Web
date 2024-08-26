@@ -21,6 +21,7 @@ export class AdminAreaComponent implements OnInit{
 
   // Metodo per navigare ai dati personali dell'utente
   changePage( page: string, username: string) {
+    this.userService.username = username
     this.router.navigate([page]);
   }
 
@@ -93,9 +94,10 @@ export class AdminAreaComponent implements OnInit{
     this.popUpService.openPopups(10, true)
   }
 
-  rimuoviBan(utente: number){
-    this.popUpService.operazione = 2;
-    this.popUpService.updateStringa("Sei sicuro di voler rimuovere il ban di: " + this.adminService.usernameUtenteBannato+"?")
+  rimuoviBan(utente: string){
+    this.adminService.usernameUtenteBannato = utente
+    this.popUpService.operazione = 10;
+    this.popUpService.updateStringa("Sei sicuro di voler rimuovere il ban di: " + utente+"?")
     this.popUpService.openPopups(141, false);
   }
 

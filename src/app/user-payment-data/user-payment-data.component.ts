@@ -15,7 +15,7 @@ export class UserPaymentDataComponent implements OnInit{
   constructor(
     public popUpService: PopupService,
     protected cardService: CardsService,
-    private keyCloak: KeyCloakService
+    protected keyCloak: KeyCloakService
   ) { }
 
   ngOnInit() {

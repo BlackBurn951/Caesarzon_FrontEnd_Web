@@ -9,6 +9,9 @@ import {Observable} from "rxjs";
 import {PopupService} from "./popUpService";
 import {HttpClient} from "@angular/common/http";
 import {KeyCloakService} from "./keyCloakService";
+import {Sban} from "../entities/Sban";
+import {Card} from "../entities/Card";
+import {User} from "../entities/User";
 
 @Injectable({
   providedIn: 'root',
@@ -53,13 +56,20 @@ export class AdminService {
 
   private reportAdminURL = 'http://localhost:8090/notify-api/admin/report';
 
-  private banURL = 'http://localhost:8090/user-api/bans';
+  private banURL = 'http://localhost:8090/notify-api/bans';
+
+  private sbanUserURL = 'http://localhost:8090/user-api/sban';
 
   private supportURL = 'http://localhost:8090/notify-api/support';
 
   private getUsersUrl = 'http://localhost:8090/user-api/users';
 
   private getReviewURL = 'http://localhost:8090/product-api/review';
+
+  private manageUserDataURL = 'http://localhost:8090/user-api/user/';
+
+  private manageProfilePicURL = 'http://localhost:8090/user-api/image/';
+
 
   constructor(private sanitizer: DomSanitizer ,private userService: UserService, private popUp: PopupService, private http: HttpClient, private keycloakService: KeyCloakService) {
   }
@@ -114,7 +124,7 @@ export class AdminService {
         this.userService.loading = false
       })
     } else if (num == 3) {
-      this.getBans(0).subscribe(bans => {
+      this.getBans().subscribe(bans => {
         this.bans = bans
         this.userService.loading = false
       })
@@ -122,8 +132,70 @@ export class AdminService {
   }
 
 
+  getUserData(username: string): Observable<User> {
+    const headers = this.keycloakService.permaHeader()
+    const customURL = this.manageUserDataURL+username
+    return this.http.get<User>(customURL, { headers });
+  }
 
 
+  getUserProfilePic(username: string): Observable<Blob> {
+    const headers = this.keycloakService.permaHeader()
+    const customURL = this.manageProfilePicURL+username
+    return this.http.get(customURL, {headers, responseType: 'blob' });
+  }
+
+  adminModifyUser(username: string, email:string, firstName:string, lastName: string, phoneNumber: string) {
+    const userData: User = {
+      id : "",
+      username: username,
+      email: email,
+      firstName: firstName,
+      lastName: lastName,
+      phoneNumber: phoneNumber
+    };
+
+    this.adminModifyUserData(userData).subscribe(
+      response => {
+        this.popUp.updateStringa("Dati modificati con successo!")
+        this.popUp.openPopups(1450, true)
+        this.userService.testoButton = "Modifica dati"
+        this.userService.inputAbilitato = false
+      },
+      error => {
+        console.error('Error sending user data:', error);
+      }
+    );
+  }
+
+  adminModifyUserData(userData: User): Observable<any> {
+    const headers = this.keycloakService.permaHeader()
+    const customURL = this.manageUserDataURL+'/'+this.userService.username
+    return this.http.put<string>(customURL, userData, { headers, responseType: 'text' as 'json' });
+  }
+
+  adminDeleteUser(){
+    const headers = this.keycloakService.permaHeader()
+    const customURL = this.manageUserDataURL+'/'+this.userService.username
+
+    this.http.delete<string>(customURL, { headers , responseType: 'text' as 'json' })
+      .subscribe({
+        next: (response) => {
+          console.log('User eliminato con successo:', response);
+          this.popUp.updateStringa(response)
+          this.popUp.openPopups(10, true)
+          this.keycloakService.setLoggedStatus()
+          setTimeout(()=>{
+            window.location.reload()
+          }, 2000);
+
+
+        },
+        error: (error) => {
+          console.error('Errore durante l\'eliminazione dell\'account', error);
+        }
+      });
+  }
 
 
   deleteReview(reviewId: string, accept: boolean){
@@ -261,10 +333,17 @@ export class AdminService {
     return this.http.get<Supports[]>(customUrl, { headers });
   }
 
-  getBans(num: number){
-    const customUrl = this.supportURL+"?str="+num
+  getBans(){
     const headers = this.keycloakService.permaHeader()
-    return this.http.get<Bans[]>(customUrl, { headers });
+    return this.http.get<Bans[]>(this.banURL, { headers });
+  }
+
+  rimuoviBan(){
+    const headers = this.keycloakService.permaHeader()
+    const sbanDTO : Sban = {
+      username : this.usernameUtenteBannato
+    }
+    return this.http.put<string>(this.sbanUserURL, sbanDTO, { headers , responseType: 'text' as 'json'});
   }
 
 

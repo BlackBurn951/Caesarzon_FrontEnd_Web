@@ -11,6 +11,8 @@ import {PayPal} from "../entities/PayPal";
 import {AddressService} from "./addressService";
 import {CardsService} from "./cardsService";
 import {ChangeCart} from "../entities/ChangeCart";
+import {Observable} from "rxjs";
+import {Address} from "../entities/Address";
 
 @Injectable({
   providedIn: 'root'
@@ -165,12 +167,20 @@ export class CartService {
 
   }
 
+  confermaSvuotoCarrello(){
+    this.popUp.operazione = 9
+    this.popUp.updateStringa("Sei sicuro di voler svuotare il carrello?")
+    this.popUp.openPopups(132, false)
+  }
+
   svuotaCarrello(){
     const headers = this.keyCloakService.permaHeader();
     return this.http.delete<string>(this.getCartURL, { headers, responseType: 'text' as 'json' }).subscribe(response => {
       if (response === "Carello svuotato con successo!") {
         this.productInCart = []
         this.productLater = []
+        this.popUp.updateStringa(response)
+        this.popUp.openPopups(123, true)
         console.log(response)
       }else{
         console.log(response)
@@ -258,6 +268,12 @@ export class CartService {
       productsIds: this.productIds,
       total: diff
     };
+
+    this.addressService.getAddress(this.addressId).subscribe( response =>{
+      this.addressService.indirizzoCorrente = response
+    })
+
+
 
     sessionStorage.setItem('buy', JSON.stringify(this.buy));
 

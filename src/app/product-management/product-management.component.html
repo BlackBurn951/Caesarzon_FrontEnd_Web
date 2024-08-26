@@ -149,6 +149,7 @@
 
         <div class="col-md d-flex flex-column align-items-center">
           <label>Assicurati di aver caricato tutte le immagini</label>
+          <button (click)="controlloValidit()">Controllavalidita</button>
           <button type="submit" class="menu-item btn btn-dark custom-btn bottoneA" [disabled]="!formCaesarzon.get('formDeiProdotti')?.valid || !areImagesUploaded() || !productService.disponibilitaAggiunta">Aggiungi prodotto</button>
         </div>
       </div>

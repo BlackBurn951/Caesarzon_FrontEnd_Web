@@ -25,7 +25,7 @@
                     <button type="button" class="btn btn-dark custom-btn mr-5" (click)="this.popUp.openPopups(6, true)">Aggiungi nuovo indirizzo</button>
                   </div>
 
-                  <div *ngIf="addressService.addresses.length > 0 " class="mb-3">
+                  <div *ngIf="addressService.addresses && addressService.addresses.length > 0 " class="mb-3">
                     <div class="row">
                       <div class="col-lg-4 col-sm-6" *ngFor="let address of addressService.addresses; let i = index">
                         <div  class="card-radio-label mb-0">
@@ -65,7 +65,7 @@
                   <button type="button" class="btn btn-dark custom-btn mb-5" (click)="this.popUp.openPopups(7, true)">Aggiungi nuova carta</button>
                 </div>
 
-                <div *ngIf="cardService.cards.length != 0" class="row">
+                <div *ngIf="cardService.cards && cardService.cards.length > 0" class="row">
                   <div class="col-lg-4 col-sm-6" *ngFor="let card of cardService.cards; let i = index">
                     <div class="card-radio-label mb-0">
                       <label class="card-radio text-truncate p-3">

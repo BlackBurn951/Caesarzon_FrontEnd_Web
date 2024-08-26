@@ -99,9 +99,9 @@
         </div>
 
         <div class="form-group formoss">
-          <label for="passwordR">Conferma password:</label>
+          <label for="passwordCR">Conferma password:</label>
           <div class="password-input-container">
-            <input type="password" class="form-control inputRA" id="passwordCR" minlength="8" maxlength="20" (input)="comparaPassword()">
+            <input type="password" class="form-control inputRA" id="passwordCR" minlength="8" formControlName="confermaPassword" maxlength="20" (input)="comparaPassword()">
 
           </div>
           <div *ngIf="passwordDifferenti" class="error-message">

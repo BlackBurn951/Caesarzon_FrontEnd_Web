@@ -27,6 +27,7 @@ export class KeyCloakService {
   private username: string = ""
   private isAdmin: boolean = false;
   private isLogged: boolean = false;
+  menuOpen = false;
 
   notifications: Notifications[] = [];
 
@@ -71,7 +72,7 @@ export class KeyCloakService {
       (response:any) => {
         this.username = username
         this.setTokens(response.access_token, response.refresh_token);
-        if(username != "testman5"){
+        if(username != "Guest"){
           this.isLogged = true;
           this.setLogin();
           this.popUp.closePopup()
@@ -156,6 +157,7 @@ export class KeyCloakService {
 
 
   toggleLogin(){
+
     const logout: Logout ={
       logout: true
     }
@@ -172,7 +174,7 @@ export class KeyCloakService {
           localStorage.removeItem('refresh_token');
           localStorage.removeItem('isLogged');
           localStorage.removeItem('isAdmin');
-          this.login("testman5","CiaoCiao!3");
+          this.login("Guest","Mascalzone1");
           this.router.navigate(['']);
 
         }else{
@@ -249,7 +251,10 @@ export class KeyCloakService {
       } else {
         console.warn("No roles found in resource_access['caesar-app'].");
       }
-      this.isAdmin = roles.includes('admin');
+
+      if(roles.includes('admin')){
+        this.isAdmin = true;
+      }
 
     } catch (error) {
       this.isAdmin = false;
@@ -274,7 +279,7 @@ export class KeyCloakService {
   // Metodo per marcare come lette le notifiche
   markRead(): Observable<any> {
     const headers = this.permaHeader();
-    if (this.notifications.length > 0) {
+    if (this.notifications && this.notifications.length > 0) {
       const notificationsToSend = this.notifications.map(({ showDescription, ...rest }) => rest);
       let url = ""
       if(this.isAdmin){

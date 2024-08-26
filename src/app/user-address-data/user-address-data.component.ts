@@ -16,7 +16,7 @@ export class UserAddressDataComponent implements OnInit{
   constructor(
     public popUpService: PopupService,
     protected addressService: AddressService,
-    private keyCloak: KeyCloakService
+    protected keyCloak: KeyCloakService
   ) { }
 
   ngOnInit() {

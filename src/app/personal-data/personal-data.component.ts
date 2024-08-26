@@ -12,6 +12,7 @@ import {DomSanitizer, SafeUrl} from "@angular/platform-browser";
 import {Observable} from "rxjs";
 import {HttpClient} from "@angular/common/http";
 import {ActivatedRoute} from "@angular/router";
+import {AdminService} from "../services/adminService";
 
 @Component({
   selector: 'app-personal-data',
@@ -45,7 +46,7 @@ export class PersonalDataComponent implements OnInit{
   paypalURL: string = 'http://localhost:8090/product-api/success'
 
 
-  constructor(private route: ActivatedRoute, private http: HttpClient, private sanitizer: DomSanitizer, protected formService: FormService, protected userService: UserService, protected popUpService: PopupService, private keycloakService: KeyCloakService) {
+  constructor(private adminService: AdminService, private sanitizer: DomSanitizer, protected formService: FormService, protected userService: UserService, protected popUpService: PopupService, protected keycloakService: KeyCloakService) {
     this.formCaesarzon = formService.getForm()
   }
 
@@ -57,40 +58,75 @@ export class PersonalDataComponent implements OnInit{
     this.username = ''
   }
 
+  eliminaProfiloUtente(){
+    this.popUpService.operazione = 11
+    this.popUpService.updateStringa("Sei sicuro di voler eliminare l'account dell'utente: " + this.userService.username)
+    this.popUpService.openPopups(140, false)
+  }
 
 
   //All'inizializzazione della pagina vengono caricati tutti i dati relativi all'utente
   ngOnInit(): void {
     this.resetVaraibles()
-    this.userService.getUserData().subscribe(
-      (userData: User) => {
-        this.formCaesarzon.get('formDatipersonali.nome')?.setValue(userData.firstName);
-        this.formCaesarzon.get('formDatipersonali.cognome')?.setValue(userData.lastName);
-        this.formCaesarzon.get('formDatipersonali.email')?.setValue(userData.email);
-        this.formCaesarzon.get('formDatipersonali.username')?.setValue(userData.username);
-        this.formCaesarzon.get('formDatipersonali.cellulare')?.setValue(userData.phoneNumber);
+    if(this.keycloakService.getIsAdmin()){
+      this.adminService.getUserData(this.userService.username).subscribe(
+        (userData: User) => {
+          this.formCaesarzon.get('formDatipersonali.nome')?.setValue(userData.firstName);
+          this.formCaesarzon.get('formDatipersonali.cognome')?.setValue(userData.lastName);
+          this.formCaesarzon.get('formDatipersonali.email')?.setValue(userData.email);
+          this.formCaesarzon.get('formDatipersonali.username')?.setValue(userData.username);
+          this.formCaesarzon.get('formDatipersonali.cellulare')?.setValue(userData.phoneNumber);
 
-      },
-      error => {
-        console.error('Error fetching user data:', error);
-      }
-    );
+        },
+        error => {
+          console.error('Error fetching user data:', error);
+        }
+      );
+    }else{
+      this.userService.getUserData().subscribe(
+        (userData: User) => {
+          this.formCaesarzon.get('formDatipersonali.nome')?.setValue(userData.firstName);
+          this.formCaesarzon.get('formDatipersonali.cognome')?.setValue(userData.lastName);
+          this.formCaesarzon.get('formDatipersonali.email')?.setValue(userData.email);
+          this.formCaesarzon.get('formDatipersonali.username')?.setValue(userData.username);
+          this.formCaesarzon.get('formDatipersonali.cellulare')?.setValue(userData.phoneNumber);
+
+        },
+        error => {
+          console.error('Error fetching user data:', error);
+        }
+      );
+    }
     this.loadImage()
+
 
 
   }
 
   //Metodo per caricare l'immagine di profilo dal DB
   loadImage(): void {
-    this.userService.getUserProfilePic().subscribe(
-      response => {
-        const url = URL.createObjectURL(response);
-        this.imageUrl = this.sanitizer.bypassSecurityTrustUrl(url);
-      },
-      error => {
-        console.error('Errore nel caricamento dell\'immagine', error);
-      }
-    );
+    if(this.keycloakService.getIsAdmin()){
+      this.adminService.getUserProfilePic(this.userService.username).subscribe(
+        response => {
+          const url = URL.createObjectURL(response);
+          this.imageUrl = this.sanitizer.bypassSecurityTrustUrl(url);
+        },
+        error => {
+          console.error('Errore nel caricamento dell\'immagine', error);
+        }
+      );
+    }else{
+      this.userService.getUserProfilePic().subscribe(
+        response => {
+          const url = URL.createObjectURL(response);
+          this.imageUrl = this.sanitizer.bypassSecurityTrustUrl(url);
+        },
+        error => {
+          console.error('Errore nel caricamento dell\'immagine', error);
+        }
+      );
+    }
+
   }
 
 
@@ -196,7 +232,12 @@ export class PersonalDataComponent implements OnInit{
   //Metodo per mandare le modifiche apportate ai dati dell'utente
   mandaModifiche(){
     this.setValuess()
-    this.userService.modifyUser(this.username, this.email, this.nome, this.cognome, this.numero)
+    if(this.keycloakService.getIsAdmin()){
+      this.adminService.adminModifyUser(this.username, this.email, this.nome, this.cognome, this.numero)
+    }else{
+      this.userService.modifyUser(this.username, this.email, this.nome, this.cognome, this.numero)
+
+    }
   }
 
   //Metodo per verificare la validità del numero di cellulare che si sta cercando di aggiungere

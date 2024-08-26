@@ -22,7 +22,7 @@ import {KeyCloakService} from "../services/keyCloakService";
 })
 export class UserManagementContainerComponent implements OnInit{
 
-  constructor(private keyCloak: KeyCloakService, private router:Router, public popUpService: PopupService, protected addressService: AddressService, private cardsService: CardsService, protected userService: UserService) {
+  constructor(protected keyCloak: KeyCloakService, private router:Router, public popUpService: PopupService, protected addressService: AddressService, private cardsService: CardsService, protected userService: UserService) {
 
   }
 
@@ -36,6 +36,11 @@ export class UserManagementContainerComponent implements OnInit{
 
   openOrderSummary() {
     this.router.navigate(['order-summary']);
+  }
+
+  changePage(event: MouseEvent,page:string) {
+    event.preventDefault()
+    this.router.navigate([page]);
   }
 
   openPaymentData() {

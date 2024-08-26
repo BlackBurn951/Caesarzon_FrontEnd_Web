@@ -23,7 +23,7 @@ import {CardsService} from "../services/cardsService";
 })
 export class OrderSummaryComponent implements OnInit{
 
-  constructor(protected orderService:OrderService, protected productService:ProductService, protected wishListService: WishListService, protected popUpService: PopupService) {
+  constructor(private keyCloak: KeyCloakService, protected orderService:OrderService, protected productService:ProductService, protected popUpService: PopupService) {
 
   }
 
@@ -39,8 +39,13 @@ export class OrderSummaryComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    this.orderService.getOrders()
+    if(!this.keyCloak.getIsAdmin()){
+      this.orderService.getOrders()
+    }else{
+      this.orderService.getOrdersByAdmin()
+    }
   }
+
 
   getRoundedTotal(total: number,discount: number): number{
     const tot = total - discount;

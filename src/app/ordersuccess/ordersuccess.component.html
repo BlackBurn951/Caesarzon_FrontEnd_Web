@@ -6,16 +6,32 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pagina prodotto</title>
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-
 </head>
 
 <body>
-  <div *ngIf="cartService.ordineInviato">
-    <h5>ORDINE EFFETTUATO CORRETTAMENTE</h5>
+<div class="container mt-5">
+  <div class="text-center">
+    <!-- Messaggio di conferma ordine -->
+    <div *ngIf="cartService.ordineInviato" class="alert alert-success" role="alert">
+      <h5 class="alert-heading">ORDINE EFFETTUATO CORRETTAMENTE</h5>
+      <p>Il Tuo ordine verrà consegnato all'indirizzo <strong>{{this.addressService.indirizzoCorrente}}</strong> il giorno <strong>GIORNO</strong>.</p>
+      <hr>
+      <a href="#" class="btn btn-dark custom-btn mt-3" (click)="changePage('', $event)">Continua ad acquistare</a>
+    </div>
+
+    <!-- Messaggio di errore -->
+    <div *ngIf="!cartService.ordineInviato" class="alert alert-danger" role="alert">
+      <h5 class="alert-heading">PROBLEMI NELL'INVIO DELL'ORDINE</h5>
+      <p>Si prega di riprovare più tardi.</p>
+      <hr>
+      <a href="#" class="btn btn-dark custom-btn mt-3" (click)="changePage('', $event)">Continua ad acquistare</a>
+    </div>
   </div>
-  <div *ngIf="!cartService.ordineInviato">
-    <h5>PROBLEMI NELL INVIO DELL'ORDINE</h5>
-  </div>
+</div>
 </body>
+
+<footer>
+  <app-footer></app-footer>
+</footer>
 
 </html>

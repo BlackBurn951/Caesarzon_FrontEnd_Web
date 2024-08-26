@@ -23,7 +23,7 @@ export class AddressService implements OnInit{
 
   addressesName: string[] = [];
 
-  addresses!: Address[];
+  addresses: Address[] = [];
 
   addressMap: { [key: string]: string } = {};
 
@@ -57,6 +57,7 @@ export class AddressService implements OnInit{
 
   getAddressesNamePayment() {
     const headers = this.keycloakService.permaHeader();
+
     this.http.get<string[]>(this.getAddressNamesURL, { headers }).subscribe({
       next: (response) => {
         console.log("Address id: " + response);
@@ -86,8 +87,15 @@ export class AddressService implements OnInit{
   //Metodo per prende la lista degli indirizzi dell'utente
   getAddressesName() {
     const headers = this.keycloakService.permaHeader();
+    let urlWithParams = ''
+    if (this.keycloakService.getIsAdmin()) {
+      urlWithParams = this.getAddressNamesURL+'/'+this.userService.username
+    }else{
+      urlWithParams = this.getAddressNamesURL
+    }
 
-    this.http.get<string[]>(this.getAddressNamesURL, { headers }).subscribe({
+
+    this.http.get<string[]>(urlWithParams, { headers }).subscribe({
       next: (response) => {
         this.addressesName = response;
         this.generateAddressMap();
@@ -134,7 +142,6 @@ export class AddressService implements OnInit{
   //Metodo per eliminare l'indirizzo attualmente selezionato
   deleteAddress(){
     const urlWithParams = `${this.manageAddressURL}?address_id=${this.nomeIndirizzo}`;
-
     const headers = this.keycloakService.permaHeader()
 
     this.http.delete<string>(urlWithParams, { headers , responseType: 'text' as 'json' })
@@ -204,13 +211,20 @@ export class AddressService implements OnInit{
 
   sendAddressData(addressData: Address): Observable<string> {
     const headers = this.keycloakService.permaHeader()
-    return this.http.post(this.manageAddressURL, addressData, { headers, responseType: 'text' }) as Observable<string>;
+    if (this.keycloakService.getIsAdmin()) {
+    const customURL = this.manageAddressURL + '/' + this.userService.username
+    return this.http.post(customURL, addressData, {headers, responseType: 'text'}) as Observable<string>;
+    }
+    else{
+      return this.http.post(this.manageAddressURL, addressData, { headers, responseType: 'text' }) as Observable<string>;
+    }
+
   }
 
   //Metodo per pulire i campi
   clearFields(){
-    const formCarta = this.formCaesarzon.get('formIndirizzo') as FormGroup;
-    formCarta.patchValue({
+    const formIndirizzo = this.formCaesarzon.get('formIndirizzo') as FormGroup;
+    formIndirizzo.patchValue({
       id: '',
       tipologiaStrada: '',
       nomeStrada: '',
@@ -221,6 +235,8 @@ export class AddressService implements OnInit{
       regione: '',
 
     });
+    this.formService.resetFormErrors(formIndirizzo)
+
   }
 
 

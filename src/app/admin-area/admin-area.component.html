@@ -40,11 +40,8 @@
                 <button class="btn-dark custom-btn effe" (click)="changePage('personal-data', item.username)">
                   <i class="fas fa-user iconsearch"></i>
                 </button>
-                <button class="btn-dark custom-btn effe ml-2" (click)="changePage('da-fare', item.username)">
+                <button class="btn-dark custom-btn effe ml-2" (click)="changePage('order-summary', item.username)">
                   <i class="fas fa-shopping-cart iconsearch"></i>
-                </button>
-                <button class="btn-dark custom-btn effe ml-2" (click)="changePage('wish-list', item.username)">
-                  <i class="fas fa-heart iconsearch"></i>
                 </button>
                 <button class="btn-dark custom-btn effe ml-2" (click)="changePage('address-data', item.username)">
                   <i class="fas fa-map-marker-alt iconsearch"></i>
@@ -160,6 +157,7 @@
         <tr>
           <th class="text-center align-middle">Data ban</th>
           <th class="text-center align-middle">Utente bannato</th>
+          <th class="text-center align-middle">Operatore</th>
           <th class="text-center align-middle">Motivazione</th>
           <th class="text-center align-middle">Azioni</th>
         </tr>
@@ -167,22 +165,17 @@
         <tbody>
         <ng-container *ngFor="let item of adminService.bans; let i = index">
           <tr>
-            <td class="text-center align-middle">{{ item.data}}</td>
-            <td class="text-center align-middle">{{ item.username }}</td>
-            <td class="text-center align-middle">{{ item.motivo }}</td>
+            <td class="text-center align-middle">{{ item.startDate}}</td>
+            <td class="text-center align-middle">{{ item.userUsername }}</td>
+            <td class="text-center align-middle">{{ item.adminUsername }}</td>
+            <td class="text-center align-middle">{{ item.reason }}</td>
             <td class="text-center align-middle">
               <div class="d-flex flex-row align-items-center justify-content-center">
-                <button class="btn-dark custom-btn effes" (click)="rimuoviBan(i)">
+                <button class="btn-dark custom-btn effes" (click)="rimuoviBan(item.userUsername)">
                   <p class="fas fa-ban icon-small"> Rimuovi ban</p>
-                </button>
-                <button class="btn-dark custom-btn effes ml-2" (click)="toggleCollapse(i)">
-                  <p class="fas fa-arrow-down icon-small mt-0"> Descrizione</p>
                 </button>
               </div>
             </td>
-          </tr>
-          <tr *ngIf="isCollapsed[i]">
-            <td class="text-center align-middle" colspan="4">{{ item.descrizioneban }}</td>
           </tr>
         </ng-container>
         </tbody>

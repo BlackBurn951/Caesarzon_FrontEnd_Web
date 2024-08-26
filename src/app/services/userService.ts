@@ -21,6 +21,9 @@ export class UserService {
 
   codice: string[] = ['', '', '', '', ''];
 
+  newPassword: string = '';
+  confirmPassword: string = '';
+
   lunghezzaCodice!:boolean;
 
   username: string = "";
@@ -39,7 +42,7 @@ export class UserService {
 
   private manageProfilePicURL = 'http://localhost:8090/user-api/image';
 
-  private otpURL = 'http://localhost:8090/user-api/otp';
+  private otpURL = 'http://localhost:8090/user-api/otp/';
 
   private reviewURL = 'http://localhost:8090/notify-api/review';
 
@@ -114,7 +117,7 @@ export class UserService {
       });
   }
 
-  recoveryPass: number = 1
+  recoveryPass: boolean = false
 
   sendPasswordChange(passwordChange: PasswordChange): Observable<any> {
     const headers = this.keycloakService.permaHeader()
@@ -189,7 +192,7 @@ export class UserService {
 
   passwordDimenticata(passwordChange: PasswordChange){
     const headers = this.keycloakService.permaHeader()
-    const customUrl = this.managePasswordURL+"?recovery=0"
+    const customUrl = this.managePasswordURL+"?recovery=true"
     return this.http.put<string>(customUrl, passwordChange, { headers, responseType: 'text' as 'json' });
   }
 
@@ -197,14 +200,14 @@ export class UserService {
   sendOTP(){
     const headers = this.keycloakService.permaHeader()
     let codiceCompleto = this.codice[0]+this.codice[1]+this.codice[2]+this.codice[3]+this.codice[4];
-    const customUrl = this.otpURL
+    const customUrl = this.otpURL+codiceCompleto
     const otp: OtpDTO = {
       username: this.username,
-      otp: codiceCompleto
+      password: this.newPassword
     };
     return this.http.put<string>(customUrl, otp,{ headers, responseType: 'text' as 'json' }).subscribe(response => {
       if(response === "Otp valido!"){
-        this.recoveryPass = 2
+        this.recoveryPass = false
         this.popUp.openPopups(8, false)
         this.codice =  ['', '', '', '', ''];
 
@@ -224,13 +227,11 @@ export class UserService {
       this.popUp.openPopups(104, true);
     }else{
       this.loading = true
-      console.log("USERNAME: " + this.username)
       const passwordChange: PasswordChange = {
         username: this.username,
         password: ""
       };
       this.passwordDimenticata(passwordChange).subscribe(response => {
-        console.log("RISPOSTA: " + response)
         if(response === "Problemi nell'invio dell'otp..."){
           this.loading = false
           this.popUp.updateStringa(response)

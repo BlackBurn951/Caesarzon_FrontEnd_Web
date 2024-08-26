@@ -41,7 +41,6 @@ export class HeaderComponent implements OnDestroy, OnInit{
 
   isMenuOpen = false;
 
-  menuOpen = false;
 
   notifyCount = 0;
   private notifyCountSubscription!: Subscription;
@@ -81,7 +80,7 @@ export class HeaderComponent implements OnDestroy, OnInit{
       this.adminService.getSupports(0)
       this.goToAdminArea(event, page, numResult)
     }else if(num === 3){
-      this.adminService.getBans(0)
+      this.adminService.getBans()
       this.goToAdminArea(event, page, numResult)
     }
   }
@@ -94,7 +93,7 @@ export class HeaderComponent implements OnDestroy, OnInit{
 
   toggleMenus(): void {
     this.keyCloak.markRead().subscribe();
-    this.menuOpen = !this.menuOpen;
+    this.keyCloak.menuOpen = !this.keyCloak.menuOpen;
   }
 
   removeNotification(notification: Notifications): void {
