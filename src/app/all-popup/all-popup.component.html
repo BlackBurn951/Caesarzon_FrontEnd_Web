@@ -35,9 +35,10 @@
              [ngClass]="{'highlighted': highlightedRow === i}"
              (mouseenter)="highlightedRow = i"
              (mouseleave)="highlightedRow = -1">
-          <img class="mr-2" [src]="user.safeImageUrl" alt="Foto">
-          <label class="flex-grow-1" (click)="this.apriListe(user.username)">{{ user.username }}</label>
-          <button *ngIf="!isUserInFollow(user)" class="btn btn-dark custom-btn mr-1" (click)="this.friendFollow.addFollowersOrFriends(i, true)">
+          <img class="preview ml-1 mr-1" [src]="user.safeImageUrl" alt="" width="35px" height="35px">
+
+          <label class="flex-grow-1 useeeer mr-1" (click)="this.apriListe(user.username)">{{ user.username }}</label>
+          <button *ngIf="!isUserInFollow(user)" class="btn btn-dark custom-btn mr-1 mt-1 mb-1" (click)="this.friendFollow.addFollowersOrFriends(i, true)">
             <i class="fas fa-user-plus"></i>
           </button>
         </div>
@@ -50,13 +51,14 @@
              [ngClass]="{'highlighted': highlightedRow === i}"
              (mouseenter)="highlightedRow = i"
              (mouseleave)="highlightedRow = -1">
-          <img class="mr-2" [src]="user.safeImageUrl" alt="Foto">
-          <label (click)="this.apriListe(user.username)">{{ user.username }}</label>
+          <img class="preview mr-1 ml-1" [src]="user.safeImageUrl" alt="" width="35px" height="35px">
+
+          <label class="useeeer mr-1" (click)="this.apriListe(user.username)">{{ user.username }}</label>
           <div>
-            <button *ngIf="!isUserInFriend(user)" class="btn btn-dark custom-btn ml-1 mt-1 mb-1" (click)="this.friendFollow.addFollowersOrFriends(i, false)">
+            <button *ngIf="!isUserInFriend(user)" class="btn btn-dark custom-btn ml-1 " (click)="this.friendFollow.addFollowersOrFriends(i, false)">
               <i class="fas fa-heart"></i>
             </button>
-            <button class="btn btn-danger buut mr-1 ml-1 mt-1 mb-1 mr-1" (click)="this.friendFollow.deleteFollowers(user.username)">
+            <button class="btn btn-danger buut ml-1 mt-1 mb-1 mr-1" (click)="this.friendFollow.deleteFollowers(user.username)">
               <i class="fas fa-user-minus"></i>
             </button>
           </div>
@@ -70,8 +72,9 @@
              [ngClass]="{'highlighted': highlightedRow === i}"
              (mouseenter)="highlightedRow = i"
              (mouseleave)="highlightedRow = -1">
-          <img class="mr-2" [src]="user.safeImageUrl" alt="Foto">
-          <label (click)="this.apriListe(user.username)">{{ user.username }}</label>
+          <img class="preview ml-1 mr-1" [src]="user.safeImageUrl" alt="" width="35px" height="35px">
+
+          <label class="useeeer mr-1" (click)="this.apriListe(user.username)">{{ user.username }}</label>
           <button class="btn btn-danger buut mr-1 mt-1 mb-1 ml-1" (click)="this.friendFollow.deleteFriends(i)">
             <i class="fas fa-user-minus"></i>
           </button>

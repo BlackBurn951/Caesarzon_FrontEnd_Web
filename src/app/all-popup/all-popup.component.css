@@ -9,6 +9,8 @@
   position: absolute;
 
 }
+
+
 .err{
   font-weight: normal;
 }
@@ -80,12 +82,15 @@ html{
 
 .table-cell {
   border: 1px solid black;
-  border-radius: 1.5vh;
+  border-radius: 0.5vh;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
+.useeeer{
+  cursor: pointer;
+}
 
 
 .barraRicerca{

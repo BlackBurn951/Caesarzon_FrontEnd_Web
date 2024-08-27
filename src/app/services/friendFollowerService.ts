@@ -3,8 +3,11 @@ import { HttpClient } from '@angular/common/http';
 import { KeyCloakService } from "./keyCloakService";
 import {PopupService} from "./popUpService";
 import {UserSearch} from "../entities/UserSearch";
+
+import {DomSanitizer, SafeUrl} from "@angular/platform-browser";
 import {User} from "../entities/User";
-import {OtpDTO} from "../entities/OtpDTO";
+import {UserService} from "./userService";
+import {AdminService} from "./adminService";
 
 @Injectable({
   providedIn: 'root'
@@ -31,37 +34,94 @@ export class FriendFollowerService {
   usersFriendFollowBuffer : UserSearch[] =[]
 
 
+  imageUrl!: SafeUrl | null
 
-
-  constructor(private popUp: PopupService, private http: HttpClient, private keyCloakService: KeyCloakService) {
+  constructor(private adminService: AdminService, private userService: UserService, private sanitizer: DomSanitizer, private popUp: PopupService, private http: HttpClient, private keyCloakService: KeyCloakService) {
     this.users = [];
     this.usersFollow = [];
     this.usersFriend = [];
     this.usersFriendFollowBuffer = []
   }
 
-  takeFirst20User(){
+  takeFirst20User() {
     const headers = this.keyCloakService.permaHeader();
 
-    const customUrl = this.usersURL+0
-    this.http.get<UserSearch[]>(customUrl,  { headers}).subscribe(response => {
-      this.users = response
-    })
+    const customUrl = this.usersURL + 0;
+    this.http.get<UserSearch[]>(customUrl, { headers }).subscribe(response => {
+      if (response) { // Controlla se la risposta non è null o undefined
+          this.users = response
+          this.users.forEach(user =>{
+            this.adminService.getUserProfilePic(user.username).subscribe(
+              response => {
+                const url = URL.createObjectURL(response);
+                user.safeImageUrl = this.sanitizer.bypassSecurityTrustUrl(url);
+                console.log("IMMAGINE CONVERTITA E FUNZIONANTE AIDIFRATELLO: " + this.imageUrl)
 
-    const customUrl1 = this.followsFriendsURL+0+"&friend=false"
-    this.http.get<UserSearch[]>(customUrl1,  { headers }).subscribe(response => {
-      this.usersFollow = response
-    })
+              },
+              error => {
+                console.error('Errore nel caricamento dell\'immagine', error);
+              }
+            );
+        })
 
-    const customUrl2 = this.followsFriendsURL+0+"&friend=true"
-    this.http.get<UserSearch[]>(customUrl2,  { headers }).subscribe(response => {
-      this.usersFriend = response
-    })
+      } else {
+        console.error('La risposta per gli utenti è null o undefined');
+        this.users = []; // Imposta un array vuoto o gestisci l'errore come necessario
+      }
+    });
 
-    this.popUp.openPopups(0, true)
+    const customUrl1 = this.followsFriendsURL + 0 + "&friend=false";
+    this.http.get<UserSearch[]>(customUrl1, { headers }).subscribe(response => {
+      if (response) {
+        this.usersFollow = response
+        this.usersFollow.forEach(user =>{
+          this.adminService.getUserProfilePic(user.username).subscribe(
+            response => {
+              const url = URL.createObjectURL(response);
+              user.safeImageUrl = this.sanitizer.bypassSecurityTrustUrl(url);
+              console.log("IMMAGINE CONVERTITA E FUNZIONANTE AIDIFRATELLO: " + this.imageUrl)
+
+            },
+            error => {
+              console.error('Errore nel caricamento dell\'immagine', error);
+            }
+          );
+        })
+      } else {
+        console.error('La risposta per usersFollow è null o undefined');
+        this.usersFollow = [];
+      }
+    });
+
+    const customUrl2 = this.followsFriendsURL + 0 + "&friend=true";
+    this.http.get<UserSearch[]>(customUrl2, { headers }).subscribe(response => {
+      if (response) {
+        this.usersFriend = response
+        this.usersFriend.forEach(user =>{
+          this.adminService.getUserProfilePic(user.username).subscribe(
+            response => {
+              const url = URL.createObjectURL(response);
+              user.safeImageUrl = this.sanitizer.bypassSecurityTrustUrl(url);
+              console.log("IMMAGINE CONVERTITA E FUNZIONANTE AIDIFRATELLO: " + this.imageUrl)
+
+            },
+            error => {
+              console.error('Errore nel caricamento dell\'immagine', error);
+            }
+          );
+        })
+      } else {
+        console.error('La risposta per usersFriend è null o undefined');
+        this.usersFriend = [];
+      }
+    });
+
+    this.popUp.openPopups(0, true);
 
 
   }
+
+
 
 
 

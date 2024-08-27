@@ -2,13 +2,14 @@ import {Injectable} from '@angular/core';
 import {PopupService} from "./popUpService";
 import {ProductSearch} from "../entities/ProductSearch";
 import {KeyCloakService} from "./keyCloakService";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Router} from "@angular/router";
 import {ProductDTO} from "../entities/ProductDTO";
 import {ProductReview} from "../entities/ProductReview";
 import {Observable} from "rxjs";
 import {FormGroup} from "@angular/forms";
 import {FormService} from "./formService";
+import {DomSanitizer, SafeUrl} from "@angular/platform-browser";
 
 
 @Injectable({
@@ -29,6 +30,9 @@ export class ProductService {
 
   urlOffer: string = 'http://localhost:8090/product-api/product/offer';
 
+  manageImageProductURL = 'http://localhost:8090/product-api/image';
+
+  inModifica : boolean = false
 
   protected formCaesarzon!: FormGroup;
 
@@ -60,11 +64,14 @@ export class ProductService {
   crescente : boolean = false;
   decrescente: boolean = false;
 
+  selectedFile: File | null = null;
+
+  imageUrl: SafeUrl | undefined;
 
   valutazioneRecensione: number = 1
   descrizioneRecensione: string = ""
 
-  constructor(private formService: FormService, private router: Router, private http: HttpClient, private popUpService:PopupService, private keycloakService: KeyCloakService) {
+  constructor( private sanitizer: DomSanitizer, private formService: FormService, private router: Router, private http: HttpClient, private popUpService:PopupService, private keycloakService: KeyCloakService) {
     this.formCaesarzon = formService.getForm();
 
   }
@@ -83,6 +90,17 @@ export class ProductService {
       }
     })
 
+  }
+
+  uploadImage(file: File): Observable<any> {
+    const formData = new FormData();
+    formData.append('file', file, file.name);
+
+    const headers = new HttpHeaders({
+      'Authorization': 'Bearer ' + this.keycloakService.getAccessToken()
+    });
+
+    return this.http.put(this.manageImageProductURL, formData, { headers, responseType: 'text'});
   }
 
   addReview(){
@@ -184,6 +202,8 @@ export class ProductService {
                 this.scoreRecensioni= response
               }
             })
+
+            this.loadImage()
             this.router.navigate(['product-page']);
           },
           error: (error: any) => {
@@ -196,6 +216,24 @@ export class ProductService {
     });
 
   }
+  getProductImage(productId: string): Observable<Blob> {
+    const headers = this.keycloakService.permaHeader()
+    const customURL = this.manageImageProductURL+'/'+productId
+    return this.http.get(customURL, {headers, responseType: 'blob' });
+  }
+
+  loadImage(){
+    this.getProductImage(this.prodotto.id).subscribe(
+      response => {
+        const url = URL.createObjectURL(response);
+        this.imageUrl = this.sanitizer.bypassSecurityTrustUrl(url);
+
+      },
+      error => {
+        console.error('Errore nel caricamento dell\'immagine', error);
+      }
+    );
+  }
 
 
 
@@ -203,12 +241,24 @@ export class ProductService {
     this.sendProductDateToServer(productDTO).subscribe(
       response => {
         if(response === "Product aggiunto")
-          this.popUpService.updateStringa("Prodotto agggiunto con successo!")
-          this.popUpService.openPopups(103, true)
-          setTimeout(() => {
-            this.popUpService.closePopup()
-          }, 3000);
-          this.resetFields()
+          if(this.selectedFile)
+          this.uploadImage(this.selectedFile).subscribe(response =>{
+            if(response === "Immagine caricata con successo!"){
+              this.popUpService.updateStringa("Prodotto aggiunto con successo!")
+              this.popUpService.openPopups(103, true)
+              setTimeout(() => {
+                this.popUpService.closePopup()
+              }, 3000);
+              this.resetFields()
+            }
+          },
+            error => {
+              this.popUpService.updateStringa("Problemi nell'aggiunta del prodotto.")
+              this.popUpService.openPopups(1034, true)
+              this.resetFields()
+              console.error('Error sending product data:', error);
+            }
+            )
       },
       error => {
         this.popUpService.updateStringa("Problemi nell'aggiunta del prodotto.")

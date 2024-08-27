@@ -22,7 +22,7 @@
       </button>
       <div class="container-fluid collection ml-5">
         <div class="product" *ngFor="let item of productService.newProducts.slice(indexNovita, indexNovita + 3)">
-          <a class="product__image"  (click)="productService.prendiDatiProdotto(item.productId)"><img src="assets/images/360_F_565224180_QNRiRQkf9Fw0dKRoZGwUknmmfk51SuSS.jpg"></a>
+          <a class="product__image"  (click)="productService.prendiDatiProdotto(item.productId)"><img class="preview" [src]="item.image" alt=""></a>
           <div class="product__name" >
             <p>
               <a>{{item.productName}}</a>
@@ -53,7 +53,7 @@
       <div class="container-fluid collection ml-5">
         <!-- Imagine a loop produced this... -->
         <div class="product" *ngFor="let item of productService.offerProducts.slice(indexOfferte, indexOfferte+ 3)">
-          <a class="product__image"  (click)="productService.prendiDatiProdotto(item.productId)"><img src="assets/images/360_F_565224180_QNRiRQkf9Fw0dKRoZGwUknmmfk51SuSS.jpg"></a>
+          <a class="product__image"  (click)="productService.prendiDatiProdotto(item.productId)"><img class="preview" [src]="item.image" alt=""></a>
           <div class="product__name" >
             <p>
               <a>{{item.productName}}</a>

@@ -27,8 +27,6 @@ export class AllPopupComponent implements OnInit{
 
   //Creazione delle variabili base da utilizzare per inviare i dati al server
 
-
-
   pass: string = '';
   newPasswordError: string = '';
   confirmPasswordError: string = '';

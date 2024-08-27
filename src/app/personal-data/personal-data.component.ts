@@ -110,6 +110,8 @@ export class PersonalDataComponent implements OnInit{
         response => {
           const url = URL.createObjectURL(response);
           this.imageUrl = this.sanitizer.bypassSecurityTrustUrl(url);
+          console.log("IMMAGINE CONVERTITA E FUNZIONANTE: " + this.imageUrl)
+
         },
         error => {
           console.error('Errore nel caricamento dell\'immagine', error);
@@ -120,6 +122,9 @@ export class PersonalDataComponent implements OnInit{
         response => {
           const url = URL.createObjectURL(response);
           this.imageUrl = this.sanitizer.bypassSecurityTrustUrl(url);
+          console.log("IMMAGINE CONVERTITA E FUNZIONANTE: " + this.imageUrl)
+
+
         },
         error => {
           console.error('Errore nel caricamento dell\'immagine', error);
@@ -137,7 +142,6 @@ export class PersonalDataComponent implements OnInit{
     this.selectedFile = event.target.files[0];
     const reader = new FileReader();
     const maxSize = 3 * 1024 * 1024; // 6 MB
-
 
     if (file) {
       if (file.size > maxSize) {

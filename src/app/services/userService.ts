@@ -185,8 +185,14 @@ export class UserService {
       'Authorization': 'Bearer ' + this.keycloakService.getAccessToken()
     });
 
+    let customURL;
+    if(!this.keycloakService.getIsAdmin()){
+      customURL = this.manageProfilePicURL
+    }else{
+      customURL = this.manageProfilePicURL+'/admin/'+this.username
+    }
 
-    return this.http.put(this.manageProfilePicURL, formData, { headers, responseType: 'text'});
+    return this.http.put(customURL, formData, { headers, responseType: 'text'});
   }
 
 

@@ -91,20 +91,18 @@ export class AdminService {
     if (num == 0) {
       this.getUsers().subscribe(users => {
         this.users = users;
-        this.users.forEach(user => {
-          if (user.username === "francusso") {
-            this.userService.getUserProfilePicByUser(user.username).subscribe(
-              response => {
-                const url = URL.createObjectURL(response);
-                user.safeImageUrl = this.sanitizer.bypassSecurityTrustUrl(url);
-              },
-              error => {
-                console.error('Errore nel caricamento dell\'immagine', error);
-              }
-            );
-          }
-        });
-        this.userService.loading = false
+        this.users.forEach(user =>{
+          this.getUserProfilePic(user.username).subscribe(
+            response => {
+              const url = URL.createObjectURL(response);
+              user.safeImageUrl = this.sanitizer.bypassSecurityTrustUrl(url);
+
+            },
+            error => {
+              console.error('Errore nel caricamento dell\'immagine', error);
+            }
+          );
+        })
       });
     } else if (num == 1) {
       this.getReports(0).subscribe(reports => {

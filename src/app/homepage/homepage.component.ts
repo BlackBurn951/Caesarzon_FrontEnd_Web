@@ -26,9 +26,19 @@ export class HomepageComponent implements OnInit{
     }
     this.productService.getLastNineProducts().subscribe(products => {
       this.productService.newProducts = products;
+      this.productService.newProducts.forEach(prod =>{
+        this.productService.getProductImage(prod.productId).subscribe(response =>{
+          prod.image = response
+        })
+      })
     })
     this.productService.getOffer().subscribe(products => {
       this.productService.offerProducts = products;
+      this.productService.offerProducts.forEach(prod =>{
+        this.productService.getProductImage(prod.productId).subscribe(response =>{
+          prod.image = response
+        })
+      })
     })
 
 

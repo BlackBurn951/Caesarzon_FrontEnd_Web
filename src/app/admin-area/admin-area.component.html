@@ -29,24 +29,26 @@
         </tr>
         </thead>
         <tbody>
+
         <ng-container *ngFor="let item of adminService.users; let i = index">
           <tr>
             <td class="text-center align-middle">
-              <img [src]="item.safeImageUrl" alt="" width="50" height="50">
+
+              <img [src]="item.safeImageUrl" alt="" width="55px" height="55px" >
             </td>
             <td class="text-center align-middle">{{ item.username }}</td>
             <td class="text-center align-middle">
               <div class="d-flex flex-row align-items-center justify-content-center">
-                <button class="btn-dark custom-btn effe" (click)="changePage('personal-data', item.username)">
+                <button class="btn-dark custom-btn effe" (click)="changePageAdmin('personal-data', item.username)">
                   <i class="fas fa-user iconsearch"></i>
                 </button>
-                <button class="btn-dark custom-btn effe ml-2" (click)="changePage('order-summary', item.username)">
+                <button class="btn-dark custom-btn effe ml-2" (click)="changePageAdmin('order-summary', item.username)">
                   <i class="fas fa-shopping-cart iconsearch"></i>
                 </button>
-                <button class="btn-dark custom-btn effe ml-2" (click)="changePage('address-data', item.username)">
+                <button class="btn-dark custom-btn effe ml-2" (click)="changePageAdmin('address-data', item.username)">
                   <i class="fas fa-map-marker-alt iconsearch"></i>
                 </button>
-                <button class="btn-dark custom-btn effe ml-2" (click)="changePage('payment-data', item.username)">
+                <button class="btn-dark custom-btn effe ml-2" (click)="changePageAdmin('payment-data', item.username)">
                   <i class="fas fa-credit-card iconsearch"></i>
                 </button>
               </div>

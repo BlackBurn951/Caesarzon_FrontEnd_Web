@@ -6,6 +6,7 @@ import {KeyCloakService} from "../services/keyCloakService";
 import {ProductService} from "../services/productService";
 import {ProductDTO} from "../entities/ProductDTO";
 import {AdminService} from "../services/adminService";
+import {SafeUrl} from "@angular/platform-browser";
 
 
 class AvailabilitiesSingle{
@@ -22,7 +23,6 @@ export class ProductManagementComponent implements OnInit{
 
   protected formCaesarzon!: FormGroup;
 
-  imageUrls: (any | null)[] = [null, null, null, null];
 
 
   constructor(protected adminService: AdminService, private keyCloak:KeyCloakService, public formService: FormService, private popUpService: PopupService, protected productService: ProductService) {
@@ -118,83 +118,55 @@ export class ProductManagementComponent implements OnInit{
       is_clothing: is_clothing,
       availabilities: ava,
       lastModified: ""
+
     };
 
     this.productService.sendProductDate(sendProduct)
   }
 
-  //Metodo per controllare se sono state caricate effettivamente N°4 immagini per il prodotto
-  areImagesUploaded(): boolean {
-    const category = this.formCaesarzon.get('formDeiProdotti.categoria')?.value;
-    const size = this.formCaesarzon.get('formDeiProdotti.taglia')?.value;
-    const imagesUploaded = this.imageUrls.every(url => url !== null);
-    if (category === 'abbigliamento' && size === 'none') {
-      return false;
-    } else {
-      return imagesUploaded;
-    }
-  }
 
-  controlloValidit(){
-
-    console.log("Stato delform");
-
-    console.log("Nome prodotto:", this.formCaesarzon.get('formDeiProdotti.nome')?.value);
-    console.log("Marca:", this.formCaesarzon.get('formDeiProdotti.marca')?.value);
-    console.log("Descrizione:", this.formCaesarzon.get('formDeiProdotti.descrizione')?.value);
-    console.log("Sconto:", this.formCaesarzon.get('formDeiProdotti.sconto')?.value);
-    console.log("Prezzo:", this.formCaesarzon.get('formDeiProdotti.prezzo')?.value);
-    console.log("Colore primario:", this.formCaesarzon.get('formDeiProdotti.coloreP')?.value);
-    console.log("Colore secondario:", this.formCaesarzon.get('formDeiProdotti.coloreS')?.value);
-    console.log("Sport:", this.formCaesarzon.get('formDeiProdotti.sport')?.value);
-    console.log("Categoria:", this.formCaesarzon.get('formDeiProdotti.categoria')?.value);
-
-    console.log("Quantità XS:", this.formCaesarzon.get('formDisponibilita.quantitaXS')?.value);
-    console.log("Quantità S:", this.formCaesarzon.get('formDisponibilita.quantitaS')?.value);
-    console.log("Quantità M:", this.formCaesarzon.get('formDisponibilita.quantitaM')?.value);
-    console.log("Quantità L:", this.formCaesarzon.get('formDisponibilita.quantitaL')?.value);
-    console.log("Quantità XL:", this.formCaesarzon.get('formDisponibilita.quantitaXL')?.value);
-
-    console.log(
-      "Form Valid:", this.formCaesarzon.get('formDeiProdotti')?.valid,
-      "Images Uploaded:", this.areImagesUploaded(),
-      "Disponibilità Aggiunta:", this.productService.disponibilitaAggiunta
-    );
-
-  }
 
   //Metodo per caricare le immagini del prodotto limitanto la dimensione a 6MB
-  handleFileInput(event: any, index: number) {
+  onFileSelected(event: any) {
     const file = event.target.files[0];
+    this.productService.selectedFile = event.target.files[0];
+    const reader = new FileReader();
     const maxSize = 3 * 1024 * 1024; // 6 MB
 
     if (file) {
       if (file.size > maxSize) {
         this.popUpService.updateStringa("La dimensione massima del file è di 6 MB.");
         this.popUpService.openPopups(104, true)
-      } else {
-        const reader = new FileReader();
-        reader.onload = () => {
-          const imageUrl = reader.result as string;
-          if (!this.imageUrls.includes(imageUrl)) {
-            this.imageUrls[index] = imageUrl;
+      }else{
+        reader.onload = (e: any) => {
+          const preview = document.getElementById('preview');
+          if (preview) {
+            preview.style.display = 'block';
+            preview.setAttribute('src', e.target.result);
           } else {
-            this.popUpService.updateStringa("Immagine già caricata!");
-            this.popUpService.openPopups(104, true)
+            console.error("Elemento 'preview' non trovato nel DOM.");
           }
         };
         reader.readAsDataURL(file);
+        if(this.productService.inModifica)
+          this.onUpload()
       }
     }
   }
+  //Metodo utilizzato nel precedente relativo al caricamento dell'immagine di profilo
+  onUpload() {
+    if (this.productService.selectedFile) {
+      this.productService.uploadImage(this.productService.selectedFile).subscribe(
+        response => {
+          this.popUpService.updateStringa(response)
+          this.popUpService.openPopups(141, true)
 
-  //Metodo per visualizzare le foto
-  openFileInput(event: MouseEvent, index: number) {
-    const input = document.getElementById('file-input' + index) as HTMLInputElement;
-    if (input) {
-      input.click();
+        },
+        error => {
+          console.log(error);
+        }
+      );
     }
-    event.preventDefault();
   }
 
 

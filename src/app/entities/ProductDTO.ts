@@ -1,6 +1,5 @@
 //DTO relativo ai dati del prodotto da mostrare sulla pagine del prodottoù
 
-import {Availabilities} from "./Availabilities";
 import {AvailabilitiesSingle} from "./AvaibilitiesSingle";
 
 export interface ProductDTO {

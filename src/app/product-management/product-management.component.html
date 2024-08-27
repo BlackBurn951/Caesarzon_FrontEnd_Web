@@ -115,24 +115,28 @@
             </select>
 
           </div>
-          <div class="container-fluid d-flex flex-column align-items-center">
-            <h1>Carica immagini</h1>
-            <div class="container">
-              <div class="row">
-                <ng-container *ngFor="let index of [0, 1, 2, 3]">
-                  <div class="col-md-6 d-flex flex-column align-items-center">
-                    <div class="grid-item">
-                      <label class="grid-label d-flex flex-column align-items-center" for="file-input{{index}}" (click)="openFileInput($event, index)">
-                        <img *ngIf="imageUrls[index]" [src]="imageUrls[index]" alt="Uploaded Image" width="250px" height="150px">
-                        <span class="btn btn-dark custom-btn" *ngIf="!imageUrls[index]">Scegli file</span>
-                      </label>
-                      <input type="file" id="file-input{{index}}" accept="image/*" style="display: none" (change)="handleFileInput($event, index)">
+          <div class="container-fluid d-flex flex-column align-items-center ml-2">
+            <h1>Carica immagine</h1>
+
+            <ng-container>
+                  <div class="mr3">
+                    <div class="container">
+                      <div class="row">
+                        <div class="form-group">
+                          <div class="image-upload">
+                            <input type="file" style="display: none;" id="foto" accept="image/*" (change)="onFileSelected($event)">
+                            <div style="display: flex; flex-direction: column">
+                              <img id="preview" [src]="productService.imageUrl" alt="Carica immagine" width="300px" height="300px">
+                              <label for="foto" class="btn btn-dark custom-btn mt-3">Carica foto</label>
+                            </div>
+
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                    <span class="btn btn-dark custom-btn d-flex flex-column align-items-center o" *ngIf="imageUrls[index]" (click)="openFileInput($event, index)">Scegli un altro file</span>
                   </div>
                 </ng-container>
-              </div>
-            </div>
+
           </div>
 
         </div>
@@ -148,9 +152,8 @@
         </div>
 
         <div class="col-md d-flex flex-column align-items-center">
-          <label>Assicurati di aver caricato tutte le immagini</label>
-          <button (click)="controlloValidit()">Controllavalidita</button>
-          <button type="submit" class="menu-item btn btn-dark custom-btn bottoneA" [disabled]="!formCaesarzon.get('formDeiProdotti')?.valid || !areImagesUploaded() || !productService.disponibilitaAggiunta">Aggiungi prodotto</button>
+          <label>Assicurati di aver caricato l'immagine</label>
+          <button type="submit" class="menu-item btn btn-dark custom-btn bottoneA" [disabled]="!formCaesarzon.get('formDeiProdotti')?.valid || productService.selectedFile === null ||!productService.disponibilitaAggiunta">Aggiungi prodotto</button>
         </div>
       </div>
     </form>

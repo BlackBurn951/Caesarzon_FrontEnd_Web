@@ -43,6 +43,8 @@ export class ProductPageComponent implements OnInit{
 
   }
 
+
+
   rimozioneProdotto(){
     this.popUpService.operazione = 12
     this.popUpService.updateStringa("Sei sicuro di voler eliminare il prodotto: "+ this.productService.prodotto.name + "?")

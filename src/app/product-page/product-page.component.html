@@ -15,15 +15,8 @@
 
       <div class="col-md">   <!--SEZIONE DELLE IMMAGINI DEL PRODOTTO -->
         <div id="left-col-container">
-          <div id="image-array">
-            <button type="button" class="btn btn-light little-image"><img src="assets/images/image-array-ex.png" width="75px" height="55px" alt=""> </button>
-            <button type="button" class="btn btn-light little-image"><img src="assets/images/image-array-ex.png" width="75px" height="55px" alt=""> </button>
-            <button type="button" class="btn btn-light little-image"><img src="assets/images/image-array-ex.png" width="75px" height="55px" alt=""> </button>
-            <button type="button" class="btn btn-light little-image"><img src="assets/images/image-array-ex.png" width="75px" height="55px" alt=""> </button>
-          </div>
-
           <div>
-            <img src="assets/images/image-array-ex.png" width="550px" height="530px">
+            <img id="preview" [src]="this.productService.imageUrl" alt="">
           </div>
         </div>
       </div>
