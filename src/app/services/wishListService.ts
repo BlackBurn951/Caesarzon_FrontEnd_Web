@@ -1,17 +1,13 @@
 import {PopupService} from "./popUpService";
 import {KeyCloakService} from "./keyCloakService";
 import {HttpClient} from "@angular/common/http";
-import {Router} from "@angular/router";
 import {Injectable} from "@angular/core";
-import {SingleWishListProduct} from "../entities/SingleWishListProduct";
 import {BasicWishList} from "../entities/BasicWishList";
-import {Supports} from "../entities/Supports";
 import {WishProduct} from "../entities/WishProduct";
-import {single} from "rxjs";
-import {ProductService} from "./productService";
 import {WishList} from "../entities/WishList";
 import {ChangeVisibility} from "../entities/ChangeVisibility";
 import {SendWishlistProductDTO} from "../entities/SenProductWishList";
+import {UserService} from "./userService";
 
 
 @Injectable({
@@ -36,6 +32,8 @@ export class WishListService{
 
   visibilitaNuovaLista!: string;
   nomeNuovaLista!: string;
+  creazioneListaValue!: number;
+
 
 
   productIdToAdd: string = "";
@@ -44,7 +42,7 @@ export class WishListService{
 
   section!: number ;
   sectionProfil!: number;
-  constructor(private http: HttpClient, private popUpService:PopupService, private keycloakService: KeyCloakService) {
+  constructor(private userService: UserService, private http: HttpClient, private popUpService:PopupService, private keycloakService: KeyCloakService) {
   }
 
   getWishListsURL = 'http://localhost:8090/product-api/wishlists'
@@ -94,7 +92,7 @@ export class WishListService{
 
 
   getWishLists(vis: number, username: string){
-    let customUrl = ""
+    let customUrl ;
     if(username === ''){
       customUrl = this.getWishListsURL+"?usr="+this.keycloakService.getUsername()+"&visibility="+vis
     }else{
@@ -110,13 +108,19 @@ export class WishListService{
     return this.http.get<BasicWishList[]>(this.getAllUserWishListsURL, { headers });
   }
 
-  getWishListProducts(wishlistId: string) {
+  getWishListProducts(wishlistId: string, num: number) {
     this.wishListProducts = { visibility: "", singleWishListProductDTOS: [] }; // Resetta la lista dei prodotti
     this.emptyList = false; // Resetta il flag della lista vuota
-
+    this.wishId = wishlistId
     this.showProductsMap[wishlistId] = !this.showProductsMap[wishlistId];
+    let customUrl = ""
     if (this.showProductsMap[wishlistId]) {
-      const customUrl = `${this.getWishListsProductsURL}?wish-id=${wishlistId}`;
+      if(num === 0){
+        customUrl = `${this.getWishListsProductsURL}?wish-id=${wishlistId}&usr=`+this.keycloakService.getUsername();
+      }else{
+        customUrl = `${this.getWishListsProductsURL}?wish-id=${wishlistId}&usr=`+this.userService.nomeProfilo;
+
+      }
       const headers = this.keycloakService.permaHeader();
       this.http.get<WishProduct>(customUrl, { headers }).subscribe({
         next: (response: WishProduct) => {
@@ -137,7 +141,6 @@ export class WishListService{
   }
 
   createNewWishList() {
-    const headers = this.keycloakService.permaHeader();
     let visNum: number;
     if(this.visibilitaNuovaLista === "Pubblica"){
       visNum = 0
@@ -160,6 +163,11 @@ export class WishListService{
         this.visibilitaNuovaLista = ""
         this.popUpService.updateStringa(response)
         this.popUpService.openPopups(177, true)
+        if(this.creazioneListaValue != 104){
+          setTimeout(()=>{
+            window.location.reload()
+          }, 1500);
+        }
         this.getWishLists(visNum, '')
       },
       error => {
@@ -211,7 +219,7 @@ export class WishListService{
   }
 
   changeVisibility(num: number, wishId: string){
-    let vis = "";
+    let vis;
     if(num === 0){
       vis = "Pubblica"
     }else if(num === 1){

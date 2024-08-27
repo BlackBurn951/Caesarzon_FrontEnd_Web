@@ -87,14 +87,14 @@ export class AddressService implements OnInit{
   //Metodo per prende la lista degli indirizzi dell'utente
   getAddressesName() {
     const headers = this.keycloakService.permaHeader();
-    let urlWithParams = ''
+    let urlWithParams;
     if (this.keycloakService.getIsAdmin()) {
-      urlWithParams = this.getAddressNamesURL+'/'+this.userService.username
+      urlWithParams = this.getAddressNamesURL+'/'+this.keycloakService.getUsername()
     }else{
       urlWithParams = this.getAddressNamesURL
     }
 
-
+    //TODO DA PROVARE
     this.http.get<string[]>(urlWithParams, { headers }).subscribe({
       next: (response) => {
         this.addressesName = response;
@@ -212,7 +212,7 @@ export class AddressService implements OnInit{
   sendAddressData(addressData: Address): Observable<string> {
     const headers = this.keycloakService.permaHeader()
     if (this.keycloakService.getIsAdmin()) {
-    const customURL = this.manageAddressURL + '/' + this.userService.username
+    const customURL = this.manageAddressURL + '/' + this.keycloakService.getUsername()
     return this.http.post(customURL, addressData, {headers, responseType: 'text'}) as Observable<string>;
     }
     else{

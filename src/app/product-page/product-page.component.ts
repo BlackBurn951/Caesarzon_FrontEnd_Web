@@ -1,9 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {PopupService} from "../services/popUpService";
-import {Router} from "@angular/router";
 import {KeyCloakService} from "../services/keyCloakService";
 import {ProductService} from "../services/productService";
-import {HttpClient} from "@angular/common/http";
 import {AdminService} from "../services/adminService";
 import {WishListService} from "../services/wishListService";
 import {CartService} from "../services/cartService";
@@ -21,7 +19,7 @@ export class ProductPageComponent implements OnInit{
   day: number = 0
   month: number = 0
   year: number = 0
-  constructor(private userService:UserService, private cartService:CartService, private wishListService: WishListService, protected adminService: AdminService ,protected keyCloak: KeyCloakService, public popUpService:PopupService, private router:Router, protected productService: ProductService) {
+  constructor(private userService:UserService, private cartService:CartService, private wishListService: WishListService, protected adminService: AdminService ,protected keyCloak: KeyCloakService, public popUpService:PopupService, protected productService: ProductService) {
   }
 
   resetVariables(){
@@ -45,6 +43,12 @@ export class ProductPageComponent implements OnInit{
 
   }
 
+  rimozioneProdotto(){
+    this.popUpService.operazione = 12
+    this.popUpService.updateStringa("Sei sicuro di voler eliminare il prodotto: "+ this.productService.prodotto.name + "?")
+    this.popUpService.openPopups(124, false)
+  }
+
   updateQuantity(event: Event) {
     const selectElement = event.target as HTMLSelectElement;
     this.cartService.quantity = parseInt(selectElement.value, 10);
@@ -55,7 +59,7 @@ export class ProductPageComponent implements OnInit{
     this.cartService.size = selectElement.value;
   }
 
-  addProductToCart(){
+  addProductToCart(num: number){
     if (!this.keyCloak.getLoggedStatus() || this.keyCloak.getUsername() === "Guest"){
       this.popUpService.openPopups(3, true)
     }else{
@@ -64,7 +68,7 @@ export class ProductPageComponent implements OnInit{
         this.popUpService.updateStringa("Seleziona la taglia desiderata")
         this.popUpService.openPopups(23432, true)
       }else{
-        this.cartService.addProductCart()
+        this.cartService.addProductCart(num)
 
       }
     }
@@ -79,11 +83,7 @@ export class ProductPageComponent implements OnInit{
     this.popUpService.openPopups(5, true)
   }
 
-  instaBuy(event: Event){
-    this.router.navigate(['payment-first-page']);
-    event.preventDefault()
 
-  }
 
   drawGraphs(ctx: CanvasRenderingContext2D) {
     if (ctx) {
@@ -94,6 +94,11 @@ export class ProductPageComponent implements OnInit{
     }
   }
 
+
+  segnala(usernameDaSegnalare: string){
+    this.adminService.usernameSegnalato = usernameDaSegnalare;
+    this.popUpService.openPopups(1, true)
+  }
 
 
 

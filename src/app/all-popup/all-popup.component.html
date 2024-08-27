@@ -32,12 +32,11 @@
       <div *ngIf="section === 0" class="table-row">
         <div *ngFor="let user of friendFollow.users; let i = index"
              class="table-cell mb-2 d-flex align-items-center user-row"
-             (click)="this.apriListe(user.username)"
              [ngClass]="{'highlighted': highlightedRow === i}"
              (mouseenter)="highlightedRow = i"
              (mouseleave)="highlightedRow = -1">
           <img class="mr-2" [src]="user.safeImageUrl" alt="Foto">
-          <label class="flex-grow-1">{{ user.username }}</label>
+          <label class="flex-grow-1" (click)="this.apriListe(user.username)">{{ user.username }}</label>
           <button *ngIf="!isUserInFollow(user)" class="btn btn-dark custom-btn mr-1" (click)="this.friendFollow.addFollowersOrFriends(i, true)">
             <i class="fas fa-user-plus"></i>
           </button>
@@ -48,12 +47,11 @@
       <div *ngIf="section === 1" class="table-row">
         <div *ngFor="let user of friendFollow.usersFollow; let i = index"
              class="table-cell mb-2 d-flex align-items-center user-row"
-             (click)="this.apriListe(user.username)"
              [ngClass]="{'highlighted': highlightedRow === i}"
              (mouseenter)="highlightedRow = i"
              (mouseleave)="highlightedRow = -1">
           <img class="mr-2" [src]="user.safeImageUrl" alt="Foto">
-          <label>{{ user.username }}</label>
+          <label (click)="this.apriListe(user.username)">{{ user.username }}</label>
           <div>
             <button *ngIf="!isUserInFriend(user)" class="btn btn-dark custom-btn ml-1 mt-1 mb-1" (click)="this.friendFollow.addFollowersOrFriends(i, false)">
               <i class="fas fa-heart"></i>
@@ -69,12 +67,11 @@
       <div *ngIf="section === 2" class="table-row">
         <div *ngFor="let user of friendFollow.usersFriend; let i = index"
              class="table-cell mb-2 d-flex align-items-center user-row"
-             (click)="this.apriListe(user.username)"
              [ngClass]="{'highlighted': highlightedRow === i}"
              (mouseenter)="highlightedRow = i"
              (mouseleave)="highlightedRow = -1">
           <img class="mr-2" [src]="user.safeImageUrl" alt="Foto">
-          <label>{{ user.username }}</label>
+          <label (click)="this.apriListe(user.username)">{{ user.username }}</label>
           <button class="btn btn-danger buut mr-1 mt-1 mb-1 ml-1" (click)="this.friendFollow.deleteFriends(i)">
             <i class="fas fa-user-minus"></i>
           </button>
@@ -91,7 +88,7 @@
   <div class="form-group">
     <div class="d-flex flex-column align-items-center">
       <h1 class="accediLabel">Stai segnalando l'utente</h1>
-      <h2 class="accediLabel">Aldogay</h2>
+      <h2 class="accediLabel">{{ this.adminService.usernameSegnalato}}</h2>
     </div>
     <button (click)="popUpService.closePopup()" class="btn btn-dark ics">X</button>
     <div class="d-flex flex-column align-items-center">
@@ -171,7 +168,7 @@
       </select>
 
     </div>
-    <button class="btn btn-dark custom-btn mt-3" (click)="popUpService.openPopups(4, true)">Crea una nuova lista</button>
+    <button class="btn btn-dark custom-btn mt-3" (click)="creaNuovalista(104)">Crea una nuova lista</button>
 
   </div>
 
@@ -542,7 +539,7 @@
         <table class="table table-striped">
           <thead>
           <tr>
-            <th scope="col">Nome Lista ({{wishListService.tipoListeUser}})</th>
+            <th scope="col">Nome Lista ({{wishListService.tipoListe}})</th>
             <th scope="col" class="text-center">Azioni</th>
           </tr>
           </thead>
@@ -551,7 +548,7 @@
             <tr>
               <td>{{ item.name }}</td>
               <td class="text-center">
-                <button class="btn btn-dark custom-btn ml-2" (click)="wishListService.getWishListProducts(item.id)">
+                <button class="btn btn-dark custom-btn ml-2" (click)="wishListService.getWishListProducts(item.id, 104)">
                   Prodotti
                 </button>
               </td>

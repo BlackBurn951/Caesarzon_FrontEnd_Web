@@ -70,7 +70,20 @@ export class ProductService {
   }
 
 
+  rimuoviProdotto(){
+    const headers = this.keycloakService.permaHeader();
+    const customURL = this.productDataURL+'/'+this.prodotto.id
+    return this.http.delete<string>(customURL,{ headers, responseType: 'text' as 'json' }).subscribe(response =>{
+      if(response === "Prodotto eliminato"){
+        this.popUpService.updateStringa(response)
+        this.popUpService.openPopups(123, true)
+      }else{
+        this.popUpService.updateStringa("Problemi nell'eliminazione del prodtto")
+        this.popUpService.openPopups(123, true)
+      }
+    })
 
+  }
 
   addReview(){
     const review: ProductReview ={
@@ -97,6 +110,10 @@ export class ProductService {
         this.descrizioneRecensione = ""
       }
     })
+
+  }
+
+  modificaProdotto(){
 
   }
 

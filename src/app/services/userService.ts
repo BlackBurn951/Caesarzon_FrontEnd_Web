@@ -5,7 +5,6 @@ import {Observable} from "rxjs";
 import {KeyCloakService} from "./keyCloakService";
 import {User} from "../entities/User";
 import {PopupService} from "./popUpService";
-import {Reviews} from "../entities/Review";
 import {PasswordChange} from "../entities/PasswordChange";
 import {OtpDTO} from "../entities/OtpDTO";
 
@@ -28,9 +27,9 @@ export class UserService {
 
   username: string = "";
 
-  stringaOtp!: string;
+  stringaOtp: string = ""
 
-  nomeProfilo!: string;
+  nomeProfilo: string = ""
 
   otpSbagliato!:boolean;
 
@@ -59,6 +58,7 @@ export class UserService {
 
     this.sendPasswordChange(passwordChange).subscribe(
       response => {
+        if(response === "Password cambiata")
         this.popUp.updateStringa("Password cambiata correttamente!")
         this.popUp.openPopups(10345, true)
       },

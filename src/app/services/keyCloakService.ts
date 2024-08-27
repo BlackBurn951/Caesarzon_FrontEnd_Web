@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {PopupService} from "./popUpService";
 import {jwtDecode} from "jwt-decode";
 import {Notifications} from "../entities/Notification";
@@ -98,8 +98,17 @@ export class KeyCloakService {
     return this.isAdmin;
   }
 
-  getUsername(){
+  getUsernameFromCache(): string | null {
+    const cachedUsername = localStorage.getItem('username');
+    if (cachedUsername) {
+      this.username = cachedUsername;
+      return cachedUsername;
+    }
     return this.username;
+  }
+
+  getUsername() {
+    return this.getUsernameFromCache() || this.username;
   }
 
   //Metodo per assegnare i token alla cache
@@ -108,7 +117,14 @@ export class KeyCloakService {
     this.REFRESH_TOKEN = refreshToken;
     localStorage.setItem('access_token', accessToken);
     localStorage.setItem('refresh_token', refreshToken);
+    localStorage.setItem('username', this.username); // Salva l'username nella cache
   }
+
+  saveUsernameToCache(username: string): void {
+    localStorage.setItem('username', username);
+    this.username = username; // Aggiorna anche la variabile di istanza
+  }
+
 
   setLogin(){
     localStorage.setItem('isLogged', String(this.isLogged));
@@ -174,6 +190,7 @@ export class KeyCloakService {
           localStorage.removeItem('refresh_token');
           localStorage.removeItem('isLogged');
           localStorage.removeItem('isAdmin');
+          localStorage.removeItem('username');
           this.login("Guest","Mascalzone1");
           this.router.navigate(['']);
 
@@ -263,7 +280,7 @@ export class KeyCloakService {
 
   getNotify(): Observable<Notifications[]> {
     const headers = this.permaHeader();
-    let url = ""
+    let url;
     if(this.isAdmin){
       url = this.manageNotifyAdminURL;
     }else{
@@ -281,7 +298,7 @@ export class KeyCloakService {
     const headers = this.permaHeader();
     if (this.notifications && this.notifications.length > 0) {
       const notificationsToSend = this.notifications.map(({ showDescription, ...rest }) => rest);
-      let url = ""
+      let url
       if(this.isAdmin){
         url = this.manageNotifyAdminURL;
       }else{

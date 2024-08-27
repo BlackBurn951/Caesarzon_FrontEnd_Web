@@ -34,4 +34,9 @@ export class WishListComponent implements OnInit{
 
   }
 
+  creaNuovaLista(){
+    this.wishListService.creazioneListaValue = 100
+    this.popUpService.openPopups(4, true)
+  }
+
 }

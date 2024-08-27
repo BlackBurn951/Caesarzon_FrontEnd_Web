@@ -11,8 +11,7 @@ import {PayPal} from "../entities/PayPal";
 import {AddressService} from "./addressService";
 import {CardsService} from "./cardsService";
 import {ChangeCart} from "../entities/ChangeCart";
-import {Observable} from "rxjs";
-import {Address} from "../entities/Address";
+
 
 @Injectable({
   providedIn: 'root'
@@ -60,7 +59,7 @@ export class CartService {
 
 
 
-  addProductCart(){
+  addProductCart(num: number){
 
     const productToAddCart: SendProductOrderDTO ={
       productID: this.productIdToAddCart,
@@ -72,14 +71,22 @@ export class CartService {
     return this.http.post<string>(this.getCartURL, productToAddCart,{headers, responseType: 'text' as 'json'}).subscribe(response => {
       console.log("risposta ggiunta: " + response)
       if(response == "Ordine creato con successo!"){
-        this.popUp.updateStringa("Prodotto aggiunto al carrello")
-        this.popUp.openPopups(45, true)
-        this.size = ""
-        this.quantity = 1
-        this.productIdToAddCart = ""
-        setTimeout(() => {
-          this.popUp.closePopup()
-        }, 1000);
+        if(num === 0){
+          this.popUp.updateStringa("Prodotto aggiunto al carrello")
+          this.popUp.openPopups(45, true)
+          this.size = ""
+          this.quantity = 1
+          this.productIdToAddCart = ""
+          setTimeout(() => {
+            this.popUp.closePopup()
+          }, 1000);
+        }else{
+          this.size = ""
+          this.quantity = 1
+          this.productIdToAddCart = ""
+          this.router.navigate(['payment-second-page']);
+        }
+
       }else{
         this.size = ""
         this.quantity = 1
@@ -284,11 +291,16 @@ export class CartService {
         this.popUp.updateStringa("ERRORE ALDOS")
         this.popUp.openPopups(45, true)
       } else {
-        if (response != "Ordine effettuato con successo!") {
+        if (this.payPal) {
           window.location.href = response;
-        } else {
+        } else if (!this.payPal) {
           this.ordineInviato = true
           this.router.navigate(['order-final']);
+        }else if(response === "Errore"){{
+          this.popUp.updateStringa("Problemi nell'acquisto, controllare dati o saldo carta")
+          this.popUp.openPopups(434, true)
+        }
+
         }
       }
     })

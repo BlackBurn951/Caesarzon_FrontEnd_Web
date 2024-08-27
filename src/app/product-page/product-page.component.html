@@ -83,13 +83,13 @@
             </div>
 
               <div class="row d-flex flex-column align-items-center">
-                <button *ngIf="!keyCloak.getAdmin()" type="button" class="btn btn-dark btn-buy mb-2" (click)="instaBuy($event)">Acquista</button>
-                <button *ngIf="keyCloak.getAdmin()" type="button" class="btn btn-dark btn-buy mb-2" (click)="instaBuy($event)">Modifica prodotto</button>
+                <button *ngIf="!keyCloak.getAdmin()" type="button" class="btn btn-dark btn-buy mb-2" (click)="addProductToCart(1)">Acquista</button>
+                <button *ngIf="keyCloak.getAdmin()" type="button" class="btn btn-dark btn-buy mb-2" (click)="this.productService.modificaProdotto()">Modifica prodotto</button>
               </div>
 
               <div class="row d-flex flex-column align-items-center">
-                <button *ngIf="!keyCloak.getAdmin()" type="button" class="btn btn-dark btn-custom mb-2" (click)="addProductToCart()">Aggiungi al carrello</button>
-                <button *ngIf="keyCloak.getAdmin()" type="button" class="btn btn-dark btn-custom mb-2">Rimuovi prodotto</button>
+                <button *ngIf="!keyCloak.getAdmin()" type="button" class="btn btn-dark btn-custom mb-2" (click)="addProductToCart(0)">Aggiungi al carrello</button>
+                <button *ngIf="keyCloak.getAdmin()" type="button" class="btn btn-dark btn-custom mb-2" (click)="rimozioneProdotto()">Rimuovi prodotto</button>
               </div>
 
               <div class="row d-flex flex-column align-items-center">
@@ -167,7 +167,7 @@
                 <p>{{item.text}}</p>
                 <footer class="blockquote-footer">
                   Publicato in data: <cite title="Source Title">{{item.date}}</cite>
-                  <button *ngIf="!keyCloak.getAdmin()" class="btn btn-danger ml-2" (click)="popUpService.openPopups(1, true)">Segnala</button>
+                  <button *ngIf="!keyCloak.getAdmin()" class="btn btn-danger ml-2" (click)="segnala(item.username)">Segnala</button>
                   <button *ngIf="keyCloak.getAdmin()" class="btn btn-danger ml-2">Rimuovi</button>
                 </footer>
               </blockquote>

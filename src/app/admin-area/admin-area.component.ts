@@ -4,7 +4,6 @@ import {UserService} from "../services/userService";
 import {AdminService} from "../services/adminService";
 import {PopupService} from "../services/popUpService";
 import {DomSanitizer} from "@angular/platform-browser";
-import {Reports} from "../entities/Report";
 import {KeyCloakService} from "../services/keyCloakService";
 
 @Component({
@@ -21,7 +20,7 @@ export class AdminAreaComponent implements OnInit{
 
   // Metodo per navigare ai dati personali dell'utente
   changePage( page: string, username: string) {
-    this.userService.username = username
+    this.keycloack.saveUsernameToCache(username)
     this.router.navigate([page]);
   }
 

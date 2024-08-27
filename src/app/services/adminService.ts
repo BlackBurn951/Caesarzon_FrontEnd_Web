@@ -10,7 +10,6 @@ import {PopupService} from "./popUpService";
 import {HttpClient} from "@angular/common/http";
 import {KeyCloakService} from "./keyCloakService";
 import {Sban} from "../entities/Sban";
-import {Card} from "../entities/Card";
 import {User} from "../entities/User";
 
 @Injectable({
@@ -38,9 +37,9 @@ export class AdminService {
   oggetto: string = '';
   descrizioneRichiesta: string = '';
 
-  motivoSegnalazione!: string;
-  descrizioneSegnalazione!: string;
-  usernameSegnalato!: string;
+  motivoSegnalazione: string = ""
+  descrizioneSegnalazione: string = ""
+  usernameSegnalato: string = ""
 
   image!: SafeUrl
 
@@ -247,7 +246,7 @@ export class AdminService {
       reason: this.motivoSegnalazione,
       description: this.descrizioneSegnalazione,
       reportDate: "",
-      usernameUser2: "cesare",
+      usernameUser2: this.usernameSegnalato,
       usernameUser1: "",
       explain: "",
       reviewId: "",

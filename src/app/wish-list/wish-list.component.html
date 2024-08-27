@@ -40,7 +40,7 @@
                 <td>
 
                   <div class="form-group d-flex flex-row align-items-center"  *ngIf="wishListService.section == 0">
-                    <button class="btn btn-dark custom-btn ml-2" (click)="wishListService.getWishListProducts(item.id)">
+                    <button class="btn btn-dark custom-btn ml-2" (click)="wishListService.getWishListProducts(item.id,0)">
                       Prodotti
                     </button>
                     <button class="btn btn-dark custom-btn ml-2" (click)="wishListService.changeVisibility(1, item.id)">
@@ -58,7 +58,7 @@
                   </div>
 
                   <div class="form-group d-flex flex-row align-items-center"  *ngIf="wishListService.section == 1">
-                    <button class="btn btn-dark custom-btn ml-2" (click)="wishListService.getWishListProducts(item.id)">
+                    <button class="btn btn-dark custom-btn ml-2" (click)="wishListService.getWishListProducts(item.id, 0)">
                       Prodotti
                     </button>
                     <button class="btn btn-dark custom-btn ml-2" (click)="wishListService.changeVisibility(0, item.id)">
@@ -76,13 +76,13 @@
                   </div>
 
                   <div class="form-group d-flex flex-row align-items-center "  *ngIf="wishListService.section == 2">
-                    <button class="btn btn-dark custom-btn ml-2" (click)="wishListService.getWishListProducts(item.id)">
+                    <button class="btn btn-dark custom-btn ml-2" (click)="wishListService.getWishListProducts(item.id, 0)">
                       Prodotti
                     </button>
                     <button class="btn btn-dark custom-btn ml-2" (click)="wishListService.changeVisibility(1, item.id)">
                       Condividi
                     </button>
-                    <button class="btn btn-dark custom-btn ml-2 mr-5" (click)="wishListService.changeVisibility(0, item.id)">
+                    <button class="btn btn-dark custom-btn ml-2 mr-2" (click)="wishListService.changeVisibility(0, item.id)">
                       Pubblica
                     </button>
                     <button class="btn btn-dark custom-btn" (click)="wishListService.deleteWishListsProducts(item.id, item.name)">
@@ -112,7 +112,7 @@
           </table>
         </div>
       </section>
-      <button type="button" class="btn btn-dark custom-btn mr-5" (click)="popUpService.openPopups(4, true)">Crea nuova lista desideri</button>
+      <button type="button" class="btn btn-dark custom-btn mr-5" (click)="creaNuovaLista()">Crea nuova lista desideri</button>
 
     </div>
 

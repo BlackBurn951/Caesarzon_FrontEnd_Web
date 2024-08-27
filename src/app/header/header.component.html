@@ -88,7 +88,7 @@
               <a class="dropdown-item" (click)="keyCloak.toggleLogin()">Esci</a>
             </div>
 
-            <div *ngIf="keyCloak.getIsAdmin()" class="dropdown-menu" >
+            <div *ngIf="keyCloak.getIsAdmin() && keyCloak.getLoggedStatus()" class="dropdown-menu" >
               <a class="dropdown-item" (click)="changeSection($event, 0, 'admin-area',0)">Cerca utenti</a>
               <a class="dropdown-item" (click)="changeSection($event, 1, 'admin-area',0)">Segnalazioni</a>
               <a class="dropdown-item" (click)="changeSection($event, 2, 'admin-area',0)">Richieste di supporto</a>

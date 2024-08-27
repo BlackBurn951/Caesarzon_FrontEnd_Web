@@ -9,6 +9,7 @@ import {WishListService} from "../services/wishListService";
 import {KeyCloakService} from "../services/keyCloakService";
 import {OrderService} from "../services/orderService";
 import {CartService} from "../services/cartService";
+import {ProductService} from "../services/productService";
 
 
 
@@ -24,7 +25,7 @@ import {CartService} from "../services/cartService";
 export class WarningMessageComponent implements OnInit{
   stringa!: String;
 
-  constructor(private cartService: CartService, private orderService: OrderService, private keyCloak: KeyCloakService, private wishListService:WishListService, private adminService: AdminService, private dialogError: MatDialogRef<WarningMessageComponent>, public popup:PopupService, public addressService: AddressService, public cardService: CardsService) {
+  constructor(private productService: ProductService, private cartService: CartService, private orderService: OrderService, private keyCloak: KeyCloakService, private wishListService:WishListService, private adminService: AdminService, private dialogError: MatDialogRef<WarningMessageComponent>, public popup:PopupService, public addressService: AddressService, public cardService: CardsService) {
 
   }
 
@@ -78,6 +79,10 @@ export class WarningMessageComponent implements OnInit{
 
             this.popup.updateStringa(response);
             this.popup.openPopups(123, true);
+            setTimeout(() => {
+              this.popup.closePopup()
+            }, 1500);
+
           }
         })
       }else if(this.popup.operazione == 9){
@@ -92,6 +97,8 @@ export class WarningMessageComponent implements OnInit{
 
       }else if(this.popup.operazione == 11){
         this.adminService.adminDeleteUser()
+      }else if(this.popup.operazione == 12){
+        this.productService.rimuoviProdotto()
       }
 
 

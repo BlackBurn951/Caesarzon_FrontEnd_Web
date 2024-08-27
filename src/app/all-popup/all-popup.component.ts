@@ -6,7 +6,6 @@ import {FormService} from "../services/formService";
 import {AddressService} from "../services/addressService";
 import {CardsService} from "../services/cardsService";
 import {UserService} from "../services/userService";
-import {BehaviorSubject, Subscription} from "rxjs";
 import {AdminService} from "../services/adminService";
 import {ProductService} from "../services/productService";
 import {WishListService} from "../services/wishListService";
@@ -76,6 +75,10 @@ export class AllPopupComponent implements OnInit{
     this.popUpService.openPopups(13, false)
   }
 
+  creaNuovalista(num: number){
+    this.wishListService.creazioneListaValue = num
+    this.popUpService.openPopups(4, true)
+  }
 
   back(){
     this.popUpService.closePopup()

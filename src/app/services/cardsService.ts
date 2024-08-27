@@ -106,9 +106,9 @@ export class CardsService {
 
   getCardsName() {
     const headers = this.keyCloakService.permaHeader()
-    let urlWithParams = ''
+    let urlWithParams;
     if (this.keyCloakService.getIsAdmin()) {
-      urlWithParams = this.getCardsNameURL+'/'+this.userService.username
+      urlWithParams = this.getCardsNameURL+'/'+ this.keyCloakService.getUsername()
     }else{
       urlWithParams = this.getCardsNameURL
     }
@@ -207,7 +207,7 @@ export class CardsService {
   sendCardData(cardData: Card): Observable<string> {
     const headers = this.keyCloakService.permaHeader()
     if (this.keyCloakService.getIsAdmin()) {
-      const customURL = this.manageCardURL + '/' + this.userService.username
+      const customURL = this.manageCardURL + '/' + this.keyCloakService.getUsername()
       return this.http.post(customURL, cardData, {headers, responseType: 'text'}) as Observable<string>;
     }
       return this.http.post(this.manageCardURL, cardData, { headers, responseType: 'text' }) as Observable<string>;
