@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import { KeyCloakService } from "./keyCloakService";
 import { ProductCart } from "../entities/ProductCart";
 import {Unvailable} from "../entities/Unvaiable";
@@ -11,6 +11,7 @@ import {PayPal} from "../entities/PayPal";
 import {AddressService} from "./addressService";
 import {CardsService} from "./cardsService";
 import {ChangeCart} from "../entities/ChangeCart";
+import {Observable} from "rxjs";
 
 
 @Injectable({
@@ -54,10 +55,19 @@ export class CartService {
   size: string = "";
   quantity: number = 1;
 
+  private baseUrl = 'http://localhost:8090/product-api'
+
+
   constructor(private cardsService:CardsService, private addressService:AddressService, private route: ActivatedRoute, private popUp: PopupService, private router:Router, private http: HttpClient, private keyCloakService: KeyCloakService) { }
 
 
 
+  updateProductInCart(id: string, action: number, changeCartDTO: any): Observable<any> {
+    const params = new HttpParams().set('action', action.toString());
+    const headers = this.keyCloakService.permaHeader();
+
+    return this.http.put(`${this.baseUrl}/cart/product/${id}`, changeCartDTO, { params, headers });
+  }
 
   addProductCart(num: number){
 

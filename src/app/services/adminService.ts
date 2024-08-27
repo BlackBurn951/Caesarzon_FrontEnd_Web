@@ -104,6 +104,8 @@ export class AdminService {
           );
         })
       });
+      this.userService.loading = false
+
     } else if (num == 1) {
       this.getReports(0).subscribe(reports => {
         this.reports = reports;

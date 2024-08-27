@@ -46,11 +46,11 @@
         <div class="col-md mt-5"> <!--SEZIONE DATI ACQUISTO -->
           <div class="container buy-section mt-5">
 
-              <div class="row pt-4 pl-2">
+              <div *ngIf="!this.keyCloak.getIsAdmin()" class="row pt-4 pl-2">
                 <p id="order-delivery">Consegna prevista entro il {{this.day}}/{{this.month}}/{{this.year}}</p>
               </div>
 
-              <div class="row pl-2">
+              <div *ngIf="!this.keyCloak.getIsAdmin()" class="row pl-2">
                 <p>Seleziona la quantità desiderata:</p>
                 <select name="quantity-selection" id="quantity" (change)="updateQuantity($event)">
                   <option value="1">1</option>
@@ -87,7 +87,7 @@
 
               <div class="row d-flex flex-column align-items-center">
                 <button *ngIf="!keyCloak.getAdmin()" type="button" class="btn btn-dark btn-custom" (click)="addProductWishList()">Aggiungi alla lista desideri</button>
-                <button *ngIf="keyCloak.getAdmin()" type="button" class="btn btn-dark btn-custom" >Aggiungi disponibilità</button>
+                <button *ngIf="keyCloak.getAdmin()" type="button" class="btn btn-dark btn-custom" (click)="this.popUpService.openPopups(11, false)" >Aggiungi disponibilità</button>
               </div>
 
               <div class="row pt-4 pl-2">

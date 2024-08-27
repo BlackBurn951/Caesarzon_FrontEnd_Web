@@ -3,6 +3,9 @@ import { Router } from "@angular/router";
 import { PopupService } from "../services/popUpService";
 import { KeyCloakService } from "../services/keyCloakService";
 import { CartService } from "../services/cartService";
+import {ChangeCart} from "../entities/ChangeCart";
+import {Unvailable} from "../entities/Unvaiable";
+import {Availabilities} from "../entities/Availabilities";
 
 @Component({
   selector: 'app-shopping-cart',
@@ -21,6 +24,39 @@ export class ShoppingCartComponent implements OnInit {
     public cartService: CartService
   ) { }
 
+
+  onQuantityChange(item: any) {
+    const changeCartDTO: ChangeCart = {
+      quantity: item.quantity,
+      size: item.size
+    };
+
+    this.cartService.updateProductInCart(item.id, 1, changeCartDTO).subscribe(
+      response => {
+        console.log('Quantità aggiornata con successo', response);
+      },
+      error => {
+        console.error('Errore nell\'aggiornamento della quantità', error);
+      }
+    );
+  }
+
+  onSizeChange(item: any) {
+    const changeCartDTO: ChangeCart = {
+      quantity: item.quantity,
+      size: item.size
+    };
+
+    this.cartService.updateProductInCart(item.id, 1, changeCartDTO).subscribe(
+      response => {
+        console.log('Taglia aggiornata con successo', response);
+      },
+      error => {
+        console.error('Errore nell\'aggiornamento della taglia', error);
+      }
+    );
+  }
+
   ngOnInit(): void {
     this.keyCloak.getNotify().subscribe(notifies => {
       this.keyCloak.notifications = notifies;
@@ -33,11 +69,23 @@ export class ShoppingCartComponent implements OnInit {
       if (res === null) {
         this.router.navigate(['payment-second-page']);
       } else {
-        this.popup.updateStringa("Sono cambiate le seguenti disponibilità");
+        this.cartService.unvaiable = res;
+
+        let availabilityMessage = "Sono cambiate le seguenti disponibilità:\n";
+
+        res.forEach((item: Unvailable) => {
+          availabilityMessage += `\nProdotto: ${item.name}\n`;
+          item.availability.forEach((avail: Availabilities) => {
+            availabilityMessage += `  - Taglia: ${avail.size}, Disponibilità: ${avail.amount}\n`;
+          });
+        });
+
+        this.popup.updateStringa(availabilityMessage);
         this.popup.openPopups(2343, true);
       }
     });
   }
+
 
   salvaPerDopo(id: string) {
     const item = this.cartService.productInCart.find(product => product.id === id);

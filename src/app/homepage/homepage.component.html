@@ -22,25 +22,28 @@
       </button>
       <div class="container-fluid collection ml-5">
         <div class="product" *ngFor="let item of productService.newProducts.slice(indexNovita, indexNovita + 3)">
-          <a class="product__image"  (click)="productService.prendiDatiProdotto(item.productId)"><img class="preview" [src]="item.image" alt=""></a>
-          <div class="product__name" >
-            <p>
-              <a>{{item.productName}}</a>
-              <span style="color: #0000ff"> NEW</span>
+          <div (click)="productService.prendiDatiProdotto(item.productId)">
+          <a class="product__image"><img class="preview" [src]="item.image" alt=""></a>
+            <div class="product__name" >
+              <p>
+                <a>{{item.productName}}</a>
+                <span style="color: #0000ff"> NEW</span>
 
-            </p>
-          </div>
-          <div class="product__price">
-            <p>Prezzo: {{item.price}}€
-            <p *ngIf="item.discount>0">Sconto: {{item.discount}}%
-            <div *ngIf="item.reviewsNumber > 0">
-              <h4>Numero recensioni: {{item.reviewsNumber}}</h4>
-              <h4>Media recensioni: {{item.averageReview}}</h4>
+              </p>
             </div>
-            <div *ngIf="item.reviewsNumber == 0">
-              <h4>Non ci sono ancora recensioni</h4>
+            <div class="product__price">
+              <p>Prezzo: {{item.price}}€
+              <p *ngIf="item.discount>0">Sconto: {{item.discount}}%
+              <div *ngIf="item.reviewsNumber > 0">
+                <h4>Numero recensioni: {{item.reviewsNumber}}</h4>
+                <h4>Media recensioni: {{item.averageReview}}</h4>
+              </div>
+              <div *ngIf="item.reviewsNumber == 0">
+                <h4>Non ci sono ancora recensioni</h4>
+              </div>
             </div>
           </div>
+
         </div>
       </div>
       <button type="button" class="btnArrow" (click)="nextData('novita')">
@@ -53,7 +56,9 @@
       <div class="container-fluid collection ml-5">
         <!-- Imagine a loop produced this... -->
         <div class="product" *ngFor="let item of productService.offerProducts.slice(indexOfferte, indexOfferte+ 3)">
-          <a class="product__image"  (click)="productService.prendiDatiProdotto(item.productId)"><img class="preview" [src]="item.image" alt=""></a>
+          <div (click)="productService.prendiDatiProdotto(item.productId)">
+
+          <a class="product__image"><img class="preview" [src]="item.image" alt=""></a>
           <div class="product__name" >
             <p>
               <a>{{item.productName}}</a>
@@ -72,6 +77,7 @@
             <div *ngIf="item.reviewsNumber == 0">
               <h4>Non ci sono ancora recensioni</h4>
             </div>
+          </div>
           </div>
         </div>
       </div>

@@ -269,3 +269,30 @@ input{
 }
 
 
+.wider-input {
+  width: 130%;
+  max-width: 500px; /* Puoi modificare questo valore per aumentare ulteriormente la larghezza */
+}
+
+.spaced-group {
+  margin-bottom: 20px; /* Aumenta lo spazio tra i campi */
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  text-align: left;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+#descrizione {
+  width: 150%;
+}
+
+.row {
+  margin-left: 0;
+  margin-right: 0;
+}

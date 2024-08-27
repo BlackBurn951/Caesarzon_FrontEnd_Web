@@ -132,7 +132,7 @@ export class ProductService {
   }
 
   modificaProdotto(){
-
+    this.popUpService.openPopups(14, true)
   }
 
   sendReviewData(reviewData: ProductReview){

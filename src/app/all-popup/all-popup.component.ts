@@ -51,7 +51,9 @@ export class AllPopupComponent implements OnInit{
     this.mostraPassword = {password: false, confermaPassword: false}
   }
 
+  onSubmit(){
 
+  }
   aggiungiIndirizzo(){
     this.addressService.sendAddress()
   }

@@ -31,13 +31,13 @@
               <div class="product-info">
                 <div class="info-group">
                   <label>Quantità:</label>
-                  <select class="form-control quantity-select" [(ngModel)]="item.quantity">
+                  <select class="form-control quantity-select" [(ngModel)]="item.quantity" (change)="onQuantityChange(item)">
                     <option *ngFor="let qty of quantities" [value]="qty">{{qty}}</option>
                   </select>
                 </div>
                 <div class="info-group" *ngIf="item.size">
                   <label>Taglia:</label>
-                  <select class="form-control size-select" [(ngModel)]="item.size">
+                  <select class="form-control size-select" [(ngModel)]="item.size" (change)="onSizeChange(item)">
                     <option *ngFor="let size of sizes" [value]="size">{{size}}</option>
                   </select>
                 </div>
@@ -66,18 +66,6 @@
             <div class="product-details">
               <h5 class="product-name">{{item.name}}</h5>
               <div class="product-info">
-                <div class="info-group">
-                  <label>Quantità:</label>
-                  <select class="form-control quantity-select" [(ngModel)]="item.quantity">
-                    <option *ngFor="let qty of quantities" [value]="qty">{{qty}}</option>
-                  </select>
-                </div>
-                <div class="info-group" *ngIf="item.size">
-                  <label>Taglia:</label>
-                  <select class="form-control size-select" [(ngModel)]="item.size">
-                    <option *ngFor="let size of sizes" [value]="size">{{size}}</option>
-                  </select>
-                </div>
                 <div class="info-group">
                   <label>Prezzo:</label>
                   <p class="product-price">{{item.total | currency:'EUR'}}</p>
