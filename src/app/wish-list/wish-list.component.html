@@ -40,6 +40,7 @@
                 <td>
 
                   <div class="form-group d-flex flex-row align-items-center"  *ngIf="wishListService.section == 0">
+                    <div *ngIf="wishListService.wishLists.length === 0">Non hai ancora liste dei desideri pubbliche!</div>
                     <button class="btn btn-dark custom-btn ml-2" (click)="wishListService.getWishListProducts(item.id,0)">
                       Prodotti
                     </button>
@@ -98,14 +99,17 @@
               <tr *ngIf="wishListService.showProductsMap[item.id]">
                 <td colspan="2">
                   <p *ngIf="wishListService.emptyList">Non hai ancora aggiunto prodotti a questa lista</p>
-                  <div *ngFor="let product of wishListService.wishListProducts?.singleWishListProductDTOS">
-                    <p class="prodottoOi"  (click)="productService.prendiDatiProdotto(product.productId)" >{{ product.productName }} - {{ product.price }} €</p>
-                    <button class="btn btn-dark custom-btn ml-2" (click)="wishListService.deleteWishListproduct(product.productId, product.productName)">
-                      <i class="fas fa-minus"></i> Rimuovi Prodotto
+                  <div *ngFor="let product of wishListService.wishListProductsMap[item.id]?.singleWishListProductDTOS">
+                    <p class="prodottoOi" (click)="productService.prendiDatiProdotto(product.productId)">
+                      {{ product.productName }} - {{ product.price }} €
+                    </p>
+                    <button class="btn btn-dark custom-btn ml-2" (click)="wishListService.deleteWishListproduct(item.id, product.productId, product.productName)">
+                      <i class="fas fa-minus mb-2"></i> Rimuovi Prodotto
                     </button>
                   </div>
                 </td>
               </tr>
+
             </ng-container>
 
             </tbody>

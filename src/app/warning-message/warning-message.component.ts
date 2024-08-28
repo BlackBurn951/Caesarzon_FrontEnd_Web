@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {MatDialogRef} from "@angular/material/dialog";
 import {PopupService} from "../services/popUpService";
 import {NgIf} from "@angular/common";
@@ -85,9 +85,9 @@ export class WarningMessageComponent implements OnInit{
 
           }
         })
-      }else if(this.popup.operazione == 9){
+      }else if(this.popup.operazione === 9){
         this.cartService.svuotaCarrello()
-      }else if(this.popup.operazione == 10){
+      }else if(this.popup.operazione === 10){
         this.adminService.rimuoviBan().subscribe(response =>{
           if(response === "Utente sbannato con successo"){
             this.popup.updateStringa(response);
@@ -99,6 +99,8 @@ export class WarningMessageComponent implements OnInit{
         this.adminService.adminDeleteUser()
       }else if(this.popup.operazione == 12){
         this.productService.rimuoviProdotto()
+      }else if(this.popup.operazione == 13){
+
       }
 
 

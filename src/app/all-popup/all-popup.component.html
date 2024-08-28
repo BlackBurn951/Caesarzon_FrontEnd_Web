@@ -612,7 +612,7 @@
           <label for="sconto">Sconto (%):</label>
           <input type="number" id="sconto" formControlName="sconto" class="form-control wider-input">
           <div *ngIf="formService.campoNonCorretto('formDeiProdotti.sconto')" class="error-message">
-            <label class="err">Lo sconto iniziale può essere massimo del 50%.</label>
+            <label class="err">Lo sconto può essere massimo del 50%.</label>
           </div>
         </div>
 
@@ -694,7 +694,18 @@
   </div>
 </div>
 
+<div class="container-fluidos regLog" *ngIf="popUpService.wichComponent === 15" [ngClass]="{'other': !popUpService.isOther}">
+<div class="container">
+  <div class="d-flex flex-column align-items-center">
+    <strong>Sono cambiate le seguenti disponibilità:</strong>
 
+    <h3 class="messaggio" >{{this.cartService.stringaDisponibilita}}</h3>
+    <div *ngIf="this.popUpService.isAvviso">
+      <button id="confirma" class="btn btn-dark custom-btn mb-3" (click)="ok()">Ok</button>
+    </div>
+  </div>
+</div>
+</div>
 </body>
 
 </html>

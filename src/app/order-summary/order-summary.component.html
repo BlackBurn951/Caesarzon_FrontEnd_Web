@@ -16,8 +16,8 @@
     <h1 class="titless">ORDINI EFFETTUATI</h1>
 
     <div class="form-group d-flex flex-row align-items-center visibility mb-3">
-      <button type="button" class="btn btn-dark custom-btn mr-5" (click)="orderService.changeSection()">Ordini</button>
-      <button type="button" class="btn btn-dark custom-btn mr-5" (click)="orderService.changeSection()">Resi</button>
+      <button type="button" class="btn btn-dark custom-btn mr-5" (click)="orderService.changeSection(0)">Ordini</button>
+      <button type="button" class="btn btn-dark custom-btn mr-5" (click)="orderService.changeSection(1)">Resi</button>
     </div>
 
     <section class="form-group d-flex flex-column align-items-center">
@@ -30,6 +30,9 @@
           </tr>
           </thead>
           <tbody>
+          <div class="form-group d-flex flex-column align-items-center mt-5 ml-5" *ngIf="orderService.orders.length === 0 && orderService.sectionN === 0">
+            <strong>Non hai ancora effettuato alcun ordine!</strong>
+          </div>
           <ng-container *ngIf="orderService.section; else refundSection">
             <ng-container *ngFor="let item of orderService.orders; let i = index">
               <tr>
@@ -85,6 +88,9 @@
           </ng-container>
 
           <!-- Sezione per i resi -->
+          <div class="form-group d-flex flex-column align-items-center mt-5 ml-5" *ngIf="orderService.refundOrders.length === 0   && orderService.sectionN === 1">
+            <strong>Non hai ancora effettuato alcun reso!</strong>
+          </div>
           <ng-template #refundSection>
             <ng-container *ngFor="let item of orderService.refundOrders; let i = index">
               <tr>

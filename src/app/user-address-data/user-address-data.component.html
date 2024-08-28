@@ -23,11 +23,11 @@
       </select>
     </div>
 
-    <div *ngIf="addressService.addressesName  && addressService.addressesName .length === 0 && !this.keyCloak.getIsAdmin()" class="form-group d-flex flex-column align-items-center aldos">
+    <div *ngIf="addressService.addressesName  && addressService.addressesName .length === 0 && !this.keyCloak.getAdmin()" class="form-group d-flex flex-column align-items-center aldos">
       <label>Non hai ancora aggiunto un indirizzo</label>
     </div>
 
-    <div *ngIf="addressService.addressesName  && addressService.addressesName .length === 0 && this.keyCloak.getIsAdmin()" class="form-group d-flex flex-column align-items-center aldos">
+    <div *ngIf="addressService.addressesName  && addressService.addressesName .length === 0 && this.keyCloak.getAdmin()" class="form-group d-flex flex-column align-items-center aldos">
       <label>L'utente non ha ancora ancora aggiunto un indirizzo</label>
     </div>
 

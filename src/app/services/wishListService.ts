@@ -1,6 +1,6 @@
 import {PopupService} from "./popUpService";
 import {KeyCloakService} from "./keyCloakService";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {Injectable} from "@angular/core";
 import {BasicWishList} from "../entities/BasicWishList";
 import {WishProduct} from "../entities/WishProduct";
@@ -17,10 +17,11 @@ export class WishListService{
 
 
   wishListProducts!: WishProduct;
-  wishLists!: BasicWishList[];
+  wishLists: BasicWishList[] = [];
 
-  userWishLists!: BasicWishList[];
+  userWishLists: BasicWishList[] = [];
 
+  wishListProductsMap: Record<string, WishProduct> = {};
   showProductsMap: Record<string, boolean> = {};
 
   wishId! :string;
@@ -108,24 +109,19 @@ export class WishListService{
     return this.http.get<BasicWishList[]>(this.getAllUserWishListsURL, { headers });
   }
 
-  getWishListProducts(wishlistId: string, num: number) {
-    this.wishListProducts = { visibility: "", singleWishListProductDTOS: [] }; // Resetta la lista dei prodotti
-    this.emptyList = false; // Resetta il flag della lista vuota
-    this.wishId = wishlistId
-    this.showProductsMap[wishlistId] = !this.showProductsMap[wishlistId];
-    let customUrl = ""
-    if (this.showProductsMap[wishlistId]) {
-      if(num === 0){
-        customUrl = `${this.getWishListsProductsURL}?wish-id=${wishlistId}&usr=`+this.keycloakService.getUsername();
-      }else{
-        customUrl = `${this.getWishListsProductsURL}?wish-id=${wishlistId}&usr=`+this.userService.nomeProfilo;
 
-      }
+  getWishListProducts(wishlistId: string, num: number) {
+    this.emptyList = false;
+    this.showProductsMap[wishlistId] = !this.showProductsMap[wishlistId];
+
+    if (this.showProductsMap[wishlistId]) {
+      let customUrl = `${this.getWishListsProductsURL}?wish-id=${wishlistId}&usr=${this.keycloakService.getUsername()}`;
       const headers = this.keycloakService.permaHeader();
+
       this.http.get<WishProduct>(customUrl, { headers }).subscribe({
         next: (response: WishProduct) => {
           if (response.singleWishListProductDTOS.length > 0) {
-            this.wishListProducts = response;
+            this.wishListProductsMap[wishlistId] = response;
             this.emptyList = false;
           } else {
             this.emptyList = true;
@@ -177,27 +173,30 @@ export class WishListService{
   }
 
 
-  addProductToWishList(){
-    const wishList : SendWishlistProductDTO ={
-      productID: this.productIdToAdd,
-      wishlistID: this.wishListToAddProduct
-    }
 
-    console.log("ID PRODOTTTOOOOOOOO: " + this.productIdToAdd)
-    console.log("ID LISTA DESIDERIIIIII: " + this.wishListToAddProduct)
-    const headers = this.keycloakService.permaHeader()
-    return this.http.post<string>(this.addProductToWishListURL, wishList, { headers, responseType: 'text' as 'json' }).subscribe(response =>{
-      if(response === "Prodotto aggiunto alla lista"){
-        this.popUpService.closePopup()
-        this.popUpService.updateStringa(response)
-        this.popUpService.openPopups(324,true)
-      }else{
-        this.popUpService.closePopup()
-        this.popUpService.updateStringa(response)
-        this.popUpService.openPopups(324,true)
+  addProductToWishList() {
+  const wishList: SendWishlistProductDTO = {
+    productID: this.productIdToAdd,
+    wishlistID: this.wishListToAddProduct
+  };
+
+  const headers = this.keycloakService.permaHeader();
+
+  return this.http.post<string>(this.addProductToWishListURL, wishList, { headers, responseType: 'text' as 'json' })
+    .toPromise()
+    .then(response => {
+      this.popUpService.closePopup();
+      this.popUpService.updateStringa("Prodotto aggiunto alla lista");
+      this.popUpService.openPopups(324, true);
+    })
+    .catch(error => {
+      if (error instanceof HttpErrorResponse && error.status === 500) {
+        this.popUpService.closePopup();
+        this.popUpService.updateStringa("Errore o prodotto già presente nella lista");
+        this.popUpService.openPopups(324, true);
       }
     });
-  }
+}
 
   addWishList(wishList: WishList){
     const headers = this.keycloakService.permaHeader()
@@ -270,7 +269,8 @@ export class WishListService{
     const customUrl = this.deleteWishListsURL+this.wishId;
     this.http.delete<string>(customUrl, { headers, responseType: 'text' as 'json' }).subscribe(response => {
       if(response === "Lista desideri eliminata correttamente"){
-        this.wishLists = this.wishLists.filter(wish => wish.id !== this.wishId);
+        if(this.wishLists && this.wishLists.length > 0)
+          this.wishLists = this.wishLists.filter(wish => wish.id !== this.wishId);
         this.popUpService.closePopup()
         this.popUpService.updateStringa(response)
         this.popUpService.openPopups(253, true)
@@ -296,14 +296,23 @@ export class WishListService{
     const customUrl = this.getWishListsProductsURL+"?wish-id="+this.wishId;
     this.http.delete<string>(customUrl, { headers, responseType: 'text' as 'json'  }).subscribe(response => {
       if(response === "Lista desideri svuotata"){
-        this.wishListProducts.singleWishListProductDTOS = this.wishListProducts.singleWishListProductDTOS.filter(product => product.productId !== this.productId);
+        if(this.wishListProducts) {
+          if (this.wishListProducts.singleWishListProductDTOS && this.wishListProducts.singleWishListProductDTOS.length > 0)
+            this.wishListProducts.singleWishListProductDTOS = this.wishListProducts.singleWishListProductDTOS.filter(product => product.productId !== this.productId);
+        }
         this.popUpService.closePopup()
         this.popUpService.updateStringa(response)
         this.popUpService.openPopups(253, true)
+        setTimeout(()=>{
+          window.location.reload()
+        }, 1500);
       }else{
         this.popUpService.closePopup()
         this.popUpService.updateStringa(response)
         this.popUpService.openPopups(253, true)
+        setTimeout(()=>{
+          window.location.reload()
+        }, 1500);
       }
     });
   }
@@ -313,10 +322,11 @@ export class WishListService{
 
 
 
-  deleteWishListproduct(productId: string, nomeProdotto: string){
+  deleteWishListproduct(wishId: string, productId: string, nomeProdotto: string){
     this.popUpService.operazione = 3
     this.popUpService.updateStringa("Sei sicuro di voler eliminare il prodotto: "+nomeProdotto+"?")
     this.popUpService.openPopups(123, false)
+    this.wishId = wishId
     this.productId = productId;
   }
 
@@ -325,14 +335,23 @@ export class WishListService{
     const customUrl = this.deleteWishProductURL + "?wish-id=" + this.wishId + "&product-id=" + this.productId;
     this.http.delete<string>(customUrl, { headers, responseType: 'text' as 'json' }).subscribe(response => {
       if (response === "Prodotto eliminato correttamente dalla lista desideri") {
-        this.wishListProducts.singleWishListProductDTOS = this.wishListProducts.singleWishListProductDTOS.filter(product => product.productId !== this.productId);
+        if(this.wishListProducts){
+          if(this.wishListProducts.singleWishListProductDTOS && this.wishListProducts.singleWishListProductDTOS.length > 0)
+            this.wishListProducts.singleWishListProductDTOS = this.wishListProducts.singleWishListProductDTOS.filter(product => product.productId !== this.productId);
+        }
         this.popUpService.closePopup();
         this.popUpService.updateStringa(response);
         this.popUpService.openPopups(253, true);
+        setTimeout(()=>{
+          window.location.reload()
+        }, 1500);
       } else {
         this.popUpService.closePopup();
         this.popUpService.updateStringa(response);
         this.popUpService.openPopups(253, true);
+        setTimeout(()=>{
+          window.location.reload()
+        }, 1500);
       }
     });
   }

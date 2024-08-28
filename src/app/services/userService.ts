@@ -186,7 +186,7 @@ export class UserService {
     });
 
     let customURL;
-    if(!this.keycloakService.getIsAdmin()){
+    if(!this.keycloakService.getAdmin()){
       customURL = this.manageProfilePicURL
     }else{
       customURL = this.manageProfilePicURL+'/admin/'+this.username

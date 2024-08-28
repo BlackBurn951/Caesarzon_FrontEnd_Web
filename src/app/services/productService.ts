@@ -178,14 +178,44 @@ export class ProductService {
     this.colorePrimario = ""
     this.coloreSecondario = ""
     this.marca = ""
+    this.products = []
+
     this.getProductsFromServer().subscribe(response =>{
       this.products = response
+      this.products.forEach(prod =>{
+        this.getProductImage(prod.productId).subscribe(
+          response => {
+            const url = URL.createObjectURL(response);
+            console.log("URL IMMAGINE: " + url)
+            prod.image = this.sanitizer.bypassSecurityTrustUrl(url);
+            console.log("IMMAGINE PRODOTTO: " + prod.image)
+          },
+          error => {
+            console.error('Errore nel caricamento dell\'immagine', error);
+          }
+        );
+      })
       this.router.navigate(['products-list']);
     })
   }
 
+  setProductIdInCache(id: string){
+    localStorage.setItem('productID', id);
+  }
+
+  getProductIdInCache() {
+    const productID = localStorage.getItem('productID');
+    if (productID) {
+      return productID;
+    } else {
+      return this.prodotto.id;
+    }
+  }
+
   prendiDatiProdotto(productId: string) {
     this.imageUrl = undefined
+
+    this.setProductIdInCache(productId)
 
     const headers = this.keycloakService.permaHeader()
     return this.http.get<ProductDTO>(this.productDataURL+'/'+productId, { headers}).subscribe(response =>{
@@ -424,9 +454,21 @@ export class ProductService {
       ricercaTerms.push(this.coloreSecondario);
     }
     this.ricerca = ricercaTerms.join(' ');
+    this.products = []
 
     this.getProductsFromServer().subscribe(response => {
       this.products = response;
+      this.products.forEach(prod =>{
+        this.getProductImage(prod.productId).subscribe(
+          response => {
+            const url = URL.createObjectURL(response);
+            prod.image = this.sanitizer.bypassSecurityTrustUrl(url);
+          },
+          error => {
+            console.error('Errore nel caricamento dell\'immagine', error);
+          }
+        );
+      })
       this.ricerca = this.ricerca.replace(this.sport, '');
       this.ricerca = this.ricerca.replace(this.colorePrimario, '');
       this.ricerca = this.ricerca.replace(this.coloreSecondario, '');

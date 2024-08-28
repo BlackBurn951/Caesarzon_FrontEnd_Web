@@ -100,32 +100,33 @@
         <a href="#" class="btn btn-dark custom-btn" (click)="productService.resetFiltri($event)">Reimposta filtri</a>
       </div>
     </div>
-    <!-- Colonna per i prodotti -->
     <div class="col-md-9">
       <div class="container-fluid collection ml-5">
-        <!-- Imagine a loop produced this... -->
         <div class="product" *ngFor="let item of productService.products; let i = index" (click)="productService.prendiDatiProdotto(item.productId)">
-          <a class="product__image"  (click)="productService.prendiDatiProdotto(item.productId)"><img src="assets/images/360_F_565224180_QNRiRQkf9Fw0dKRoZGwUknmmfk51SuSS.jpg"></a>
-          <div class="product__name" >
-            <p>
-              <a>{{item.productName}}</a>
-            </p>
-          </div>
-          <div class="product__price">
-            <p>Prezzo: {{item.price}}€
-            <p *ngIf="item.discount > 0">
-              Sconto: {{ item.discount }}%
-              <span style="color: red" *ngIf="item.discount > 10"> HOT</span>
-            </p>
+          <div (click)="productService.prendiDatiProdotto(item.productId)">
+            <a class="product__image"><img class="preview" [src]="item.image" alt=""></a>
+            <div class="product__name" >
+              <p>
+                <a>{{item.productName}}</a>
+              </p>
+            </div>
+            <div class="product__price">
+              <p>Prezzo: {{item.price}}€
+              <p *ngIf="item.discount > 0">
+                Sconto: {{ item.discount }}%
+                <span style="color: red" *ngIf="item.discount > 10"> HOT</span>
+              </p>
 
-            <div *ngIf="item.reviewsNumber > 0">
-              <h4>Numero recensioni: {{item.reviewsNumber}}</h4>
-              <h4>Media recensioni: {{item.averageReview}}</h4>
-            </div>
-            <div *ngIf="item.reviewsNumber == 0">
-              <h4>Non ci sono ancora recensioni</h4>
+              <div *ngIf="item.reviewsNumber > 0">
+                <h4>Numero recensioni: {{item.reviewsNumber}}</h4>
+                <h4>Media recensioni: {{item.averageReview}}</h4>
+              </div>
+              <div *ngIf="item.reviewsNumber == 0">
+                <h4>Non ci sono ancora recensioni</h4>
+              </div>
             </div>
           </div>
+
         </div>
       </div>
     </div>

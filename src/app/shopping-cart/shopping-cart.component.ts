@@ -71,17 +71,22 @@ export class ShoppingCartComponent implements OnInit {
       } else {
         this.cartService.unvaiable = res;
 
-        let availabilityMessage = "Sono cambiate le seguenti disponibilità:\n";
-
+        let availabilityMessage = "";
+        let size = ""
         res.forEach((item: Unvailable) => {
           availabilityMessage += `\nProdotto: ${item.name}\n`;
-          item.availability.forEach((avail: Availabilities) => {
-            availabilityMessage += `  - Taglia: ${avail.size}, Disponibilità: ${avail.amount}\n`;
+          if(item.availabilities)
+          item.availabilities.forEach((avail: Availabilities) => {
+            if(avail.size === null){
+              size = "Universale"
+            }else{
+              size = avail.size
+            }
+            availabilityMessage += `  - Taglia: ${size} | Disponibilità: ${avail.amount}\n`;
           });
         });
-
-        this.popup.updateStringa(availabilityMessage);
-        this.popup.openPopups(2343, true);
+        this.cartService.stringaDisponibilita = availabilityMessage
+        this.popup.openPopups(15, true);
       }
     });
   }
@@ -92,7 +97,7 @@ export class ShoppingCartComponent implements OnInit {
     if (item) {
       this.cartService.productInCart = this.cartService.productInCart.filter(product => product.id !== id);
       this.cartService.productLater.push(item);
-      this.cartService.saveLater(id)
+      this.cartService.saveLater(id, 0)
     }
   }
 
@@ -101,7 +106,7 @@ export class ShoppingCartComponent implements OnInit {
     if (item) {
       this.cartService.productLater = this.cartService.productLater.filter(product => product.id !== id);
       this.cartService.productInCart.push(item);
-      this.cartService.putInCart(item.size, item.quantity, item.id);
+      this.cartService.saveLater(id, 0)
 
     }
   }

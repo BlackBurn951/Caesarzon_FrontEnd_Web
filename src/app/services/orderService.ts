@@ -20,8 +20,8 @@ export class OrderService {
   getProductsInOrderURL: string = 'http://localhost:8090/product-api/order/products/';
   refundOrderURL: string = 'http://localhost:8090/product-api/refund';
 
-  orders!: OrderDTO[];
-  refundOrders!: OrderDTO[];
+  orders: OrderDTO[] = [];
+  refundOrders: OrderDTO[] = [];
   orderIndex!: number;
 
   orderId!: string;
@@ -65,7 +65,7 @@ export class OrderService {
     if (this.showProductsMapOrder[orderId] && !this.productsMap[orderId]) {
       const headers = this.keyCloakService.permaHeader();
       let customURL = ''
-      if(this.keyCloakService.getIsAdmin()){
+      if(this.keyCloakService.getAdmin()){
         customURL = this.getProductsInOrderURL + orderId + '/' + this.userService.username
       }else{
         customURL = this.getProductsInOrderURL + orderId
@@ -109,7 +109,7 @@ export class OrderService {
 
     const customURL = this.refundOrderURL+'/'+this.userService.username
 
-    if(this.keyCloakService.getIsAdmin()){
+    if(this.keyCloakService.getAdmin()){
       return this.http.put<string>(customURL, refund,{ headers,responseType: 'text' as 'json' })
     }else{
       return this.http.put<string>(this.refundOrderURL, refund,{ headers,responseType: 'text' as 'json' })
@@ -118,9 +118,11 @@ export class OrderService {
 
   }
 
+  sectionN: number = 0
 
-  changeSection() {
+  changeSection(num: number) {
     this.section = !this.section
+    this.sectionN = num
   }
 }
 

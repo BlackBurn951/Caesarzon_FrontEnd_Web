@@ -58,9 +58,15 @@ export class PersonalDataComponent implements OnInit{
     this.username = ''
   }
 
+  bannaProfiloUtente(){
+    this.popUpService.operazione = 13
+    this.popUpService.updateStringa("Sei sicuro di voler bannare l'utente: " + this.userService.username+'?')
+    this.popUpService.openPopups(140, false)
+  }
+
   eliminaProfiloUtente(){
     this.popUpService.operazione = 11
-    this.popUpService.updateStringa("Sei sicuro di voler eliminare l'account dell'utente: " + this.userService.username)
+    this.popUpService.updateStringa("Sei sicuro di voler eliminare l'account dell'utente: " + this.userService.username+'?')
     this.popUpService.openPopups(140, false)
   }
 
@@ -68,7 +74,7 @@ export class PersonalDataComponent implements OnInit{
   //All'inizializzazione della pagina vengono caricati tutti i dati relativi all'utente
   ngOnInit(): void {
     this.resetVaraibles()
-    if(this.keycloakService.getIsAdmin()){
+    if(this.keycloakService.getAdmin()){
       this.adminService.getUserData(this.userService.username).subscribe(
         (userData: User) => {
           this.formCaesarzon.get('formDatipersonali.nome')?.setValue(userData.firstName);
@@ -105,7 +111,7 @@ export class PersonalDataComponent implements OnInit{
 
   //Metodo per caricare l'immagine di profilo dal DB
   loadImage(): void {
-    if(this.keycloakService.getIsAdmin()){
+    if(this.keycloakService.getAdmin()){
       this.adminService.getUserProfilePic(this.userService.username).subscribe(
         response => {
           const url = URL.createObjectURL(response);
@@ -236,7 +242,7 @@ export class PersonalDataComponent implements OnInit{
   //Metodo per mandare le modifiche apportate ai dati dell'utente
   mandaModifiche(){
     this.setValuess()
-    if(this.keycloakService.getIsAdmin()){
+    if(this.keycloakService.getAdmin()){
       this.adminService.adminModifyUser(this.username, this.email, this.nome, this.cognome, this.numero)
     }else{
       this.userService.modifyUser(this.username, this.email, this.nome, this.cognome, this.numero)

@@ -12,6 +12,8 @@ import {AddressService} from "./addressService";
 import {CardsService} from "./cardsService";
 import {ChangeCart} from "../entities/ChangeCart";
 import {Observable} from "rxjs";
+import {ProductService} from "./productService";
+import {DomSanitizer} from "@angular/platform-browser";
 
 
 @Injectable({
@@ -19,7 +21,7 @@ import {Observable} from "rxjs";
 })
 export class CartService {
 
-  getCartURL: string = 'http://localhost:8090/product-api/cart' //ANche per eliminare
+  getCartURL: string = 'http://localhost:8090/product-api/cart'
 
   checkAvaURL: string = 'http://localhost:8090/product-api/pre-order';
 
@@ -29,9 +31,9 @@ export class CartService {
 
   saveLaterURL: string = 'http://localhost:8090/product-api/cart/product/';
 
-  changeQuantityURL: string = 'http://localhost:8090/product-api/cart/product/{id}?quantity=INTERO&size=M&action=QUALSISI NUMERO TRANNE LO 0  MODIFIC QUANTITA';
 
 
+  stringaDisponibilita: string = ""
 
   ordineInviato!: boolean;
 
@@ -52,13 +54,13 @@ export class CartService {
   totaleConSconto: number = 0;
 
   productIdToAddCart: string = ""
-  size: string = "";
+  size: string | null = ""
   quantity: number = 1;
 
   private baseUrl = 'http://localhost:8090/product-api'
 
 
-  constructor(private cardsService:CardsService, private addressService:AddressService, private route: ActivatedRoute, private popUp: PopupService, private router:Router, private http: HttpClient, private keyCloakService: KeyCloakService) { }
+  constructor(private sanitizer: DomSanitizer, private productService: ProductService, private cardsService:CardsService, private addressService:AddressService, private route: ActivatedRoute, private popUp: PopupService, private router:Router, private http: HttpClient, private keyCloakService: KeyCloakService) { }
 
 
 
@@ -66,10 +68,14 @@ export class CartService {
     const params = new HttpParams().set('action', action.toString());
     const headers = this.keyCloakService.permaHeader();
 
-    return this.http.put(`${this.baseUrl}/cart/product/${id}`, changeCartDTO, { params, headers });
+    return this.http.put(`${this.baseUrl}/cart/product/${id}`, changeCartDTO, { params, headers, responseType: 'text' as 'json' });
   }
 
   addProductCart(num: number){
+
+    if(this.size === ""){
+      this.size = null
+    }
 
     const productToAddCart: SendProductOrderDTO ={
       productID: this.productIdToAddCart,
@@ -77,9 +83,9 @@ export class CartService {
       quantity: this.quantity
     }
 
+
     const headers = this.keyCloakService.permaHeader();
     return this.http.post<string>(this.getCartURL, productToAddCart,{headers, responseType: 'text' as 'json'}).subscribe(response => {
-      console.log("risposta ggiunta: " + response)
       if(response == "Ordine creato con successo!"){
         if(num === 0){
           this.popUp.updateStringa("Prodotto aggiunto al carrello")
@@ -121,6 +127,17 @@ export class CartService {
 
         response.forEach(product => {
           console.log("valore buy later: " + product.buyLater)
+          this.productService.getProductImage(product.id).subscribe(
+            response => {
+              const url = URL.createObjectURL(response);
+              console.log("URL IMMAGINE CARRELLO: " + url)
+              product.image = this.sanitizer.bypassSecurityTrustUrl(url);
+              console.log("IMMAGINE PRODOTTO CARRELLO: " + product.image)
+            },
+            error => {
+              console.error('Errore nel caricamento dell\'immagine', error);
+            }
+          );
           if (product.buyLater) {
             this.productLater.push(product);
           } else {
@@ -134,9 +151,9 @@ export class CartService {
   }
 
 
-  saveLater(idProdotto: string){
+  saveLater(idProdotto: string, num: number){
     const headers = this.keyCloakService.permaHeader();
-    const customURL = this.saveLaterURL+idProdotto+'?action=0'
+    const customURL = this.saveLaterURL+idProdotto+'?action='+num
 
     const changeCart: ChangeCart = {
       size: "",

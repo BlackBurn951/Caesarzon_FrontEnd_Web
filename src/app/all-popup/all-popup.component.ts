@@ -12,6 +12,8 @@ import {WishListService} from "../services/wishListService";
 import {KeyCloakService} from "../services/keyCloakService";
 import {FriendFollowerService} from "../services/friendFollowerService";
 import {UserSearch} from "../entities/UserSearch";
+import {MatDialogRef} from "@angular/material/dialog";
+import {CartService} from "../services/cartService";
 
 @Component({
   selector: 'app-all-popup',
@@ -38,7 +40,7 @@ export class AllPopupComponent implements OnInit{
   formCaesarzon!: FormGroup;
 
 
-  constructor(protected friendFollow: FriendFollowerService, private keyCloak: KeyCloakService, protected wishListService:WishListService, protected productService: ProductService, private addressService: AddressService, private cardService: CardsService, public popUpService:PopupService, protected ottieniCittaService: ottieniCittaService, protected formService: FormService, protected userService: UserService, protected adminService: AdminService){
+  constructor(protected cartService: CartService, private dialogError: MatDialogRef<AllPopupComponent>, protected friendFollow: FriendFollowerService, private keyCloak: KeyCloakService, protected wishListService:WishListService, protected productService: ProductService, private addressService: AddressService, private cardService: CardsService, public popUpService:PopupService, protected ottieniCittaService: ottieniCittaService, protected formService: FormService, protected userService: UserService, protected adminService: AdminService){
     this.formCaesarzon= this.formService.getForm();
   }
 
@@ -51,9 +53,10 @@ export class AllPopupComponent implements OnInit{
     this.mostraPassword = {password: false, confermaPassword: false}
   }
 
-  onSubmit(){
-
+  ok(){
+    this.dialogError.close();
   }
+
   aggiungiIndirizzo(){
     this.addressService.sendAddress()
   }
@@ -225,13 +228,8 @@ export class AllPopupComponent implements OnInit{
 
   highlightedRow: number = -1;
 
-  apripopup() {
-    // Logica per aprire il popup
+
+  onSubmit() {
+
   }
-
-
-
-
-
-
 }

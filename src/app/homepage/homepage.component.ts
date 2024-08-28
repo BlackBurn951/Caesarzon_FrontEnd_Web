@@ -22,6 +22,8 @@ export class HomepageComponent implements OnInit{
   }
 
   ngOnInit() {
+
+    console.log("VARIABILE ADMIN: " + this.key.getAdmin())
     if(this.key.getUsername() == ""){
       this.key.login("Guest","Mascalzone1");
     }

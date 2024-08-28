@@ -54,9 +54,11 @@ export class HeaderComponent implements OnDestroy, OnInit{
   ngOnDestroy() {
     this.notifyCountSubscription.unsubscribe();
   }
+
   goHomepage(){
     this.router.navigate(['']);
   }
+
   toggleMenu(): void {
     this.isMenuOpen = !this.isMenuOpen;
   }

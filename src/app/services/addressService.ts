@@ -88,7 +88,7 @@ export class AddressService implements OnInit{
   getAddressesName() {
     const headers = this.keycloakService.permaHeader();
     let urlWithParams;
-    if (this.keycloakService.getIsAdmin()) {
+    if (this.keycloakService.getAdmin()) {
       urlWithParams = this.getAddressNamesURL+'/'+this.keycloakService.getUsername()
     }else{
       urlWithParams = this.getAddressNamesURL
@@ -211,7 +211,7 @@ export class AddressService implements OnInit{
 
   sendAddressData(addressData: Address): Observable<string> {
     const headers = this.keycloakService.permaHeader()
-    if (this.keycloakService.getIsAdmin()) {
+    if (this.keycloakService.getAdmin()) {
     const customURL = this.manageAddressURL + '/' + this.keycloakService.getUsername()
     return this.http.post(customURL, addressData, {headers, responseType: 'text'}) as Observable<string>;
     }

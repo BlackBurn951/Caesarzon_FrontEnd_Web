@@ -1,5 +1,7 @@
 //DTO inerente ai prodotti visualizzati nel carrello
 
+import {SafeUrl} from "@angular/platform-browser";
+
 export interface ProductCart {
   id: string
   total: number
@@ -8,5 +10,7 @@ export interface ProductCart {
   name: string
   size: string
   buyLater: boolean
+  image: SafeUrl
+
 
 }

@@ -39,7 +39,9 @@ export class OrderSummaryComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    if(!this.keyCloak.getIsAdmin()){
+    this.orderService.orders = []
+    this.orderService.refundOrders = []
+    if(!this.keyCloak.getAdmin()){
       this.orderService.getOrders()
     }else{
       this.orderService.getOrdersByAdmin()

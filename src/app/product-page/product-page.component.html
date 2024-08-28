@@ -46,11 +46,11 @@
         <div class="col-md mt-5"> <!--SEZIONE DATI ACQUISTO -->
           <div class="container buy-section mt-5">
 
-              <div *ngIf="!this.keyCloak.getIsAdmin()" class="row pt-4 pl-2">
+              <div *ngIf="!this.keyCloak.getAdmin()" class="row pt-4 pl-2">
                 <p id="order-delivery">Consegna prevista entro il {{this.day}}/{{this.month}}/{{this.year}}</p>
               </div>
 
-              <div *ngIf="!this.keyCloak.getIsAdmin()" class="row pl-2">
+              <div *ngIf="!this.keyCloak.getAdmin()" class="row pl-2">
                 <p>Seleziona la quantità desiderata:</p>
                 <select name="quantity-selection" id="quantity" (change)="updateQuantity($event)">
                   <option value="1">1</option>
@@ -160,8 +160,8 @@
                 <p>{{item.text}}</p>
                 <footer class="blockquote-footer">
                   Publicato in data: <cite title="Source Title">{{item.date}}</cite>
-                  <button *ngIf="!keyCloak.getAdmin()" class="btn btn-danger ml-2" (click)="segnala(item.username)">Segnala</button>
-                  <button *ngIf="keyCloak.getAdmin()" class="btn btn-danger ml-2">Rimuovi</button>
+                  <button *ngIf="!keyCloak.getAdmin() && (item.username != this.keyCloak.getUsername())" class="btn btn-danger ml-2" (click)="segnala(item.username)">Segnala</button>
+                  <button *ngIf="keyCloak.getAdmin() || (item.username === this.keyCloak.getUsername())" class="btn btn-danger ml-2" (click)="eliminaRecensione(item.id)">Rimuovi</button>
                 </footer>
               </blockquote>
             </div>

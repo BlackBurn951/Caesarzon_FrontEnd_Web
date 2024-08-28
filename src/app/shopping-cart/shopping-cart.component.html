@@ -23,9 +23,7 @@
          </div>
         <div class="product-list" *ngIf="cartService.productInCart.length > 0">
           <div class="product-card" *ngFor="let item of cartService.productInCart; let i = index">
-            <div class="product-image">
-              <img [src]="item.id" alt="">
-            </div>
+            <img class="preview mt-2 ml-1" [src]="item.image" alt="" style="width: 150px; height: 150px">
             <div class="product-details">
               <h5 class="product-name">{{item.name}}</h5>
               <div class="product-info">
@@ -60,9 +58,7 @@
         <h2 class="section-title">Salvati per dopo</h2>
         <div class="product-list"  >
           <div class="product-card" *ngFor="let item of cartService.productLater; let i = index">
-            <div class="product-image">
-              <img [src]="item.id" alt="">
-            </div>
+            <img class="preview mt-2 ml-1" [src]="item.image" alt="" style="width: 150px; height: 150px">
             <div class="product-details">
               <h5 class="product-name">{{item.name}}</h5>
               <div class="product-info">

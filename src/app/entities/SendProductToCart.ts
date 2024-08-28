@@ -2,7 +2,7 @@ export interface SendProductOrderDTO {
 
   productID: string,
   quantity: number,
-  size: string;
+  size: string | null;
 }
 
 

@@ -84,7 +84,7 @@ export class CardsService {
           console.log('Carta eliminato con successo:', response);
           this.popUp.updateStringa(response)
           this.popUp.openPopups(18, true)
-          if(!this.keyCloakService.getIsAdmin()){
+          if(!this.keyCloakService.getAdmin()){
             setTimeout(()=>{
               window.location.reload()
             }, 1500);
@@ -107,7 +107,7 @@ export class CardsService {
   getCardsName() {
     const headers = this.keyCloakService.permaHeader()
     let urlWithParams;
-    if (this.keyCloakService.getIsAdmin()) {
+    if (this.keyCloakService.getAdmin()) {
       urlWithParams = this.getCardsNameURL+'/'+ this.keyCloakService.getUsername()
     }else{
       urlWithParams = this.getCardsNameURL
@@ -185,7 +185,7 @@ export class CardsService {
         this.popUp.updateStringa("Carta aggiunta con successo!");
         this.popUp.openPopups(144, true);
         this.clearFields();
-        if(!this.keyCloakService.getIsAdmin()){
+        if(!this.keyCloakService.getAdmin()){
           setTimeout(() => {
             window.location.reload();
           }, 1500);
@@ -206,7 +206,7 @@ export class CardsService {
 
   sendCardData(cardData: Card): Observable<string> {
     const headers = this.keyCloakService.permaHeader()
-    if (this.keyCloakService.getIsAdmin()) {
+    if (this.keyCloakService.getAdmin()) {
       const customURL = this.manageCardURL + '/' + this.keyCloakService.getUsername()
       return this.http.post(customURL, cardData, {headers, responseType: 'text'}) as Observable<string>;
     }

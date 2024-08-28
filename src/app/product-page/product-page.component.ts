@@ -31,11 +31,9 @@ export class ProductPageComponent implements OnInit{
 
   ngOnInit() {
     this.resetVariables()
-    const can= document.getElementById("5-star-graph") as HTMLCanvasElement
-    const context = can.getContext('2d');
-
-    this.drawGraphs(context!)
     this.setDataSpedizione()
+
+    this.productService.prendiDatiProdotto(this.productService.getProductIdInCache())
 
     this.keyCloak.getNotify().subscribe(notifies => {
       this.keyCloak.notifications = notifies;
@@ -43,7 +41,9 @@ export class ProductPageComponent implements OnInit{
 
   }
 
+  eliminaRecensione(isRecensione: string){
 
+  }
 
   rimozioneProdotto(){
     this.popUpService.operazione = 12

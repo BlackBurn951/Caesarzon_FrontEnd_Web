@@ -25,7 +25,7 @@ export class KeyCloakService {
   private cognomeUtente!: string;
 
   private username: string = ""
-  private isAdmin: boolean = false;
+  private isAdmin!: boolean;
   private isLogged: boolean = false;
   menuOpen = false;
 
@@ -41,6 +41,7 @@ export class KeyCloakService {
     this.ACCESS_TOKEN = "";
     this.REFRESH_TOKEN = "";
   }
+
   setNomeUtente(nome: string): void {
     this.nomeUtente = nome
   }
@@ -94,9 +95,6 @@ export class KeyCloakService {
     );
   }
 
-  getIsAdmin(){
-    return this.isAdmin;
-  }
 
   getUsernameFromCache(): string | null {
     const cachedUsername = localStorage.getItem('username');
@@ -164,7 +162,10 @@ export class KeyCloakService {
   getAdmin(){
     const isAdminString = localStorage.getItem('isAdmin');
     if (isAdminString) {
-      return isAdminString === 'true';
+      if(isAdminString === 'true'){
+        this.isAdmin = true
+      }
+      return this.isAdmin;
     } else {
       return this.isAdmin
     }

@@ -94,7 +94,7 @@
   grid-gap: 25px;
   grid-template-columns: repeat(3, 1fr);
 
-margin: 60px auto;
+margin: 10px auto;
   max-width: 1000px;
 }
 
@@ -106,7 +106,7 @@ margin: 60px auto;
 .product__image {
   background-color: #e5e5e5;
   display: block;
-  min-height: 200px;
+  height: 200px;
   width: 100%;
 }
 
@@ -160,8 +160,8 @@ margin: 60px auto;
 
 .product img {
   max-width: 100%;
-  height: auto;
-  object-fit: contain;
+  height: 100%;
+  object-fit: cover;
 }
 
 
