@@ -58,11 +58,6 @@ export class PersonalDataComponent implements OnInit{
     this.username = ''
   }
 
-  bannaProfiloUtente(){
-    this.popUpService.operazione = 13
-    this.popUpService.updateStringa("Sei sicuro di voler bannare l'utente: " + this.userService.username+'?')
-    this.popUpService.openPopups(140, false)
-  }
 
   eliminaProfiloUtente(){
     this.popUpService.operazione = 11

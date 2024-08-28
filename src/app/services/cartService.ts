@@ -14,6 +14,7 @@ import {ChangeCart} from "../entities/ChangeCart";
 import {Observable} from "rxjs";
 import {ProductService} from "./productService";
 import {DomSanitizer} from "@angular/platform-browser";
+import {Availabilities} from "../entities/Availabilities";
 
 
 @Injectable({
@@ -45,6 +46,8 @@ export class CartService {
   productIds: string[] = []
 
   payPal: boolean = false;
+
+  buy!: Buy;
 
   cardId: string = ""
   addressId: string = ""
@@ -100,7 +103,7 @@ export class CartService {
           this.size = ""
           this.quantity = 1
           this.productIdToAddCart = ""
-          this.router.navigate(['payment-second-page']);
+          this.goToPayment(104)
         }
 
       }else{
@@ -228,17 +231,57 @@ export class CartService {
     this.payPal = true;
   }
 
-  checkAva(){
-    this.productInCart.forEach(a =>{
-      this.productIds.push(a.id)
-      console.log(a.id);
-    })
+  checkAva(num: number) {
+    if (num === 0) {
+      this.productInCart.forEach(a => {
+        if (!this.productIds.includes(a.id)) {
+          this.productIds.push(a.id);
+        }
+      });
+    } else {
+      const prodottoId = this.productService.prodotto.id;
+      if (prodottoId && !this.productIds.includes(prodottoId)) {
+        this.productIds.push(prodottoId);
+      }
+    }
+
     const headers = this.keyCloakService.permaHeader();
     return this.http.post<Unvailable[]>(this.checkAvaURL, this.productIds,{headers});
   }
 
 
-  buy!: Buy;
+  goToPayment(num: number) {
+    this.checkAva(num).subscribe(res => {
+      if (res === null) {
+        this.clearCampi()
+        this.router.navigate(['payment-second-page']);
+      } else {
+        this.unvaiable = res;
+        this.stringaDisponibilita = "";
+        let size = ""
+        res.forEach((item: Unvailable) => {
+          this.stringaDisponibilita += `\nProdotto: ${item.name}\n`;
+          if(item.availabilities)
+            item.availabilities.forEach((avail: Availabilities) => {
+              if(avail.size === null){
+                size = "Universale"
+              }else{
+                size = avail.size
+              }
+              this.stringaDisponibilita += `  - Taglia: ${size} | Disponibilità: ${avail.amount}\n`;
+            });
+        });
+        this.popUp.openPopups(15, true);
+      }
+    });
+  }
+
+  clearCampi(){
+    this.stringaDisponibilita = ""
+    this.productIds = []
+    this.unvaiable = []
+    this.productInCart = []
+  }
 
   doSuccess() {
     this.route.queryParamMap.subscribe(params => {

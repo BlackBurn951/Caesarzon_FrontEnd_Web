@@ -183,15 +183,8 @@ export class KeyCloakService {
     return this.http.put<string>(this.logoutURL, logout, { headers, responseType: 'text' as 'json' }).subscribe( response=>{
         if(response === "Logout avvenuto con successo!"){
           this.notifications = [];
-          console.log("Logout successful");
-          this.isLogged = false;
-          this.isAdmin = false;
+          this.clearCache()
           this.refreshAuthVariables();
-          localStorage.removeItem('access_token');
-          localStorage.removeItem('refresh_token');
-          localStorage.removeItem('isLogged');
-          localStorage.removeItem('isAdmin');
-          localStorage.removeItem('username');
           this.login("Guest","Mascalzone1");
           this.router.navigate(['']);
 
@@ -203,6 +196,27 @@ export class KeyCloakService {
     )
   }
 
+  clearCache(): void {
+    // Pulisci le variabili locali
+    this.ACCESS_TOKEN = "";
+    this.REFRESH_TOKEN = "";
+    this.nomeUtente = "";
+    this.cognomeUtente = "";
+    this.username = "";
+    this.isAdmin = false;
+    this.isLogged = false;
+    this.notifications = [];
+
+    // Pulisci il localStorage
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('refresh_token');
+    localStorage.removeItem('username');
+    localStorage.removeItem('isLogged');
+    localStorage.removeItem('isAdmin');
+
+    // Reimposta il contatore delle notifiche
+    this.notifyCountSubject.next(0);
+  }
 
 
 

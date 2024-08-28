@@ -25,7 +25,7 @@
           <div class="product-card" *ngFor="let item of cartService.productInCart; let i = index">
             <img class="preview mt-2 ml-1" [src]="item.image" alt="" style="width: 150px; height: 150px">
             <div class="product-details">
-              <h5 class="product-name">{{item.name}}</h5>
+              <h5 class="product-name onome" (click)="this.productService.prendiDatiProdotto(item.id)">{{item.name}}</h5>
               <div class="product-info">
                 <div class="info-group">
                   <label>Quantità:</label>
@@ -60,7 +60,7 @@
           <div class="product-card" *ngFor="let item of cartService.productLater; let i = index">
             <img class="preview mt-2 ml-1" [src]="item.image" alt="" style="width: 150px; height: 150px">
             <div class="product-details">
-              <h5 class="product-name">{{item.name}}</h5>
+              <h5 class="product-name onome" (click)="this.productService.prendiDatiProdotto(item.id)">{{item.name}}</h5>
               <div class="product-info">
                 <div class="info-group">
                   <label>Prezzo:</label>
@@ -94,7 +94,7 @@
             <span>{{getTotalPrice() | currency:'EUR'}}</span>
           </div>
         </div>
-        <button class="btn btn-dark custom-btn mt-4 ml-5" (click)="goToPayment()">Procedi all'acquisto</button>
+        <button class="btn btn-dark custom-btn mt-4 ml-5" (click)="this.cartService.goToPayment(0)">Procedi all'acquisto</button>
       </div>
     </div>
 

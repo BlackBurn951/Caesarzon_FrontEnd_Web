@@ -22,20 +22,18 @@ export class HomepageComponent implements OnInit{
   }
 
   ngOnInit() {
-
-    console.log("VARIABILE ADMIN: " + this.key.getAdmin())
-    if(this.key.getUsername() == ""){
+    if(this.key.getUsername()== ""){
+      this.key.clearCache()
       this.key.login("Guest","Mascalzone1");
     }
+
     this.productService.getLastNineProducts().subscribe(products => {
       this.productService.newProducts = products;
       this.productService.newProducts.forEach(prod =>{
         this.productService.getProductImage(prod.productId).subscribe(
           response => {
             const url = URL.createObjectURL(response);
-            console.log("URL IMMAGINE: " + url)
             prod.image = this.sanitizer.bypassSecurityTrustUrl(url);
-            console.log("IMMAGINE PRODOTTO: " + prod.image)
           },
           error => {
             console.error('Errore nel caricamento dell\'immagine', error);

@@ -697,7 +697,7 @@
 <div class="container-fluidos regLog" *ngIf="popUpService.wichComponent === 15" [ngClass]="{'other': !popUpService.isOther}">
 <div class="container">
   <div class="d-flex flex-column align-items-center">
-    <strong>Sono cambiate le seguenti disponibilità:</strong>
+    <strong>Taglie e quantità disponibili:</strong>
 
     <h3 class="messaggio" >{{this.cartService.stringaDisponibilita}}</h3>
     <div *ngIf="this.popUpService.isAvviso">
@@ -705,6 +705,24 @@
     </div>
   </div>
 </div>
+</div>
+
+
+<div class="container-fluidos regLog" *ngIf="popUpService.wichComponent === 16" [ngClass]="{'other': !popUpService.isOther}">
+  <div class="container">
+    <div class="d-flex flex-column align-items-center">
+      <h3>Sei sicuro di voler bannare l'utente {{this.userService.username}} ?</h3>
+
+      <div class="form-group gruppo d-flex flex-column align-items-center">
+        <label for="descrizione">Motivo del ban</label>
+        <textarea class="form-control gruppoInputDesc" id="descBan" minlength="5" maxlength="500" [(ngModel)]="adminService.descrizioneSegnalazione"></textarea>
+      </div>
+      <div>
+        <button id="si" class="btn btn-dark custom-btn mr-3 mb-3 " (click)="this.adminService.banUtente()">Si</button>
+        <button id="no" class="btn btn-dark custom-btn mb-3" (click)="this.popUpService.closePopup()">No</button>
+      </div>
+    </div>
+  </div>
 </div>
 </body>
 

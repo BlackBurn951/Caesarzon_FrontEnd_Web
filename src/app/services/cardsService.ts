@@ -14,7 +14,7 @@ import {UserService} from "./userService";
 })
 export class CardsService {
 
-  cartaCorrente!: Card;
+  cartaCorrente: Card | null = null;
 
   cardsName: string[] = []
 

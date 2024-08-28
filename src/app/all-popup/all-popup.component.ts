@@ -54,6 +54,7 @@ export class AllPopupComponent implements OnInit{
   }
 
   ok(){
+    this.cartService.removeFromCart(this.productService.prodotto.id)
     this.dialogError.close();
   }
 

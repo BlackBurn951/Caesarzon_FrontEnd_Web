@@ -182,7 +182,15 @@ body {
 }
 
 
+.onome{
+  cursor:  pointer;
+}
 
+.onome:hover{
+  text-decoration: underline;
+  color: #656565;
+
+}
 
 footer {
   background-color: #352244;

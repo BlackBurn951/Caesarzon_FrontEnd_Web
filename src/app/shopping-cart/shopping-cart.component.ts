@@ -6,6 +6,7 @@ import { CartService } from "../services/cartService";
 import {ChangeCart} from "../entities/ChangeCart";
 import {Unvailable} from "../entities/Unvaiable";
 import {Availabilities} from "../entities/Availabilities";
+import {ProductService} from "../services/productService";
 
 @Component({
   selector: 'app-shopping-cart',
@@ -18,8 +19,7 @@ export class ShoppingCartComponent implements OnInit {
   sizes: string[] = ['XS','S', 'M', 'L', 'XL'];
 
   constructor(
-    private router: Router,
-    private popup: PopupService,
+    protected productService: ProductService,
     private keyCloak: KeyCloakService,
     public cartService: CartService
   ) { }
@@ -62,33 +62,6 @@ export class ShoppingCartComponent implements OnInit {
       this.keyCloak.notifications = notifies;
     });
     this.cartService.getCart();
-  }
-
-  goToPayment() {
-    this.cartService.checkAva().subscribe(res => {
-      if (res === null) {
-        this.router.navigate(['payment-second-page']);
-      } else {
-        this.cartService.unvaiable = res;
-
-        let availabilityMessage = "";
-        let size = ""
-        res.forEach((item: Unvailable) => {
-          availabilityMessage += `\nProdotto: ${item.name}\n`;
-          if(item.availabilities)
-          item.availabilities.forEach((avail: Availabilities) => {
-            if(avail.size === null){
-              size = "Universale"
-            }else{
-              size = avail.size
-            }
-            availabilityMessage += `  - Taglia: ${size} | Disponibilità: ${avail.amount}\n`;
-          });
-        });
-        this.cartService.stringaDisponibilita = availabilityMessage
-        this.popup.openPopups(15, true);
-      }
-    });
   }
 
 

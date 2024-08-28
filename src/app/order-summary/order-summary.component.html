@@ -68,15 +68,15 @@
                     <strong>Totale ordine:</strong> {{getRoundedTotal(item.orderTotal, 0)}} €<br>
                     <strong>Consegna prevista:</strong> {{item.expectedDeliveryDate}}<br>
                     <strong>Indirizzo di spedizione:</strong>
-                    {{orderService.orderDetailsMap[item.id]?.indirizzoOrdine?.roadType}}
-                    {{orderService.orderDetailsMap[item.id]?.indirizzoOrdine?.roadName}}
-                    {{orderService.orderDetailsMap[item.id]?.indirizzoOrdine?.houseNumber}},
-                    {{orderService.orderDetailsMap[item.id]?.indirizzoOrdine?.city?.city}},
-                    {{orderService.orderDetailsMap[item.id]?.indirizzoOrdine?.city?.cap}},
-                    {{orderService.orderDetailsMap[item.id]?.indirizzoOrdine?.city?.province}}<br>
+                    {{orderService.orderDetailsMap[item.id].indirizzoOrdine?.roadType}}
+                    {{orderService.orderDetailsMap[item.id].indirizzoOrdine?.roadName}}
+                    {{orderService.orderDetailsMap[item.id].indirizzoOrdine?.houseNumber}},
+                    {{orderService.orderDetailsMap[item.id].indirizzoOrdine?.city?.city}},
+                    {{orderService.orderDetailsMap[item.id].indirizzoOrdine?.city?.cap}},
+                    {{orderService.orderDetailsMap[item.id].indirizzoOrdine?.city?.province}}<br>
                     <ng-container *ngIf="item.cardID != null">
-                      <strong>Pagamento con carta:</strong> {{orderService.orderDetailsMap[item.id]?.cartaOrdine?.owner}}
-                      {{orderService.orderDetailsMap[item.id]?.cartaOrdine?.cardNumber}}
+                      <strong>Pagamento con carta:</strong> {{orderService.orderDetailsMap[item.id].cartaOrdine?.owner}}
+                      {{orderService.orderDetailsMap[item.id].cartaOrdine?.cardNumber}}
                     </ng-container>
                     <ng-container *ngIf="item.cardID == null">
                       <strong>Pagamento tramite PayPal</strong>
@@ -125,15 +125,15 @@
                     <strong>Totale ordine:</strong> {{getRoundedTotal(item.orderTotal, 0)}} €<br>
                     <strong>Consegna prevista:</strong> {{item.expectedDeliveryDate}}<br>
                     <strong>Indirizzo di spedizione:</strong>
-                    {{orderService.orderDetailsMap[item.id]?.indirizzoOrdine?.roadType}}
-                    {{orderService.orderDetailsMap[item.id]?.indirizzoOrdine?.roadName}}
-                    {{orderService.orderDetailsMap[item.id]?.indirizzoOrdine?.houseNumber}},
-                    {{orderService.orderDetailsMap[item.id]?.indirizzoOrdine?.city?.city}},
-                    {{orderService.orderDetailsMap[item.id]?.indirizzoOrdine?.city?.cap}},
-                    {{orderService.orderDetailsMap[item.id]?.indirizzoOrdine?.city?.province}}<br>
+                    {{orderService.orderDetailsMap[item.id].indirizzoOrdine?.roadType}}
+                    {{orderService.orderDetailsMap[item.id].indirizzoOrdine?.roadName}}
+                    {{orderService.orderDetailsMap[item.id].indirizzoOrdine?.houseNumber}},
+                    {{orderService.orderDetailsMap[item.id].indirizzoOrdine?.city?.city}},
+                    {{orderService.orderDetailsMap[item.id].indirizzoOrdine?.city?.cap}},
+                    {{orderService.orderDetailsMap[item.id].indirizzoOrdine?.city?.province}}<br>
                     <ng-container *ngIf="item.cardID != null">
-                      <strong>Pagamento con carta:</strong> {{orderService.orderDetailsMap[item.id]?.cartaOrdine?.owner}}
-                      {{orderService.orderDetailsMap[item.id]?.cartaOrdine?.cardNumber}}
+                      <strong>Pagamento con carta:</strong> {{orderService.orderDetailsMap[item.id].cartaOrdine?.owner}}
+                      {{orderService.orderDetailsMap[item.id].cartaOrdine?.cardNumber}}
                     </ng-container>
                     <ng-container *ngIf="item.cardID == null">
                       <strong>Pagamento tramite PayPal</strong>

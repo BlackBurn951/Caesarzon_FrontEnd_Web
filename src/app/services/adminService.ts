@@ -11,6 +11,8 @@ import {HttpClient} from "@angular/common/http";
 import {KeyCloakService} from "./keyCloakService";
 import {Sban} from "../entities/Sban";
 import {User} from "../entities/User";
+import {BanDTO} from "../entities/BanDTO";
+import {Router} from "@angular/router";
 
 @Injectable({
   providedIn: 'root',
@@ -30,8 +32,6 @@ export class AdminService {
   usernameUtenteDaBannare!: string;
 
   usernameUtenteBannato!: string;
-
-  testoRecensione!: string;
 
   motivoRichiesta: string = '';
   oggetto: string = '';
@@ -59,6 +59,8 @@ export class AdminService {
 
   private sbanUserURL = 'http://localhost:8090/user-api/sban';
 
+  private banUserURL = 'http://localhost:8090/user-api/ban';
+
   private supportURL = 'http://localhost:8090/notify-api/support';
 
   private getUsersUrl = 'http://localhost:8090/user-api/users';
@@ -70,7 +72,7 @@ export class AdminService {
   private manageProfilePicURL = 'http://localhost:8090/user-api/image/';
 
 
-  constructor(private sanitizer: DomSanitizer ,private userService: UserService, private popUp: PopupService, private http: HttpClient, private keycloakService: KeyCloakService) {
+  constructor(private router: Router, private sanitizer: DomSanitizer ,private userService: UserService, private popUp: PopupService, private http: HttpClient, private keycloakService: KeyCloakService) {
   }
 
 
@@ -109,7 +111,11 @@ export class AdminService {
     } else if (num == 1) {
       this.getReports(0).subscribe(reports => {
         this.reports = reports;
+
         this.reports.forEach( a =>{
+          console.log("DATI" + a.reason)
+          console.log("DATI" + a.usernameUser2)
+          console.log("DATI" + a.usernameUser1)
           this.getReview(a.reviewId).subscribe(response =>{
             a.reviewText = response
           })
@@ -335,6 +341,33 @@ export class AdminService {
   getBans(){
     const headers = this.keycloakService.permaHeader()
     return this.http.get<Bans[]>(this.banURL, { headers });
+  }
+
+
+  banUtente(){
+    const headers = this.keycloakService.permaHeader()
+
+    const banDTO : BanDTO = {
+      reason: this.descrizioneSegnalazione,
+      userUsername : this.userService.username,
+      adminUsername : "",
+      startDate: "",
+      endDate: ""
+    }
+
+    return this.http.post<string>(this.banUserURL, banDTO, { headers , responseType: 'text' as 'json'}).subscribe( response =>{
+      if(response === "Utente bannato con successo"){
+        this.popUp.closePopup()
+        this.popUp.updateStringa(response)
+        this.popUp.openPopups(140, true)
+        this.router.navigate(['']);
+      }else{
+        this.popUp.updateStringa(response)
+        this.popUp.openPopups(140, true)
+      }
+    })
+
+
   }
 
   rimuoviBan(){

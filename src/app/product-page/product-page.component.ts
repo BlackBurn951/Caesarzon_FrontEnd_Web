@@ -62,6 +62,7 @@ export class ProductPageComponent implements OnInit{
   }
 
   addProductToCart(num: number){
+    this.cartService.clearCampi()
     if (!this.keyCloak.getLoggedStatus() || this.keyCloak.getUsername() === "Guest"){
       this.popUpService.openPopups(3, true)
     }else{
@@ -85,16 +86,6 @@ export class ProductPageComponent implements OnInit{
     this.popUpService.openPopups(5, true)
   }
 
-
-
-  drawGraphs(ctx: CanvasRenderingContext2D) {
-    if (ctx) {
-      ctx.fillStyle = 'red';
-      ctx.fillRect(10, 10, 100, 100);
-    } else {
-      console.error('Impossibile ottenere il contesto 2D per il canvas.');
-    }
-  }
 
 
   segnala(usernameDaSegnalare: string){

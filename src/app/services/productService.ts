@@ -120,6 +120,9 @@ export class ProductService {
         this.popUpService.openPopups(69, true)
         this.valutazioneRecensione = 1
         this.descrizioneRecensione = ""
+        setTimeout(()=>{
+          window.location.reload()
+        }, 1500);
       }else{
         this.popUpService.closePopup()
         this.popUpService.updateStringa("Errore o limite di recensioni raggiunte")
@@ -474,6 +477,10 @@ export class ProductService {
       this.ricerca = this.ricerca.replace(this.coloreSecondario, '');
       this.ricerca = this.ricerca.replace(this.marca, '');
     });
+
+  }
+
+  rimuoviRecensione(reviewId: string){
 
   }
 }

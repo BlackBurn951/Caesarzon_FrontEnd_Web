@@ -92,15 +92,16 @@ export class WarningMessageComponent implements OnInit{
           if(response === "Utente sbannato con successo"){
             this.popup.updateStringa(response);
             this.popup.openPopups(123, true);
+            setTimeout(() => {
+              window.location.reload()
+            }, 1500);
           }
         });
 
       }else if(this.popup.operazione == 11){
         this.adminService.adminDeleteUser()
-      }else if(this.popup.operazione == 12){
+      }else if(this.popup.operazione == 12) {
         this.productService.rimuoviProdotto()
-      }else if(this.popup.operazione == 13){
-
       }
 
 

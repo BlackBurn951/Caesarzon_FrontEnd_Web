@@ -19,7 +19,7 @@ export class AddressService implements OnInit{
   ngOnInit(): void {
   }
 
-  indirizzoCorrente!: Address;
+  indirizzoCorrente: Address | null = null;
 
   addressesName: string[] = [];
 

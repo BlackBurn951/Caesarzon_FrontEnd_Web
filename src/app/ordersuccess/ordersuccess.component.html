@@ -14,14 +14,14 @@
     <!-- Messaggio di conferma ordine -->
     <div *ngIf="cartService.ordineInviato" class="alert alert-success" role="alert">
       <h5 class="alert-heading">ORDINE EFFETTUATO CORRETTAMENTE</h5>
-      <p>Il Tuo ordine verrà consegnato all'indirizzo <strong>{{this.addressService.indirizzoCorrente.roadType}}
-        {{this.addressService.indirizzoCorrente.roadType}}
-        {{this.addressService.indirizzoCorrente.roadName}}
-        {{this.addressService.indirizzoCorrente.houseNumber}}
-        {{this.addressService.indirizzoCorrente.city.city}}
-        {{this.addressService.indirizzoCorrente.city.province}}
-        {{this.addressService.indirizzoCorrente.city.cap}}
-      </strong> il giorno <strong>GIORNO</strong>.</p>
+      <p>Il Tuo ordine verrà consegnato all'indirizzo <strong>
+        {{this.addressService.indirizzoCorrente?.roadType}}
+        {{this.addressService.indirizzoCorrente?.roadName}}
+        {{this.addressService.indirizzoCorrente?.houseNumber}}
+        {{this.addressService.indirizzoCorrente?.city?.city}}
+        {{this.addressService.indirizzoCorrente?.city?.province}}
+        {{this.addressService.indirizzoCorrente?.city?.cap}}
+      </strong> il giorno <strong>{{getDateFiveDaysAhead()}}</strong>.</p>
       <hr>
       <a href="#" class="btn btn-dark custom-btn mt-3" (click)="changePage('', $event)">Continua ad acquistare</a>
     </div>
