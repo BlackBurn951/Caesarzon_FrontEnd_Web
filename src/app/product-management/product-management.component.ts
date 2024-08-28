@@ -29,18 +29,6 @@ export class ProductManagementComponent implements OnInit{
     this.formCaesarzon = formService.getForm();
   }
 
-  //Metodo per aggiornare il colore selezionato dall'utente
-  updateTone(event: any, num: number) {
-    const selectedColor = event.target.value;
-    const colorName = this.convertColorToPrimaryTone(selectedColor);
-    this.tone = colorName;
-    if(num === 1){
-      this.formCaesarzon.get('formDeiProdotti.coloreP')?.setValue(colorName);
-    }else{
-      this.formCaesarzon.get('formDeiProdotti.coloreS')?.setValue(colorName);
-    }
-
-  }
 
 
   // Metodo per aggiungere il prodotto
@@ -137,7 +125,7 @@ export class ProductManagementComponent implements OnInit{
       if (file.size > maxSize) {
         this.popUpService.updateStringa("La dimensione massima del file è di 6 MB.");
         this.popUpService.openPopups(104, true)
-      }else{
+      }else {
         reader.onload = (e: any) => {
           const preview = document.getElementById('preview');
           if (preview) {
@@ -148,26 +136,24 @@ export class ProductManagementComponent implements OnInit{
           }
         };
         reader.readAsDataURL(file);
-        if(this.productService.inModifica)
-          this.onUpload()
       }
     }
   }
   //Metodo utilizzato nel precedente relativo al caricamento dell'immagine di profilo
-  onUpload() {
-    if (this.productService.selectedFile) {
-      this.productService.uploadImage(this.productService.selectedFile).subscribe(
-        response => {
-          this.popUpService.updateStringa(response)
-          this.popUpService.openPopups(141, true)
-
-        },
-        error => {
-          console.log(error);
-        }
-      );
-    }
-  }
+  // onUpload() {
+  //   if (this.productService.selectedFile) {
+  //     this.productService.uploadImage(this.productService.selectedFile, ).subscribe(
+  //       response => {
+  //         this.popUpService.updateStringa(response)
+  //         this.popUpService.openPopups(141, true)
+  //
+  //       },
+  //       error => {
+  //         console.log(error);
+  //       }
+  //     );
+  //   }
+  // }
 
 
   //Metodo per convertire approssivamente un colore ad un macro dello stesso

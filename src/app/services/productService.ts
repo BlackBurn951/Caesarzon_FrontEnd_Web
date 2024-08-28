@@ -32,8 +32,6 @@ export class ProductService {
 
   manageImageProductURL = 'http://localhost:8090/product-api/image';
 
-  inModifica : boolean = false
-
   protected formCaesarzon!: FormGroup;
 
   avvisoDisp: string = "Disponibilità ancora non aggiunta"
@@ -92,15 +90,17 @@ export class ProductService {
 
   }
 
-  uploadImage(file: File): Observable<any> {
+  uploadImage(file: File, id: string): Observable<any> {
     const formData = new FormData();
     formData.append('file', file, file.name);
+
 
     const headers = new HttpHeaders({
       'Authorization': 'Bearer ' + this.keycloakService.getAccessToken()
     });
+    const customURL = this.manageImageProductURL+'/'+id
 
-    return this.http.put(this.manageImageProductURL, formData, { headers, responseType: 'text'});
+    return this.http.put(customURL, formData, { headers, responseType: 'text'});
   }
 
   addReview(){
@@ -114,7 +114,7 @@ export class ProductService {
     }
 
     this.sendReviewData(review).subscribe(response =>{
-      if(response === "Recensione aggiunta"){
+      if(response === "Recensione aggiunta con successo!"){
         this.popUpService.closePopup()
         this.popUpService.updateStringa(response)
         this.popUpService.openPopups(69, true)
@@ -132,9 +132,30 @@ export class ProductService {
   }
 
   modificaProdotto(){
+    this.caricaDatiProdotto()
     this.popUpService.openPopups(14, true)
-  }
 
+  }
+  caricaDatiProdotto() {
+    const prodotto = this.prodotto;
+
+
+    if (prodotto) {
+      this.formService.getForm().patchValue({
+        formDeiProdotti: {
+          nome: prodotto.name,
+          marca: prodotto.brand,
+          descrizione: prodotto.description,
+          sconto: prodotto.discount,
+          prezzo: prodotto.price,
+          coloreP: prodotto.primaryColor,
+          coloreS: prodotto.secondaryColor,
+          sport: prodotto.sport,
+          categoria: prodotto.is_clothing,
+        }
+      });
+    }
+  }
   sendReviewData(reviewData: ProductReview){
     const headers = this.keycloakService.permaHeader();
     return this.http.post<string>(this.addProductReviewURL, reviewData,{ headers, responseType: 'text' as 'json' });
@@ -164,11 +185,14 @@ export class ProductService {
   }
 
   prendiDatiProdotto(productId: string) {
+    this.imageUrl = undefined
+
     const headers = this.keycloakService.permaHeader()
     return this.http.get<ProductDTO>(this.productDataURL+'/'+productId, { headers}).subscribe(response =>{
       if(response != null){
         this.prodotto = response
         this.recensioni= []
+        this.loadImage(this.prodotto.id)
         this.prendiRecensioni(productId) .subscribe({
           next: (response: ProductReview[])=> {
             this.recensioni= response
@@ -203,7 +227,6 @@ export class ProductService {
               }
             })
 
-            this.loadImage()
             this.router.navigate(['product-page']);
           },
           error: (error: any) => {
@@ -216,18 +239,20 @@ export class ProductService {
     });
 
   }
+
   getProductImage(productId: string): Observable<Blob> {
     const headers = this.keycloakService.permaHeader()
     const customURL = this.manageImageProductURL+'/'+productId
     return this.http.get(customURL, {headers, responseType: 'blob' });
   }
 
-  loadImage(){
-    this.getProductImage(this.prodotto.id).subscribe(
+  loadImage(id: string){
+    this.getProductImage(id).subscribe(
       response => {
         const url = URL.createObjectURL(response);
+        console.log("URL IMMAGINE: " + url)
         this.imageUrl = this.sanitizer.bypassSecurityTrustUrl(url);
-
+        console.log("IMMAGINE PRODOTTO: " + this.imageUrl)
       },
       error => {
         console.error('Errore nel caricamento dell\'immagine', error);
@@ -240,16 +265,20 @@ export class ProductService {
   sendProductDate(productDTO: ProductDTO){
     this.sendProductDateToServer(productDTO).subscribe(
       response => {
-        if(response === "Product aggiunto")
+        if(response != null)
+          var uuid = response.replace(/"/g, "");
+          console.log("RISPOSTA AGGIUNTA PRODOTTO: " + uuid);
           if(this.selectedFile)
-          this.uploadImage(this.selectedFile).subscribe(response =>{
+          this.uploadImage(this.selectedFile, uuid).subscribe(response =>{
             if(response === "Immagine caricata con successo!"){
               this.popUpService.updateStringa("Prodotto aggiunto con successo!")
               this.popUpService.openPopups(103, true)
               setTimeout(() => {
+                this.resetFields()
+                this.formService.resetFormErrors(this.formCaesarzon)
                 this.popUpService.closePopup()
+                this.router.navigate(['']);
               }, 3000);
-              this.resetFields()
             }
           },
             error => {
@@ -273,7 +302,7 @@ export class ProductService {
 
   sendProductDateToServer(productDTO: ProductDTO): Observable<any> {
     const headers = this.keycloakService.permaHeader()
-    return this.http.post<any>(this.productDataURL, productDTO, { headers, responseType: 'text' as 'json' });
+    return this.http.post<string>(this.productDataURL, productDTO, { headers, responseType: 'text' as 'json' });
   }
 
 

@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {KeyCloakService} from "../services/keyCloakService";
 import {ProductService} from "../services/productService";
 import {UserService} from "../services/userService";
+import {DomSanitizer, SafeUrl} from "@angular/platform-browser";
 
 
 @Component({
@@ -16,7 +17,7 @@ export class HomepageComponent implements OnInit{
   indexNovita: number = 0;
   indexOfferte: number = 0;
 
-  constructor(private key: KeyCloakService, protected productService: ProductService, protected userService: UserService) {
+  constructor(private sanitizer: DomSanitizer, private key: KeyCloakService, protected productService: ProductService, protected userService: UserService) {
 
   }
 
@@ -27,19 +28,37 @@ export class HomepageComponent implements OnInit{
     this.productService.getLastNineProducts().subscribe(products => {
       this.productService.newProducts = products;
       this.productService.newProducts.forEach(prod =>{
-        this.productService.getProductImage(prod.productId).subscribe(response =>{
-          prod.image = response
-        })
+        this.productService.getProductImage(prod.productId).subscribe(
+          response => {
+            const url = URL.createObjectURL(response);
+            console.log("URL IMMAGINE: " + url)
+            prod.image = this.sanitizer.bypassSecurityTrustUrl(url);
+            console.log("IMMAGINE PRODOTTO: " + prod.image)
+          },
+          error => {
+            console.error('Errore nel caricamento dell\'immagine', error);
+          }
+        );
       })
     })
     this.productService.getOffer().subscribe(products => {
       this.productService.offerProducts = products;
       this.productService.offerProducts.forEach(prod =>{
-        this.productService.getProductImage(prod.productId).subscribe(response =>{
-          prod.image = response
-        })
+        this.productService.getProductImage(prod.productId).subscribe(
+          response => {
+            const url = URL.createObjectURL(response);
+            console.log("URL IMMAGINE: " + url)
+            prod.image = this.sanitizer.bypassSecurityTrustUrl(url);
+            console.log("IMMAGINE PRODOTTO: " + prod.image)
+          },
+          error => {
+            console.error('Errore nel caricamento dell\'immagine', error);
+          }
+        );
       })
+
     })
+
 
 
     this.key.getNotify().subscribe(notifies => {

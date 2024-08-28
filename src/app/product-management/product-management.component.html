@@ -74,22 +74,43 @@
         <div class="container-fluid d-flex flex-column align-items-center">
 
           <div class="form-group gruppo d-flex flex-column align-items-center">
-            <label for="coloreP">Colore primario</label>
-            <div class="d-flex flex-row align-items-center">
-              <input type="color" class="gruppoColor" id="color1" (change)="updateTone($event, 1)">
-              <input type="text" class="form-control gruppoInputs" id="coloreP" formControlName="coloreP" placeholder="{{tone}}" readonly>
-            </div>
-
+              <label for="coloreP">Colore primario:</label>
+              <select name="coloreP" class="form-select selectionIn btn btn-dark custom-bln" id="coloreP" formControlName="coloreP">
+                <option value="Rosso">Rosso</option>
+                <option value="Verde">Verde</option>
+                <option value="Blu">Blu</option>
+                <option value="Giallo">Giallo</option>
+                <option value="Arancione">Arancione</option>
+                <option value="Viola">Viola</option>
+                <option value="Rosa">Rosa</option>
+                <option value="Marrone">Marrone</option>
+                <option value="Grigio">Grigio</option>
+                <option value="Nero">Nero</option>
+                <option value="Bianco">Bianco</option>
+                <option value="Azzurro">Azzurro</option>
+                <option value="Oro">Oro</option>
+              </select>
           </div>
 
 
 
           <div class="form-group gruppo d-flex flex-column align-items-center">
-            <label for="coloreS">Colore secondario</label>
-            <div class="d-flex flex-row align-items-center">
-              <input type="color" class="gruppoColor" id="color2" (change)="updateTone($event, 104)">
-              <input type="text" class="form-control gruppoInputs" id="coloreS" formControlName="coloreS" placeholder="{{tone}}" readonly>
-            </div>
+            <label for="coloreS">Colore secondario:</label>
+            <select name="coloreS" class="form-select selectionIn btn btn-dark custom-bln" id="coloreS" formControlName="coloreS">
+              <option value="Rosso">Rosso</option>
+              <option value="Verde">Verde</option>
+              <option value="Blu">Blu</option>
+              <option value="Giallo">Giallo</option>
+              <option value="Arancione">Arancione</option>
+              <option value="Viola">Viola</option>
+              <option value="Rosa">Rosa</option>
+              <option value="Marrone">Marrone</option>
+              <option value="Grigio">Grigio</option>
+              <option value="Nero">Nero</option>
+              <option value="Bianco">Bianco</option>
+              <option value="Azzurro">Azzurro</option>
+              <option value="Oro">Oro</option>
+            </select>
           </div>
 
 
@@ -97,15 +118,15 @@
 
             <label for="sport">Sport</label>
             <select name="sport" class="form-select selectionIn btn btn-dark custom-bln" id="sport" formControlName="sport">
-              <option value="calcio">Calcio</option>
-              <option value="pallavolo">Pallavolo</option>
-              <option value="basket">Basket</option>
-              <option value="tennis">Tennis</option>
-              <option value="nuoto">Nuoto</option>
-              <option value="arti marziali">Arti marziali</option>
-              <option value="ciclismo">Ciclismo</option>
-              <option value="sciismo">Sciismo</option>
-              <option value="boxe">Boxe</option>
+              <option value="Calcio">Calcio</option>
+              <option value="Pallavolo">Pallavolo</option>
+              <option value="Basket">Basket</option>
+              <option value="Tennis">Tennis</option>
+              <option value="Nuoto">Nuoto</option>
+              <option value="Arti marziali">Arti marziali</option>
+              <option value="Ciclismo">Ciclismo</option>
+              <option value="Sciismo">Sciismo</option>
+              <option value="Boxe">Boxe</option>
             </select>
 
             <label for="categoria">Categoria</label>
