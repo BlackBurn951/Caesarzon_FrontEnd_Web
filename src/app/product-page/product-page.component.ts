@@ -41,8 +41,8 @@ export class ProductPageComponent implements OnInit{
 
   }
 
-  eliminaRecensione(isRecensione: string){
-
+  eliminaRecensione(idRecensione: string){
+    this.productService.deleteReview(idRecensione)
   }
 
   rimozioneProdotto(){

@@ -203,7 +203,7 @@ export class AdminService {
   }
 
 
-  deleteReview(reviewId: string, accept: boolean){
+  deleteReport(reviewId: string, accept: boolean){
     const headers = this.keycloakService.permaHeader()
     const urlWithParams = `${this.reportAdminURL}?review_id=${reviewId}&accept=${accept}`;
     return this.http.delete<string>(urlWithParams, {headers, responseType: "text" as 'json'});

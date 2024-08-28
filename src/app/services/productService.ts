@@ -74,6 +74,19 @@ export class ProductService {
 
   }
 
+  deleteReview(idRecensione: string){
+    const headers = this.keycloakService.permaHeader();
+    const customURL = this.addProductReviewURL+'/'+idRecensione
+    return this.http.delete<string>(customURL,{ headers, responseType: 'text' as 'json' }).subscribe(response =>{
+      if(response === "Recensione eliminata"){
+        this.popUpService.updateStringa(response)
+        this.popUpService.openPopups(123, true)
+      }else{
+        this.popUpService.updateStringa("Problemi nell'eliminazione della recensione")
+        this.popUpService.openPopups(123, true)
+      }
+    })
+  }
 
   rimuoviProdotto(){
     const headers = this.keycloakService.permaHeader();
@@ -480,9 +493,7 @@ export class ProductService {
 
   }
 
-  rimuoviRecensione(reviewId: string){
 
-  }
 }
 
 
