@@ -58,10 +58,15 @@ export class ShoppingCartComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.cartService.cardId = ""
+    this.cartService.addressId = ""
+    this.cartService.selectedCardId = null
     this.keyCloak.getNotify().subscribe(notifies => {
       this.keyCloak.notifications = notifies;
     });
     this.cartService.getCart();
+    this.productService.ricerca =""
+
   }
 
 

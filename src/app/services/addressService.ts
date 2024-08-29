@@ -41,13 +41,6 @@ export class AddressService implements OnInit{
   }
 
 
-  resetAddresses(){
-    this.addressesName = []
-    this.addresses = []
-    this.addressMap = {}
-  }
-
-
   //Metodo per prendere il singolo indirizzo
   getAddress(idAddress: string): Observable<Address> {
     const urlWithParams = `${this.manageAddressURL}?address_id=${idAddress}`;
@@ -94,7 +87,6 @@ export class AddressService implements OnInit{
       urlWithParams = this.getAddressNamesURL
     }
 
-    //TODO DA PROVARE
     this.http.get<string[]>(urlWithParams, { headers }).subscribe({
       next: (response) => {
         this.addressesName = response;
@@ -105,22 +97,22 @@ export class AddressService implements OnInit{
         if (this.addressesName.length > 0) {
           this.getAddress(this.addressesName[0]).subscribe({
             next: (response: Address) => {
-              this.userService.loading = false;
+              this.keycloakService.loading = false;
               this.indirizzoCorrente = response;
               this.router.navigate(['address-data']);
             },
             error: (error: any) => {
-              this.userService.loading = false;
+              this.keycloakService.loading = false;
               if (error.status === 404) {
                 this.router.navigate(['address-data']);
               } else {
-                this.userService.loading = false;
+                this.keycloakService.loading = false;
                 console.error('Error fetching address:', error);
               }
             }
           });
         }else{
-          this.userService.loading = false
+          this.keycloakService.loading = false
           this.router.navigate(['address-data']);
 
         }

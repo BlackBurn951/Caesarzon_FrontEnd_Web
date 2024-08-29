@@ -8,6 +8,7 @@ import {AddressService} from "../services/addressService";
 import {CardsService} from "../services/cardsService";
 import {User} from "../entities/User";
 import {KeyCloakService} from "../services/keyCloakService";
+import {ProductService} from "../services/productService";
 
 @Component({
   selector: 'app-user-management-container',
@@ -22,7 +23,7 @@ import {KeyCloakService} from "../services/keyCloakService";
 })
 export class UserManagementContainerComponent implements OnInit{
 
-  constructor(protected keyCloak: KeyCloakService, private router:Router, public popUpService: PopupService, protected addressService: AddressService, private cardsService: CardsService, protected userService: UserService) {
+  constructor(private productService: ProductService, protected keyCloak: KeyCloakService, private router:Router, public popUpService: PopupService, protected addressService: AddressService, private cardsService: CardsService, protected userService: UserService) {
 
   }
 
@@ -44,12 +45,12 @@ export class UserManagementContainerComponent implements OnInit{
   }
 
   openPaymentData() {
-    this.userService.loading = true;
+    this.keyCloak.loading = true;
     this.cardsService.getCardsName()
   }
 
   openAddressData() {
-    this.userService.loading = true;
+    this.keyCloak.loading = true;
     this.addressService.getAddressesName()
   }
 
@@ -61,6 +62,8 @@ export class UserManagementContainerComponent implements OnInit{
     this.keyCloak.getNotify().subscribe(notifies => {
       this.keyCloak.notifications = notifies;
     })
+    this.productService.ricerca =""
+
   }
 
 }

@@ -124,22 +124,22 @@ export class CardsService {
         if (this.cardsName.length > 0) {
           this.getCards(this.cardsName[0]).subscribe({
             next: (response: Card) => {
-              this.userService.loading = false;
+              this.keyCloakService.loading = false;
               this.cartaCorrente = response
               this.router.navigate(['payment-data']);
             },
             error: (error: any) => {
               if (error.status === 404) {
-                this.userService.loading = false;
+                this.keyCloakService.loading = false;
                 this.router.navigate(['payment-data']);
               } else {
-                this.userService.loading = false;
+                this.keyCloakService.loading = false;
                 console.error('Error fetching card:', error);
               }
             }
           });
         }else{
-          this.userService.loading = false
+          this.keyCloakService.loading = false
           this.router.navigate(['payment-data']);
 
         }

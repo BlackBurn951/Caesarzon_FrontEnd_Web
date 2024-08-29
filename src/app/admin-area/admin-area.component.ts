@@ -5,6 +5,7 @@ import {AdminService} from "../services/adminService";
 import {PopupService} from "../services/popUpService";
 import {DomSanitizer} from "@angular/platform-browser";
 import {KeyCloakService} from "../services/keyCloakService";
+import {ProductService} from "../services/productService";
 
 @Component({
   selector: 'app-admin-area',
@@ -14,7 +15,7 @@ import {KeyCloakService} from "../services/keyCloakService";
 export class AdminAreaComponent implements OnInit{
   isCollapsed: any[]  = [];
 
-  constructor(private keycloack: KeyCloakService, private sanitizer: DomSanitizer, private router: Router, private userService: UserService, protected adminService: AdminService, protected popUpService: PopupService) {
+  constructor(private keycloack: KeyCloakService, private productService: ProductService, private router: Router, private userService: UserService, protected adminService: AdminService, protected popUpService: PopupService) {
     this.isCollapsed = [];
   }
 
@@ -29,28 +30,14 @@ export class AdminAreaComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    this.adminService.getUsers().subscribe(users => {
-      this.adminService.users = users
-      this.adminService.users.forEach(user =>{
-        this.adminService.getUserProfilePic(user.username).subscribe(
-          response => {
-            const url = URL.createObjectURL(response);
-            user.safeImageUrl = this.sanitizer.bypassSecurityTrustUrl(url);
-          },
-          error => {
-            console.error('Errore nel caricamento dell\'immagine', error);
-          }
-        );
-      })
-
-    });
-
+    this.keycloack.loading = true
+    this.adminService.getUsers(false)
+    this.adminService.resetArray()
     this.keycloack.getNotify().subscribe(notifies => {
       this.keycloack.notifications = notifies;
     });
+    this.productService.ricerca =""
   }
-
-
 
   eliminaRecensione(utente: number){
     const user = this.adminService.reports.at(utente);

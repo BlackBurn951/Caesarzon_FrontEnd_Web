@@ -248,3 +248,12 @@ a {
   width: 100%;
   overflow-x: hidden;
 }
+
+
+footer {
+  background-color: #352244;
+  text-align: center;
+  color: white;
+  bottom: 0;
+  width: 100%;
+}

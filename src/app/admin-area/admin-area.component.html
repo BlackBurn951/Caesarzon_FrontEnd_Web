@@ -57,6 +57,10 @@
         </ng-container>
         </tbody>
       </table>
+      <div class="text-center">
+        <button *ngIf="adminService.users.length === 20" class="btn-dark custom-btn effes mb-3" (click)="this.adminService.getUsers(true)">Carica altro</button>
+      </div>
+
     </div>
   </div>
 
@@ -75,6 +79,7 @@
           <th class="text-center align-middle">Tipo segnalazione</th>
           <th class="text-center align-middle">Utente segnalato</th>
           <th class="text-center align-middle">Motivazione</th>
+          <th class="text-center align-middle">Descrizione</th>
           <th class="text-center align-middle">Data segnalazione</th>
           <th class="text-center align-middle">Azioni</th>
         </tr>
@@ -85,6 +90,7 @@
             <td class="text-center align-middle">Recensione segnalata</td>
             <td class="text-center align-middle">{{ item.usernameUser2 }}</td>
             <td class="text-center align-middle">{{ item.reason }}</td>
+            <td class="text-center align-middle">{{ item.description }}</td>
             <td class="text-center align-middle">{{ item.reportDate}}</td>
             <td class="text-center align-middle">
               <div class="d-flex flex-row align-items-center justify-content-center">
@@ -106,6 +112,9 @@
         </ng-container>
         </tbody>
       </table>
+      <div class="text-center">
+        <button *ngIf="adminService.reports.length === 20" class="btn-dark custom-btn effes mb-3" (click)="this.adminService.getReports(true)">Carica altro</button>
+      </div>
     </div>
   </div>
 
@@ -147,6 +156,9 @@
         </ng-container>
         </tbody>
       </table>
+      <div class="text-center">
+        <button *ngIf="adminService.supports.length === 20"class="btn-dark custom-btn effes mb-3" (click)="this.adminService.getSupports(true)">Carica altro</button>
+      </div>
     </div>
   </div>
 
@@ -181,7 +193,10 @@
           </tr>
         </ng-container>
         </tbody>
-      </table>
+      </table><div class="text-center">
+      <button *ngIf="adminService.bans.length === 20" class="btn-dark custom-btn effes mb-3" (click)="this.adminService.getBans(true)">Carica altro</button>
+    </div>
+
     </div>
   </div>
 

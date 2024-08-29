@@ -46,6 +46,8 @@ export class OrderSummaryComponent implements OnInit{
     }else{
       this.orderService.getOrdersByAdmin()
     }
+    this.productService.ricerca =""
+
   }
 
 

@@ -13,6 +13,7 @@ import {Observable} from "rxjs";
 import {HttpClient} from "@angular/common/http";
 import {ActivatedRoute} from "@angular/router";
 import {AdminService} from "../services/adminService";
+import {ProductService} from "../services/productService";
 
 @Component({
   selector: 'app-personal-data',
@@ -46,7 +47,7 @@ export class PersonalDataComponent implements OnInit{
   paypalURL: string = 'http://localhost:8090/product-api/success'
 
 
-  constructor(private adminService: AdminService, private sanitizer: DomSanitizer, protected formService: FormService, protected userService: UserService, protected popUpService: PopupService, protected keycloakService: KeyCloakService) {
+  constructor(private productService: ProductService, private adminService: AdminService, private sanitizer: DomSanitizer, protected formService: FormService, protected userService: UserService, protected popUpService: PopupService, protected keycloakService: KeyCloakService) {
     this.formCaesarzon = formService.getForm()
   }
 
@@ -68,15 +69,15 @@ export class PersonalDataComponent implements OnInit{
 
   //All'inizializzazione della pagina vengono caricati tutti i dati relativi all'utente
   ngOnInit(): void {
+    this.productService.ricerca =""
+
     this.resetVaraibles()
     if(this.keycloakService.getAdmin()){
+      this.keycloakService.loading = true
       this.adminService.getUserData(this.userService.username).subscribe(
         (userData: User) => {
-          this.formCaesarzon.get('formDatipersonali.nome')?.setValue(userData.firstName);
-          this.formCaesarzon.get('formDatipersonali.cognome')?.setValue(userData.lastName);
-          this.formCaesarzon.get('formDatipersonali.email')?.setValue(userData.email);
-          this.formCaesarzon.get('formDatipersonali.username')?.setValue(userData.username);
-          this.formCaesarzon.get('formDatipersonali.cellulare')?.setValue(userData.phoneNumber);
+          this.setFormValue(userData)
+          this.keycloakService.loading = false
 
         },
         error => {
@@ -84,13 +85,11 @@ export class PersonalDataComponent implements OnInit{
         }
       );
     }else{
+      this.keycloakService.loading = true
       this.userService.getUserData().subscribe(
         (userData: User) => {
-          this.formCaesarzon.get('formDatipersonali.nome')?.setValue(userData.firstName);
-          this.formCaesarzon.get('formDatipersonali.cognome')?.setValue(userData.lastName);
-          this.formCaesarzon.get('formDatipersonali.email')?.setValue(userData.email);
-          this.formCaesarzon.get('formDatipersonali.username')?.setValue(userData.username);
-          this.formCaesarzon.get('formDatipersonali.cellulare')?.setValue(userData.phoneNumber);
+          this.setFormValue(userData)
+          this.keycloakService.loading = false
 
         },
         error => {
@@ -104,6 +103,15 @@ export class PersonalDataComponent implements OnInit{
 
   }
 
+  setFormValue(userData: User){
+    this.formCaesarzon.get('formDatipersonali.nome')?.setValue(userData.firstName);
+    this.formCaesarzon.get('formDatipersonali.cognome')?.setValue(userData.lastName);
+    this.formCaesarzon.get('formDatipersonali.email')?.setValue(userData.email);
+    this.formCaesarzon.get('formDatipersonali.username')?.setValue(userData.username);
+    this.formCaesarzon.get('formDatipersonali.cellulare')?.setValue(userData.phoneNumber);
+  }
+
+
   //Metodo per caricare l'immagine di profilo dal DB
   loadImage(): void {
     if(this.keycloakService.getAdmin()){
@@ -111,8 +119,6 @@ export class PersonalDataComponent implements OnInit{
         response => {
           const url = URL.createObjectURL(response);
           this.imageUrl = this.sanitizer.bypassSecurityTrustUrl(url);
-          console.log("IMMAGINE CONVERTITA E FUNZIONANTE: " + this.imageUrl)
-
         },
         error => {
           console.error('Errore nel caricamento dell\'immagine', error);
@@ -123,9 +129,6 @@ export class PersonalDataComponent implements OnInit{
         response => {
           const url = URL.createObjectURL(response);
           this.imageUrl = this.sanitizer.bypassSecurityTrustUrl(url);
-          console.log("IMMAGINE CONVERTITA E FUNZIONANTE: " + this.imageUrl)
-
-
         },
         error => {
           console.error('Errore nel caricamento dell\'immagine', error);
@@ -253,10 +256,9 @@ export class PersonalDataComponent implements OnInit{
       return true;
     }
     const numeroPattern = /^\d{10}$/;
-    if(numero === "Inserisci un numero di telefono"){
-      return true;
-    }
-    return numeroPattern.test(numero) ;
+    return numero === "Inserisci un numero di telefono" || numeroPattern.test(numero);
+
+
   }
 
 

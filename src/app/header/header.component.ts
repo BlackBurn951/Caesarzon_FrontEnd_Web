@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
 import {DatePipe, NgClass, NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
 import {Event, Router} from "@angular/router";
 import {PopupService} from "../services/popUpService";
@@ -46,7 +46,7 @@ export class HeaderComponent implements OnDestroy, OnInit{
   notifyCount = 0;
   private notifyCountSubscription!: Subscription;
 
-  constructor(private userService: UserService, protected friendFollow: FriendFollowerService, protected productService: ProductService, public popupService:PopupService, private router: Router, protected keyCloak:KeyCloakService, private adminService: AdminService){
+  constructor(protected friendFollow: FriendFollowerService, protected productService: ProductService, public popupService:PopupService, private router: Router, protected keyCloak:KeyCloakService, private adminService: AdminService){
     this.notifyCountSubscription = this.keyCloak.notifyCount$.subscribe(count => {
       this.notifyCount = count;
     });
@@ -59,6 +59,15 @@ export class HeaderComponent implements OnDestroy, OnInit{
   goHomepage(){
     this.router.navigate(['']);
   }
+
+  @HostListener('document:click', ['$event'])
+  onClickOutside(event: MouseEvent) {
+    const target = event.target as HTMLElement;
+    if (!target.closest('.notifications-container')) {
+      this.keyCloak.menuOpen = false;
+    }
+  }
+
 
   toggleMenu(): void {
     this.isMenuOpen = !this.isMenuOpen;
@@ -74,31 +83,16 @@ export class HeaderComponent implements OnDestroy, OnInit{
 
   changeSection(event: MouseEvent, num:number, page:string, numResult: number){
     if(num === 0){
-      this.adminService.getUsers()
+      this.adminService.getUsers(false)
       this.goToAdminArea(event, page, numResult)
     }else if(num === 1){
-      this.adminService.getReports(0).subscribe(reports => {
-        this.adminService.reports = reports;
-
-        this.adminService.reports.forEach( a =>{
-          console.log("DATI" + a.reason)
-          console.log("DATI" + a.usernameUser2)
-          console.log("DATI" + a.usernameUser1)
-          console.log("DATI" + a.reviewId)
-          console.log("DATI" + a.reviewText)
-          this.adminService.getReview(a.reviewId).subscribe(response =>{
-            a.reviewText = response
-          })
-        })
-        this.userService.loading = false
-
-      })
+      this.adminService.getReports(false)
       this.goToAdminArea(event, page, numResult)
     }else if(num === 2){
-      this.adminService.getSupports(0)
+      this.adminService.getSupports(false)
       this.goToAdminArea(event, page, numResult)
     }else if(num === 3){
-      this.adminService.getBans()
+      this.adminService.getBans(false)
       this.goToAdminArea(event, page, numResult)
     }
   }
@@ -110,7 +104,9 @@ export class HeaderComponent implements OnDestroy, OnInit{
   }
 
   toggleMenus(): void {
-    this.keyCloak.markRead().subscribe();
+    setTimeout(() => {
+      this.keyCloak.markRead().subscribe();
+    }, 2000);
     this.keyCloak.menuOpen = !this.keyCloak.menuOpen;
   }
 

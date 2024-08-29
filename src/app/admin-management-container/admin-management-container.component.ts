@@ -4,6 +4,7 @@ import {NgIf} from "@angular/common";
 import {AdminService} from "../services/adminService";
 import {KeyCloakService} from "../services/keyCloakService";
 import {UserService} from "../services/userService";
+import {ProductService} from "../services/productService";
 
 @Component({
   selector: 'app-admin-management-container',
@@ -17,13 +18,15 @@ import {UserService} from "../services/userService";
 })
 export class AdminManagementContainerComponent implements OnInit{
 
-  constructor(protected userService: UserService, private keycloack: KeyCloakService, protected adminService: AdminService) {
+  constructor(private productService: ProductService, protected userService: UserService, protected keycloack: KeyCloakService, protected adminService: AdminService) {
   }
 
   ngOnInit(): void {
     this.keycloack.getNotify().subscribe(notifies => {
       this.keycloack.notifications = notifies;
     })
+    this.productService.ricerca =""
+
   }
 
 }

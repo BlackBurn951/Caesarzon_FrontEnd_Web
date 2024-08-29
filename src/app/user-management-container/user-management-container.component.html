@@ -10,7 +10,7 @@
 <body>
 
   <div class="container-fluid">
-    <mat-progress-spinner class="uSpinner" *ngIf="this.userService.loading" mode="indeterminate" color="primary"></mat-progress-spinner>
+    <mat-progress-spinner class="uSpinner" *ngIf="this.keyCloak.loading" mode="indeterminate" color="primary"></mat-progress-spinner>
     <button *ngIf="this.keyCloak.getAdmin()" class="btn btn-primary custom-btn" (click)="changePage($event,'admin-area')"><i class="fas fa-arrow-left"></i></button>
     <button class="btn btn-primary custom-btn" (click)="openPersonalData()"><i class="fas fa-address-card"></i></button>
     <button class="btn btn-primary custom-btn" (click)="openAddressData()"><i class="fas fa-map-marker-alt"></i></button>

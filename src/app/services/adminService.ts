@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {booleanAttribute, Injectable} from '@angular/core';
 import {Reports} from "../entities/Report";
 import {Supports} from "../entities/Supports";
 import {Bans} from "../entities/Bans";
@@ -20,6 +20,10 @@ import {Router} from "@angular/router";
 export class AdminService {
 
   section: number = 0;
+  numeroPagineUtenti: number = 0
+  numeroPagineSegnalazioni: number = 0
+  numeroPagineRichieste: number = 0
+  numeroPagineBannati: number = 0
 
   rispostaAdmin: string = "";
   idSupport!: string;
@@ -46,10 +50,10 @@ export class AdminService {
   reviewId!: string;
 
   //Definizione degli arrays
-  users!: UserSearch[]
-  bans!: Bans[]
-  reports!: Reports[]
-  supports!: Supports[]
+  users: UserSearch[] = []
+  bans: Bans[] = []
+  reports: Reports[] = []
+  supports: Supports[] = []
 
   private reportURL = 'http://localhost:8090/notify-api/report';
 
@@ -88,53 +92,18 @@ export class AdminService {
   changeSection(num: number) {
     this.section = num;
     this.clearArrays()
-    this.userService.loading = true
+    this.keycloakService.loading = true
 
     if (num == 0) {
-      this.getUsers().subscribe(users => {
-        this.users = users;
-        this.users.forEach(user =>{
-          this.getUserProfilePic(user.username).subscribe(
-            response => {
-              const url = URL.createObjectURL(response);
-              user.safeImageUrl = this.sanitizer.bypassSecurityTrustUrl(url);
-
-            },
-            error => {
-              console.error('Errore nel caricamento dell\'immagine', error);
-            }
-          );
-        })
-      });
-      this.userService.loading = false
+      this.getUsers(false)
 
     } else if (num == 1) {
-      this.getReports(0).subscribe(reports => {
-        this.reports = reports;
-
-        this.reports.forEach( a =>{
-          console.log("DATI" + a.reason)
-          console.log("DATI" + a.usernameUser2)
-          console.log("DATI" + a.usernameUser1)
-          console.log("DATI" + a.reviewId)
-          console.log("DATI" + a.reviewText)
-          this.getReview(a.reviewId).subscribe(response =>{
-            a.reviewText = response
-          })
-        })
-        this.userService.loading = false
-
-      })
+      this.getReports(false)
     } else if (num == 2) {
-      this.getSupports(0).subscribe(supports => {
-        this.supports = supports
-        this.userService.loading = false
-      })
+      this.getSupports(false)
     } else if (num == 3) {
-      this.getBans().subscribe(bans => {
-        this.bans = bans
-        this.userService.loading = false
-      })
+      this.getBans(false)
+
     }
   }
 
@@ -318,27 +287,117 @@ export class AdminService {
     return this.http.post<string>(this.supportURL, support, { headers, responseType: 'text' as 'json' });
   }
 
-  getUsers(){
-    const customURL = this.getUsersUrl+"?str=0"
-    const headers = this.keycloakService.permaHeader()
-    return this.http.get<UserSearch[]>(customURL, { headers });
+
+  getUsers(caricaAltro: boolean) {
+    if (caricaAltro) {
+      this.numeroPagineUtenti += 1;
+    }
+
+    const customURL = this.getUsersUrl + "?str=" + this.numeroPagineUtenti;
+    const headers = this.keycloakService.permaHeader();
+
+    return this.http.get<UserSearch[]>(customURL, { headers }).subscribe(users => {
+      if (users.length > 0) {
+        users.forEach(user => {
+          if (user && !this.users.some(existingUser => existingUser.username === user.username)) {
+            this.users.push(user);
+          }
+        });
+      }
+
+      this.users.forEach(user => {
+        this.getUserProfilePic(user.username).subscribe(
+          response => {
+            const url = URL.createObjectURL(response);
+            user.safeImageUrl = this.sanitizer.bypassSecurityTrustUrl(url);
+            this.keycloakService.loading = false;
+          },
+          error => {
+            console.error('Errore nel caricamento dell\'immagine', error);
+          }
+        );
+        this.keycloakService.loading = false;
+      });
+    });
   }
 
-  getReports(num: number){
-    const customUrl = this.reportURL+"?num="+num
+
+  getReports(caricaAltro: boolean){
+    if (caricaAltro) {
+      this.numeroPagineSegnalazioni += 1;
+    }
+    const customUrl = this.reportURL+"?num="+this.numeroPagineSegnalazioni
     const headers = this.keycloakService.permaHeader()
-    return this.http.get<Reports[]>(customUrl, { headers });
+    return this.http.get<Reports[]>(customUrl, { headers }).subscribe(reports => {
+      if (reports.length > 0) {
+        reports.forEach(repo => {
+          if (repo && !this.reports.some(existingUser => existingUser.id === repo.id)) {
+            this.reports.push(repo);
+          }
+        });
+        reports.forEach(repo =>{
+          this.getReview(repo.reviewId).subscribe(response=>{
+              repo.reviewText = response
+          })
+
+        })
+      }
+      this.keycloakService.loading = false
+
+    })
   }
 
-  getSupports(num: number){
-    const customUrl = this.supportURL+"?num="+num
+  getSupports(caricaAltro: boolean){
+    if (caricaAltro) {
+      this.numeroPagineRichieste += 1;
+    }
+    const customUrl = this.supportURL + "?num=" + this.numeroPagineRichieste
     const headers = this.keycloakService.permaHeader()
-    return this.http.get<Supports[]>(customUrl, { headers });
+    return this.http.get<Supports[]>(customUrl, {headers}).subscribe(supports => {
+      if (supports.length > 0) {
+        supports.forEach(suppo => {
+          if (suppo && !this.supports.some(existingUser => existingUser.id === suppo.id)) {
+            this.supports.push(suppo);
+          }
+        });
+      }
+      this.keycloakService.loading = false
+
+    })
   }
 
-  getBans(){
-    const headers = this.keycloakService.permaHeader()
-    return this.http.get<Bans[]>(this.banURL, { headers });
+  getBans(caricaAltro: boolean)
+  {
+    if (caricaAltro) {
+      this.numeroPagineBannati += 1;
+    }
+    const customUrl = this.banURL + "?num=" + this.numeroPagineBannati
+    const headers = this.keycloakService.permaHeader();
+    return this.http.get<Bans[]>(customUrl, { headers }).subscribe((bans: Bans[]) => {
+      if (bans.length > 0) {
+        bans.forEach(ban => {
+          if (ban && !this.bans.some(existingBan =>
+            existingBan.userUsername === ban.userUsername &&
+            existingBan.adminUsername === ban.adminUsername &&
+            existingBan.reason === ban.reason &&
+            existingBan.startDate === ban.startDate &&
+            existingBan.endDate === ban.endDate &&
+            existingBan.confirmed === ban.confirmed
+          )) {
+            this.bans.push(ban);
+          }
+        });
+      }
+      this.keycloakService.loading = false;
+    });
+  }
+
+
+  resetArray(){
+    this.supports = []
+    this.reports = []
+    this.bans = []
+    this.users = []
   }
 
 

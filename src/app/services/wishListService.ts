@@ -16,7 +16,7 @@ import {UserService} from "./userService";
 export class WishListService{
 
 
-  wishListProducts!: WishProduct;
+  wishListProducts: WishProduct | null = null;
   wishLists: BasicWishList[] = [];
 
   userWishLists: BasicWishList[] = [];
@@ -94,7 +94,7 @@ export class WishListService{
 
   getWishLists(vis: number, username: string){
     let customUrl ;
-    if(username === ''){
+    if(this.userService.nomeProfilo === ""){
       customUrl = this.getWishListsURL+"?usr="+this.keycloakService.getUsername()+"&visibility="+vis
     }else{
       customUrl = this.getWishListsURL+"?usr="+username+"&visibility="+vis
@@ -120,7 +120,8 @@ export class WishListService{
 
       this.http.get<WishProduct>(customUrl, { headers }).subscribe({
         next: (response: WishProduct) => {
-          if (response.singleWishListProductDTOS.length > 0) {
+
+          if (response.singleWishListProductDTOS && response.singleWishListProductDTOS.length > 0) {
             this.wishListProductsMap[wishlistId] = response;
             this.emptyList = false;
           } else {

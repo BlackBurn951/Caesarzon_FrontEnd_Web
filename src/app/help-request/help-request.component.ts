@@ -5,6 +5,7 @@ import { FormsModule } from "@angular/forms";
 import { UserService } from "../services/userService";
 import {AdminService} from "../services/adminService";
 import {KeyCloakService} from "../services/keyCloakService";
+import {ProductService} from "../services/productService";
 
 @Component({
   selector: 'app-help-request',
@@ -19,7 +20,7 @@ import {KeyCloakService} from "../services/keyCloakService";
 })
 export class HelpRequestComponent implements OnInit{
 
-  constructor(private keyCloak: KeyCloakService, protected adminService: AdminService) { }
+  constructor(private productService: ProductService, private keyCloak: KeyCloakService, protected adminService: AdminService) { }
 
   //Validazione dei campi
   isFormValid(): boolean {
@@ -38,6 +39,8 @@ export class HelpRequestComponent implements OnInit{
     this.keyCloak.getNotify().subscribe(notifies => {
       this.keyCloak.notifications = notifies;
     })
+    this.productService.ricerca =""
+
   }
 }
 

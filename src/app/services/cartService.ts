@@ -129,13 +129,10 @@ export class CartService {
         this.totaleConSconto = 0;
 
         response.forEach(product => {
-          console.log("valore buy later: " + product.buyLater)
           this.productService.getProductImage(product.id).subscribe(
             response => {
               const url = URL.createObjectURL(response);
-              console.log("URL IMMAGINE CARRELLO: " + url)
               product.image = this.sanitizer.bypassSecurityTrustUrl(url);
-              console.log("IMMAGINE PRODOTTO CARRELLO: " + product.image)
             },
             error => {
               console.error('Errore nel caricamento dell\'immagine', error);
@@ -239,7 +236,11 @@ export class CartService {
         }
       });
     } else {
-      const prodottoId = this.productService.prodotto.id;
+      var prodottoId;
+      if(this.productService.prodotto != null){
+        prodottoId = this.productService.prodotto.id;
+
+      }
       if (prodottoId && !this.productIds.includes(prodottoId)) {
         this.productIds.push(prodottoId);
       }
@@ -251,10 +252,13 @@ export class CartService {
 
 
   goToPayment(num: number) {
+    this.keyCloakService.loading = true
     this.checkAva(num).subscribe(res => {
       if (res === null) {
         this.clearCampi()
+        this.keyCloakService.loading = false
         this.router.navigate(['payment-second-page']);
+
       } else {
         this.unvaiable = res;
         this.stringaDisponibilita = "";
@@ -272,13 +276,15 @@ export class CartService {
             });
         });
         this.popUp.openPopups(15, true);
+        this.keyCloakService.loading = false
       }
+      this.keyCloakService.loading = false
+
     });
   }
 
   clearCampi(){
     this.stringaDisponibilita = ""
-    this.productIds = []
     this.unvaiable = []
     this.productInCart = []
   }
@@ -346,11 +352,10 @@ export class CartService {
       total: diff
     };
 
+
     this.addressService.getAddress(this.addressId).subscribe( response =>{
       this.addressService.indirizzoCorrente = response
     })
-
-
 
     sessionStorage.setItem('buy', JSON.stringify(this.buy));
 
@@ -358,20 +363,16 @@ export class CartService {
     const headers = this.keyCloakService.permaHeader();
     return this.http.post<string>(custmUrl, this.buy, { headers, responseType: 'text' as 'json' }).subscribe(response => {
       if (response === "Errore...") {
-        this.popUp.updateStringa("ERRORE ALDOS")
-        this.popUp.openPopups(45, true)
+        this.popUp.updateStringa("Problemi nell'acquisto, controllare dati o saldo carta")
+        this.popUp.openPopups(434, true)
       } else {
         if (this.payPal) {
           window.location.href = response;
-        } else if (!this.payPal) {
+        }else if (!this.payPal) {
           this.ordineInviato = true
           this.router.navigate(['order-final']);
-        }else if(response === "Errore"){{
-          this.popUp.updateStringa("Problemi nell'acquisto, controllare dati o saldo carta")
-          this.popUp.openPopups(434, true)
         }
 
-        }
       }
     })
   }

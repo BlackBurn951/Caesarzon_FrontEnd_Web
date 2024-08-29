@@ -54,8 +54,13 @@ export class AllPopupComponent implements OnInit{
   }
 
   ok(){
-    this.cartService.removeFromCart(this.productService.prodotto.id)
+    if(this.productService.acquistoRapido){
+      if(this.productService.prodotto)
+        this.cartService.removeFromCart(this.productService.prodotto.id)
+      this.dialogError.close();
+    }
     this.dialogError.close();
+
   }
 
   aggiungiIndirizzo(){
@@ -74,8 +79,8 @@ export class AllPopupComponent implements OnInit{
 
 
   apriListe(username: string){
-    this.userService.nomeProfilo= username
-    this.wishListService.getWishS(0, username)
+    this.userService.nomeProfilo = username
+    this.wishListService.getUserWishList(0, username)
     this.popUpService.openPopups(13, false)
   }
 
@@ -135,10 +140,13 @@ export class AllPopupComponent implements OnInit{
 
 
   ngOnInit(): void {
+    this.keyCloak.loading = false
     this.resetVariables()
     this.keyCloak.getNotify().subscribe(notifies => {
       this.keyCloak.notifications = notifies;
     })
+    this.productService.ricerca =""
+
   }
 
   //Metodo che dopo aver validato al password chiama il server che effettuare il cambio
@@ -230,7 +238,4 @@ export class AllPopupComponent implements OnInit{
   highlightedRow: number = -1;
 
 
-  onSubmit() {
-
-  }
 }

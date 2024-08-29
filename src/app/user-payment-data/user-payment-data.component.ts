@@ -3,6 +3,7 @@ import {PopupService} from "../services/popUpService";
 import {CardsService} from "../services/cardsService";
 import {Card} from "../entities/Card";
 import {KeyCloakService} from "../services/keyCloakService";
+import {ProductService} from "../services/productService";
 
 @Component({
   selector: 'app-user-payment-data',
@@ -15,7 +16,8 @@ export class UserPaymentDataComponent implements OnInit{
   constructor(
     public popUpService: PopupService,
     protected cardService: CardsService,
-    protected keyCloak: KeyCloakService
+    protected keyCloak: KeyCloakService,
+    private productService: ProductService
   ) { }
 
   ngOnInit() {
@@ -23,6 +25,8 @@ export class UserPaymentDataComponent implements OnInit{
     this.keyCloak.getNotify().subscribe(notifies => {
       this.keyCloak.notifications = notifies;
     })
+    this.productService.ricerca =""
+
   }
 
   formatCardNumber(cardNumber: string | undefined): any{

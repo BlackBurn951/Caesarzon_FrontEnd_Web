@@ -15,7 +15,7 @@ export class FormService {
 
   protected formCaesarzon!: FormGroup;
 
-  constructor(private fb: FormBuilder, private popUpService: PopupService) {
+  constructor(private fb: FormBuilder) {
     this.createForm();
   }
 
@@ -56,12 +56,12 @@ export class FormService {
       nome: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(100)]],
       marca: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(30)]],
       descrizione: ['', [Validators.required, Validators.minLength(20), Validators.maxLength(1000)]],
-      sconto: ['', [Validators.required, Validators.min(0), Validators.max(50)]],
-      prezzo: ['', [Validators.required, Validators.min(0), Validators.max(1000000)]],
+      sconto: ['', [Validators.required, Validators.min(1), Validators.max(50)]],
+      prezzo: ['', [Validators.required, Validators.min(1), Validators.max(1000000)]],
       coloreP: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
       coloreS: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
       sport: ['', [Validators.required, Validators.minLength(3) , Validators.maxLength(20)]],
-      categoria: ['', [Validators.required, Validators.minLength(12), Validators.maxLength(13)]]
+      categoria: ['', [Validators.required, Validators.pattern(/^(true|false)$/)]]
     });
   }
 

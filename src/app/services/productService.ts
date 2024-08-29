@@ -42,11 +42,11 @@ export class ProductService {
   disponibilitaAggiunta: boolean = false;
 
   products: ProductSearch[] = []
-
+  nuovoProdotto: boolean = true
   newProducts: ProductSearch[]  = [];
   offerProducts: ProductSearch[] = [];
-
-  prodotto!: ProductDTO
+  acquistoRapido :boolean = false
+  prodotto: ProductDTO | null = null
   recensioni: ProductReview[] = []
   scoreRecensioni: number[]= [0,0,0,0,0]
   reviewId: string = ""
@@ -79,7 +79,9 @@ export class ProductService {
 
   }
 
+
   initHomepage(){
+    this.keycloakService.loading = true
     this.getLastNineProducts().subscribe(products => {
       this.newProducts = products;
       this.newProducts.forEach(prod =>{
@@ -87,9 +89,12 @@ export class ProductService {
           response => {
             const url = URL.createObjectURL(response);
             prod.image = this.sanitizer.bypassSecurityTrustUrl(url);
+            this.keycloakService.loading = false
           },
           error => {
             console.error('Errore nel caricamento dell\'immagine', error);
+            this.keycloakService.loading = false
+
           }
         );
       })
@@ -101,9 +106,12 @@ export class ProductService {
           response => {
             const url = URL.createObjectURL(response);
             prod.image = this.sanitizer.bypassSecurityTrustUrl(url);
+            this.keycloakService.loading = false
           },
           error => {
             console.error('Errore nel caricamento dell\'immagine', error);
+            this.keycloakService.loading = false
+
           }
         );
       })
@@ -128,7 +136,10 @@ export class ProductService {
 
   rimuoviProdotto(){
     const headers = this.keycloakService.permaHeader();
-    const customURL = this.productDataURL+'/'+this.prodotto.id
+    var customURL = ""
+    if(this.prodotto != null){
+      customURL = this.productDataURL+'/'+this.prodotto.id
+    }
     return this.http.delete<string>(customURL,{ headers, responseType: 'text' as 'json' }).subscribe(response =>{
       if(response === "Prodotto eliminato"){
         this.popUpService.updateStringa(response)
@@ -142,6 +153,7 @@ export class ProductService {
   }
 
   uploadImage(file: File, id: string): Observable<any> {
+    console.log(file)
     const formData = new FormData();
     formData.append('file', file, file.name);
 
@@ -149,13 +161,13 @@ export class ProductService {
     const headers = new HttpHeaders({
       'Authorization': 'Bearer ' + this.keycloakService.getAccessToken()
     });
+
     const customURL = this.manageImageProductURL+'/'+id
 
     return this.http.put(customURL, formData, { headers, responseType: 'text'});
   }
 
 
-  prodottoInModifica: boolean = false
   // Metodo per aggiungere il prodotto
   aggiungiProdotto() {
     this.formService.setFormData(this.formCaesarzon.value);
@@ -171,7 +183,7 @@ export class ProductService {
 
     let is_clothing = false;
     const categoria = this.formCaesarzon.get('formDeiProdotti.categoria')?.value;
-    if (categoria === "Abbigliamento") {
+    if (categoria === "true") {
       is_clothing = true;
     }
 
@@ -218,13 +230,18 @@ export class ProductService {
       ava.push(singleAva);
     }
 
-    var id = ""
-    if(this.prodottoInModifica){
-      id = this.prodotto.id
+    let ids = ""
+    if(!this.nuovoProdotto) {
+      if (this.prodotto != null) {
+        ids = this.getProductIdInCache()
+      }else{
+        ids = ""
+      }
     }
+    console.log("ID PRODOTTO PRESO DALLA CACHE: " + ids)
 
     const sendProduct: ProductDTO = {
-      id: id,
+      id: ids,
       name: nome,
       brand: marca,
       description: descrizione,
@@ -243,12 +260,16 @@ export class ProductService {
   }
 
   addReview(){
+    var pId = ""
+    if(this.prodotto != null){
+      pId = this.prodotto.id
+    }
     const review: ProductReview ={
       id: "",
       text: this.descrizioneRecensione,
       evaluation: this.valutazioneRecensione,
       username: "",
-      productID: this.prodotto.id,
+      productID: pId,
       date: ""
     }
 
@@ -274,7 +295,7 @@ export class ProductService {
   }
 
   modificaProdotto(){
-    this.prodottoInModifica = true
+    this.nuovoProdotto = false
     this.caricaDatiProdotto()
     this.disponibilitaAggiunta = true
     this.immagineCaricataModifica = true
@@ -288,6 +309,7 @@ export class ProductService {
     var amountM = 0
     var amountL = 0
     var amountXL = 0
+    if(prodotto != null)
     prodotto.availabilities.forEach(ava =>{
       if(ava.size === "XS"){
         amountXS = ava.amount
@@ -383,12 +405,15 @@ export class ProductService {
     if (productID) {
       return productID;
     } else {
-      return this.prodotto.id;
+      if(this.prodotto != null)
+        return this.prodotto.id;
+      return ""
     }
   }
 
   prendiDatiProdotto(productId: string) {
     this.imageUrl = undefined
+    this.keycloakService.loading = true
 
     this.setProductIdInCache(productId)
 
@@ -446,18 +471,20 @@ export class ProductService {
   }
 
   avanzaRecensioni(){
-    this.prendiRecensioni(this.prodotto.id, this.numPagRec+1).subscribe(response => {
-      if(response!=null) {
-        response.forEach(res =>{
-          this.recensioni.push(res)
-        })
-      }
-    })
-    this.prendiScoreRecensioni(this.prodotto.id).subscribe(response => {
-      if(response!=null) {
-        this.scoreRecensioni= response
-      }
-    })
+    if(this.prodotto != null){
+      this.prendiRecensioni(this.prodotto.id, this.numPagRec+1).subscribe(response => {
+        if(response!=null) {
+          response.forEach(res =>{
+            this.recensioni.push(res)
+          })
+        }
+      })
+      this.prendiScoreRecensioni(this.prodotto.id).subscribe(response => {
+        if(response!=null) {
+          this.scoreRecensioni= response
+        }
+      })
+    }
   }
 
   getProductImage(productId: string): Observable<Blob> {
@@ -487,34 +514,33 @@ export class ProductService {
       response => {
         if(response != null)
           var uuid = response.replace(/"/g, "");
-          if(this.selectedFile)
-          this.uploadImage(this.selectedFile, uuid).subscribe(response =>{
-            if(response === "Immagine caricata con successo!"){
-              if(this.prodottoInModifica){
-                this.popUpService.updateStringa("Prodotto modificato con successo!")
-              }else{
-                this.popUpService.updateStringa("Prodotto aggiunto con successo!")
-              }
-              this.popUpService.openPopups(103, true)
-              setTimeout(() => {
+          if(this.selectedFile) {
+            console.log("UFILEEEEEEEEEE" + this.selectedFile.name)
+            this.uploadImage(this.selectedFile, uuid).subscribe(response => {
+                if (response === "Immagine caricata con successo!") {
+                  this.popUpService.updateStringa("Prodotto aggiunto o modificato con successo!")
+                  this.popUpService.openPopups(103, true)
+                  setTimeout(() => {
+                    this.resetFields()
+                    this.formService.resetFormErrors(this.formCaesarzon)
+                    this.popUpService.closePopup()
+                    this.router.navigate(['']);
+                  }, 2000);
+                  this.nuovoProdotto = true
+                }
+              },
+              error => {
+                this.nuovoProdotto = true
+                this.popUpService.updateStringa("Problemi nell'aggiunta o modifica del prodotto.")
+                this.popUpService.openPopups(1034, true)
                 this.resetFields()
-                this.formService.resetFormErrors(this.formCaesarzon)
-                this.popUpService.closePopup()
-                this.router.navigate(['']);
-              }, 3000);
-            }
-            this.prodottoInModifica = false
-          },
-            error => {
-              this.prodottoInModifica = false
-              this.popUpService.openPopups(1034, true)
-              this.resetFields()
-              console.error('Error sending product data:', error);
-            }
+                console.error('Error sending product data:', error);
+              }
             )
+          }
       },
       error => {
-        this.prodottoInModifica = false
+        this.nuovoProdotto = true
         this.popUpService.updateStringa("Problemi nell'aggiunta o modifica del prodotto.")
         this.popUpService.openPopups(1034, true)
         this.resetFields()
@@ -527,7 +553,8 @@ export class ProductService {
 
   sendProductDateToServer(productDTO: ProductDTO): Observable<any> {
     const headers = this.keycloakService.permaHeader()
-    return this.http.post<string>(this.productDataURL, productDTO, { headers, responseType: 'text' as 'json' });
+    const customURL = this.productDataURL+'?new='+this.nuovoProdotto
+    return this.http.post<string>(customURL, productDTO, { headers, responseType: 'text' as 'json' });
   }
 
 
@@ -576,7 +603,7 @@ export class ProductService {
 
   resetFields(){
     this.formService.setFormData(this.formCaesarzon.value);
-
+    this.selectedFile = null
     this.formCaesarzon.get('formDeiProdotti.nome')?.setValue("");
     this.formCaesarzon.get('formDeiProdotti.marca')?.setValue("");
     this.formCaesarzon.get('formDeiProdotti.descrizione')?.setValue("");

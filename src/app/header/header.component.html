@@ -28,20 +28,20 @@
             <div class="notifications-container">
               <button class="notification-button mr-1" (click)="toggleMenus()">
                 <img src="assets/images/icons/bell.png" alt="Icona notifiche" height="24" width="24">
-                <span class="badge" *ngIf="notifyCount > 0">{{ notifyCount}}</span>
+                <span class="badge" *ngIf="notifyCount > 0">{{ notifyCount }}</span>
               </button>
 
               <div class="notification-menu" [class.show]="this.keyCloak.menuOpen">
                 <ng-container *ngIf="keyCloak.notifications && keyCloak.notifications.length; else noNotifications">
-                  <div *ngFor="let notification of keyCloak.notifications">
+                  <div *ngFor="let notification of keyCloak.notifications.slice().reverse()">
                     <table class="notification-table">
                       <tbody>
-                      <tr class="notification-item" >
+                      <tr class="notification-item" [ngClass]="{'unread-notification': !notification.read}">
                         <td>
                           <span>{{ notification.subject }}</span>
                         </td>
                         <td style="width: 7vw">
-                          <span >{{ notification.date }}</span>
+                          <span>{{ notification.date }}</span>
                         </td>
                         <td style="width: 5vw">
                           <button class="icon-button mr-2" *ngIf="!keyCloak.getAdmin()" (click)="toggleDescription(notification)">
@@ -60,7 +60,6 @@
                       </tbody>
                     </table>
                   </div>
-
                 </ng-container>
                 <ng-template #noNotifications>
                   <p class="notification-item ml-5">Non hai nessuna notifica</p>
@@ -69,6 +68,7 @@
             </div>
           </div>
         </li>
+
 
         <li class="nav-item">
           <div class="dropdown">
@@ -90,9 +90,9 @@
 
             <div *ngIf="keyCloak.getAdmin() && keyCloak.getLoggedStatus()" class="dropdown-menu" >
               <a class="dropdown-item" (click)="changeSection($event, 0, 'admin-area',0)">Cerca utenti</a>
-              <a class="dropdown-item" (click)="changeSection($event, 1, 'admin-area',0)">Segnalazioni</a>
-              <a class="dropdown-item" (click)="changeSection($event, 2, 'admin-area',0)">Richieste di supporto</a>
-              <a class="dropdown-item" (click)="changeSection($event, 3, 'admin-area',0)">Utenti bannati</a>
+              <a class="dropdown-item" (click)="changeSection($event, 1, 'admin-area',1)">Segnalazioni</a>
+              <a class="dropdown-item" (click)="changeSection($event, 2, 'admin-area',2)">Richieste di supporto</a>
+              <a class="dropdown-item" (click)="changeSection($event, 3, 'admin-area',3)">Utenti bannati</a>
               <a class="dropdown-item" (click)="keyCloak.toggleLogin()">Esci</a>
             </div>
           </div>

@@ -20,13 +20,14 @@ export class KeyCloakService {
 
   private ACCESS_TOKEN!: string;
   private REFRESH_TOKEN!: string;
+  loading: boolean = false;
 
   private nomeUtente!: string;
   private cognomeUtente!: string;
 
   private username: string = ""
   private isAdmin!: boolean;
-  private isLogged: boolean = false;
+  private isLogged!: boolean;
   menuOpen = false;
 
   notifications: Notifications[] = [];
@@ -59,8 +60,7 @@ export class KeyCloakService {
   }
 
   //Metodo per ricevere i token da KeyCloak per l'utente
-  login(username: string, password: string): void{
-
+  login(username: string, password: string): void {
     const headers = new HttpHeaders({
       'Content-Type': 'application/x-www-form-urlencoded'
     });
@@ -72,29 +72,28 @@ export class KeyCloakService {
     body.set('password', password);
 
     this.http.post(this.accessTokenUrl, body.toString(), { headers, withCredentials: true }).subscribe(
-      (response:any) => {
+      (response: any) => {
         this.setTokens(response.access_token, response.refresh_token);
-        this.saveUsernameToCache(username)
+        this.saveUsernameToCache(username);
 
-        if(username != "Guest"){
+        if (username != "Guest") {
           this.isLogged = true;
           this.setLogin();
-          this.saveUsernameToCache(username)
-          this.popUp.closePopup()
-          this.setAdminStatus(this.ACCESS_TOKEN)
+          this.saveUsernameToCache(username);
+          this.popUp.closePopup();
+          this.setAdminStatus(this.ACCESS_TOKEN);
           this.getNotify().subscribe(notifies => {
             this.notifications = notifies;
-          })
+          });
+
+          this.startExpirationTimer(60 * 60 * 1000);
+
           this.startTokenRefreshTimer();
-
         }
-        this.startTokenRefreshTimer();
-
-
       },
       (error) => {
-        this.popUp.updateStringa("Username o password errati. Riprova")
-        this.popUp.openPopups(234, true)
+        this.popUp.updateStringa("Username o password errati. Riprova");
+        this.popUp.openPopups(234, true);
 
         console.error("Error during request:", error);
       }
@@ -165,17 +164,6 @@ export class KeyCloakService {
   }
 
 
-  getAdmin(){
-    const isAdminString = localStorage.getItem('isAdmin');
-    if (isAdminString) {
-      if(isAdminString === 'true'){
-        this.isAdmin = true
-      }
-      return this.isAdmin;
-    } else {
-      return this.isAdmin
-    }
-  }
 
 
 
@@ -203,7 +191,6 @@ export class KeyCloakService {
   }
 
   clearCache(): void {
-    // Pulisci le variabili locali
     this.nomeUtente = "";
     this.cognomeUtente = "";
     this.username = "";
@@ -211,14 +198,12 @@ export class KeyCloakService {
     this.isLogged = false;
     this.notifications = [];
     this.refreshAuthVariables()
-    // Pulisci il localStorage
     localStorage.removeItem('access_token');
     localStorage.removeItem('refresh_token');
     localStorage.removeItem('username');
     localStorage.removeItem('isLogged');
     localStorage.removeItem('isAdmin');
 
-    // Reimposta il contatore delle notifiche
     this.notifyCountSubject.next(0);
   }
 
@@ -270,32 +255,57 @@ export class KeyCloakService {
     }, refreshInterval);
   }
 
+  private expirationTimeout: any;
+
+  startExpirationTimer(duration: number) {
+    this.clearExpirationTimer();
+    this.expirationTimeout = setTimeout(() => {
+      this.clearCache();
+    }, duration);
+  }
+
+  clearExpirationTimer() {
+    if (this.expirationTimeout) {
+      clearTimeout(this.expirationTimeout);
+      this.expirationTimeout = null;
+    }
+  }
+
+
 
   // Metodo per decodificare il token e impostare lo stato di admin
   setAdminStatus(accessToken: string) {
     try {
       const decodedToken: any = jwtDecode(accessToken);
-
       let roles: string[] = [];
 
       if (decodedToken.realm_access && decodedToken.realm_access.roles) {
         roles = roles.concat(decodedToken.realm_access.roles);
-      } else {
       }
       if (decodedToken.resource_access && decodedToken.resource_access["caesar-app"] && decodedToken.resource_access["caesar-app"].roles) {
         roles = roles.concat(decodedToken.resource_access["caesar-app"].roles);
-      } else {
-        console.warn("No roles found in resource_access['caesar-app'].");
       }
 
-      if(roles.includes('admin')){
-        this.isAdmin = true;
-      }
+      this.isAdmin = roles.includes('admin');
+      localStorage.setItem('isAdmin', String(this.isAdmin));  // Salva in localStorage
 
     } catch (error) {
       this.isAdmin = false;
+      localStorage.setItem('isAdmin', 'false');  // Salva anche in caso di errore
     }
   }
+
+  getAdmin(): boolean {
+    const isAdminString = localStorage.getItem('isAdmin');
+    if (isAdminString) {
+      this.isAdmin = isAdminString === 'true';
+      return this.isAdmin;
+    } else {
+      return false;
+    }
+  }
+
+
 
   getNotify(): Observable<Notifications[]> {
     const headers = this.permaHeader();

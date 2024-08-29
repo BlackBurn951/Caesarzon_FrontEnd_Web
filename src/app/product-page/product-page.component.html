@@ -24,13 +24,13 @@
       <div class="col-md">  <!--SEZIONE NOME E DESCRIZIONE PRODOTTO -->
         <div class="row">
           <div class="col-md">
-            <p id="product-name"><b>{{this.productService.prodotto.name}}</b></p>
-            <p id="product-descr">{{this.productService.prodotto.description}}</p>
-            <p id="product-brand"><b class="bolds">Marca: </b>{{this.productService.prodotto.brand}}</p>
-            <p id="product-primary"><b class="bolds">Colore primario: </b>{{this.productService.prodotto.primaryColor}}</p>
-            <p id="product-secondary"><b class="bolds">Colore secondario: </b>{{this.productService.prodotto.secondaryColor}}</p>
-            <p id="product-sport"><b class="bolds">Sport: </b>{{this.productService.prodotto.sport}}</p>
-            <div *ngIf="this.productService.prodotto.is_clothing && !this.keyCloak.getAdmin()" class="row pl-2">
+            <p id="product-name"><b>{{this.productService.prodotto?.name}}</b></p>
+            <p id="product-descr">{{this.productService.prodotto?.description}}</p>
+            <p id="product-brand"><b class="bolds">Marca: </b>{{this.productService.prodotto?.brand}}</p>
+            <p id="product-primary"><b class="bolds">Colore primario: </b>{{this.productService.prodotto?.primaryColor}}</p>
+            <p id="product-secondary"><b class="bolds">Colore secondario: </b>{{this.productService.prodotto?.secondaryColor}}</p>
+            <p id="product-sport"><b class="bolds">Sport: </b>{{this.productService.prodotto?.sport}}</p>
+            <div *ngIf="this.productService.prodotto?.is_clothing && !this.keyCloak.getAdmin()" class="row pl-2">
               <p>Seleziona la taglia desiderata:</p>
               <select class="ml-4" name="quantity-selection" (change)="updateSize($event)">
                 <option value=""></option>
@@ -68,21 +68,22 @@
 
 
             <div class="row pt-4 pl-2">
-                <p id="price">Prezzo: <b>{{this.productService.prodotto.price}}€</b></p>
+                <p id="price">Prezzo: <b>{{this.productService.prodotto?.price}}€</b></p>
               </div>
 
             <div class="row pl-2">
-              <p id="discount">Sconto: {{this.productService.prodotto.discount}}%</p>
+              <p id="discount">Sconto: {{this.productService.prodotto?.discount}}%</p>
             </div>
 
               <div class="row d-flex flex-column align-items-center">
                 <button *ngIf="!keyCloak.getAdmin()" type="button" class="btn btn-dark btn-buy mb-2" (click)="addProductToCart(1)">Acquista</button>
-                <button *ngIf="keyCloak.getAdmin()" type="button" class="btn btn-dark btn-buy mb-2" (click)="this.productService.modificaProdotto()">Modifica prodotto</button>
+                <button *ngIf="keyCloak.getAdmin()" type="button" class="btn btn-dark btn-custom mb-5 mt 5" (click)="this.productService.modificaProdotto()">Modifica prodotto</button>
               </div>
 
               <div class="row d-flex flex-column align-items-center">
                 <button *ngIf="!keyCloak.getAdmin()" type="button" class="btn btn-dark btn-custom mb-2" (click)="addProductToCart(0)">Aggiungi al carrello</button>
-                <button *ngIf="keyCloak.getAdmin()" type="button" class="btn btn-dark btn-custom mb-2" (click)="rimozioneProdotto()">Rimuovi prodotto</button>
+                <button *ngIf="keyCloak.getAdmin()" type="button" class="btn btn-danger modifica mb-2
+" (click)="rimozioneProdotto()">Rimuovi prodotto</button>
               </div>
 
               <div class="row d-flex flex-column align-items-center">
@@ -135,11 +136,11 @@
 
       <div class="col"><!--SEZIONE SINGOLE RECENSIONI-->
         <div class="row" *ngIf="productService.recensioni.length===0">
-          <div class="card mb-2">
+          <div *ngIf="!this.keyCloak.getAdmin()" class="card mb-2">
             <div class="card-header">
               <b></b>
             </div>
-            <div class="card-body">
+            <div  class="card-body">
               <blockquote class="blockquote mb-0">
                 <p>Il prodotto non ha ancora recensioni <br>Lasciaci la tua!</p>
                 <footer class="blockquote-footer">
@@ -160,7 +161,7 @@
                 <footer class="blockquote-footer">
                   Publicato in data: <cite title="Source Title">{{item.date}}</cite>
                   <button *ngIf="!keyCloak.getAdmin() && (item.username != this.keyCloak.getUsername())" class="btn btn-danger ml-2" (click)="segnala(item.username, item.id)">Segnala</button>
-                  <button *ngIf="keyCloak.getAdmin() || (item.username === this.keyCloak.getUsername())" class="btn btn-danger ml-2" (click)="eliminaRecensione(item.productID)">Rimuovi</button>
+                  <button *ngIf="keyCloak.getAdmin() || (item.username === this.keyCloak.getUsername())" class="btn btn-danger ml-2" (click)="eliminaRecensione(item.productID, item.username)">Rimuovi</button>
                 </footer>
               </blockquote>
             </div>

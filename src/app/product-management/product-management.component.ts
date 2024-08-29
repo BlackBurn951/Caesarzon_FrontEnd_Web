@@ -52,6 +52,8 @@ export class ProductManagementComponent implements OnInit{
     this.keyCloak.getNotify().subscribe(notifies => {
       this.keyCloak.notifications = notifies;
     })
+    this.productService.ricerca =""
+
   }
 
 

@@ -7,6 +7,7 @@ import {UserService} from "../services/userService";
 import {CardsService} from "../services/cardsService";
 import {CartService} from "../services/cartService";
 import {PopupService} from "../services/popUpService";
+import {ProductService} from "../services/productService";
 
 @Component({
   selector: 'app-payment-second-page',
@@ -15,7 +16,7 @@ import {PopupService} from "../services/popUpService";
 })
 export class PaymentSecondPageComponent implements OnInit{
 
-  constructor(protected cartService: CartService, protected cardService: CardsService, private userService: UserService, protected addressService:AddressService, protected keyCloak: KeyCloakService, private router: Router, protected popUp: PopupService) {
+  constructor(private productService: ProductService, protected cartService: CartService, protected cardService: CardsService, private userService: UserService, protected addressService:AddressService, protected keyCloak: KeyCloakService, private router: Router, protected popUp: PopupService) {
   }
 
   goBackToCart() {
@@ -45,19 +46,25 @@ export class PaymentSecondPageComponent implements OnInit{
   }
 
   ngOnInit(): void {
+    this.productService.ricerca =""
+
     this.keyCloak.getNotify().subscribe(notifies => {
       this.keyCloak.notifications = notifies;
     })
+    this.keyCloak.loading = true
     this.userService.getUserData().subscribe(
       (userData: User) => {
         this.keyCloak.setNomeUtente(userData.firstName)
         this.keyCloak.setCognomeNomeUtente(userData.lastName)
+        this.keyCloak.loading = false
 
       },
       error => {
         console.error('Error fetching user data:', error);
       }
+
     );
+    this.keyCloak.loading = false
     this.addressService.getAddressesNamePayment()
     this.cardService.getCardsNamePayment()
     this.cartService.getCart()

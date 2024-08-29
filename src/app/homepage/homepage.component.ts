@@ -17,7 +17,7 @@ export class HomepageComponent implements OnInit{
   indexNovita: number = 0;
   indexOfferte: number = 0;
 
-  constructor(private sanitizer: DomSanitizer, private key: KeyCloakService, protected productService: ProductService, protected userService: UserService) {
+  constructor(private sanitizer: DomSanitizer, protected key: KeyCloakService, protected productService: ProductService, protected userService: UserService) {
 
   }
 
@@ -29,6 +29,8 @@ export class HomepageComponent implements OnInit{
       this.key.login("Guest","Mascalzone1");
 
     }
+    this.productService.ricerca =""
+
     setTimeout(() => {
       this.productService.initHomepage()
     }, 500);

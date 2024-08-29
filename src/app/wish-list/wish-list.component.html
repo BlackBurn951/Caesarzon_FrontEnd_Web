@@ -41,7 +41,7 @@
 
                   <div class="form-group d-flex flex-row align-items-center"  *ngIf="wishListService.section == 0">
                     <div *ngIf="wishListService.wishLists.length === 0">Non hai ancora liste dei desideri pubbliche!</div>
-                    <button class="btn btn-dark custom-btn ml-2" (click)="wishListService.getWishListProducts(item.id,0)">
+                    <button class="btn btn-dark custom-btn ml-2" (click)="wishListService.getWishListProducts(item.id, 0)">
                       Prodotti
                     </button>
                     <button class="btn btn-dark custom-btn ml-2" (click)="wishListService.changeVisibility(1, item.id)">

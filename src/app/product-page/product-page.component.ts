@@ -19,7 +19,7 @@ export class ProductPageComponent implements OnInit{
   day: number = 0
   month: number = 0
   year: number = 0
-  constructor(private userService:UserService, private cartService:CartService, private wishListService: WishListService, protected adminService: AdminService ,protected keyCloak: KeyCloakService, public popUpService:PopupService, protected productService: ProductService) {
+  constructor(private cartService:CartService, private wishListService: WishListService, protected adminService: AdminService ,protected keyCloak: KeyCloakService, public popUpService:PopupService, protected productService: ProductService) {
   }
 
   resetVariables(){
@@ -41,16 +41,22 @@ export class ProductPageComponent implements OnInit{
 
   }
 
-  eliminaRecensione(idRecensione: string){
+  eliminaRecensione(idRecensione: string, username: string){
     this.productService.reviewId = idRecensione
     this.popUpService.operazione = 13
-    this.popUpService.updateStringa("Sei sicuro di voler eliminare la tua recensione?")
+    if(this.keyCloak.getUsername() === username){
+      this.popUpService.updateStringa("Sei sicuro di voler eliminare la tua recensione?")
+    }else if(this.keyCloak.getAdmin()){
+      this.popUpService.updateStringa("Sei sicuro di voler eliminare la recensione di: "+ username + "?")
+    }
     this.popUpService.openPopups(124, false)
   }
 
   rimozioneProdotto(){
     this.popUpService.operazione = 12
-    this.popUpService.updateStringa("Sei sicuro di voler eliminare il prodotto: "+ this.productService.prodotto.name + "?")
+    if(this.productService.prodotto != null) {
+      this.popUpService.updateStringa("Sei sicuro di voler eliminare il prodotto: "+ this.productService.prodotto.name + "?")
+    }
     this.popUpService.openPopups(124, false)
   }
 
@@ -65,24 +71,37 @@ export class ProductPageComponent implements OnInit{
   }
 
   addProductToCart(num: number){
+    if(num === 0)
+      this.productService.acquistoRapido = false
+    else{
+      this.productService.acquistoRapido = true
+    }
+
     this.cartService.clearCampi()
     if (!this.keyCloak.getLoggedStatus() || this.keyCloak.getUsername() === "Guest"){
+      this.keyCloak.loading = false
       this.popUpService.openPopups(3, true)
     }else{
-      this.cartService.productIdToAddCart = this.productService.prodotto.id
-      if(this.cartService.size === "" && this.productService.prodotto.is_clothing){
-        this.popUpService.updateStringa("Seleziona la taglia desiderata")
-        this.popUpService.openPopups(23432, true)
-      }else{
-        this.cartService.addProductCart(num)
+      if(this.productService.prodotto != null){
 
+        this.cartService.productIdToAddCart = this.productService.prodotto.id
+        if(this.cartService.size === "" && this.productService.prodotto.is_clothing){
+          this.popUpService.updateStringa("Seleziona la taglia desiderata")
+          this.popUpService.openPopups(23432, true)
+        }else{
+          this.cartService.addProductCart(num)
+        }
       }
+
+
     }
 
   }
 
   addProductWishList(){
-    this.wishListService.productIdToAdd = this.productService.prodotto.id;
+    if(this.productService.prodotto != null) {
+      this.wishListService.productIdToAdd = this.productService.prodotto.id;
+    }
     this.wishListService.getAllUserWishLists().subscribe(a => {
       this.wishListService.wishLists = a
     })

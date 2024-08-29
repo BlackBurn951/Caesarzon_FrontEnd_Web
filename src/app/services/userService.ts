@@ -33,7 +33,6 @@ export class UserService {
 
   otpSbagliato!:boolean;
 
-  loading: boolean = false;
 
   private manageUserDataURL = 'http://localhost:8090/user-api/user';
 
@@ -232,24 +231,24 @@ export class UserService {
       this.popUp.updateStringa("Inserisci prima un username!")
       this.popUp.openPopups(104, true);
     }else{
-      this.loading = true
+      this.keycloakService.loading = true
       const passwordChange: PasswordChange = {
         username: this.username,
         password: ""
       };
       this.passwordDimenticata(passwordChange).subscribe(response => {
         if(response === "Problemi nell'invio dell'otp..."){
-          this.loading = false
+          this.keycloakService.loading = false
           this.popUp.updateStringa(response)
           this.popUp.openPopups(104, true);
         }else if(response === "Utente non trovato..."){
-          this.loading = false
+          this.keycloakService.loading = false
           this.popUp.updateStringa(response)
           this.popUp.openPopups(104, true);
         }else{
           this.popUp.closePopup()
           this.stringaOtp = response
-          this.loading = false
+          this.keycloakService.loading = false
           this.popUp.updateStringa(response)
           this.popUp.openPopups(12, true);
         }

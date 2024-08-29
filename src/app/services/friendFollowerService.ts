@@ -34,9 +34,8 @@ export class FriendFollowerService {
   usersFriendFollowBuffer : UserSearch[] =[]
 
 
-  imageUrl!: SafeUrl | null
 
-  constructor(private adminService: AdminService, private userService: UserService, private sanitizer: DomSanitizer, private popUp: PopupService, private http: HttpClient, private keyCloakService: KeyCloakService) {
+  constructor(private adminService: AdminService, private sanitizer: DomSanitizer, private popUp: PopupService, private http: HttpClient, private keyCloakService: KeyCloakService) {
     this.users = [];
     this.usersFollow = [];
     this.usersFriend = [];
@@ -45,7 +44,6 @@ export class FriendFollowerService {
 
   takeFirst20User() {
     const headers = this.keyCloakService.permaHeader();
-
     const customUrl = this.usersURL + 0;
     this.http.get<UserSearch[]>(customUrl, { headers }).subscribe(response => {
       if (response) { // Controlla se la risposta non è null o undefined
@@ -55,14 +53,12 @@ export class FriendFollowerService {
               response => {
                 const url = URL.createObjectURL(response);
                 user.safeImageUrl = this.sanitizer.bypassSecurityTrustUrl(url);
-                console.log("IMMAGINE CONVERTITA E FUNZIONANTE AIDIFRATELLO: " + this.imageUrl)
-
               },
               error => {
                 console.error('Errore nel caricamento dell\'immagine', error);
               }
             );
-        })
+          })
 
       } else {
         console.error('La risposta per gli utenti è null o undefined');
@@ -79,8 +75,6 @@ export class FriendFollowerService {
             response => {
               const url = URL.createObjectURL(response);
               user.safeImageUrl = this.sanitizer.bypassSecurityTrustUrl(url);
-              console.log("IMMAGINE CONVERTITA E FUNZIONANTE AIDIFRATELLO: " + this.imageUrl)
-
             },
             error => {
               console.error('Errore nel caricamento dell\'immagine', error);
@@ -102,8 +96,6 @@ export class FriendFollowerService {
             response => {
               const url = URL.createObjectURL(response);
               user.safeImageUrl = this.sanitizer.bypassSecurityTrustUrl(url);
-              console.log("IMMAGINE CONVERTITA E FUNZIONANTE AIDIFRATELLO: " + this.imageUrl)
-
             },
             error => {
               console.error('Errore nel caricamento dell\'immagine', error);

@@ -10,7 +10,7 @@
 </head>
 
 <body>
-<mat-progress-spinner class="uSpinner" *ngIf="this.userService.loading" mode="indeterminate" color="primary"></mat-progress-spinner>
+<mat-progress-spinner class="uSpinner" *ngIf="this.keyCloak.loading" mode="indeterminate" color="primary"></mat-progress-spinner>
 
 <div class="container-fluidos regLog" *ngIf="popUpService.wichComponent === 0" [ngClass]="{'other': popUpService.isOther}">
   <div class="form-group d-flex flex-column align-items-center">
@@ -46,38 +46,49 @@
 
       <!-- Sezione Seguiti -->
       <div *ngIf="section === 1" class="table-row">
-        <div *ngFor="let user of friendFollow.usersFollow; let i = index"
-             class="table-cell mb-2 d-flex align-items-center user-row"
-             [ngClass]="{'highlighted': highlightedRow === i}"
-             (mouseenter)="highlightedRow = i"
-             (mouseleave)="highlightedRow = -1">
-          <img class="preview mr-1 ml-1" [src]="user.safeImageUrl" alt="" width="35px" height="35px">
+        <div *ngIf="friendFollow.usersFollow.length === 0" >
+            Non segui ancora nessuno!
+        </div>
+        <div *ngIf="friendFollow.usersFollow.length > 0">
+          <div *ngFor="let user of friendFollow.usersFollow; let i = index"
+               class="table-cell mb-2 d-flex align-items-center user-row"
+               [ngClass]="{'highlighted': highlightedRow === i}"
+               (mouseenter)="highlightedRow = i"
+               (mouseleave)="highlightedRow = -1">
+            <img class="preview mr-1 ml-1" [src]="user.safeImageUrl" alt="" width="35px" height="35px">
 
-          <label class="useeeer mr-1" (click)="this.apriListe(user.username)">{{ user.username }}</label>
-          <div>
-            <button *ngIf="!isUserInFriend(user)" class="btn btn-dark custom-btn ml-1 " (click)="this.friendFollow.addFollowersOrFriends(i, false)">
-              <i class="fas fa-heart"></i>
-            </button>
-            <button class="btn btn-danger buut ml-1 mt-1 mb-1 mr-1" (click)="this.friendFollow.deleteFollowers(user.username)">
-              <i class="fas fa-user-minus"></i>
-            </button>
+            <label class="useeeer mr-1" (click)="this.apriListe(user.username)">{{ user.username }}</label>
+            <div>
+              <button *ngIf="!isUserInFriend(user)" class="btn btn-dark custom-btn ml-1 " (click)="this.friendFollow.addFollowersOrFriends(i, false)">
+                <i class="fas fa-heart"></i>
+              </button>
+              <button class="btn btn-danger buut ml-1 mt-1 mb-1 mr-1" (click)="this.friendFollow.deleteFollowers(user.username)">
+                <i class="fas fa-user-minus"></i>
+              </button>
+            </div>
           </div>
         </div>
+
       </div>
 
       <!-- Sezione Amici -->
       <div *ngIf="section === 2" class="table-row">
-        <div *ngFor="let user of friendFollow.usersFriend; let i = index"
-             class="table-cell mb-2 d-flex align-items-center user-row"
-             [ngClass]="{'highlighted': highlightedRow === i}"
-             (mouseenter)="highlightedRow = i"
-             (mouseleave)="highlightedRow = -1">
-          <img class="preview ml-1 mr-1" [src]="user.safeImageUrl" alt="" width="35px" height="35px">
+        <div *ngIf="friendFollow.usersFriend.length === 0" >
+          Non hai ancora nessun amico!
+        </div>
+        <div *ngIf="friendFollow.usersFriend.length > 0" >
+          <div *ngFor="let user of friendFollow.usersFriend; let i = index"
+               class="table-cell mb-2 d-flex align-items-center user-row"
+               [ngClass]="{'highlighted': highlightedRow === i}"
+               (mouseenter)="highlightedRow = i"
+               (mouseleave)="highlightedRow = -1">
+            <img class="preview ml-1 mr-1" [src]="user.safeImageUrl" alt="" width="35px" height="35px">
 
-          <label class="useeeer mr-1" (click)="this.apriListe(user.username)">{{ user.username }}</label>
-          <button class="btn btn-danger buut mr-1 mt-1 mb-1 ml-1" (click)="this.friendFollow.deleteFriends(i)">
-            <i class="fas fa-user-minus"></i>
-          </button>
+            <label class="useeeer mr-1" (click)="this.apriListe(user.username)">{{ user.username }}</label>
+            <button class="btn btn-danger buut mr-1 mt-1 mb-1 ml-1" (click)="this.friendFollow.deleteFriends(i)">
+              <i class="fas fa-user-minus"></i>
+            </button>
+          </div>
         </div>
       </div>
 
@@ -115,7 +126,7 @@
 
   <div class="form-group gruppo d-flex flex-column align-items-center">
     <label for="descSegn">Descrizione</label>
-    <textarea id="descSegn" class="form-control gruppoInputDesc" id="desc" minlength="5" maxlength="500" [(ngModel)]="adminService.descrizioneSegnalazione"></textarea>
+    <textarea id="descSegn" class="form-control gruppoInputDesc"  minlength="5" maxlength="500" [(ngModel)]="adminService.descrizioneSegnalazione"></textarea>
   </div>
 
   <div class="d-flex flex-column align-items-center">
@@ -302,7 +313,7 @@
 
           <div class="form-group ml-3">
             <label for="cardHolderName">Titolare della carta:</label>
-            <input type="text" class="form-control textBoxAggiunta" id="cardHolderName" formControlName="titolareCarta"  minlength="5" maxlength="40">
+            <input type="text" class="form-control textBoxAggiunta" id="cardHolderName" formControlName="titolareCarta"  minlength="5" maxlength="40" placeholder="Es. Mario Rossi">
             <div *ngIf="formService.campoNonCorretto('formCarta.titolareCarta')" class="error-message">
               <label class="err"> Il formato del nome del titolare della carta non è corretto.</label>
             </div>
@@ -533,8 +544,8 @@
     <h1 class="titless">Liste dei desideri di {{ this.userService.nomeProfilo }}</h1>
 
     <div class="form-group d-flex justify-content-center mb-3">
-      <button type="button" class="btn btn-dark custom-btn mr-3" (click)="wishListService.getWishS(0, this.userService.nomeProfilo)">Pubbliche</button>
-      <button type="button" class="btn btn-dark custom-btn" (click)="wishListService.getWishS(1, this.userService.nomeProfilo)">Condivise con te</button>
+      <button type="button" class="btn btn-dark custom-btn mr-3" (click)="wishListService.getUserWishList(0, this.userService.nomeProfilo)">Pubbliche</button>
+      <button type="button" class="btn btn-dark custom-btn" (click)="wishListService.getUserWishList(1, this.userService.nomeProfilo)">Condivise con te</button>
     </div>
 
     <section class="form-group d-flex flex-column align-items-center">
@@ -558,7 +569,7 @@
             </tr>
             <tr *ngIf="wishListService.showProductsMap[item.id]">
               <td colspan="2">
-                <p *ngIf="wishListService.wishListProducts.singleWishListProductDTOS.length === 0">{{ this.userService.nomeProfilo }} non ha ancora aggiunto prodotti a questa lista.</p>
+                <p *ngIf="(wishListService.wishListProducts != null && wishListService.wishListProducts?.singleWishListProductDTOS?.length === 0)">{{ this.userService.nomeProfilo }} non ha ancora aggiunto prodotti a questa lista.</p>
                 <div *ngFor="let product of wishListService.wishListProducts?.singleWishListProductDTOS">
                   <p class="prodottoOi" (click)="productService.prendiDatiProdotto(product.productId)">
                     {{ product.productName }} - {{ product.price }} €
