@@ -116,6 +116,8 @@ export class AdminService {
           console.log("DATI" + a.reason)
           console.log("DATI" + a.usernameUser2)
           console.log("DATI" + a.usernameUser1)
+          console.log("DATI" + a.reviewId)
+          console.log("DATI" + a.reviewText)
           this.getReview(a.reviewId).subscribe(response =>{
             a.reviewText = response
           })
@@ -236,14 +238,10 @@ export class AdminService {
   getReview(reviewId: string){
     const headers = this.keycloakService.permaHeader()
     const urlWithParams = this.getReviewURL+"/"+reviewId;
-    return this.http.get<any>(urlWithParams, {headers, responseType: 'text' as 'json'});
+    return this.http.get<string>(urlWithParams, {headers, responseType: 'text' as 'json'});
 
   }
 
-
-  inviaSegnalazione(){
-    this.popUp.openPopups(1, true);
-  }
 
   sendReports() {
     console.log("SOno nella funzione")
@@ -255,7 +253,7 @@ export class AdminService {
       usernameUser2: this.usernameSegnalato,
       usernameUser1: "",
       explain: "",
-      reviewId: "",
+      reviewId: this.reviewId,
       reviewText: ""
 
     };

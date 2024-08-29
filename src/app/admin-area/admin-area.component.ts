@@ -3,7 +3,7 @@ import {Router} from "@angular/router";
 import {UserService} from "../services/userService";
 import {AdminService} from "../services/adminService";
 import {PopupService} from "../services/popUpService";
-import {DomSanitizer, SafeUrl} from "@angular/platform-browser";
+import {DomSanitizer} from "@angular/platform-browser";
 import {KeyCloakService} from "../services/keyCloakService";
 
 @Component({
@@ -18,12 +18,6 @@ export class AdminAreaComponent implements OnInit{
     this.isCollapsed = [];
   }
 
-  // Metodo per navigare ai dati personali dell'utente
-  changePage( page: string, username: string) {
-    this.keycloack.saveUsernameToCache(username)
-    this.router.navigate([page]);
-  }
-
   changePageAdmin( page: string, username: string) {
     this.userService.username = username;
     this.router.navigate([page]);
@@ -32,11 +26,6 @@ export class AdminAreaComponent implements OnInit{
 
   toggleCollapse(index: number): void {
     this.isCollapsed[index] = !this.isCollapsed[index];
-  }
-
-
-  deleteItem(index: number): void {
-    this.isCollapsed.splice(index, 1);
   }
 
   ngOnInit(): void {
@@ -61,24 +50,6 @@ export class AdminAreaComponent implements OnInit{
     });
   }
 
-  private convertByteArrayToSafeUrl(byteArray: Uint8Array): SafeUrl | null {
-    console.log('ByteArray ricevuto:', byteArray);
-    if (!byteArray || byteArray.length === 0) {
-      console.error('byteArray è null, undefined o vuoto');
-      return null;
-    }
-    try {
-      const blob = new Blob([byteArray], { type: 'image/jpeg' }); // Assicurati che il tipo sia corretto
-      const url = URL.createObjectURL(blob);
-      console.log('URL creato:', url);
-      const safeUrl = this.sanitizer.bypassSecurityTrustUrl(url);
-      console.log('SafeUrl generato:', safeUrl);
-      return safeUrl;
-    } catch (error) {
-      console.error('Errore durante la conversione del byteArray:', error);
-      return null;
-    }
-  }
 
 
   eliminaRecensione(utente: number){

@@ -49,6 +49,7 @@ export class KeyCloakService {
   setCognomeNomeUtente(cognome: string){
     this.cognomeUtente = cognome
   }
+
   getNomeUtente(){
     return this.nomeUtente
   }
@@ -59,6 +60,7 @@ export class KeyCloakService {
 
   //Metodo per ricevere i token da KeyCloak per l'utente
   login(username: string, password: string): void{
+
     const headers = new HttpHeaders({
       'Content-Type': 'application/x-www-form-urlencoded'
     });
@@ -71,20 +73,24 @@ export class KeyCloakService {
 
     this.http.post(this.accessTokenUrl, body.toString(), { headers, withCredentials: true }).subscribe(
       (response:any) => {
-        this.username = username
         this.setTokens(response.access_token, response.refresh_token);
+        this.saveUsernameToCache(username)
+
         if(username != "Guest"){
           this.isLogged = true;
           this.setLogin();
+          this.saveUsernameToCache(username)
           this.popUp.closePopup()
           this.setAdminStatus(this.ACCESS_TOKEN)
           this.getNotify().subscribe(notifies => {
             this.notifications = notifies;
           })
-
           this.startTokenRefreshTimer();
 
         }
+        this.startTokenRefreshTimer();
+
+
       },
       (error) => {
         this.popUp.updateStringa("Username o password errati. Riprova")
@@ -109,18 +115,18 @@ export class KeyCloakService {
     return this.getUsernameFromCache() || this.username;
   }
 
+
   //Metodo per assegnare i token alla cache
   setTokens(accessToken: string, refreshToken: string) {
     this.ACCESS_TOKEN = accessToken;
     this.REFRESH_TOKEN = refreshToken;
     localStorage.setItem('access_token', accessToken);
     localStorage.setItem('refresh_token', refreshToken);
-    localStorage.setItem('username', this.username); // Salva l'username nella cache
   }
 
   saveUsernameToCache(username: string): void {
     localStorage.setItem('username', username);
-    this.username = username; // Aggiorna anche la variabile di istanza
+    this.username = username;
   }
 
 
@@ -198,15 +204,13 @@ export class KeyCloakService {
 
   clearCache(): void {
     // Pulisci le variabili locali
-    this.ACCESS_TOKEN = "";
-    this.REFRESH_TOKEN = "";
     this.nomeUtente = "";
     this.cognomeUtente = "";
     this.username = "";
     this.isAdmin = false;
     this.isLogged = false;
     this.notifications = [];
-
+    this.refreshAuthVariables()
     // Pulisci il localStorage
     localStorage.removeItem('access_token');
     localStorage.removeItem('refresh_token');

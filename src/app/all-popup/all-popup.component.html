@@ -114,8 +114,8 @@
 
 
   <div class="form-group gruppo d-flex flex-column align-items-center">
-    <label for="descrizione">Descrizione</label>
-    <textarea class="form-control gruppoInputDesc" id="desc" minlength="5" maxlength="500" [(ngModel)]="adminService.descrizioneSegnalazione"></textarea>
+    <label for="descSegn">Descrizione</label>
+    <textarea id="descSegn" class="form-control gruppoInputDesc" id="desc" minlength="5" maxlength="500" [(ngModel)]="adminService.descrizioneSegnalazione"></textarea>
   </div>
 
   <div class="d-flex flex-column align-items-center">
@@ -145,8 +145,8 @@
   </div>
 
   <div class="form-group gruppo d-flex flex-column align-items-center">
-    <label for="descrizione">Descrizione</label>
-    <textarea [(ngModel)]="productService.descrizioneRecensione" class="form-control gruppoInputDesc" minlength="5" maxlength="500"></textarea>
+    <label for="descRece">Descrizione</label>
+    <textarea id="descRece" [(ngModel)]="productService.descrizioneRecensione" class="form-control gruppoInputDesc" minlength="5" maxlength="500"></textarea>
   </div>
 
   <div class="d-flex flex-column align-items-center">
@@ -200,8 +200,8 @@
   </div>
 
   <div class="form-group gruppo d-flex flex-column align-items-center">
-    <label for="descrizione">Nome lista</label>
-    <input [(ngModel)]="wishListService.nomeNuovaLista" class="form-control list" maxlength="30">
+    <label for="nomeLista">Nome lista</label>
+    <input [(ngModel)]="wishListService.nomeNuovaLista" id="nomeLista" class="form-control list" maxlength="30">
   </div>
 
   <div class="d-flex flex-column align-items-center">
@@ -574,125 +574,6 @@
   </div>
 </div>
 
-<div class="container-fluidos regLog" *ngIf="popUpService.wichComponent === 14" [ngClass]="{'other': !popUpService.isOther}">
-  <div class="form-group d-flex justify-content-between align-items-center">
-    <button (click)="popUpService.closePopup()" class="btn btn-dark ics">X</button>
-  </div>
-
-  <div class="container-fluid d-flex flex-column align-items-center">
-    <h1 class="titless">Modifica Prodotto</h1>
-
-    <form [formGroup]="formCaesarzon" (ngSubmit)="onSubmit()">
-      <div formGroupName="formDeiProdotti" >
-        <div class="form-group">
-          <label for="nome">Nome:</label>
-          <input type="text" id="nome" formControlName="nome" class="form-control wider-input">
-          <div *ngIf="formService.campoNonCorretto('formDeiProdotti.nome')" class="error-message">
-            <label class="err">Il nome non rispetta i requisiti.</label>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label for="marca">Marca:</label>
-          <input type="text" id="marca" formControlName="marca" class="form-control wider-input">
-          <div *ngIf="formService.campoNonCorretto('formDeiProdotti.marca')" class="error-message">
-            <label class="err">La marca non rispetta i requisiti.</label>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label for="descrizione">Descrizione:</label>
-          <textarea id="descrizione" formControlName="descrizione" class="form-control wider-input"></textarea>
-          <div *ngIf="formService.campoNonCorretto('formDeiProdotti.descrizione')" class="error-message">
-            <label class="err mt-3">La descrizione non rispetta i requisiti.</label>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label for="sconto">Sconto (%):</label>
-          <input type="number" id="sconto" formControlName="sconto" class="form-control wider-input">
-          <div *ngIf="formService.campoNonCorretto('formDeiProdotti.sconto')" class="error-message">
-            <label class="err">Lo sconto può essere massimo del 50%.</label>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label for="prezzo">Prezzo (€):</label>
-          <input type="number" id="prezzo" formControlName="prezzo" class="form-control wider-input">
-          <div *ngIf="formService.campoNonCorretto('formDeiProdotti.prezzo')" class="error-message">
-            <label class="err">Il prezzo non può superare 1.000.000 €</label>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label for="coloreP">Colore Primario:</label>
-          <select name="coloreP" class="form-select selectionIn btn btn-dark custom-bln" id="coloreP" formControlName="coloreP">
-            <option value="Rosso">Rosso</option>
-            <option value="Verde">Verde</option>
-            <option value="Blu">Blu</option>
-            <option value="Giallo">Giallo</option>
-            <option value="Arancione">Arancione</option>
-            <option value="Viola">Viola</option>
-            <option value="Rosa">Rosa</option>
-            <option value="Marrone">Marrone</option>
-            <option value="Grigio">Grigio</option>
-            <option value="Nero">Nero</option>
-            <option value="Bianco">Bianco</option>
-            <option value="Azzurro">Azzurro</option>
-            <option value="Oro">Oro</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label for="coloreS">Colore Secondario:</label>
-          <select name="coloreS" class="form-select selectionIn btn btn-dark custom-bln" id="coloreS" formControlName="coloreP">
-            <option value="Rosso">Rosso</option>
-            <option value="Verde">Verde</option>
-            <option value="Blu">Blu</option>
-            <option value="Giallo">Giallo</option>
-            <option value="Arancione">Arancione</option>
-            <option value="Viola">Viola</option>
-            <option value="Rosa">Rosa</option>
-            <option value="Marrone">Marrone</option>
-            <option value="Grigio">Grigio</option>
-            <option value="Nero">Nero</option>
-            <option value="Bianco">Bianco</option>
-            <option value="Azzurro">Azzurro</option>
-            <option value="Oro">Oro</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label for="sport">Sport:</label>
-          <select name="sport" class="form-select selectionIn btn btn-dark custom-bln" id="sport" formControlName="sport">
-            <option value="calcio">Calcio</option>
-            <option value="pallavolo">Pallavolo</option>
-            <option value="basket">Basket</option>
-            <option value="tennis">Tennis</option>
-            <option value="nuoto">Nuoto</option>
-            <option value="arti marziali">Arti marziali</option>
-            <option value="ciclismo">Ciclismo</option>
-            <option value="sciismo">Sciismo</option>
-            <option value="boxe">Boxe</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label for="categoria">Categoria:</label>
-          <select name="categoria" class="form-select selectionIn btn btn-dark custom-bln" id="categoria" formControlName="categoria">
-            <option value="true">Abbigliamento</option>
-            <option value="false">Attrezzatura</option>
-          </select>
-        </div>
-
-        <div class="form-group d-flex justify-content-center">
-          <button type="submit" class="btn btn-dark custom-btn mr-3">Modifica Prodotto</button>
-        </div>
-      </div>
-
-    </form>
-  </div>
-</div>
 
 <div class="container-fluidos regLog" *ngIf="popUpService.wichComponent === 15" [ngClass]="{'other': !popUpService.isOther}">
 <div class="container">
@@ -714,8 +595,8 @@
       <h3>Sei sicuro di voler bannare l'utente {{this.userService.username}} ?</h3>
 
       <div class="form-group gruppo d-flex flex-column align-items-center">
-        <label for="descrizione">Motivo del ban</label>
-        <textarea class="form-control gruppoInputDesc" id="descBan" minlength="5" maxlength="500" [(ngModel)]="adminService.descrizioneSegnalazione"></textarea>
+        <label for="descBan">Motivo del ban</label>
+        <textarea id="descBan" class="form-control gruppoInputDesc" minlength="5" maxlength="500" [(ngModel)]="adminService.descrizioneSegnalazione"></textarea>
       </div>
       <div>
         <button id="si" class="btn btn-dark custom-btn mr-3 mb-3 " (click)="this.adminService.banUtente()">Si</button>

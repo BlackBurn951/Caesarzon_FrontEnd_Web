@@ -60,7 +60,7 @@ export class FormService {
       prezzo: ['', [Validators.required, Validators.min(0), Validators.max(1000000)]],
       coloreP: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
       coloreS: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
-      sport: ['', [Validators.required, Validators.minLength(4) , Validators.maxLength(20)]],
+      sport: ['', [Validators.required, Validators.minLength(3) , Validators.maxLength(20)]],
       categoria: ['', [Validators.required, Validators.minLength(12), Validators.maxLength(13)]]
     });
   }

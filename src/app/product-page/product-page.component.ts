@@ -42,7 +42,10 @@ export class ProductPageComponent implements OnInit{
   }
 
   eliminaRecensione(idRecensione: string){
-    this.productService.deleteReview(idRecensione)
+    this.productService.reviewId = idRecensione
+    this.popUpService.operazione = 13
+    this.popUpService.updateStringa("Sei sicuro di voler eliminare la tua recensione?")
+    this.popUpService.openPopups(124, false)
   }
 
   rimozioneProdotto(){
@@ -88,8 +91,9 @@ export class ProductPageComponent implements OnInit{
 
 
 
-  segnala(usernameDaSegnalare: string){
+  segnala(usernameDaSegnalare: string, reviwID: string){
     this.adminService.usernameSegnalato = usernameDaSegnalare;
+    this.adminService.reviewId = reviwID
     this.popUpService.openPopups(1, true)
   }
 

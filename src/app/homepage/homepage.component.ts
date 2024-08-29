@@ -21,50 +21,24 @@ export class HomepageComponent implements OnInit{
 
   }
 
+
+
   ngOnInit() {
-    if(this.key.getUsername()== ""){
+    if(this.key.getUsername() == ""){
       this.key.clearCache()
       this.key.login("Guest","Mascalzone1");
+
     }
-
-    this.productService.getLastNineProducts().subscribe(products => {
-      this.productService.newProducts = products;
-      this.productService.newProducts.forEach(prod =>{
-        this.productService.getProductImage(prod.productId).subscribe(
-          response => {
-            const url = URL.createObjectURL(response);
-            prod.image = this.sanitizer.bypassSecurityTrustUrl(url);
-          },
-          error => {
-            console.error('Errore nel caricamento dell\'immagine', error);
-          }
-        );
-      })
-    })
-    this.productService.getOffer().subscribe(products => {
-      this.productService.offerProducts = products;
-      this.productService.offerProducts.forEach(prod =>{
-        this.productService.getProductImage(prod.productId).subscribe(
-          response => {
-            const url = URL.createObjectURL(response);
-            console.log("URL IMMAGINE: " + url)
-            prod.image = this.sanitizer.bypassSecurityTrustUrl(url);
-            console.log("IMMAGINE PRODOTTO: " + prod.image)
-          },
-          error => {
-            console.error('Errore nel caricamento dell\'immagine', error);
-          }
-        );
-      })
-
-    })
-
-
-
+    setTimeout(() => {
+      this.productService.initHomepage()
+    }, 500);
     this.key.getNotify().subscribe(notifies => {
       this.key.notifications = notifies;
     })
   }
+
+
+
 
 
   nextData(id: string) {

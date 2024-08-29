@@ -9,7 +9,7 @@
 <body>
 
   <section>
-    <form [formGroup]="formCaesarzon" (ngSubmit)="aggiungiProdotto()">
+    <form [formGroup]="formCaesarzon" (ngSubmit)="this.productService.aggiungiProdotto()">
 
       <div class="container-fluid customContainer" formGroupName="formDeiProdotti">
 
@@ -125,14 +125,14 @@
               <option value="Nuoto">Nuoto</option>
               <option value="Arti marziali">Arti marziali</option>
               <option value="Ciclismo">Ciclismo</option>
-              <option value="Sciismo">Sciismo</option>
+              <option value="Sci">Sci</option>
               <option value="Boxe">Boxe</option>
             </select>
 
             <label for="categoria">Categoria</label>
             <select name="categoria" class="form-select selectionIn btn btn-dark custom-bln" id="categoria" formControlName="categoria">
-              <option value="abbigliamento">Abbigliamento</option>
-              <option value="attrezzature">Attrezzatura</option>
+              <option value="true">Abbigliamento</option>
+              <option value="false">Attrezzatura</option>
             </select>
 
           </div>
@@ -174,7 +174,7 @@
 
         <div class="col-md d-flex flex-column align-items-center">
           <label>Assicurati di aver caricato l'immagine</label>
-          <button type="submit" class="menu-item btn btn-dark custom-btn bottoneA" [disabled]="!formCaesarzon.get('formDeiProdotti')?.valid || productService.selectedFile === null ||!productService.disponibilitaAggiunta">Aggiungi prodotto</button>
+          <button type="submit" class="menu-item btn btn-dark custom-btn bottoneA" [disabled]="!formCaesarzon.get('formDeiProdotti')?.valid || !productService.immagineCaricataModifica ||!productService.disponibilitaAggiunta">Aggiungi o modifica prodotto</button>
         </div>
       </div>
     </form>

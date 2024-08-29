@@ -102,6 +102,8 @@ export class WarningMessageComponent implements OnInit{
         this.adminService.adminDeleteUser()
       }else if(this.popup.operazione == 12) {
         this.productService.rimuoviProdotto()
+      }else if(this.popup.operazione == 13) {
+        this.productService.deleteReview()
       }
 
 

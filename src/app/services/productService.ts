@@ -11,6 +11,10 @@ import {FormGroup} from "@angular/forms";
 import {FormService} from "./formService";
 import {DomSanitizer, SafeUrl} from "@angular/platform-browser";
 
+class AvailabilitiesSingle{
+  amount!: number;
+  size!: string
+}
 
 @Injectable({
   providedIn: 'root',
@@ -45,7 +49,8 @@ export class ProductService {
   prodotto!: ProductDTO
   recensioni: ProductReview[] = []
   scoreRecensioni: number[]= [0,0,0,0,0]
-
+  reviewId: string = ""
+  immagineCaricataModifica: boolean = false
   mediaRecensioni: number= 0
   numeroRecensioni: number= 0
   ricerca: string = ""
@@ -68,15 +73,48 @@ export class ProductService {
 
   valutazioneRecensione: number = 1
   descrizioneRecensione: string = ""
-
+  numPagRec: number = 0;
   constructor( private sanitizer: DomSanitizer, private formService: FormService, private router: Router, private http: HttpClient, private popUpService:PopupService, private keycloakService: KeyCloakService) {
     this.formCaesarzon = formService.getForm();
 
   }
 
-  deleteReview(idRecensione: string){
+  initHomepage(){
+    this.getLastNineProducts().subscribe(products => {
+      this.newProducts = products;
+      this.newProducts.forEach(prod =>{
+        this.getProductImage(prod.productId).subscribe(
+          response => {
+            const url = URL.createObjectURL(response);
+            prod.image = this.sanitizer.bypassSecurityTrustUrl(url);
+          },
+          error => {
+            console.error('Errore nel caricamento dell\'immagine', error);
+          }
+        );
+      })
+    })
+    this.getOffer().subscribe(products => {
+      this.offerProducts = products;
+      this.offerProducts.forEach(prod =>{
+        this.getProductImage(prod.productId).subscribe(
+          response => {
+            const url = URL.createObjectURL(response);
+            prod.image = this.sanitizer.bypassSecurityTrustUrl(url);
+          },
+          error => {
+            console.error('Errore nel caricamento dell\'immagine', error);
+          }
+        );
+      })
+
+    })
+  }
+
+
+  deleteReview(){
     const headers = this.keycloakService.permaHeader();
-    const customURL = this.addProductReviewURL+'/'+idRecensione
+    const customURL = this.addProductReviewURL+'?product-id='+this.reviewId
     return this.http.delete<string>(customURL,{ headers, responseType: 'text' as 'json' }).subscribe(response =>{
       if(response === "Recensione eliminata"){
         this.popUpService.updateStringa(response)
@@ -116,6 +154,94 @@ export class ProductService {
     return this.http.put(customURL, formData, { headers, responseType: 'text'});
   }
 
+
+  prodottoInModifica: boolean = false
+  // Metodo per aggiungere il prodotto
+  aggiungiProdotto() {
+    this.formService.setFormData(this.formCaesarzon.value);
+
+    const nome = this.formCaesarzon.get('formDeiProdotti.nome')?.value;
+    const marca = this.formCaesarzon.get('formDeiProdotti.marca')?.value;
+    const descrizione = this.formCaesarzon.get('formDeiProdotti.descrizione')?.value;
+    const sconto = this.formCaesarzon.get('formDeiProdotti.sconto')?.value;
+    const prezzo = this.formCaesarzon.get('formDeiProdotti.prezzo')?.value;
+    const coloreP = this.formCaesarzon.get('formDeiProdotti.coloreP')?.value;
+    const coloreS = this.formCaesarzon.get('formDeiProdotti.coloreS')?.value;
+    const sport = this.formCaesarzon.get('formDeiProdotti.sport')?.value;
+
+    let is_clothing = false;
+    const categoria = this.formCaesarzon.get('formDeiProdotti.categoria')?.value;
+    if (categoria === "Abbigliamento") {
+      is_clothing = true;
+    }
+
+    const quantitaXS = this.formCaesarzon.get('formDisponibilita.quantitaXS')?.value;
+    const quantitaS = this.formCaesarzon.get('formDisponibilita.quantitaS')?.value;
+    const quantitaM = this.formCaesarzon.get('formDisponibilita.quantitaM')?.value;
+    const quantitaL = this.formCaesarzon.get('formDisponibilita.quantitaL')?.value;
+    const quantitaXL = this.formCaesarzon.get('formDisponibilita.quantitaXL')?.value;
+
+    let ava: AvailabilitiesSingle[] = [];
+
+    if (quantitaXS != 0) {
+      let singleAva = new AvailabilitiesSingle();
+      singleAva.size = "XS";
+      singleAva.amount = quantitaXS;
+      ava.push(singleAva);
+    }
+
+    if (quantitaS != 0) {
+      let singleAva = new AvailabilitiesSingle();
+      singleAva.size = "S";
+      singleAva.amount = quantitaS;
+      ava.push(singleAva);
+    }
+
+    if (quantitaM != 0) {
+      let singleAva = new AvailabilitiesSingle();
+      singleAva.size = "M";
+      singleAva.amount = quantitaM;
+      ava.push(singleAva);
+    }
+
+    if (quantitaL != 0) {
+      let singleAva = new AvailabilitiesSingle();
+      singleAva.size = "L";
+      singleAva.amount = quantitaL;
+      ava.push(singleAva);
+    }
+
+    if (quantitaXL != 0) {
+      let singleAva = new AvailabilitiesSingle();
+      singleAva.size = "XL";
+      singleAva.amount = quantitaXL;
+      ava.push(singleAva);
+    }
+
+    var id = ""
+    if(this.prodottoInModifica){
+      id = this.prodotto.id
+    }
+
+    const sendProduct: ProductDTO = {
+      id: id,
+      name: nome,
+      brand: marca,
+      description: descrizione,
+      discount: sconto,
+      price: prezzo,
+      primaryColor: coloreP,
+      secondaryColor: coloreS,
+      sport: sport,
+      is_clothing: is_clothing,
+      availabilities: ava,
+      lastModified: ""
+
+    };
+
+    this.sendProductDate(sendProduct)
+  }
+
   addReview(){
     const review: ProductReview ={
       id: "",
@@ -148,12 +274,34 @@ export class ProductService {
   }
 
   modificaProdotto(){
+    this.prodottoInModifica = true
     this.caricaDatiProdotto()
-    this.popUpService.openPopups(14, true)
+    this.disponibilitaAggiunta = true
+    this.immagineCaricataModifica = true
+    this.router.navigate(['product-management'])
 
   }
   caricaDatiProdotto() {
     const prodotto = this.prodotto;
+    var amountXS = 0
+    var amountS = 0
+    var amountM = 0
+    var amountL = 0
+    var amountXL = 0
+    prodotto.availabilities.forEach(ava =>{
+      if(ava.size === "XS"){
+        amountXS = ava.amount
+      }else if(ava.size === "S"){
+        amountS = ava.amount
+      }else if(ava.size === "M"){
+        amountM = ava.amount
+      }else if(ava.size === "L"){
+        amountL = ava.amount
+      }else{
+        amountXL = ava.amount
+      }
+    })
+
 
 
     if (prodotto) {
@@ -171,6 +319,17 @@ export class ProductService {
         }
       });
     }
+
+    this.formService.getForm().patchValue({
+      formDisponibilita:{
+         quantitaXS: amountXS,
+         quantitaS: amountS,
+         quantitaM: amountM,
+         quantitaL: amountL,
+         quantitaXL: amountXL
+      }
+    })
+
   }
   sendReviewData(reviewData: ProductReview){
     const headers = this.keycloakService.permaHeader();
@@ -239,7 +398,7 @@ export class ProductService {
         this.prodotto = response
         this.recensioni= []
         this.loadImage(this.prodotto.id)
-        this.prendiRecensioni(productId) .subscribe({
+        this.prendiRecensioni(productId, 0) .subscribe({
           next: (response: ProductReview[])=> {
             this.recensioni= response
             if(this.products.length > 0){
@@ -286,6 +445,21 @@ export class ProductService {
 
   }
 
+  avanzaRecensioni(){
+    this.prendiRecensioni(this.prodotto.id, this.numPagRec+1).subscribe(response => {
+      if(response!=null) {
+        response.forEach(res =>{
+          this.recensioni.push(res)
+        })
+      }
+    })
+    this.prendiScoreRecensioni(this.prodotto.id).subscribe(response => {
+      if(response!=null) {
+        this.scoreRecensioni= response
+      }
+    })
+  }
+
   getProductImage(productId: string): Observable<Blob> {
     const headers = this.keycloakService.permaHeader()
     const customURL = this.manageImageProductURL+'/'+productId
@@ -313,11 +487,14 @@ export class ProductService {
       response => {
         if(response != null)
           var uuid = response.replace(/"/g, "");
-          console.log("RISPOSTA AGGIUNTA PRODOTTO: " + uuid);
           if(this.selectedFile)
           this.uploadImage(this.selectedFile, uuid).subscribe(response =>{
             if(response === "Immagine caricata con successo!"){
-              this.popUpService.updateStringa("Prodotto aggiunto con successo!")
+              if(this.prodottoInModifica){
+                this.popUpService.updateStringa("Prodotto modificato con successo!")
+              }else{
+                this.popUpService.updateStringa("Prodotto aggiunto con successo!")
+              }
               this.popUpService.openPopups(103, true)
               setTimeout(() => {
                 this.resetFields()
@@ -326,9 +503,10 @@ export class ProductService {
                 this.router.navigate(['']);
               }, 3000);
             }
+            this.prodottoInModifica = false
           },
             error => {
-              this.popUpService.updateStringa("Problemi nell'aggiunta del prodotto.")
+              this.prodottoInModifica = false
               this.popUpService.openPopups(1034, true)
               this.resetFields()
               console.error('Error sending product data:', error);
@@ -336,7 +514,8 @@ export class ProductService {
             )
       },
       error => {
-        this.popUpService.updateStringa("Problemi nell'aggiunta del prodotto.")
+        this.prodottoInModifica = false
+        this.popUpService.updateStringa("Problemi nell'aggiunta o modifica del prodotto.")
         this.popUpService.openPopups(1034, true)
         this.resetFields()
         console.error('Error sending product data:', error);
@@ -372,9 +551,9 @@ export class ProductService {
     return this.http.get<ProductSearch[]>(urlWithParams, { headers, responseType: 'json' });
   }
 
-  prendiRecensioni(productId: string) {
+  prendiRecensioni(productId: string, num: number) {
     const headers = this.keycloakService.permaHeader()
-    return this.http.get<ProductReview[]>(this.productReviewURL+'?prod-id='+productId+'&str=0', { headers})
+    return this.http.get<ProductReview[]>(this.productReviewURL+'?prod-id='+productId+'&str='+num, { headers})
   }
 
   prendiScoreRecensioni(productId: string) {

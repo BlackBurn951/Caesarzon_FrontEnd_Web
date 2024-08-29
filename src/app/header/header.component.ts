@@ -14,6 +14,7 @@ import {count, Subscription} from "rxjs";
 import {ProductService} from "../services/productService";
 import {FormsModule} from "@angular/forms";
 import {FriendFollowerService} from "../services/friendFollowerService";
+import {UserService} from "../services/userService";
 
 
 @Component({
@@ -45,7 +46,7 @@ export class HeaderComponent implements OnDestroy, OnInit{
   notifyCount = 0;
   private notifyCountSubscription!: Subscription;
 
-  constructor(protected friendFollow: FriendFollowerService, protected productService: ProductService, public popupService:PopupService, private router: Router, protected keyCloak:KeyCloakService, private adminService: AdminService){
+  constructor(private userService: UserService, protected friendFollow: FriendFollowerService, protected productService: ProductService, public popupService:PopupService, private router: Router, protected keyCloak:KeyCloakService, private adminService: AdminService){
     this.notifyCountSubscription = this.keyCloak.notifyCount$.subscribe(count => {
       this.notifyCount = count;
     });
@@ -76,7 +77,22 @@ export class HeaderComponent implements OnDestroy, OnInit{
       this.adminService.getUsers()
       this.goToAdminArea(event, page, numResult)
     }else if(num === 1){
-      this.adminService.getReports(0)
+      this.adminService.getReports(0).subscribe(reports => {
+        this.adminService.reports = reports;
+
+        this.adminService.reports.forEach( a =>{
+          console.log("DATI" + a.reason)
+          console.log("DATI" + a.usernameUser2)
+          console.log("DATI" + a.usernameUser1)
+          console.log("DATI" + a.reviewId)
+          console.log("DATI" + a.reviewText)
+          this.adminService.getReview(a.reviewId).subscribe(response =>{
+            a.reviewText = response
+          })
+        })
+        this.userService.loading = false
+
+      })
       this.goToAdminArea(event, page, numResult)
     }else if(num === 2){
       this.adminService.getSupports(0)
