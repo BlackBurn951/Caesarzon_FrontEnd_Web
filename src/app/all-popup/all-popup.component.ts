@@ -80,7 +80,12 @@ export class AllPopupComponent implements OnInit{
 
 
   apriListe(username: string){
+
+    console.log("USERNAME: " + username)
+
+    console.log("IN APRI LISTE NOME PROFILO: " + this.userService.nomeProfilo)
     this.userService.nomeProfilo = username
+    console.log("DOPO IN APRI LISTE NOME PROFILO: " + this.userService.nomeProfilo)
     this.wishListService.getUserWishList(0, username)
     this.popUpService.openPopups(13, false)
   }

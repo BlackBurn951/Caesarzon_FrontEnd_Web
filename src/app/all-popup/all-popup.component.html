@@ -43,7 +43,7 @@
         </div>
       </div>
       <div class="text-center">
-        <button class="btn-dark custom-btn effes mb-3" (click)="this.adminService.getUsers(true)">Carica altro</button>
+        <button *ngIf="friendFollow.users.length === 20" class="btn-dark custom-btn effes mb-3" (click)="this.adminService.getUsers(true)">Carica altro</button>
       </div>
 
       <!-- Sezione Seguiti -->
@@ -65,11 +65,12 @@
                 <i class="fas fa-user-minus"></i>
               </button>
             </div>
-          </div>
-          <div class="text-center">
-            <button class="btn-dark custom-btn effes mb-3" (click)="this.adminService.getUsers(true)">Carica altro</button>
+            <div class="text-center">
+              <button *ngIf="friendFollow.usersFollow.length === 20" class="btn-dark custom-btn effes mb-3" (click)="this.adminService.getUsers(true)">Carica altro</button>
+            </div>
           </div>
         </div>
+
       </div>
 
       <!-- Sezione Amici -->
@@ -87,9 +88,9 @@
               <i class="fas fa-user-minus"></i>
             </button>
           </div>
-        </div>
-        <div class="text-center">
-          <button class="btn-dark custom-btn effes mb-3" (click)="this.adminService.getUsers(true)">Carica altro</button>
+          <div class="text-center">
+            <button *ngIf="friendFollow.usersFriend.length === 20" class="btn-dark custom-btn effes mb-3" (click)="this.adminService.getUsers(true)">Carica altro</button>
+          </div>
         </div>
       </div>
     </div>
@@ -532,7 +533,7 @@
 </div>
 
 
-<div class="container-fluidos regLog" *ngIf="popUpService.wichComponent === 13" [ngClass]="{'other': !popUpService.isOther}">
+<div class="container-fluidosss regLog" *ngIf="popUpService.wichComponent === 13" [ngClass]="{'other': !popUpService.isOther}">
   <div class="form-group d-flex justify-content-between align-items-center">
     <button (click)="back()" class="btn btn-dark custom-btn ml-2 mt-1">Indietro</button>
     <button (click)="popUpService.closePopup()" class="btn btn-dark ics">X</button>
@@ -567,15 +568,15 @@
             <tr>
               <td>{{ item.name }}</td>
               <td class="text-center">
-                <button class="btn btn-dark custom-btn ml-2" (click)="wishListService.getWishListProducts(item.id, 104)">
+                <button class="btn btn-dark custom-btn ml-2" (click)="wishListService.getWishListProducts(item.id)">
                   Prodotti
                 </button>
               </td>
             </tr>
             <tr *ngIf="wishListService.showProductsMap[item.id]">
               <td colspan="2">
-                <p *ngIf="(wishListService.wishListProducts != null && wishListService.wishListProducts?.singleWishListProductDTOS?.length === 0)">{{ this.userService.nomeProfilo }} non ha ancora aggiunto prodotti a questa lista.</p>
-                <div *ngFor="let product of wishListService.wishListProducts?.singleWishListProductDTOS">
+                <p *ngIf="wishListService.emptyList">L'utente {{this.userService.nomeProfilo}} non ha ancora aggiunto prodotti a questa lista</p>
+                <div *ngFor="let product of wishListService.wishListProductsMap[item.id]?.singleWishListProductDTOS">
                   <p class="prodottoOi" (click)="productService.prendiDatiProdotto(product.productId)">
                     {{ product.productName }} - {{ product.price }} €
                   </p>

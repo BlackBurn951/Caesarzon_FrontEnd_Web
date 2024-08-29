@@ -93,9 +93,13 @@ export class WishListService{
 
   getWishLists(vis: number, username: string){
     let customUrl ;
+    console.log("IN GET WISHHH " + this.userService.nomeProfilo)
+
     if(this.userService.nomeProfilo === ""){
+      console.log("NOME BUOTO")
       customUrl = this.getWishListsURL+"?usr="+this.keycloakService.getUsername()+"&visibility="+vis
     }else{
+      console.log("NOME PIENO: " + username)
       customUrl = this.getWishListsURL+"?usr="+username+"&visibility="+vis
 
     }
@@ -109,12 +113,18 @@ export class WishListService{
   }
 
 
-  getWishListProducts(wishlistId: string, num: number) {
+  getWishListProducts(wishlistId: string) {
     this.emptyList = false;
     this.showProductsMap[wishlistId] = !this.showProductsMap[wishlistId];
 
     if (this.showProductsMap[wishlistId]) {
-      let customUrl = `${this.getWishListsProductsURL}?wish-id=${wishlistId}&usr=${this.keycloakService.getUsername()}`;
+      let customUrl
+      if(this.userService.nomeProfilo === ""){
+        customUrl = `${this.getWishListsProductsURL}?wish-id=${wishlistId}&usr=${this.keycloakService.getUsername()}`;
+      }else{
+        customUrl = `${this.getWishListsProductsURL}?wish-id=${wishlistId}&usr=${this.userService.nomeProfilo}`;
+
+      }
       const headers = this.keycloakService.permaHeader();
 
       this.http.get<WishProduct>(customUrl, { headers }).subscribe({
