@@ -226,22 +226,6 @@ label {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 .userInput {
   display: flex;
   justify-content: center;
@@ -297,4 +281,33 @@ input{
 .row {
   margin-left: 0;
   margin-right: 0;
+}
+
+
+
+
+.container-fluidoss {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 70%;
+  max-width: 35%;
+  max-height: 50vh;
+  min-height: 50vh;
+  overflow-y: auto;
+  background-color: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+
+.container-fluidoss.other {
+  max-height: 50vh;
+  min-height: 50vh; /
+}
+
+.container-fluidoss.Add {
+  max-height: 50vh;
+  max-width: 60%;
+  min-height: 50vh; /* Imposta una diversa altezza minima per la classe 'Add' se necessario */
 }

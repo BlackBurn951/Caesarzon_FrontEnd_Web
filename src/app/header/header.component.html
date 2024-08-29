@@ -101,11 +101,11 @@
 
         <li class="nav-item">
           <button  *ngIf="!keyCloak.getAdmin()" id="carr" class="menu-item btn btn-dark custom-btns"  (click)="changePage($event,'shopping-cart')">Carrello</button>
-          <button  *ngIf="keyCloak.getAdmin()" id="product" class="menu-item btn btn-dark custom-btns" (click)="changePage($event, 'product-management')">Aggiungi prodotto</button>
+          <button  *ngIf="keyCloak.getAdmin()" id="product" class="menu-item btn btn-dark custom-btns" (click)="addProduct($event, 'product-management')">Aggiungi prodotto</button>
         </li>
 
         <li id="amici" class="nav-item">
-          <button *ngIf="!keyCloak.getAdmin()" class="menu-item btn btn-dark custom-btns" (click)="friendFollow.takeFirst20User()">Amici</button>
+          <button *ngIf="!keyCloak.getAdmin()" class="menu-item btn btn-dark custom-btns" (click)="friendFollow.takeFirst20User(false)">Amici</button>
         </li>
 
       </div>

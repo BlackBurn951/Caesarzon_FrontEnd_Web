@@ -81,6 +81,14 @@ export class HeaderComponent implements OnDestroy, OnInit{
     this.router.navigate([page]);
   }
 
+  addProduct(event: MouseEvent,page:string) {
+    if(page === "admin-area")
+      this.adminService.section = 0
+    event.preventDefault()
+    this.productService.resetFields()
+    this.router.navigate([page]);
+  }
+
   changeSection(event: MouseEvent, num:number, page:string, numResult: number){
     if(num === 0){
       this.adminService.getUsers(false)

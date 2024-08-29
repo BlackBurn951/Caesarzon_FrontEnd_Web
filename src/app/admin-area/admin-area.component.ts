@@ -6,6 +6,10 @@ import {PopupService} from "../services/popUpService";
 import {DomSanitizer} from "@angular/platform-browser";
 import {KeyCloakService} from "../services/keyCloakService";
 import {ProductService} from "../services/productService";
+import {Reports} from "../entities/Report";
+import {Bans} from "../entities/Bans";
+import {Supports} from "../entities/Supports";
+import {UserSearch} from "../entities/UserSearch";
 
 @Component({
   selector: 'app-admin-area',
@@ -80,6 +84,73 @@ export class AdminAreaComponent implements OnInit{
     this.popUpService.openPopups(141, false);
   }
 
+
+
+
+  userSearchTerm: string = '';
+  reportSearchTerm: string = '';
+  supportSearchTerm: string = '';
+  banSearchTerm: string = '';
+
+  sortKey: string = '';
+  sortOrder: boolean = true;
+
+
+  // Metodo per ordinare gli utenti
+  sortUsers(key: keyof UserSearch) {
+    this.sortKey = key;
+    this.sortOrder = !this.sortOrder;
+    this.adminService.users.sort((a, b) => {
+      const aValue = a[key];
+      const bValue = b[key];
+      if (aValue === null || bValue === null) {
+        return 0;
+      }
+      return this.sortOrder ? (aValue > bValue ? 1 : -1) : (aValue < bValue ? 1 : -1);
+    });
+  }
+
+  // Metodo per ordinare le segnalazioni
+  sortReports(key: keyof Reports) {
+    this.sortKey = key;
+    this.sortOrder = !this.sortOrder;
+    this.adminService.reports.sort((a, b) => {
+      const aValue = a[key];
+      const bValue = b[key];
+      if (aValue === null || bValue === null) {
+        return 0;
+      }
+      return this.sortOrder ? (aValue > bValue ? 1 : -1) : (aValue < bValue ? 1 : -1);
+    });
+  }
+
+  // Metodo per ordinare le richieste di supporto
+  sortSupports(key: keyof Supports) {
+    this.sortKey = key;
+    this.sortOrder = !this.sortOrder;
+    this.adminService.supports.sort((a, b) => {
+      const aValue = a[key];
+      const bValue = b[key];
+      if (aValue === null || bValue === null) {
+        return 0;
+      }
+      return this.sortOrder ? (aValue > bValue ? 1 : -1) : (aValue < bValue ? 1 : -1);
+    });
+  }
+
+  // Metodo per ordinare i ban degli utenti
+  sortBans(key: keyof Bans) {
+    this.sortKey = key;
+    this.sortOrder = !this.sortOrder;
+    this.adminService.bans.sort((a, b) => {
+      const aValue = a[key];
+      const bValue = b[key];
+      if (aValue === null || bValue === null) {
+        return 0;
+      }
+      return this.sortOrder ? (aValue > bValue ? 1 : -1) : (aValue < bValue ? 1 : -1);
+    });
+  }
 
 
 }

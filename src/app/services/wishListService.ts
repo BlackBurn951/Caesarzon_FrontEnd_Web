@@ -42,7 +42,6 @@ export class WishListService{
   wishListToAddProduct: string = "";
 
   section!: number ;
-  sectionProfil!: number;
   constructor(private userService: UserService, private http: HttpClient, private popUpService:PopupService, private keycloakService: KeyCloakService) {
   }
 
@@ -65,12 +64,12 @@ export class WishListService{
 
 
   getUserWishList(num: number, username: string){
-    this.sectionProfil = num
     if(num === 0){
       this.tipoListeUser = "Liste pubbliche"
     }else{
       this.tipoListeUser = "Liste condivise con te"
     }
+    this.userWishLists = []
     this.getWishLists(num, username).subscribe( response =>{
       this.userWishLists = response
     })

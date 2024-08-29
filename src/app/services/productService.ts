@@ -604,6 +604,7 @@ export class ProductService {
   resetFields(){
     this.formService.setFormData(this.formCaesarzon.value);
     this.selectedFile = null
+    this.imageUrl = undefined
     this.formCaesarzon.get('formDeiProdotti.nome')?.setValue("");
     this.formCaesarzon.get('formDeiProdotti.marca')?.setValue("");
     this.formCaesarzon.get('formDeiProdotti.descrizione')?.setValue("");

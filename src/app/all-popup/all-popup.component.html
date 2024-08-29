@@ -12,7 +12,7 @@
 <body>
 <mat-progress-spinner class="uSpinner" *ngIf="this.keyCloak.loading" mode="indeterminate" color="primary"></mat-progress-spinner>
 
-<div class="container-fluidos regLog" *ngIf="popUpService.wichComponent === 0" [ngClass]="{'other': popUpService.isOther}">
+<div class="container-fluidoss regLog" *ngIf="popUpService.wichComponent === 0" [ngClass]="{'other': popUpService.isOther}">
   <div class="form-group d-flex flex-column align-items-center">
     <div class="d-flex flex-row align-items-center">
       <button class="btn btn-dark custom-btn mr-2 mt-2" (click)="changeSection(0, 'Cerca utenti')">Cerca utenti</button>
@@ -24,39 +24,38 @@
   </div>
 
   <div class="d-flex flex-column align-items-center">
-    <input class="mb-2 barraRicerca" type="text" placeholder="Cerca">
+    <!-- Search Bar -->
+    <input class="mb-2 barraRicerca" type="text" placeholder="Cerca" [(ngModel)]="searchTerm">
 
     <div class="table-container">
-
       <!-- Sezione Cerca utenti -->
       <div *ngIf="section === 0" class="table-row">
-        <div *ngFor="let user of friendFollow.users; let i = index"
+        <div *ngFor="let user of friendFollow.users | filter:searchTerm; let i = index"
              class="table-cell mb-2 d-flex align-items-center user-row"
              [ngClass]="{'highlighted': highlightedRow === i}"
              (mouseenter)="highlightedRow = i"
              (mouseleave)="highlightedRow = -1">
           <img class="preview ml-1 mr-1" [src]="user.safeImageUrl" alt="" width="35px" height="35px">
-
           <label class="flex-grow-1 useeeer mr-1" (click)="this.apriListe(user.username)">{{ user.username }}</label>
           <button *ngIf="!isUserInFollow(user)" class="btn btn-dark custom-btn mr-1 mt-1 mb-1" (click)="this.friendFollow.addFollowersOrFriends(i, true)">
             <i class="fas fa-user-plus"></i>
           </button>
         </div>
       </div>
+      <div class="text-center">
+        <button class="btn-dark custom-btn effes mb-3" (click)="this.adminService.getUsers(true)">Carica altro</button>
+      </div>
 
       <!-- Sezione Seguiti -->
       <div *ngIf="section === 1" class="table-row">
-        <div *ngIf="friendFollow.usersFollow.length === 0" >
-            Non segui ancora nessuno!
-        </div>
+        <div *ngIf="friendFollow.usersFollow.length === 0">Non segui ancora nessuno!</div>
         <div *ngIf="friendFollow.usersFollow.length > 0">
-          <div *ngFor="let user of friendFollow.usersFollow; let i = index"
+          <div *ngFor="let user of friendFollow.usersFollow | filter:searchTerm; let i = index"
                class="table-cell mb-2 d-flex align-items-center user-row"
                [ngClass]="{'highlighted': highlightedRow === i}"
                (mouseenter)="highlightedRow = i"
                (mouseleave)="highlightedRow = -1">
             <img class="preview mr-1 ml-1" [src]="user.safeImageUrl" alt="" width="35px" height="35px">
-
             <label class="useeeer mr-1" (click)="this.apriListe(user.username)">{{ user.username }}</label>
             <div>
               <button *ngIf="!isUserInFriend(user)" class="btn btn-dark custom-btn ml-1 " (click)="this.friendFollow.addFollowersOrFriends(i, false)">
@@ -67,36 +66,35 @@
               </button>
             </div>
           </div>
+          <div class="text-center">
+            <button class="btn-dark custom-btn effes mb-3" (click)="this.adminService.getUsers(true)">Carica altro</button>
+          </div>
         </div>
-
       </div>
 
       <!-- Sezione Amici -->
       <div *ngIf="section === 2" class="table-row">
-        <div *ngIf="friendFollow.usersFriend.length === 0" >
-          Non hai ancora nessun amico!
-        </div>
-        <div *ngIf="friendFollow.usersFriend.length > 0" >
-          <div *ngFor="let user of friendFollow.usersFriend; let i = index"
+        <div *ngIf="friendFollow.usersFriend.length === 0">Non hai ancora nessun amico!</div>
+        <div *ngIf="friendFollow.usersFriend.length > 0">
+          <div *ngFor="let user of friendFollow.usersFriend | filter:searchTerm; let i = index"
                class="table-cell mb-2 d-flex align-items-center user-row"
                [ngClass]="{'highlighted': highlightedRow === i}"
                (mouseenter)="highlightedRow = i"
                (mouseleave)="highlightedRow = -1">
             <img class="preview ml-1 mr-1" [src]="user.safeImageUrl" alt="" width="35px" height="35px">
-
             <label class="useeeer mr-1" (click)="this.apriListe(user.username)">{{ user.username }}</label>
             <button class="btn btn-danger buut mr-1 mt-1 mb-1 ml-1" (click)="this.friendFollow.deleteFriends(i)">
               <i class="fas fa-user-minus"></i>
             </button>
           </div>
         </div>
+        <div class="text-center">
+          <button class="btn-dark custom-btn effes mb-3" (click)="this.adminService.getUsers(true)">Carica altro</button>
+        </div>
       </div>
-
     </div>
-
   </div>
 </div>
-
 
 <div class="container-fluidos regLog" *ngIf="popUpService.wichComponent === 1" [ngClass]="{'other': !popUpService.isOther}">
   <div class="form-group">
@@ -536,12 +534,12 @@
 
 <div class="container-fluidos regLog" *ngIf="popUpService.wichComponent === 13" [ngClass]="{'other': !popUpService.isOther}">
   <div class="form-group d-flex justify-content-between align-items-center">
-    <button (click)="back()" class="btn btn-dark custom-btn mr-1 mt-1">Indietro</button>
+    <button (click)="back()" class="btn btn-dark custom-btn ml-2 mt-1">Indietro</button>
     <button (click)="popUpService.closePopup()" class="btn btn-dark ics">X</button>
   </div>
 
   <div class="container-fluid d-flex flex-column align-items-center">
-    <h1 class="titless">Liste dei desideri di {{ this.userService.nomeProfilo }}</h1>
+    <h1 style="white-space: nowrap;">Liste dei desideri di {{ this.userService.nomeProfilo }}</h1>
 
     <div class="form-group d-flex justify-content-center mb-3">
       <button type="button" class="btn btn-dark custom-btn mr-3" (click)="wishListService.getUserWishList(0, this.userService.nomeProfilo)">Pubbliche</button>
@@ -553,12 +551,19 @@
         <table class="table table-striped">
           <thead>
           <tr>
-            <th scope="col">Nome Lista ({{wishListService.tipoListe}})</th>
+            <th scope="col">Nome Lista ({{wishListService.tipoListeUser}})</th>
             <th scope="col" class="text-center">Azioni</th>
           </tr>
           </thead>
           <tbody>
-          <ng-container *ngFor="let item of wishListService.wishLists; let i = index">
+          <div class="form-group d-flex flex-column align-items-center" *ngIf="wishListService.userWishLists.length === 0 && wishListService.tipoListeUser === 'Liste condivise con te'">
+            <h2 class="ml-5 mt-2">{{ this.userService.nomeProfilo }} non ha condiviso liste dei desideri con te!</h2>
+          </div>
+
+          <div class="form-group d-flex flex-column align-items-center"  *ngIf="wishListService.userWishLists.length === 0 && wishListService.tipoListeUser === 'Liste pubbliche'">
+            <h2 class="ml-5 mt-2">{{ this.userService.nomeProfilo }} non ha liste dei desideri pubbliche!</h2>
+          </div>
+          <ng-container *ngFor="let item of wishListService.userWishLists; let i = index">
             <tr>
               <td>{{ item.name }}</td>
               <td class="text-center">

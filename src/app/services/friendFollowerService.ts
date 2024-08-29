@@ -33,6 +33,7 @@ export class FriendFollowerService {
 
   usersFriendFollowBuffer : UserSearch[] =[]
 
+  pagineAmici: number = 0
 
 
   constructor(private adminService: AdminService, private sanitizer: DomSanitizer, private popUp: PopupService, private http: HttpClient, private keyCloakService: KeyCloakService) {
@@ -42,12 +43,21 @@ export class FriendFollowerService {
     this.usersFriendFollowBuffer = []
   }
 
-  takeFirst20User() {
+  takeFirst20User(caricaAltro: boolean) {
+    if(caricaAltro){
+      this.pagineAmici += 1
+    }
     const headers = this.keyCloakService.permaHeader();
-    const customUrl = this.usersURL + 0;
+    const customUrl = this.usersURL + this.pagineAmici;
     this.http.get<UserSearch[]>(customUrl, { headers }).subscribe(response => {
-      if (response) { // Controlla se la risposta non è null o undefined
-          this.users = response
+      if (response) {
+        if (response.length > 0) {
+          response.forEach(user => {
+            if (user && !this.users.some(existingUser => existingUser.username === user.username)) {
+              this.users.push(user);
+            }
+          });
+        }
           this.users.forEach(user =>{
             this.adminService.getUserProfilePic(user.username).subscribe(
               response => {
@@ -66,10 +76,16 @@ export class FriendFollowerService {
       }
     });
 
-    const customUrl1 = this.followsFriendsURL + 0 + "&friend=false";
+    const customUrl1 = this.followsFriendsURL + this.pagineAmici + "&friend=false";
     this.http.get<UserSearch[]>(customUrl1, { headers }).subscribe(response => {
       if (response) {
-        this.usersFollow = response
+        if (response.length > 0) {
+          response.forEach(user => {
+            if (user && !this.usersFollow.some(existingUser => existingUser.username === user.username)) {
+              this.usersFollow.push(user);
+            }
+          });
+        }
         this.usersFollow.forEach(user =>{
           this.adminService.getUserProfilePic(user.username).subscribe(
             response => {
@@ -87,10 +103,16 @@ export class FriendFollowerService {
       }
     });
 
-    const customUrl2 = this.followsFriendsURL + 0 + "&friend=true";
+    const customUrl2 = this.followsFriendsURL + this.pagineAmici + "&friend=true";
     this.http.get<UserSearch[]>(customUrl2, { headers }).subscribe(response => {
       if (response) {
-        this.usersFriend = response
+        if (response.length > 0) {
+          response.forEach(user => {
+            if (user && !this.usersFriend.some(existingUser => existingUser.username === user.username)) {
+              this.usersFollow.push(user);
+            }
+          });
+        }
         this.usersFriend.forEach(user =>{
           this.adminService.getUserProfilePic(user.username).subscribe(
             response => {

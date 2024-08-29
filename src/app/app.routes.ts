@@ -34,6 +34,7 @@ import {TokenInterceptor} from "./token.interceptor";
 import {OrdersuccessComponent} from "./ordersuccess/ordersuccess.component";
 import {OrderSummaryComponent} from "./order-summary/order-summary.component";
 import {MatProgressSpinner} from "@angular/material/progress-spinner";
+import {FilterPipe} from "./filter.pipe";
 
 export const routes: Routes = [
   { path: '', component: HomepageComponent },
@@ -93,7 +94,8 @@ export const routes: Routes = [
         NoopAnimationsModule,
         NgOptimizedImage,
         AdminManagementContainerComponent,
-        MatProgressSpinner
+        MatProgressSpinner,
+        FilterPipe
     ],
   providers: [
     KeyCloakService,

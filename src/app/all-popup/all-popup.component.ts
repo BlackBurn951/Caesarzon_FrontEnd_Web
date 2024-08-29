@@ -32,6 +32,7 @@ export class AllPopupComponent implements OnInit{
   pass: string = '';
   newPasswordError: string = '';
   confirmPasswordError: string = '';
+  searchTerm: string = ''; // Holds the search term entered by the user
 
 
   mostraPassword: { [key: string]: boolean } = { password: false, confermaPassword: false};
