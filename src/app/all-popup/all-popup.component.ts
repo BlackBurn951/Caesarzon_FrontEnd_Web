@@ -54,6 +54,9 @@ export class AllPopupComponent implements OnInit{
     this.mostraPassword = {password: false, confermaPassword: false}
   }
 
+  openChangePassword(){
+    this.popUpService.openPopups(8, false)
+  }
   ok(){
     if(this.productService.acquistoRapido){
       if(this.productService.prodotto)
@@ -155,7 +158,6 @@ export class AllPopupComponent implements OnInit{
 
   }
 
-  //Metodo che dopo aver validato al password chiama il server che effettuare il cambio
   validatePassword(): void {
     this.newPasswordError = '';
     this.confirmPasswordError = '';
@@ -178,14 +180,18 @@ export class AllPopupComponent implements OnInit{
       this.confirmPasswordError = 'Le password non corrispondono';
       return;
     }
-    this.userService.cambioPassword(this.userService.newPassword);
-    this.popUpService.updateStringa('Cambio password avvenuto con successo')
-    this.popUpService.openPopups(141, true);
-
-    this.confirmPasswordError = '';
-    this.newPasswordError = '';
-    this.popUpService.closePopup()
-
+    if(this.userService.cambioPasswordLogged){
+      this.userService.cambioPassword(this.userService.newPassword);
+      this.popUpService.updateStringa('Cambio password avvenuto con successo')
+      this.popUpService.openPopups(141, true);
+      this.confirmPasswordError = '';
+      this.newPasswordError = '';
+      this.popUpService.closePopup()
+    }else{
+      this.userService.sendOTP()
+      this.confirmPasswordError = '';
+      this.newPasswordError = '';
+    }
 
   }
 

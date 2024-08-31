@@ -44,8 +44,8 @@ export class WarningMessageComponent implements OnInit{
   confermaOperazione(siOno: number){
     if(siOno === 0){
       if(this.popup.operazione == 0)
-        this.adminService.deleteReport(this.adminService.reviewId, true).subscribe(response =>{
-          if(response == "Segnalazione eliminata con successo"){
+        this.adminService.deleteReport( true).subscribe(response =>{
+          if(response == "Recensione eliminata con successo"){
             this.adminService.reports.splice(this.adminService.reportIndex, 1);
             this.popup.updateStringa(response)
             this.popup.openPopups(123, true);
@@ -64,7 +64,7 @@ export class WarningMessageComponent implements OnInit{
       }else if(this.popup.operazione == 6){
         this.wishListService.changeVisFunction()
       }else if(this.popup.operazione == 7){
-        this.adminService.deleteReport(this.adminService.reviewId, false).subscribe(response =>{
+        this.adminService.deleteReport( false).subscribe(response =>{
           if(response == "Segnalazione eliminata con successo"){
             this.adminService.reports.splice(this.adminService.reportIndex, 1);
             this.popup.updateStringa(response)

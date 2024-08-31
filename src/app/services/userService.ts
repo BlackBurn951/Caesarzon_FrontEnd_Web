@@ -18,6 +18,8 @@ export class UserService {
 
   inputAbilitato: boolean = false;
 
+  cambioPasswordLogged: boolean = false
+
   codice: string[] = ['', '', '', '', ''];
 
   newPassword: string = '';
@@ -211,10 +213,12 @@ export class UserService {
       password: this.newPassword
     };
     return this.http.put<string>(customUrl, otp,{ headers, responseType: 'text' as 'json' }).subscribe(response => {
-      if(response === "Otp valido!"){
+      if(response === "Password cambiata"){
         this.recoveryPass = false
-        this.popUp.openPopups(8, false)
         this.codice =  ['', '', '', '', ''];
+        this.popUp.closePopup()
+        this.popUp.updateStringa("Password cambiata con successo!")
+        this.popUp.openPopups(104, true)
 
       }else{
         this.otpSbagliato = true

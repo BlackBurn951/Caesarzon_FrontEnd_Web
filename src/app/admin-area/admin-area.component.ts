@@ -43,11 +43,11 @@ export class AdminAreaComponent implements OnInit{
     this.productService.ricerca =""
   }
 
-  eliminaRecensione(utente: number){
+  accetta(reportId: string, utente: number){
     const user = this.adminService.reports.at(utente);
     if (user) {
       this.adminService.usernameUtenteDaBannare = user.usernameUser2;
-      this.adminService.reviewId = user.reviewId
+      this.adminService.reportId = reportId
       this.adminService.reportIndex = utente;
     }
     this.popUpService.operazione = 0;
@@ -55,9 +55,10 @@ export class AdminAreaComponent implements OnInit{
     this.popUpService.openPopups(141, false);
   }
 
-  scartaSegnalazione(utente: number){
+  scartaSegnalazione(reportId:string, utente: number){
     const user = this.adminService.reports.at(utente);
     if (user) {
+      this.adminService.reportId = reportId
       this.adminService.usernameUtenteDaBannare = user.usernameUser2;
     }
 

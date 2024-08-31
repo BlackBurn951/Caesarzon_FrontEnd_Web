@@ -112,6 +112,12 @@ export class PersonalDataComponent implements OnInit{
   }
 
 
+
+  cambiaPass(){
+    this.userService.cambioPasswordLogged = true
+    this.popUpService.openPopups(8, false)
+  }
+
   //Metodo per caricare l'immagine di profilo dal DB
   loadImage(): void {
     if(this.keycloakService.getAdmin()){

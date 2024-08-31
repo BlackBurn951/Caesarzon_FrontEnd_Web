@@ -122,11 +122,14 @@ export class ProductService {
 
   deleteReview(){
     const headers = this.keycloakService.permaHeader();
-    const customURL = this.addProductReviewURL+'?product-id='+this.reviewId
+    const customURL = this.addProductReviewURL+'?product-id='+this.prodotto?.id
     return this.http.delete<string>(customURL,{ headers, responseType: 'text' as 'json' }).subscribe(response =>{
-      if(response === "Recensione eliminata"){
+      if(response === "Recensione eliminata con sucesso!"){
         this.popUpService.updateStringa(response)
         this.popUpService.openPopups(123, true)
+        setTimeout(()=>{
+          window.location.reload()
+        }, 1500);
       }else{
         this.popUpService.updateStringa("Problemi nell'eliminazione della recensione")
         this.popUpService.openPopups(123, true)
@@ -162,7 +165,7 @@ export class ProductService {
       'Authorization': 'Bearer ' + this.keycloakService.getAccessToken()
     });
 
-    const customURL = this.manageImageProductURL+'/'+id
+    const customURL = this.manageImageProductURL+'/'+id+'?new=true'
 
     return this.http.put(customURL, formData, { headers, responseType: 'text'});
   }
@@ -283,9 +286,21 @@ export class ProductService {
         setTimeout(()=>{
           window.location.reload()
         }, 1500);
+      }else if(response === "Problemi nell'aggiunta della recensione...") {
+        this.popUpService.closePopup()
+        this.popUpService.updateStringa(response)
+        this.popUpService.openPopups(69, true)
+        this.valutazioneRecensione = 1
+        this.descrizioneRecensione = ""
+      } else if(response === "Limite recensioni raggiunto...") {
+        this.popUpService.closePopup()
+        this.popUpService.updateStringa(response)
+        this.popUpService.openPopups(69, true)
+        this.valutazioneRecensione = 1
+        this.descrizioneRecensione = ""
       }else{
         this.popUpService.closePopup()
-        this.popUpService.updateStringa("Errore o limite di recensioni raggiunte")
+        this.popUpService.updateStringa(response)
         this.popUpService.openPopups(69, true)
         this.valutazioneRecensione = 1
         this.descrizioneRecensione = ""

@@ -87,10 +87,10 @@
             <td class="text-center align-middle">{{ item.reportDate }}</td>
             <td class="text-center align-middle">
               <div class="d-flex flex-row align-items-center justify-content-center">
-                <button class="btn-dark custom-btn effes" (click)="eliminaRecensione(i)">
-                  <p class="fas fa-check icon-small">Elimina recensione</p>
+                <button class="btn-dark custom-btn effes" (click)="accetta(item.id, i)">
+                  <p class="fas fa-check icon-small">Accetta</p>
                 </button>
-                <button class="btn-dark custom-btn effes ml-2" (click)="scartaSegnalazione(i)">
+                <button class="btn-dark custom-btn effes ml-2" (click)="scartaSegnalazione(item.id, i)">
                   <p class="fas fa-ban icon-small">Scarta</p>
                 </button>
                 <button class="btn-dark custom-btn effes ml-2" (click)="toggleCollapse(i)">

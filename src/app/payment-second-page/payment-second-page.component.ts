@@ -20,6 +20,7 @@ export class PaymentSecondPageComponent implements OnInit{
   }
 
   goBackToCart() {
+    this.cartService.resetDispo()
     this.router.navigate(['shopping-cart']);
   }
 

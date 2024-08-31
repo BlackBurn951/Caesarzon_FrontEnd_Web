@@ -44,11 +44,8 @@ export class ProductPageComponent implements OnInit{
   eliminaRecensione(idRecensione: string, username: string){
     this.productService.reviewId = idRecensione
     this.popUpService.operazione = 13
-    if(this.keyCloak.getUsername() === username){
-      this.popUpService.updateStringa("Sei sicuro di voler eliminare la tua recensione?")
-    }else if(this.keyCloak.getAdmin()){
-      this.popUpService.updateStringa("Sei sicuro di voler eliminare la recensione di: "+ username + "?")
-    }
+    this.popUpService.updateStringa("Sei sicuro di voler eliminare la tua recensione?")
+
     this.popUpService.openPopups(124, false)
   }
 

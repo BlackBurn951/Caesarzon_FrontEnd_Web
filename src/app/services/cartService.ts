@@ -26,6 +26,8 @@ export class CartService {
 
   checkAvaURL: string = 'http://localhost:8090/product-api/pre-order';
 
+  resetAvaURL: string = 'http://localhost:8090/product-api/rollback/pre-order';
+
   doOrderURL: string = 'http://localhost:8090/product-api/purchase';
 
   doSuccesURL: string = 'http://localhost:8090/product-api/success';
@@ -72,6 +74,17 @@ export class CartService {
     const headers = this.keyCloakService.permaHeader();
 
     return this.http.put(`${this.baseUrl}/cart/product/${id}`, changeCartDTO, { params, headers, responseType: 'text' as 'json' });
+  }
+
+  resetDispo() {
+
+    this.productIds.forEach(a =>{
+      console.log(a)
+    })
+    const headers = this.keyCloakService.permaHeader();
+    this.http.post<string>(this.resetAvaURL, this.productIds,{headers}).subscribe( a =>{
+      console.log('Successo:', a);
+    });
   }
 
   addProductCart(num: number){
@@ -167,24 +180,6 @@ export class CartService {
       }
     });
 
-  }
-
-  putInCart(size: string, quantity: number, idProduct: string){
-
-    const productToAddCart: SendProductOrderDTO ={
-      productID: idProduct,
-      size: size,
-      quantity: quantity
-    }
-
-    const headers = this.keyCloakService.permaHeader();
-    return this.http.post<string>(this.getCartURL, productToAddCart,{headers, responseType: 'text' as 'json'}).subscribe(response => {
-      if(response == "Ordine creato con successo!"){
-        this.size = ""
-        this.quantity = 1
-        this.productIdToAddCart = ""
-      }
-    })
   }
 
 
@@ -323,13 +318,21 @@ export class CartService {
       };
 
       console.log('PayPal details:', pay);
-
+      this.addressService.getAddress(this.addressId).subscribe( response =>{
+        this.addressService.indirizzoCorrente = response
+      })
       const headers = this.keyCloakService.permaHeader();
-      this.http.post<string>(this.doSuccesURL, pay, { headers }).subscribe(response => {
+      this.http.post<string>(this.doSuccesURL, pay, { headers , responseType: 'text' as 'json' }).subscribe(response => {
         console.log('Success response:', response);
-        this.ordineInviato = response !== "Errore...";
+        if(response === "Ordine effettuato con successo!"){
+          this.ordineInviato = true
+          this.router.navigate(['order-final']);
+
+        }else{
+          this.ordineInviato = false
+        }
       }, error => {
-        // Handle HTTP error
+
         console.error('HTTP error:', error);
       });
     });
@@ -359,16 +362,17 @@ export class CartService {
 
     sessionStorage.setItem('buy', JSON.stringify(this.buy));
 
-    const custmUrl = this.doOrderURL + "?pay-method=" + this.payPal;
+    const custmUrl = this.doOrderURL + "?pay-method=" + this.payPal+"&platform=true";
     const headers = this.keyCloakService.permaHeader();
     return this.http.post<string>(custmUrl, this.buy, { headers, responseType: 'text' as 'json' }).subscribe(response => {
       if (response === "Errore...") {
         this.popUp.updateStringa("Problemi nell'acquisto, controllare dati o saldo carta")
         this.popUp.openPopups(434, true)
       } else {
-        if (this.payPal) {
+        if (this.payPal){
           window.location.href = response;
-        }else if (!this.payPal) {
+          return
+        }else if(!this.payPal) {
           this.ordineInviato = true
           this.router.navigate(['order-final']);
         }

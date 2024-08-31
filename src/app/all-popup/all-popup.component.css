@@ -169,7 +169,7 @@ label {
   height: 25vh;
 }
 
-.container-fluidoss {
+.container-fluidosst {
   position: fixed;
   top: 50%;
   left: 50%;
@@ -183,12 +183,12 @@ label {
   z-index: 1000;
 }
 
-.container-fluidoss.other{
+.container-fluidosst.other{
   max-height: 80vh;
 
 }
 
-.container-fluidoss.Add{
+.container-fluidosst.Add{
   max-height: 90vh;
   max-width: 25%;
 

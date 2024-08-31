@@ -93,13 +93,10 @@ export class WishListService{
 
   getWishLists(vis: number, username: string){
     let customUrl ;
-    console.log("IN GET WISHHH " + this.userService.nomeProfilo)
 
     if(this.userService.nomeProfilo === ""){
-      console.log("NOME BUOTO")
       customUrl = this.getWishListsURL+"?usr="+this.keycloakService.getUsername()+"&visibility="+vis
     }else{
-      console.log("NOME PIENO: " + username)
       customUrl = this.getWishListsURL+"?usr="+username+"&visibility="+vis
 
     }
@@ -208,12 +205,12 @@ export class WishListService{
     });
 }
 
+
   addWishList(wishList: WishList){
     const headers = this.keycloakService.permaHeader()
     return this.http.post<any>(this.createWishListsURL, wishList, { headers, responseType: 'text' as 'json' });
 
   }
-
 
   updateWishListID(event: Event) {
     const selectElement = event.target as HTMLSelectElement;
@@ -326,11 +323,6 @@ export class WishListService{
       }
     });
   }
-
-
-
-
-
 
   deleteWishListproduct(wishId: string, productId: string, nomeProdotto: string){
     this.popUpService.operazione = 3

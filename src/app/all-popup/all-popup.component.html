@@ -345,7 +345,7 @@
 
 </div>
 
-<div class="container-fluidoss regLog" *ngIf="popUpService.wichComponent === 8" [ngClass]="{'Add': popUpService.isAdd}">
+<div class="container-fluidosst regLog" *ngIf="popUpService.wichComponent === 8" [ngClass]="{'Add': popUpService.isAdd}">
   <div class="form-group d-flex flex-column align-items-center">
     <div class="d-flex flex-column align-items-center">
       <h1 class="accediLabel">Cambia password</h1>
@@ -528,7 +528,7 @@
   </div>
 
   <div class="d-flex flex-column align-items-center">
-    <button class="btn btn-dark custom-btn al" id="confirm" (click)="this.userService.sendOTP()" [disabled]="!this.userService.lunghezzaCodice">Conferma</button>
+    <button class="btn btn-dark custom-btn al" id="confirm" (click)="openChangePassword()" [disabled]="!this.userService.lunghezzaCodice">Conferma</button>
   </div>
 </div>
 

@@ -36,7 +36,7 @@ export class AddressService implements OnInit{
   private getAddressNamesURL = 'http://localhost:8090/user-api/addresses';
 
 
-  constructor(private userService: UserService, private router: Router, private popUp: PopupService, private http: HttpClient, private keycloakService: KeyCloakService, private formService: FormService) {
+  constructor(private router: Router, private popUp: PopupService, private http: HttpClient, private keycloakService: KeyCloakService, private formService: FormService) {
     this.formCaesarzon = formService.getForm();
   }
 

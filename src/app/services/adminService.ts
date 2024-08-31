@@ -48,6 +48,7 @@ export class AdminService {
   image!: SafeUrl
 
   reviewId!: string;
+  reportId!: string;
 
   //Definizione degli arrays
   users: UserSearch[] = []
@@ -174,11 +175,10 @@ export class AdminService {
   }
 
 
-  deleteReport(reviewId: string, accept: boolean){
+  deleteReport(accept: boolean){
     const headers = this.keycloakService.permaHeader()
-    const urlWithParams = `${this.reportAdminURL}?review_id=${reviewId}&accept=${accept}`;
+    const urlWithParams = `${this.reportAdminURL}?report-id=${this.reportId}&accept=${accept}`;
     return this.http.delete<string>(urlWithParams, {headers, responseType: "text" as 'json'});
-
   }
 
 
@@ -290,7 +290,7 @@ export class AdminService {
 
   getUsers(caricaAltro: boolean) {
     if (caricaAltro) {
-      this.numeroPagineUtenti += 1;
+      this.numeroPagineUtenti += 20;
     }
 
     const customURL = this.getUsersUrl + "?str=" + this.numeroPagineUtenti;
