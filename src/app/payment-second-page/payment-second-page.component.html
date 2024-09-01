@@ -19,45 +19,24 @@
               <div class="feed-item-list">
                 <div>
                   <h5 class="font-size-16 mb-1">Specifiche per la spedizione</h5>
-                  <p class="text-muted text-truncate mb-4">Seleziona un indirizzo registrato</p>
-                  <div class="mb-3">
+                  <p class="text-muted text-truncate mb-4">Invia a</p>
+
+                  <div *ngIf="addressService.addresses.length === 0">
+                    <button type="button" class="btn btn-dark custom-btn mr-5" (click)="this.popUp.openPopups(6, true)">Aggiungi nuovo indirizzo</button>
+                  </div>
+
+                  <div *ngIf="addressService.addresses && addressService.addresses.length > 0 " class="mb-3">
                     <div class="row">
-                      <div class="col-lg-4 col-sm-6">
-                        <div data-bs-toggle="collapse">
-                          <label class="card-radio-label mb-0">
-                            <input type="radio" name="address" id="info-address1" class="address-radio-input" checked="">
-                            <div class="card-radio text-truncate p-3">
-                              <span class="fs-14 mb-4 d-block">Indirizzo 1</span>
-                              <span class="fs-14 mb-2 d-block">Via Roma</span>
-                              <span class="text-muted fw-normal text-wrap mb-1 d-block">104, Verona, Italia</span>
-
-                              <span class="text-muted fw-normal d-block">CAP 012-345-6789</span>
-                            </div>
+                      <div class="col-lg-4 col-sm-6" *ngFor="let address of addressService.addresses; let i = index">
+                        <div  class="card-radio-label mb-0">
+                          <label class="card-radio text-truncate p-3">
+                            <input type="radio" name="selectedAddress" (click)="cartService.takeAddressId(i)">
+                            <span class="fs-14 mb-2 d-block">{{keyCloak.getNomeUtente()}} {{keyCloak.getCognomeNomeUtente()}}</span>
+                            <span class="fs-14 mb-2 d-block">{{ address?.roadName }}</span>
+                            <span class="fs-14 mb-2 d-block">{{ address?.houseNumber }}</span>
+                            <span class="text-muted fw-normal text-wrap mb-1 d-block">{{ address?.city?.city }}, {{ address?.city?.province }}</span>
+                            <span class="text-muted fw-normal d-block">CAP {{ address?.city?.cap }}</span>
                           </label>
-                          <div class="edit-btn bg-light  rounded">
-                            <a href="#" data-bs-toggle="tooltip" data-placement="top" title="" data-bs-original-title="Edit">
-                              <i class="bx bx-pencil font-size-16"></i>
-                            </a>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div class="col-lg-4 col-sm-6">
-                        <div>
-                          <label class="card-radio-label mb-0">
-                            <input type="radio" name="address" id="info-address2" class="address-radio-input" checked="">
-                            <div class="card-radio text-truncate p-3">
-                              <span class="fs-14 mb-4 d-block">Indirizzo 2</span>
-                              <span class="fs-14 mb-2 d-block">Via dalle Palle</span>
-                              <span class="text-muted fw-normal text-wrap mb-1 d-block">104104 Sborrandia, Spagna</span>
-                              <span class="text-muted fw-normal d-block">CAP 012-345-6789</span>
-                            </div>
-                          </label>
-                          <div class="edit-btn bg-light  rounded">
-                            <a href="#" data-bs-toggle="tooltip" data-placement="top" title="" data-bs-original-title="Edit">
-                              <i class="bx bx-pencil font-size-16"></i>
-                            </a>
-                          </div>
                         </div>
                       </div>
                     </div>
@@ -82,46 +61,25 @@
                   <p class="text-muted text-truncate mb-4">Seleziona un metodo di pagamento</p>
                 </div>
 
-                <div class="row">
-                  <div class="col-lg-4 col-sm-6">
-                    <div data-bs-toggle="collapse">
-                      <label class="card-radio-label mb-0">
-                        <input type="radio" name="payment" id="info-payment1" class="card-radio-input" checked="">
-                        <div class="card-radio text-truncate p-3">
-                          <span class="fs-14 mb-4 d-block">Carta 1</span>
-                          <span class="fs-14 mb-2 d-block">2831239124791</span>
-                          <span class="text-muted fw-normal text-wrap mb-1 d-block">Mario Rossi</span>
-                          <span class="text-muted fw-normal d-block">CVV 104</span>
-                        </div>
-                      </label>
-                      <div class="edit-btn bg-light  rounded">
-                        <a href="#" data-bs-toggle="tooltip" data-placement="top" title="" data-bs-original-title="Edit"><i class="bx bx-pencil font-size-16"></i>
-                        </a>
-                      </div>
-                    </div>
-                  </div>
+                <div *ngIf="cardService.cards.length === 0">
+                  <button type="button" class="btn btn-dark custom-btn mb-5" (click)="this.popUp.openPopups(7, true)">Aggiungi nuova carta</button>
+                </div>
 
-                  <div class="col-lg-4 col-sm-6">
-                    <div data-bs-toggle="collapse">
-                      <label class="card-radio-label mb-0">
-                        <input type="radio" name="payment" id="info-payment2" class="card-radio-input" checked="">
-                        <div class="card-radio text-truncate p-3">
-                          <span class="fs-14 mb-4 d-block">Carta 2</span>
-                          <span class="fs-14 mb-2 d-block">83271837298</span>
-                          <span class="text-muted fw-normal text-wrap mb-1 d-block">Gaia Bianchi</span>
-                          <span class="text-muted fw-normal d-block">CVV 208</span>
-                        </div>
+                <div *ngIf="cardService.cards && cardService.cards.length > 0" class="row">
+                  <div class="col-lg-4 col-sm-6" *ngFor="let card of cardService.cards; let i = index">
+                    <div class="card-radio-label mb-0">
+                      <label class="card-radio text-truncate p-3">
+                        <input type="radio" name="selectedCard" [(ngModel)]="cartService.selectedCardId" [value]="card.id" (click)="cartService.takeCardId(i)">
+                        <span class="fs-14 mb-2 d-block">{{ card.owner }}</span>
+                        <span class="fs-14 mb-2 d-block">{{ card.cardNumber }}</span>
+                        <span class="text-muted fw-normal text-wrap mb-1 d-block">{{ card.expiryDate }}</span>
                       </label>
-                      <div class="edit-btn bg-light  rounded">
-                        <a href="#" data-bs-toggle="tooltip" data-placement="top" title="" data-bs-original-title="Edit">
-                          <i class="bx bx-pencil font-size-16"></i>
-                        </a>
-                      </div>
+
                     </div>
                   </div>
 
                 </div>
-
+                <input class="checkout" type="checkbox" [(ngModel)]="cartService.payPal" (click)="cartService.changePay()">Paga con PayPal
               </div>
             </li>
           </ol>
@@ -135,8 +93,7 @@
         </div> <!-- end col -->
         <div class="col">
           <div class="text-end mt-2 mt-sm-0">
-            <a href="#" class="btn btn-success">
-              <i class="mdi mdi-cart-outline me-1"></i> Procedi </a>
+            <button class="btn btn-dark custom-btn" (click)="pay()">Procedi al pagamento</button>
           </div>
         </div> <!-- end col -->
       </div> <!-- end row-->
@@ -145,7 +102,7 @@
       <div class="card checkout-order-summary">
         <div class="card-body">
           <div class="p-3 bg-light mb-3">
-            <h5 class="font-size-16 mb-0">Riepilogo ordine <span class="float-end ms-2">#MN0124</span></h5>
+            <h5 class="font-size-16 mb-0">Riepilogo ordine</h5>
           </div>
           <div class="table-responsive">
             <table class="table table-centered mb-0 table-nowrap">
@@ -156,58 +113,38 @@
               </tr>
               </thead>
               <tbody>
-              <tr>
+              <tr *ngFor="let cartProduct of cartService.productInCart; let i = index">
                 <td>
-                  <h5 class="font-size-16 text-truncate"><a href="#" class="text-dark">Waterproof Mobile Phone</a></h5>
-                  <p class="text-muted mb-0">
-                    <i class="bx bxs-star text-warning"></i>
-                    <i class="bx bxs-star text-warning"></i>
-                    <i class="bx bxs-star text-warning"></i>
-                    <i class="bx bxs-star text-warning"></i>
-                    <i class="bx bxs-star-half text-warning"></i>
-                  </p>
-                  <p class="text-muted mb-0 mt-1">$ 260 x 2</p>
+                  <h5 class="font-size-16 text-truncate"><a href="#" class="text-dark">{{cartProduct.name}}</a></h5>
+                  <p class="text-muted mb-0 mt-1">{{cartProduct.total}} | {{cartProduct.size}} x {{cartProduct.quantity}}</p>
                 </td>
-                <td>$ 520</td>
-              </tr>
-              <tr>
-                <td>
-                  <h5 class="font-size-16 text-truncate"><a href="#" class="text-dark">Smartphone Dual Camera</a></h5>
-                  <p class="text-muted mb-0">
-                    <i class="bx bxs-star text-warning"></i>
-                    <i class="bx bxs-star text-warning"></i>
-                    <i class="bx bxs-star text-warning"></i>
-                    <i class="bx bxs-star text-warning"></i>
-                  </p>
-                  <p class="text-muted mb-0 mt-1">$ 260 x 1</p>
-                </td>
-                <td>$260</td>
+                <td>{{cartProduct.total}}</td>
               </tr>
               <tr>
                 <td colspan="1">
                   <h5 class="font-size-14 m-0">Totale senza sconto :</h5>
                 </td>
-                <td>€ 780</td>
+                <td>€ {{cartService.totaleSenzaSconto}}</td>
               </tr>
               <tr>
                 <td colspan="1">
                   <h5 class="font-size-14 m-0">Sconto :</h5>
                 </td>
-                <td>- € 78</td>
+                <td>- € {{getRoundedDifference()}}</td>
               </tr>
 
               <tr>
                 <td colspan="1">
                   <h5 class="font-size-14 m-0">Costi di spedizione :</h5>
                 </td>
-                <td>€ 25</td>
+                <td>€ 5</td>
               </tr>
 
               <tr class="bg-light">
                 <td colspan="1">
                   <h5 class="font-size-14 m-0">Totale:</h5>
                 </td>
-                <td>€ 745.2</td>
+                <td>€ {{getRoundedTotal()}}</td>
               </tr>
               </tbody>
             </table>

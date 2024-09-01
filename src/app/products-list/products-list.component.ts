@@ -1,22 +1,28 @@
-import { Component } from '@angular/core';
-import {ActivatedRoute, Router} from "@angular/router";
+import {Component, OnInit} from '@angular/core';
+import { Router} from "@angular/router";
+import {ProductService} from "../services/productService";
+import {max, min} from "rxjs";
+import {KeyCloakService} from "../services/keyCloakService";
 
 @Component({
   selector: 'app-products-list',
   templateUrl: './products-list.component.html',
-  styleUrl: './products-list.component.css'
+  styleUrls: ['./products-list.component.css', '../../styles.css']
+
 })
-export class ProductsListComponent {
+export class ProductsListComponent implements OnInit{
 
-  constructor(private route: ActivatedRoute, private router: Router) {
+
+  constructor(protected productService: ProductService, private keyCloak: KeyCloakService) {
+
   }
 
-  goToHomepage(id: number) {
-    this.router.navigate(['/homepage/']);
+  ngOnInit(): void {
+    this.keyCloak.getNotify().subscribe(notifies => {
+      this.keyCloak.notifications = notifies;
+    })
   }
 
-  reload(event: Event): void {
-    window.location.reload()
-    event.preventDefault()
-  }
+  protected readonly min = min;
+  protected readonly max = max;
 }

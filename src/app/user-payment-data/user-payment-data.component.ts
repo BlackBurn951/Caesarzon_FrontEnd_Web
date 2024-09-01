@@ -2,6 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {PopupService} from "../services/popUpService";
 import {CardsService} from "../services/cardsService";
 import {Card} from "../entities/Card";
+import {KeyCloakService} from "../services/keyCloakService";
+import {ProductService} from "../services/productService";
 
 @Component({
   selector: 'app-user-payment-data',
@@ -14,10 +16,22 @@ export class UserPaymentDataComponent implements OnInit{
   constructor(
     public popUpService: PopupService,
     protected cardService: CardsService,
+    protected keyCloak: KeyCloakService,
+    private productService: ProductService
   ) { }
 
   ngOnInit() {
     this.cardService.getCardsName()
+    this.keyCloak.getNotify().subscribe(notifies => {
+      this.keyCloak.notifications = notifies;
+    })
+    this.productService.ricerca =""
+
+  }
+
+  formatCardNumber(cardNumber: string | undefined): any{
+    if(cardNumber)
+    return cardNumber.replace(/(\d{4})(?=\d)/g, '$1-');
   }
 
   loadCards(nameLista: string): void {
@@ -31,8 +45,9 @@ export class UserPaymentDataComponent implements OnInit{
     );
   }
   deleteCard(){
-    this.popUpService.updateStringa("Sei sicuro di voler eliminare: " + this.cardService.nomeCarta + "?")
-    this.popUpService.openPopups(12, false);
+    this.popUpService.operazione = 2
+    this.popUpService.updateStringa("Sei sicuro di voler eliminare: " + this.cardService.cardsMap[this.cardService.nomeCarta] + "?")
+    this.popUpService.openPopups(104, false);
   }
 
 

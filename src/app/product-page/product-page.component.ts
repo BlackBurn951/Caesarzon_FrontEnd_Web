@@ -1,40 +1,125 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {PopupService} from "../services/popUpService";
-import {Router} from "@angular/router";
 import {KeyCloakService} from "../services/keyCloakService";
+import {ProductService} from "../services/productService";
+import {AdminService} from "../services/adminService";
+import {WishListService} from "../services/wishListService";
+import {CartService} from "../services/cartService";
+import {UserService} from "../services/userService";
 
 @Component({
   selector: 'app-product-page',
   templateUrl: './product-page.component.html',
   styleUrls: ['./product-page.component.css', '../../styles.css']
 })
-export class ProductPageComponent {
+export class ProductPageComponent implements OnInit{
 
-  constructor(protected keyCloak: KeyCloakService, public popUpService:PopupService, private router:Router) {
+  date: Date = new Date();
+
+  day: number = 0
+  month: number = 0
+  year: number = 0
+  constructor(private cartService:CartService, private wishListService: WishListService, protected adminService: AdminService ,protected keyCloak: KeyCloakService, public popUpService:PopupService, protected productService: ProductService) {
+  }
+
+  resetVariables(){
+    this.day = 0
+    this.month = 0
+    this.year = 0
+    this.date = new Date()
   }
 
   ngOnInit() {
-    const can= document.getElementById("5-star-graph") as HTMLCanvasElement
-    const context = can.getContext('2d');
+    this.resetVariables()
+    this.setDataSpedizione()
 
-    this.drawGraphs(context!)
+    this.productService.prendiDatiProdotto(this.productService.getProductIdInCache())
 
-  }
-
-  instaBuy(event: Event){
-    this.router.navigate(['payment-first-page']);
-    event.preventDefault()
+    this.keyCloak.getNotify().subscribe(notifies => {
+      this.keyCloak.notifications = notifies;
+    })
 
   }
 
-  drawGraphs(ctx: CanvasRenderingContext2D) {
-    // Ora puoi disegnare sul canvas utilizzando il contesto 2D
-    if (ctx) {
-      // Esempio di disegno di un rettangolo rosso sul canvas
-      ctx.fillStyle = 'red';
-      ctx.fillRect(10, 10, 100, 100);
-    } else {
-      console.error('Impossibile ottenere il contesto 2D per il canvas.');
+  eliminaRecensione(idRecensione: string, username: string){
+    this.productService.reviewId = idRecensione
+    this.popUpService.operazione = 13
+    this.popUpService.updateStringa("Sei sicuro di voler eliminare la tua recensione?")
+
+    this.popUpService.openPopups(124, false)
+  }
+
+  rimozioneProdotto(){
+    this.popUpService.operazione = 12
+    if(this.productService.prodotto != null) {
+      this.popUpService.updateStringa("Sei sicuro di voler eliminare il prodotto: "+ this.productService.prodotto.name + "?")
     }
+    this.popUpService.openPopups(124, false)
+  }
+
+  updateQuantity(event: Event) {
+    const selectElement = event.target as HTMLSelectElement;
+    this.cartService.quantity = parseInt(selectElement.value, 10);
+  }
+
+  updateSize(event: Event) {
+    const selectElement = event.target as HTMLSelectElement;
+    this.cartService.size = selectElement.value;
+  }
+
+  addProductToCart(num: number){
+    if(num === 0)
+      this.productService.acquistoRapido = false
+    else{
+      this.productService.acquistoRapido = true
+    }
+
+    this.cartService.clearCampi()
+    if (!this.keyCloak.getLoggedStatus() || this.keyCloak.getUsername() === "Guest"){
+      this.keyCloak.loading = false
+      this.popUpService.openPopups(3, true)
+    }else{
+      if(this.productService.prodotto != null){
+
+        this.cartService.productIdToAddCart = this.productService.prodotto.id
+        if(this.cartService.size === "" && this.productService.prodotto.is_clothing){
+          this.popUpService.updateStringa("Seleziona la taglia desiderata")
+          this.popUpService.openPopups(23432, true)
+        }else{
+          this.cartService.addProductCart(num)
+        }
+      }
+
+
+    }
+
+  }
+
+  addProductWishList(){
+    if(this.productService.prodotto != null) {
+      this.wishListService.productIdToAdd = this.productService.prodotto.id;
+    }
+    this.wishListService.getAllUserWishLists().subscribe(a => {
+      this.wishListService.wishLists = a
+    })
+    this.popUpService.openPopups(5, true)
+  }
+
+
+
+  segnala(usernameDaSegnalare: string, reviwID: string){
+    this.adminService.usernameSegnalato = usernameDaSegnalare;
+    this.adminService.reviewId = reviwID
+    this.popUpService.openPopups(1, true)
+  }
+
+
+
+  setDataSpedizione() {
+    this.date.setDate(this.date.getDate() + 5);
+
+    this.day= this.date.getDay()
+    this.month= this.date.getMonth()
+    this.year= this.date.getFullYear()
   }
 }

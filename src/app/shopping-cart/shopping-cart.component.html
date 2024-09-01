@@ -6,216 +6,102 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pagina prodotto</title>
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-
 </head>
 
 <body>
-    <div class="container-fluid">
-      <div class="row">
+<div class="container-fluid py-5">
+  <div class="row">
 
-        <div class="col-md-9">  <!--LISTA DEI PRODOTTI-->
-          <div class="row">
-            <p class="label-containers">Carrello</p>
+    <!-- SEZIONE PRODOTTI -->
+    <div class="col-lg-8">
 
-            <div class="container left-containers ml-2">  <!-- CARRELLO -->
-              <div class="form-check">
-                <div class="row mt-2">
-                  <div class="col">
-                    <div class="row product-row">  <!--RIGA DEL SINGOLO PRODOTTO -->
-                      <div class="col-5 align-content-center">
-                        <p>Immagine prod</p>
-                      </div>
-
-                      <div class="col">
-                        <div class="row">
-                          <p>Nome prod</p>
-                        </div>
-                        <div class="row">
-                          <div class="col-3 pl-0">
-                            <p>Quantità</p>
-                          </div>
-                          <div class="col-1 pl-0">
-                            <select name ="quantity-selection" id="quantity">
-                              <option value="1">1</option>
-                              <option value="2">2</option>
-                              <option value="3">3</option>
-                              <option value="4">4</option>
-                              <option value="5">5</option>
-                              <option value="6">6</option>
-                              <option value="7">7</option>
-                              <option value="8">8</option>
-                              <option value="9">9</option>
-                              <option value="10">10</option>
-                            </select>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <a href="#">Acquista più tardi</a>
-                        </div>
-                        <div class="row mt-2">
-                          <input class="form-check-input" type="checkbox" value="in-cart" id="flexCheckDefaults" checked>
-                          <label class="form-check-label" for="flexCheckDefaults">
-                            Nel ordine
-                          </label>
-                        </div>
-                        <div class="row mt-2">
-                          <a href="#">Rimuovi</a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col">
-                    <div class="row product-row">  <!--RIGA DEL SINGOLO PRODOTTO -->
-                      <div class="col-5 align-content-center">
-                        <p>Immagine prod</p>
-                      </div>
-
-                      <div class="col">
-                        <div class="row">
-                          <p>Nome prod</p>
-                        </div>
-                        <div class="row">
-                          <div class="col-3 pl-0">
-                            <p>Quantità</p>
-                          </div>
-                          <div class="col-1 pl-0">
-                            <select name ="quantity-selection">
-                              <option value="1">1</option>
-                              <option value="2">2</option>
-                              <option value="3">3</option>
-                              <option value="4">4</option>
-                              <option value="5">5</option>
-                              <option value="6">6</option>
-                              <option value="7">7</option>
-                              <option value="8">8</option>
-                              <option value="9">9</option>
-                              <option value="10">10</option>
-                            </select>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <a href="#">Acquista più tardi</a>
-                        </div>
-                        <div class="row mt-2">
-                          <input class="form-check-input" type="checkbox" value="in-cart" id="flexCheckDefault"  checked>
-                          <label class="form-check-label" for="flexCheckDefault">
-                            Nel ordine
-                          </label>
-                        </div>
-                        <div class="row mt-2">
-                          <a href="#">Rimuovi</a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+      <!-- CARRELLO -->
+      <div class="section">
+        <h2 class="section-title">Carrello</h2>
+         <div class="product-list" *ngIf="cartService.productInCart.length === 0">
+           <h4 class="section-title">Non hai ancora aggiunto prodotti al carrello</h4>
+         </div>
+        <div class="product-list" *ngIf="cartService.productInCart.length > 0">
+          <div class="product-card" *ngFor="let item of cartService.productInCart; let i = index">
+            <img class="preview mt-2 ml-1" [src]="item.image" alt="" style="width: 150px; height: 150px">
+            <div class="product-details">
+              <h5 class="product-name onome" (click)="this.productService.prendiDatiProdotto(item.id)">{{item.name}}</h5>
+              <div class="product-info">
+                <div class="info-group">
+                  <label>Quantità:</label>
+                  <select class="form-control quantity-select" [(ngModel)]="item.quantity" (change)="onQuantityChange(item)">
+                    <option *ngFor="let qty of quantities" [value]="qty">{{qty}}</option>
+                  </select>
+                </div>
+                <div class="info-group" *ngIf="item.size">
+                  <label>Taglia:</label>
+                  <select class="form-control size-select" [(ngModel)]="item.size" (change)="onSizeChange(item)">
+                    <option *ngFor="let size of sizes" [value]="size">{{size}}</option>
+                  </select>
+                </div>
+                <div class="info-group">
+                  <label>Prezzo:</label>
+                  <p class="product-price">{{item.total | currency:'EUR'}}</p>
                 </div>
               </div>
-            </div>
-          </div>
-
-          <div class="row">
-            <p class="label-containers">Acquista più tardi</p>
-            <div class="container left-containers mb-2 ml-2">  <!-- ACQUISTA PIù TARDI -->
-              <div class="row mt-2">
-                <div class="col">
-                  <div class="row product-row">  <!--RIGA DEL SINGOLO PRODOTTO -->
-                    <div class="col-5 align-content-center">
-                      <p>Immagine prod</p>
-                    </div>
-
-                    <div class="col">
-                      <div class="row">
-                        <p>Nome prod</p>
-                      </div>
-                      <div class="row">
-                        <div class="col-3 pl-0">
-                          <p>Quantità</p>
-                        </div>
-                        <div class="col-1 pl-0">
-                          <select name ="quantity-selection" >
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                            <option value="6">6</option>
-                            <option value="7">7</option>
-                            <option value="8">8</option>
-                            <option value="9">9</option>
-                            <option value="10">10</option>
-                          </select>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <a href="#">Metti nel carrello</a>
-                      </div>
-                      <div class="row mt-2">
-                        <a href="#">Rimuovi</a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col">
-                  <div class="row product-row">  <!--RIGA DEL SINGOLO PRODOTTO -->
-                    <div class="col-5 align-content-center">
-                      <p>Immagine prod</p>
-                    </div>
-
-                    <div class="col">
-                      <div class="row">
-                        <p>Nome prod</p>
-                      </div>
-                      <div class="row">
-                        <div class="col-3 pl-0">
-                          <p>Quantità</p>
-                        </div>
-                        <div class="col-1 pl-0">
-                          <select name ="quantity-selection">
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                            <option value="6">6</option>
-                            <option value="7">7</option>
-                            <option value="8">8</option>
-                            <option value="9">9</option>
-                            <option value="10">10</option>
-                          </select>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <a href="#">Metti nel carrello</a>
-                      </div>
-                      <div class="row mt-2">
-                        <a href="#">Rimuovi</a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+              <div class="product-actions">
+                <button class="btn btn-link" (click)="salvaPerDopo(item.id)">Salva per dopo</button>
+                <button class="btn btn-link text-danger" (click)="rimuoviDalCarrello(item.id)">Rimuovi dal carrello</button>
               </div>
             </div>
           </div>
         </div>
+      </div>
 
-        <div class="col md mt-5">  <!--SEZIONE DI ACQUISTO-->
-
-          <div class="container container-total mt-5 mb-2">
-            <div class="row d-flex flex-column align-items-center mt-4">
-              <p class="para">Prodotti nel carrello 25</p>
-            </div>
-            <div class="row d-flex flex-column align-items-center">
-              <p class="para">Totale carrello 25</p>
-            </div>
-            <div class="row d-flex flex-column align-items-center">
-              <button type="button" class="btn btn-dark custom-btn mt-5 mb-2" (click)="goToPayment()">Acquista</button>
+      <!-- SALVATI PER DOPO -->
+      <div class="section mt-5" *ngIf="cartService.productLater.length > 0">
+        <h2 class="section-title">Salvati per dopo</h2>
+        <div class="product-list"  >
+          <div class="product-card" *ngFor="let item of cartService.productLater; let i = index">
+            <img class="preview mt-2 ml-1" [src]="item.image" alt="" style="width: 150px; height: 150px">
+            <div class="product-details">
+              <h5 class="product-name onome" (click)="this.productService.prendiDatiProdotto(item.id)">{{item.name}}</h5>
+              <div class="product-info">
+                <div class="info-group">
+                  <label>Prezzo:</label>
+                  <p class="product-price">{{item.total | currency:'EUR'}}</p>
+                </div>
+              </div>
+              <div class="product-actions">
+                <button class="btn btn-link" (click)="spostaNelCarrello(item.id)">Sposta nel carrello</button>
+                <button class="btn btn-link text-danger" (click)="rimuoviDaSalvati(item.id)">Rimuovi dal carrello</button>
+              </div>
             </div>
           </div>
-
         </div>
+      </div>
 
+    </div>
+
+    <!-- SEZIONE RIEPILOGO -->
+    <div class="col-lg-4" *ngIf="cartService.productInCart.length > 0">
+      <div class="summary-card">
+        <button class="btn btn-dark custom-btn mb-4 ml-5" (click)="this.cartService.confermaSvuotoCarrello()">Svuota carrello</button>
+
+        <h3>Totale carrello</h3>
+        <div class="summary-details">
+          <div class="summary-item">
+            <span>Prodotti nel carrello:</span>
+            <span>{{cartService.productInCart.length}}</span>
+          </div>
+          <div class="summary-item">
+            <span>Totale:</span>
+            <span>{{getTotalPrice() | currency:'EUR'}}</span>
+          </div>
+        </div>
+        <button class="btn btn-dark custom-btn mt-4 ml-5" (click)="this.cartService.goToPayment(0)">Procedi all'acquisto</button>
       </div>
     </div>
-</body>
 
+  </div>
+</div>
+</body>
+<footer>
+  <app-footer></app-footer>
+</footer>
 </html>

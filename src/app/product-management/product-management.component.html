@@ -9,7 +9,7 @@
 <body>
 
   <section>
-    <form [formGroup]="formCaesarzon" (ngSubmit)="aggiungiProdotto()">
+    <form [formGroup]="formCaesarzon" (ngSubmit)="this.productService.aggiungiProdotto()">
 
       <div class="container-fluid customContainer" formGroupName="formDeiProdotti">
 
@@ -74,22 +74,43 @@
         <div class="container-fluid d-flex flex-column align-items-center">
 
           <div class="form-group gruppo d-flex flex-column align-items-center">
-            <label for="coloreP">Colore primario</label>
-            <div class="d-flex flex-row align-items-center">
-              <input type="color" class="gruppoColor" id="color1" (change)="updateTone($event, 1)">
-              <input type="text" class="form-control gruppoInputs" id="coloreP" formControlName="coloreP" placeholder="{{tone}}" readonly>
-            </div>
-
+              <label for="coloreP">Colore primario:</label>
+              <select name="coloreP" class="form-select selectionIn btn btn-dark custom-bln" id="coloreP" formControlName="coloreP">
+                <option value="Rosso">Rosso</option>
+                <option value="Verde">Verde</option>
+                <option value="Blu">Blu</option>
+                <option value="Giallo">Giallo</option>
+                <option value="Arancione">Arancione</option>
+                <option value="Viola">Viola</option>
+                <option value="Rosa">Rosa</option>
+                <option value="Marrone">Marrone</option>
+                <option value="Grigio">Grigio</option>
+                <option value="Nero">Nero</option>
+                <option value="Bianco">Bianco</option>
+                <option value="Azzurro">Azzurro</option>
+                <option value="Oro">Oro</option>
+              </select>
           </div>
 
 
 
           <div class="form-group gruppo d-flex flex-column align-items-center">
-            <label for="coloreS">Colore secondario</label>
-            <div class="d-flex flex-row align-items-center">
-              <input type="color" class="gruppoColor" id="color2" (change)="updateTone($event, 104)">
-              <input type="text" class="form-control gruppoInputs" id="coloreS" formControlName="coloreS" placeholder="{{tone}}" readonly>
-            </div>
+            <label for="coloreS">Colore secondario:</label>
+            <select name="coloreS" class="form-select selectionIn btn btn-dark custom-bln" id="coloreS" formControlName="coloreS">
+              <option value="Rosso">Rosso</option>
+              <option value="Verde">Verde</option>
+              <option value="Blu">Blu</option>
+              <option value="Giallo">Giallo</option>
+              <option value="Arancione">Arancione</option>
+              <option value="Viola">Viola</option>
+              <option value="Rosa">Rosa</option>
+              <option value="Marrone">Marrone</option>
+              <option value="Grigio">Grigio</option>
+              <option value="Nero">Nero</option>
+              <option value="Bianco">Bianco</option>
+              <option value="Azzurro">Azzurro</option>
+              <option value="Oro">Oro</option>
+            </select>
           </div>
 
 
@@ -97,42 +118,46 @@
 
             <label for="sport">Sport</label>
             <select name="sport" class="form-select selectionIn btn btn-dark custom-bln" id="sport" formControlName="sport">
-              <option value="calcio">Calcio</option>
-              <option value="pallavolo">Pallavolo</option>
-              <option value="basket">Basket</option>
-              <option value="tennis">Tennis</option>
-              <option value="nuoto">Nuoto</option>
-              <option value="arti marziali">Arti marziali</option>
-              <option value="ciclismo">Ciclismo</option>
-              <option value="sciismo">Sciismo</option>
-              <option value="boxe">Boxe</option>
+              <option value="Calcio">Calcio</option>
+              <option value="Pallavolo">Pallavolo</option>
+              <option value="Basket">Basket</option>
+              <option value="Tennis">Tennis</option>
+              <option value="Nuoto">Nuoto</option>
+              <option value="Arti marziali">Arti marziali</option>
+              <option value="Ciclismo">Ciclismo</option>
+              <option value="Sci">Sci</option>
+              <option value="Boxe">Boxe</option>
             </select>
 
             <label for="categoria">Categoria</label>
             <select name="categoria" class="form-select selectionIn btn btn-dark custom-bln" id="categoria" formControlName="categoria">
-              <option value="abbigliamento">Abbigliamento</option>
-              <option value="attrezzature">Attrezzatura</option>
+              <option value="true">Abbigliamento</option>
+              <option value="false">Attrezzatura</option>
             </select>
 
           </div>
-          <div class="container-fluid d-flex flex-column align-items-center">
-            <h1>Carica immagini</h1>
-            <div class="container">
-              <div class="row">
-                <ng-container *ngFor="let index of [0, 1, 2, 3]">
-                  <div class="col-md-6 d-flex flex-column align-items-center">
-                    <div class="grid-item">
-                      <label class="grid-label d-flex flex-column align-items-center" for="file-input{{index}}" (click)="openFileInput($event, index)">
-                        <img *ngIf="imageUrls[index]" [src]="imageUrls[index]" alt="Uploaded Image" width="250px" height="150px">
-                        <span class="btn btn-dark custom-btn" *ngIf="!imageUrls[index]">Scegli file</span>
-                      </label>
-                      <input type="file" id="file-input{{index}}" accept="image/*" style="display: none" (change)="handleFileInput($event, index)">
+          <div class="container-fluid d-flex flex-column align-items-center ml-2">
+            <h1>Carica immagine</h1>
+
+            <ng-container>
+                  <div class="mr3">
+                    <div class="container">
+                      <div class="row">
+                        <div class="form-group">
+                          <div class="image-upload">
+                            <input type="file" style="display: none;" id="foto" accept="image/*" (change)="onFileSelected($event)">
+                            <div style="display: flex; flex-direction: column">
+                              <img id="preview" [src]="productService.imageUrl" alt="Carica immagine" width="300px" height="300px">
+                              <label for="foto" class="btn btn-dark custom-btn mt-3">Carica foto</label>
+                            </div>
+
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                    <span class="btn btn-dark custom-btn d-flex flex-column align-items-center o" *ngIf="imageUrls[index]" (click)="openFileInput($event, index)">Scegli un altro file</span>
                   </div>
                 </ng-container>
-              </div>
-            </div>
+
           </div>
 
         </div>
@@ -148,8 +173,8 @@
         </div>
 
         <div class="col-md d-flex flex-column align-items-center">
-          <label>Assicurati di aver caricato tutte le immagini</label>
-          <button type="submit" class="menu-item btn btn-dark custom-btn bottoneA" [disabled]="!formCaesarzon.get('formDeiProdotti')?.valid || !areImagesUploaded() || !productService.disponibilitaAggiunta">Aggiungi prodotto</button>
+          <label>Assicurati di aver caricato l'immagine</label>
+          <button  type="submit" class="menu-item btn btn-dark custom-btn bottoneA" [disabled]="!formCaesarzon.get('formDeiProdotti')?.valid || !productService.immagineCaricataModifica ||!productService.disponibilitaAggiunta">Aggiungi o modifica prodotto</button>
         </div>
       </div>
     </form>

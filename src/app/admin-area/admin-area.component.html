@@ -6,7 +6,6 @@
   <title>E-commerce</title>
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-
 </head>
 <body>
 <section class="d-flex flex-row align-items-center aldo">
@@ -16,7 +15,7 @@
 
   <div *ngIf="adminService.section === 0" class="container-fluid">
     <div class="search-container mb-2">
-      <input type="text" placeholder="Cerca utenti">
+      <input type="text" placeholder="Cerca utenti" [(ngModel)]="userSearchTerm">
     </div>
 
     <div class="container left-containers">
@@ -24,32 +23,29 @@
         <thead>
         <tr>
           <th class="text-center align-middle"></th>
-          <th class="text-center align-middle">Username</th>
+          <th class="text-center align-middle" (click)="sortUsers('username')">Username <i class="fas fa-sort"></i></th>
           <th class="text-center align-middle">Azioni</th>
         </tr>
         </thead>
         <tbody>
-        <ng-container *ngFor="let item of adminService.users; let i = index">
+        <ng-container *ngFor="let item of adminService.users | filter:userSearchTerm; let i = index">
           <tr>
             <td class="text-center align-middle">
-              <img [src]="item.safeImageUrl" alt="" width="50" height="50">
+              <img [src]="item.safeImageUrl" alt="" width="55px" height="55px">
             </td>
             <td class="text-center align-middle">{{ item.username }}</td>
             <td class="text-center align-middle">
               <div class="d-flex flex-row align-items-center justify-content-center">
-                <button class="btn-dark custom-btn effe" (click)="changePage('personal-data', item.username)">
+                <button class="btn-dark custom-btn effe" (click)="changePageAdmin('personal-data', item.username)">
                   <i class="fas fa-user iconsearch"></i>
                 </button>
-                <button class="btn-dark custom-btn effe ml-2" (click)="changePage('da-fare', item.username)">
+                <button class="btn-dark custom-btn effe ml-2" (click)="changePageAdmin('order-summary', item.username)">
                   <i class="fas fa-shopping-cart iconsearch"></i>
                 </button>
-                <button class="btn-dark custom-btn effe ml-2" (click)="changePage('wish-list', item.username)">
-                  <i class="fas fa-heart iconsearch"></i>
-                </button>
-                <button class="btn-dark custom-btn effe ml-2" (click)="changePage('address-data', item.username)">
+                <button class="btn-dark custom-btn effe ml-2" (click)="changePageAdmin('address-data', item.username)">
                   <i class="fas fa-map-marker-alt iconsearch"></i>
                 </button>
-                <button class="btn-dark custom-btn effe ml-2" (click)="changePage('payment-data', item.username)">
+                <button class="btn-dark custom-btn effe ml-2" (click)="changePageAdmin('payment-data', item.username)">
                   <i class="fas fa-credit-card iconsearch"></i>
                 </button>
               </div>
@@ -58,78 +54,84 @@
         </ng-container>
         </tbody>
       </table>
+      <div class="text-center">
+        <button *ngIf="adminService.users.length === 20" class="btn-dark custom-btn effes mb-3" (click)="this.adminService.getUsers(true)">Carica altro</button>
+      </div>
     </div>
   </div>
 
-
-
-
-
-
-
   <div *ngIf="adminService.section === 1" class="container-fluid">
     <h1 class="title text-center centra">SEGNALAZIONI</h1>
+    <div class="search-container mb-2">
+      <input type="text" placeholder="Cerca segnalazioni" [(ngModel)]="reportSearchTerm">
+    </div>
     <div class="container left-containers">
       <table class="table table-bordered">
         <thead>
         <tr>
-          <th class="text-center align-middle">Codice segnalazione</th>
-          <th class="text-center align-middle">Utente segnalato</th>
-          <th class="text-center align-middle">Motivazione</th>
-          <th class="text-center align-middle">Data segnalazione</th>
+          <th class="text-center align-middle">Tipo segnalazione <i class="fas fa-sort"></i></th>
+          <th class="text-center align-middle" (click)="sortReports('usernameUser2')">Utente segnalato <i class="fas fa-sort"></i></th>
+          <th class="text-center align-middle" (click)="sortReports('reason')">Motivazione <i class="fas fa-sort"></i></th>
+          <th class="text-center align-middle" (click)="sortReports('description')">Descrizione <i class="fas fa-sort"></i></th>
+          <th class="text-center align-middle" (click)="sortReports('reportDate')">Data segnalazione <i class="fas fa-sort"></i></th>
           <th class="text-center align-middle">Azioni</th>
         </tr>
         </thead>
         <tbody>
-        <ng-container *ngFor="let item of adminService.reports; let i = index">
+        <ng-container *ngFor="let item of adminService.reports | filter:reportSearchTerm; let i = index">
           <tr>
-            <td class="text-center align-middle">{{ item.reportCode }}</td>
+            <td class="text-center align-middle">Recensione segnalata</td>
             <td class="text-center align-middle">{{ item.usernameUser2 }}</td>
             <td class="text-center align-middle">{{ item.reason }}</td>
-            <td class="text-center align-middle">{{ item.reportDate}}</td>
+            <td class="text-center align-middle">{{ item.description }}</td>
+            <td class="text-center align-middle">{{ item.reportDate }}</td>
             <td class="text-center align-middle">
               <div class="d-flex flex-row align-items-center justify-content-center">
-                <button class="btn-dark custom-btn effes" (click)="bannaUtente(i)">
-                  <p class="fas fa-check icon-small"> Banna</p>
+                <button class="btn-dark custom-btn effes" (click)="accetta(item.id, i)">
+                  <p class="fas fa-check icon-small">Accetta</p>
                 </button>
-                <button class="btn-dark custom-btn effes ml-2" (click)="scartaSegnalazione(i)">
-                  <p class="fas fa-ban icon-small"> Scarta</p>
+                <button class="btn-dark custom-btn effes ml-2" (click)="scartaSegnalazione(item.id, i)">
+                  <p class="fas fa-ban icon-small">Scarta</p>
                 </button>
                 <button class="btn-dark custom-btn effes ml-2" (click)="toggleCollapse(i)">
-                  <p class="fas fa-arrow-down icon-small mt-0"> Descrizione</p>
+                  <p class="fas fa-arrow-down icon-small mt-0">Recensione</p>
                 </button>
               </div>
             </td>
           </tr>
           <tr *ngIf="isCollapsed[i]">
-            <td class="text-center align-middle" colspan="4">{{ item.description }}</td>
+            <td class="text-center align-middle" colspan="4">Testo recensione: {{ item.reviewText }}</td>
           </tr>
         </ng-container>
         </tbody>
       </table>
+      <div class="text-center">
+        <button *ngIf="adminService.reports.length === 20" class="btn-dark custom-btn effes mb-3" (click)="this.adminService.getReports(true)">Carica altro</button>
+      </div>
     </div>
   </div>
 
   <div *ngIf="adminService.section === 2" class="container-fluid">
     <h1 class="title text-center centra">RICHIESTE ASSISTENZA</h1>
+    <div class="search-container mb-2">
+      <input type="text" placeholder="Cerca richieste supporto" [(ngModel)]="supportSearchTerm">
+    </div>
     <div class="container left-containers">
       <table class="table table-bordered">
         <thead>
         <tr>
-          <th class="text-center align-middle">Codice richiesta</th>
-          <th class="text-center align-middle">Utente</th>
-          <th class="text-center align-middle">Tipo</th>
-          <th class="text-center align-middle">Data richiesta</th>
+          <th class="text-center align-middle" (click)="sortSupports('username')">Utente <i class="fas fa-sort"></i></th>
+          <th class="text-center align-middle" (click)="sortSupports('type')">Tipo <i class="fas fa-sort"></i></th>
+          <th class="text-center align-middle" (click)="sortSupports('dateRequest')">Data richiesta <i class="fas fa-sort"></i></th>
           <th class="text-center align-middle">Azioni</th>
         </tr>
         </thead>
         <tbody>
-        <ng-container *ngFor="let item of adminService.supports; let i = index">
+        <ng-container *ngFor="let item of adminService.supports | filter:supportSearchTerm; let i = index">
           <tr>
-            <td class="text-center align-middle">{{ item.supportCode}}</td>
             <td class="text-center align-middle">{{ item.username }}</td>
-            <td class="text-center align-middle">{{ item.type}}</td>
-            <td class="text-center align-middle">{{ item.dateRequest}}</td>
+            <td class="text-center align-middle">{{ item.type }}</td>
+            <td class="text-center align-middle">{{ item.dateRequest }}</td>
             <td class="text-center align-middle">
               <div class="d-flex flex-row align-items-center justify-content-center">
                 <button class="btn-dark custom-btn effes" (click)="inviaRisposta(i)">
@@ -142,60 +144,62 @@
             </td>
           </tr>
           <tr *ngIf="isCollapsed[i]">
-            <td class="text-center align-middle" colspan="4">{{ item.text }}</td>
+            <td class="text-center align-middle" colspan="4">
+              <strong>Oggetto:</strong> {{ item.subject }}
+              <strong>Descrizione:</strong> {{ item.text }}
+            </td>
           </tr>
         </ng-container>
         </tbody>
       </table>
+      <div class="text-center">
+        <button *ngIf="adminService.supports.length === 20"class="btn-dark custom-btn effes mb-3" (click)="this.adminService.getSupports(true)">Carica altro</button>
+      </div>
     </div>
   </div>
 
-
   <div *ngIf="adminService.section === 3" class="container-fluid">
     <h1 class="title text-center centra">UTENTI BANNATI</h1>
+    <div class="search-container mb-2">
+      <input type="text" placeholder="Cerca utenti bannati" [(ngModel)]="banSearchTerm">
+    </div>
     <div class="container left-containers">
       <table class="table table-bordered">
         <thead>
         <tr>
-          <th class="text-center align-middle">Data ban</th>
-          <th class="text-center align-middle">Utente bannato</th>
-          <th class="text-center align-middle">Motivazione</th>
+          <th class="text-center align-middle" (click)="sortBans('startDate')">Data ban <i class="fas fa-sort"></i></th>
+          <th class="text-center align-middle" (click)="sortBans('userUsername')">Utente bannato <i class="fas fa-sort"></i></th>
+          <th class="text-center align-middle" (click)="sortBans('adminUsername')">Operatore <i class="fas fa-sort"></i></th>
+          <th class="text-center align-middle" (click)="sortBans('reason')">Motivazione <i class="fas fa-sort"></i></th>
           <th class="text-center align-middle">Azioni</th>
         </tr>
         </thead>
         <tbody>
-        <ng-container *ngFor="let item of adminService.bans; let i = index">
+        <ng-container *ngFor="let item of adminService.bans | filter:banSearchTerm; let i = index">
           <tr>
-            <td class="text-center align-middle">{{ item.data}}</td>
-            <td class="text-center align-middle">{{ item.username }}</td>
-            <td class="text-center align-middle">{{ item.motivo }}</td>
+            <td class="text-center align-middle">{{ item.startDate }}</td>
+            <td class="text-center align-middle">{{ item.userUsername }}</td>
+            <td class="text-center align-middle">{{ item.adminUsername }}</td>
+            <td class="text-center align-middle">{{ item.reason }}</td>
             <td class="text-center align-middle">
               <div class="d-flex flex-row align-items-center justify-content-center">
-                <button class="btn-dark custom-btn effes" (click)="rimuoviBan(i)">
+                <button class="btn-dark custom-btn effes" (click)="rimuoviBan(item.userUsername)">
                   <p class="fas fa-ban icon-small"> Rimuovi ban</p>
-                </button>
-                <button class="btn-dark custom-btn effes ml-2" (click)="toggleCollapse(i)">
-                  <p class="fas fa-arrow-down icon-small mt-0"> Descrizione</p>
                 </button>
               </div>
             </td>
           </tr>
-          <tr *ngIf="isCollapsed[i]">
-            <td class="text-center align-middle" colspan="4">{{ item.descrizioneban }}</td>
-          </tr>
         </ng-container>
         </tbody>
       </table>
+      <div class="text-center">
+        <button *ngIf="adminService.bans.length === 20" class="btn-dark custom-btn effes mb-3" (click)="this.adminService.getBans(true)">Carica altro</button>
+      </div>
     </div>
   </div>
-
 </section>
-
-
 </body>
 <footer>
   <app-footer></app-footer>
 </footer>
-
 </html>
-

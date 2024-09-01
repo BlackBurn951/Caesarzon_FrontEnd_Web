@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
-import {Router} from "@angular/router";
+import {Component, OnInit} from '@angular/core';
+import {Event, Router} from "@angular/router";
+import {KeyCloakService} from "../services/keyCloakService";
 
 @Component({
   selector: 'app-footer',
@@ -8,13 +9,18 @@ import {Router} from "@angular/router";
   templateUrl: './footer.component.html',
   styleUrl: './footer.component.css'
 })
-export class FooterComponent {
+export class FooterComponent implements OnInit{
 
-  constructor( private router: Router) {
+  constructor( private keyCloak: KeyCloakService, private router: Router) {
   }
 
-  goToHelpRequests(event: Event)  {
+  goToHelpRequests()  {
     this.router.navigate(['help-request']);
-    event.preventDefault()
+  }
+
+  ngOnInit(): void {
+    this.keyCloak.getNotify().subscribe(notifies => {
+      this.keyCloak.notifications = notifies;
+    })
   }
 }

@@ -13,44 +13,57 @@
   </div>
   <div class="container-fluid d-flex flex-column align-items-center aldo">
     <h1 class="title">INDIRIZZI DI CONSEGNA</h1>
-    <div class="form-group d-flex flex-column align-items-center aldos">
+
+    <div *ngIf="addressService.addressesName && addressService.addressesName.length > 0" class="form-group d-flex flex-column align-items-center aldos">
       <label>Seleziona un indirizzo:</label>
       <select class="form-select selectionIn btn btn-dark custom-bln" (change)="onAddressChange($event)">
-        <option *ngFor="let address of addressService.addressesName" [value]="address">{{address}}</option>
+        <option *ngFor="let addressId of addressService?.addressesName" [value]="addressId">
+          {{ addressService.addressMap[addressId] }}
+        </option>
       </select>
     </div>
+
+    <div *ngIf="addressService.addressesName  && addressService.addressesName .length === 0 && !this.keyCloak.getAdmin()" class="form-group d-flex flex-column align-items-center aldos">
+      <label>Non hai ancora aggiunto un indirizzo</label>
+    </div>
+
+    <div *ngIf="addressService.addressesName  && addressService.addressesName .length === 0 && this.keyCloak.getAdmin()" class="form-group d-flex flex-column align-items-center aldos">
+      <label>L'utente non ha ancora ancora aggiunto un indirizzo</label>
+    </div>
+
+
     <section class="form-group d-flex flex-column align-items-center">
       <div class="d-flex flex-column align-items-center">
         <div class="d-flex flex-row align-items-center">
           <div class="form-group ml-3">
             <label for="streetName">Tipo strada:</label>
-            <input type="text" class="form-control textBoxAggiunta" id="streetType" [placeholder]="addressService.indirizzoCorrente?.roadType" readonly>
+            <input type="text" class="form-control textBoxAggiunta" id="streetType" [placeholder]="addressService.indirizzoCorrente?.roadType ?? ''" readonly>
           </div>
           <div class="form-group ml-3">
             <label for="streetName">Nome strada:</label>
-            <input type="text" class="form-control textBoxAggiunta" id="streetName" [placeholder]="addressService.indirizzoCorrente?.roadName" readonly>
+            <input type="text" class="form-control textBoxAggiunta" id="streetName" [placeholder]="addressService.indirizzoCorrente?.roadName ?? ''" readonly>
           </div>
           <div class="form-group ml-3">
             <label for="cap">Codice postale (CAP):</label>
-            <input type="text" class="form-control" id="cap" [placeholder]="addressService.indirizzoCorrente?.city?.cap" readonly>
+            <input type="text" class="form-control" id="cap" [placeholder]="addressService.indirizzoCorrente?.city?.cap ?? ''" readonly>
           </div>
           <div class="form-group ml-3">
             <label for="province">Provincia:</label>
-            <input type="text" class="form-control textBoxAggiunta" id="province" [placeholder]="addressService.indirizzoCorrente?.city?.province" readonly>
+            <input type="text" class="form-control textBoxAggiunta" id="province" [placeholder]="addressService.indirizzoCorrente?.city?.province ?? ''" readonly>
           </div>
         </div>
         <div class="d-flex flex-row align-items-center">
           <div class="form-group">
             <label for="houseNumber">N° civico:</label>
-            <input type="text" class="form-control" id="houseNumber" [placeholder]="addressService.indirizzoCorrente?.houseNumber" readonly>
+            <input type="text" class="form-control" id="houseNumber" [placeholder]="addressService.indirizzoCorrente?.houseNumber ?? ''" readonly>
           </div>
           <div class="form-group ml-3">
             <label for="citta">Città:</label>
-            <input type="text" class="form-control" id="citta" [placeholder]="addressService.indirizzoCorrente?.city?.city" readonly>
+            <input type="text" class="form-control" id="citta" [placeholder]="addressService.indirizzoCorrente?.city?.city ?? ''" readonly>
           </div>
           <div class="form-group ml-3">
             <label for="region">Regione:</label>
-            <input type="text" class="form-control textBoxAggiunta" id="region" [placeholder]="addressService.indirizzoCorrente?.city?.region" readonly>
+            <input type="text" class="form-control textBoxAggiunta" id="region" [placeholder]="addressService.indirizzoCorrente?.city?.region ?? ''" readonly>
           </div>
         </div>
       </div>
