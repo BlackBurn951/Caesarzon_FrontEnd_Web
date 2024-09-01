@@ -9,8 +9,10 @@
 
 </head>
 
-<body >
-<div class="container-fluidos regLog" *ngIf="popUpService.wichComponent === 0" [ngClass]="{'other': popUpService.isOther}">
+<body>
+<mat-progress-spinner class="uSpinner" *ngIf="this.keyCloak.loading" mode="indeterminate" color="primary"></mat-progress-spinner>
+
+<div class="container-fluidoss regLog" *ngIf="popUpService.wichComponent === 0" [ngClass]="{'other': popUpService.isOther}">
   <div class="form-group d-flex flex-column align-items-center">
     <div class="d-flex flex-row align-items-center">
       <button class="btn btn-dark custom-btn mr-2 mt-2" (click)="changeSection(0, 'Cerca utenti')">Cerca utenti</button>
@@ -18,85 +20,112 @@
       <button class="btn btn-dark custom-btn mt-2" (click)="changeSection(2, 'Amici')">Amici</button>
     </div>
     <h1 class="mt-2">{{sectionLabel}}</h1>
-    <button (click)="popUpService.closePopup()" class="btn btn-dark ics">X</button>
-
+    <button (click)="chiudiPopUpESalvaUtenti()" class="btn btn-dark ics">X</button>
   </div>
 
   <div class="d-flex flex-column align-items-center">
-    <input class="mb-2 barraRicerca" type="text" placeholder="Cerca">
+    <!-- Search Bar -->
+    <input class="mb-2 barraRicerca" type="text" placeholder="Cerca" [(ngModel)]="searchTerm">
 
     <div class="table-container">
-
+      <!-- Sezione Cerca utenti -->
       <div *ngIf="section === 0" class="table-row">
-        <div *ngFor="let user of users">
-          <div class="table-cell mb-2">
-            <img class="mr-2" [src]="user.imgPath" alt="Foto">
-            <label>{{ user.name }}</label>
-            <button class="btn btn-dark custom-btn mr-1 mt-1 mb-1 ml-1"><i class="fas fa-user-plus"></i></button>
-          </div>
+        <div *ngFor="let user of friendFollow.users | filter:searchTerm; let i = index"
+             class="table-cell mb-2 d-flex align-items-center user-row"
+             [ngClass]="{'highlighted': highlightedRow === i}"
+             (mouseenter)="highlightedRow = i"
+             (mouseleave)="highlightedRow = -1">
+          <img class="preview ml-1 mr-1" [src]="user.safeImageUrl" alt="" width="35px" height="35px">
+          <label class="flex-grow-1 useeeer mr-1" (click)="this.apriListe(user.username)">{{ user.username }}</label>
+          <button *ngIf="!isUserInFollow(user)" class="btn btn-dark custom-btn mr-1 mt-1 mb-1" (click)="this.friendFollow.addFollowersOrFriends(i, true)">
+            <i class="fas fa-user-plus"></i>
+          </button>
         </div>
       </div>
+      <div class="text-center">
+        <button *ngIf="friendFollow.users.length === 20" class="btn-dark custom-btn effes mb-3" (click)="this.adminService.getUsers(true)">Carica altro</button>
+      </div>
 
+      <!-- Sezione Seguiti -->
       <div *ngIf="section === 1" class="table-row">
-        <div *ngFor="let user of usersFollow">
-          <div class="table-cell mb-2">
-            <img class="mr-2" [src]="user.imgPath" alt="Foto">
-            <label>{{ user.name }}</label>
+        <div *ngIf="friendFollow.usersFollow.length === 0">Non segui ancora nessuno!</div>
+        <div *ngIf="friendFollow.usersFollow.length > 0">
+          <div *ngFor="let user of friendFollow.usersFollow | filter:searchTerm; let i = index"
+               class="table-cell mb-2 d-flex align-items-center user-row"
+               [ngClass]="{'highlighted': highlightedRow === i}"
+               (mouseenter)="highlightedRow = i"
+               (mouseleave)="highlightedRow = -1">
+            <img class="preview mr-1 ml-1" [src]="user.safeImageUrl" alt="" width="35px" height="35px">
+            <label class="useeeer mr-1" (click)="this.apriListe(user.username)">{{ user.username }}</label>
             <div>
-              <button class="btn btn-dark custom-btn ml-1 mt-1 mb-1"><i class="fas fa-heart"></i></button>
-              <button class="btn btn-danger buut mr-1 ml-1 mt-1 mb-1 mr-1"><i class="fas fa-user-minus"></i></button>
+              <button *ngIf="!isUserInFriend(user)" class="btn btn-dark custom-btn ml-1 " (click)="this.friendFollow.addFollowersOrFriends(i, false)">
+                <i class="fas fa-heart"></i>
+              </button>
+              <button class="btn btn-danger buut ml-1 mt-1 mb-1 mr-1" (click)="this.friendFollow.deleteFollowers(user.username)">
+                <i class="fas fa-user-minus"></i>
+              </button>
             </div>
-
+            <div class="text-center">
+              <button *ngIf="friendFollow.usersFollow.length === 20" class="btn-dark custom-btn effes mb-3" (click)="this.adminService.getUsers(true)">Carica altro</button>
+            </div>
           </div>
         </div>
+
       </div>
 
+      <!-- Sezione Amici -->
       <div *ngIf="section === 2" class="table-row">
-        <div *ngFor="let user of usersFriend">
-          <div class="table-cell mb-2">
-            <img class="mr-2" [src]="user.imgPath" alt="Foto">
-            <label>{{ user.name }}</label>
-            <button class="btn btn-danger buut  mr-1 mt-1 mb-1 ml-1"><i class="fas fa-user-minus"></i></button>
+        <div *ngIf="friendFollow.usersFriend.length === 0">Non hai ancora nessun amico!</div>
+        <div *ngIf="friendFollow.usersFriend.length > 0">
+          <div *ngFor="let user of friendFollow.usersFriend | filter:searchTerm; let i = index"
+               class="table-cell mb-2 d-flex align-items-center user-row"
+               [ngClass]="{'highlighted': highlightedRow === i}"
+               (mouseenter)="highlightedRow = i"
+               (mouseleave)="highlightedRow = -1">
+            <img class="preview ml-1 mr-1" [src]="user.safeImageUrl" alt="" width="35px" height="35px">
+            <label class="useeeer mr-1" (click)="this.apriListe(user.username)">{{ user.username }}</label>
+            <button class="btn btn-danger buut mr-1 mt-1 mb-1 ml-1" (click)="this.friendFollow.deleteFriends(i)">
+              <i class="fas fa-user-minus"></i>
+            </button>
+          </div>
+          <div class="text-center">
+            <button *ngIf="friendFollow.usersFriend.length === 20" class="btn-dark custom-btn effes mb-3" (click)="this.adminService.getUsers(true)">Carica altro</button>
           </div>
         </div>
       </div>
     </div>
-
-
   </div>
 </div>
-
 
 <div class="container-fluidos regLog" *ngIf="popUpService.wichComponent === 1" [ngClass]="{'other': !popUpService.isOther}">
   <div class="form-group">
     <div class="d-flex flex-column align-items-center">
       <h1 class="accediLabel">Stai segnalando l'utente</h1>
-      <h2 class="accediLabel">{{usernameSegnalato}}</h2>
+      <h2 class="accediLabel">{{ this.adminService.usernameSegnalato}}</h2>
     </div>
     <button (click)="popUpService.closePopup()" class="btn btn-dark ics">X</button>
     <div class="d-flex flex-column align-items-center">
       <label for="motivo">Motivo della segnalazione</label>
-      <select name="motivo" [ngModel]="motivoSegnalazione" class="form-select selectionIn btn btn-dark custom-bln" id="motivo" >
+      <select name="motivo" [(ngModel)]="adminService.motivoSegnalazione" class="form-select selectionIn btn btn-dark custom-bln" id="motivo" >
         <option value="spam">Spam</option>
-        <option value="contenuto_ripetitivo">Contenuto Ripetitivo</option>
-        <option value="link_sospetti">Link Sospetti o Dannosi</option>
-        <option value="attività_automatizzata">Attività Automatizzata</option>
-        <option value="contenuto_offensivo">Contenuto Offensivo</option>
-        <option value="violazione_regole">Violazione delle Regole della Piattaforma</option>
-        <option value="informazioni_false">Informazioni False o Fraudolente</option>
-        <option value="violazione_privacy">Violazione della Privacy</option>
-        <option value="nudo_o_atti_sesso">Nudo o Atti Sessuali</option>
+        <option value="Contenuto Ripetitivo">Contenuto Ripetitivo</option>
+        <option value="Link Sospetti o Dannosi">Link Sospetti o Dannosi</option>
+        <option value="Attività Automatizzata">Attività Automatizzata</option>
+        <option value="Contenuto Offensivo">Contenuto Offensivo</option>
+        <option value="Violazione delle Regole della Piattaforma">Violazione delle Regole della Piattaforma</option>
+        <option value="Informazioni False o Fraudolente">Informazioni False o Fraudolente</option>
+        <option value="Violazione della Privacy">Violazione della Privacy</option>
+        <option value="Nudo o Atti Sessuali">Nudo o Atti Sessuali</option>
+
       </select>
 
     </div>
-
-
   </div>
 
 
   <div class="form-group gruppo d-flex flex-column align-items-center">
-    <label for="descrizione">Descrizione</label>
-    <textarea class="form-control gruppoInputDesc" id="descrizione" minlength="5" maxlength="500" [ngModel]="descrizioneSegnalazione"></textarea>
+    <label for="descSegn">Descrizione</label>
+    <textarea id="descSegn" class="form-control gruppoInputDesc"  minlength="5" maxlength="500" [(ngModel)]="adminService.descrizioneSegnalazione"></textarea>
   </div>
 
   <div class="d-flex flex-column align-items-center">
@@ -114,24 +143,24 @@
     <button (click)="popUpService.closePopup()" class="btn btn-dark ics">X</button>
     <div class="d-flex flex-column align-items-center">
       <div class="stars">
-        <span class="star" (click)="rate(1)" [ngClass]="{'filled': valutazione >= 1}">★</span>
-        <span class="star" (click)="rate(2)" [ngClass]="{'filled': valutazione >= 2}">★</span>
-        <span class="star" (click)="rate(3)" [ngClass]="{'filled': valutazione >= 3}">★</span>
-        <span class="star" (click)="rate(4)" [ngClass]="{'filled': valutazione >= 4}">★</span>
-        <span class="star" (click)="rate(5)" [ngClass]="{'filled': valutazione == 5}">★</span>
+        <span class="star" (click)="rate(1)" [ngClass]="{'filled': productService.valutazioneRecensione >= 1}">★</span>
+        <span class="star" (click)="rate(2)" [ngClass]="{'filled': productService.valutazioneRecensione >= 2}">★</span>
+        <span class="star" (click)="rate(3)" [ngClass]="{'filled': productService.valutazioneRecensione >= 3}">★</span>
+        <span class="star" (click)="rate(4)" [ngClass]="{'filled': productService.valutazioneRecensione >= 4}">★</span>
+        <span class="star" (click)="rate(5)" [ngClass]="{'filled': productService.valutazioneRecensione == 5}">★</span>
       </div>
     </div>
 
-    <input type="hidden" id="rating" name="rating" [value]="valutazione">
+    <input type="hidden" id="rating" name="rating" [(ngModel)]="productService.valutazioneRecensione">
   </div>
 
   <div class="form-group gruppo d-flex flex-column align-items-center">
-    <label for="descrizione">Descrizione</label>
-    <textarea [ngModel]="descrizioneRecensione" class="form-control gruppoInputDesc" minlength="5" maxlength="500"></textarea>
+    <label for="descRece">Descrizione</label>
+    <textarea id="descRece" [(ngModel)]="productService.descrizioneRecensione" class="form-control gruppoInputDesc" minlength="5" maxlength="500"></textarea>
   </div>
 
   <div class="d-flex flex-column align-items-center">
-    <button type="submit" class="btn btn-dark custom-btn al" [disabled]="!isFormReviewValid()" (click)="sendReview()">Invia</button>
+    <button type="submit" class="btn btn-dark custom-btn al" [disabled]="!isFormReviewValid()" (click)="productService.addReview()">Invia</button>
   </div>
 </div>
 
@@ -146,18 +175,19 @@
     <button (click)="popUpService.closePopup()" class="btn btn-dark ics">X</button>
     <div class="d-flex flex-row align-items-center">
       <label for="selectCard">Seleziona lista dei desideri:</label>
-      <select class="form-select selectionIn btn btn-dark custom-bln ml-2" id="selectCard">
-        <option value="card1">Lista 1</option>
-        <option value="card2">Lista 2</option>
+      <select class="form-select selectionIn btn btn-dark custom-bln ml-2" id="selectCard" (change)="wishListService.updateWishListID($event)">
+        <option></option>
+        <option *ngFor="let names of wishListService.wishLists" [value]="names.id">{{ names.name }}</option>
       </select>
+
     </div>
-    <button class="btn btn-dark custom-btn mt-3" (click)="popUpService.openPopups(4, true)">Crea una nuova lista</button>
+    <button class="btn btn-dark custom-btn mt-3" (click)="creaNuovalista(104)">Crea una nuova lista</button>
 
   </div>
 
 
   <div class="d-flex flex-column align-items-center">
-    <button type="submit" class="btn btn-dark custom-btn al" >Aggiungi</button>
+    <button type="submit" class="btn btn-dark custom-btn al" (click)="wishListService.addProductToWishList()" >Aggiungi</button>
   </div>
 </div>
 
@@ -170,26 +200,23 @@
     <button (click)="popUpService.closePopup()" class="btn btn-dark ics">X</button>
     <div class="d-flex flex-column align-items-center">
       <label for="motivo">Visibilità (potrai cambiarla in seguito)</label>
-      <select name="visibilita" class="form-select selectionIn btn btn-dark custom-bln" >
-        <option value="privata">Privata</option>
-        <option value="pubblica">Pubblica</option>
-        <option value="amici">Amici</option>
-
+      <select [(ngModel)]="wishListService.visibilitaNuovaLista" name="visibilita" class="form-select selectionIn btn btn-dark custom-bln">
+        <option value="" disabled selected>Seleziona la visibilità</option>
+        <option value="Privata">Privata</option>
+        <option value="Pubblica">Pubblica</option>
+        <option value="Condivisa">Condivisa</option>
       </select>
-
     </div>
-
-
   </div>
 
-
   <div class="form-group gruppo d-flex flex-column align-items-center">
-    <label for="descrizione">Nome lista</label>
-    <input class="form-control list" maxlength="30">
+    <label for="nomeLista">Nome lista</label>
+    <input [(ngModel)]="wishListService.nomeNuovaLista" id="nomeLista" class="form-control list" maxlength="30">
   </div>
 
   <div class="d-flex flex-column align-items-center">
-    <button type="submit" class="btn btn-dark custom-btn al" >Crea</button>
+    <button type="submit" class="btn btn-dark custom-btn al" (click)="wishListService.createNewWishList()"
+            [disabled]="!wishListService.nomeNuovaLista || wishListService.nomeNuovaLista.length < 2 || !wishListService.visibilitaNuovaLista">Crea</button>
   </div>
 </div>
 
@@ -199,7 +226,7 @@
   <div class="d-flex flex-column align-items-center aggiunta" formGroupName="formIndirizzo">
 
     <h1>Aggiugi un nuovo indirizzo</h1>
-    <button type="button" (click)="popUpService.closePopup()" class="btn btn-dark ics">X</button>
+    <button type="button" (click)="closePopUpAddressCard()" class="btn btn-dark ics">X</button>
 
     <div class="d-flex flex-row align-items-center" >
         <div class="form-group ml-3 d-flex flex-column">
@@ -269,7 +296,7 @@
     <div class="d-flex flex-column align-items-center aggiunta" formGroupName="formCarta">
 
       <h1>Aggiungi una nuova carta</h1>
-      <button type="button" (click)="popUpService.closePopup()" class="btn btn-dark ics">X</button>
+      <button type="button" (click)="closePopUpAddressCard()" class="btn btn-dark ics">X</button>
 
 
       <div class="d-flex flex-column align-items-center">
@@ -285,7 +312,7 @@
 
           <div class="form-group ml-3">
             <label for="cardHolderName">Titolare della carta:</label>
-            <input type="text" class="form-control textBoxAggiunta" id="cardHolderName" formControlName="titolareCarta"  minlength="5" maxlength="40">
+            <input type="text" class="form-control textBoxAggiunta" id="cardHolderName" formControlName="titolareCarta"  minlength="5" maxlength="40" placeholder="Es. Mario Rossi">
             <div *ngIf="formService.campoNonCorretto('formCarta.titolareCarta')" class="error-message">
               <label class="err"> Il formato del nome del titolare della carta non è corretto.</label>
             </div>
@@ -299,6 +326,7 @@
             <div *ngIf="formCaesarzon.get('formCarta.dataScadenza')?.hasError('invalidDate')" class="error-message">
               <label class="err">La data di scadenza non può essere nel passato.</label>
             </div>
+
           </div>
           <div class="form-group ml-3">
             <label for="cvv">Codice di sicurezza (CVV):</label>
@@ -317,7 +345,7 @@
 
 </div>
 
-<div class="container-fluidoss regLog" *ngIf="popUpService.wichComponent === 8" [ngClass]="{'Add': popUpService.isAdd}">
+<div class="container-fluidosst regLog" *ngIf="popUpService.wichComponent === 8" [ngClass]="{'Add': popUpService.isAdd}">
   <div class="form-group d-flex flex-column align-items-center">
     <div class="d-flex flex-column align-items-center">
       <h1 class="accediLabel">Cambia password</h1>
@@ -325,31 +353,27 @@
     <button (click)="popUpService.closePopup()" class="btn btn-dark ics">X</button>
     <div class="d-flex flex-row align-items-center">
       <div class="form-group">
-        <label for="newPassword">Nuova password:</label>
-        <input type="password" id="newPassword" class="form-control mb-2" style="width: 15vw" [(ngModel)]="newPassword" >
+        <label for="password">Nuova password:</label>
+        <input type="password" id="password" class="form-control mb-2" style="width: 15vw" [(ngModel)]="userService.newPassword">
         <div *ngIf="newPasswordError" class="error-message">
           {{ newPasswordError }}
         </div>
+
       </div>
-      <span class="toggle-password position-absolute" (click)="togglePassword('newPassword')">
-          <img src="/assets/images/icons/view.png" *ngIf="mostraPassword['newPassword']" alt="Mostra Password" width="20">
-          <img src="/assets/images/icons/hide.png" *ngIf="!mostraPassword['newPassword']" alt="Nascondi Password" width="20">
-      </span>
+
 
 
     </div>
     <div class="d-flex flex-row align-items-center">
       <div class="form-group">
-        <label for="confirmPassword">Conferma password:</label>
-        <input type="password" id="confirmPassword" class="form-control mb-2" style="width: 15vw" [(ngModel)]="confirmPassword">
+        <label for="confermaPassword">Conferma password:</label>
+        <input type="password" id="confermaPassword" class="form-control mb-2" style="width: 15vw" [(ngModel)]="userService.confirmPassword">
         <div *ngIf="confirmPasswordError" class="error-message">
           {{ confirmPasswordError }}
         </div>
+
       </div>
-      <span class="toggle-password position-absolute" (click)="togglePassword('confirmPassword')">
-            <img src="/assets/images/icons/view.png" *ngIf="mostraPassword['confirmPassword']" alt="Mostra Password" width="20">
-            <img src="/assets/images/icons/hide.png" *ngIf="!mostraPassword['confirmPassword']" alt="Nascondi Password" width="20">
-      </span>
+
 
 
     </div>
@@ -358,27 +382,6 @@
   </div>
 </div>
 
-<div class="container-fluidoss regLog" *ngIf="popUpService.wichComponent === 9" [ngClass]="{'Add': popUpService.isAdd}">
-  <div class="form-group d-flex flex-column align-items-center">
-    <div class="d-flex flex-column align-items-center">
-      <h1 class="accediLabel">Elimina account</h1>
-    </div>
-    <button (click)="popUpService.closePopup()" class="btn btn-dark ics">X</button>
-    <div class="d-flex flex-row align-items-center">
-      <div class="form-group">
-        <label for="newPassword">Password:</label>
-        <input type="password" id="pass" class="form-control mb-2" style="width: 15vw" [(ngModel)]="pass" >
-      </div>
-      <span class="toggle-password position-absolute" (click)="togglePassword('pass')">
-          <img src="/assets/images/icons/view.png" *ngIf="mostraPassword['newPassword']" alt="Mostra Password" width="20">
-          <img src="/assets/images/icons/hide.png" *ngIf="!mostraPassword['newPassword']" alt="Nascondi Password" width="20">
-      </span>
-
-    </div>
-
-    <button class="btn btn-danger modifica" style="border: black solid 1px" (click)="eliminaAccount()">Elimina account</button>
-  </div>
-</div>
 
 <div class="container-fluidos regLog" *ngIf="popUpService.wichComponent === 10" [ngClass]="{'other': !popUpService.isOther}">
   <div class="form-group">
@@ -477,6 +480,130 @@
   </form>
 </div>
 
+
+
+
+<div class="container-fluidos regLog" *ngIf="popUpService.wichComponent === 12" [ngClass]="{'other': !popUpService.isOther}">
+  <div class="form-group">
+    <div class="d-flex flex-column align-items-center">
+      <h1>Verifica identità</h1>
+      <h3>{{ this.userService.stringaOtp}}</h3>
+    </div>
+    <button (click)="popUpService.closePopup()" class="btn btn-dark ics">X</button>
+    <div class="d-flex flex-column align-items-center">
+      <div class="userInput">
+        <input type="text" id="input0" maxlength="1" (input)="updateCodice(0, $event)" [(ngModel)]="this.userService.codice[0]" (keydown)="formService.cifraDigitata($event)">
+        <input type="text" id="input1" maxlength="1" (input)="updateCodice(1, $event)" [(ngModel)]="this.userService.codice[1]" (keydown)="formService.cifraDigitata($event)">
+        <input type="text" id="input2" maxlength="1" (input)="updateCodice(2, $event)" [(ngModel)]="this.userService.codice[2]" (keydown)="formService.cifraDigitata($event)">
+        <input type="text" id="input3" maxlength="1" (input)="updateCodice(3, $event)" [(ngModel)]="this.userService.codice[3]" (keydown)="formService.cifraDigitata($event)">
+        <input type="text" id="input4" maxlength="1" (input)="updateCodice(4, $event)" [(ngModel)]="this.userService.codice[4]" (keydown)="formService.cifraDigitata($event)">
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group gruppo d-flex flex-column align-items-center">
+    <div *ngIf="this.userService.otpSbagliato" class="error-message">
+      Codice OTP errato.
+    </div>
+    <a href="#" id="resend" (click)="this.userService.forgotPass($event)">Reinvia email</a>
+
+  </div>
+
+  <div class="d-flex flex-column align-items-center">
+    <button class="btn btn-dark custom-btn al" id="confirm" (click)="openChangePassword()" [disabled]="!this.userService.lunghezzaCodice">Conferma</button>
+  </div>
+</div>
+
+
+<div class="container-fluidosss regLog" *ngIf="popUpService.wichComponent === 13" [ngClass]="{'other': !popUpService.isOther}">
+  <div class="form-group d-flex justify-content-between align-items-center">
+    <button (click)="back()" class="btn btn-dark custom-btn ml-2 mt-1">Indietro</button>
+    <button (click)="popUpService.closePopup()" class="btn btn-dark ics">X</button>
+  </div>
+
+  <div class="container-fluid d-flex flex-column align-items-center">
+    <h1 style="white-space: nowrap;">Liste dei desideri di {{ this.userService.nomeProfilo }}</h1>
+
+    <div class="form-group d-flex justify-content-center mb-3">
+      <button type="button" class="btn btn-dark custom-btn mr-3" (click)="wishListService.getUserWishList(0, this.userService.nomeProfilo)">Pubbliche</button>
+      <button type="button" class="btn btn-dark custom-btn" (click)="wishListService.getUserWishList(1, this.userService.nomeProfilo)">Condivise con te</button>
+    </div>
+
+    <section class="form-group d-flex flex-column align-items-center">
+      <div class="table-container" style="overflow-x: auto;">
+        <table class="table table-striped">
+          <thead>
+          <tr>
+            <th scope="col">Nome Lista ({{wishListService.tipoListeUser}})</th>
+            <th scope="col" class="text-center">Azioni</th>
+          </tr>
+          </thead>
+          <tbody>
+          <div class="form-group d-flex flex-column align-items-center" *ngIf="wishListService.userWishLists.length === 0 && wishListService.tipoListeUser === 'Liste condivise con te'">
+            <h2 class="ml-5 mt-2">{{ this.userService.nomeProfilo }} non ha condiviso liste dei desideri con te!</h2>
+          </div>
+
+          <div class="form-group d-flex flex-column align-items-center"  *ngIf="wishListService.userWishLists.length === 0 && wishListService.tipoListeUser === 'Liste pubbliche'">
+            <h2 class="ml-5 mt-2">{{ this.userService.nomeProfilo }} non ha liste dei desideri pubbliche!</h2>
+          </div>
+          <ng-container *ngFor="let item of wishListService.userWishLists; let i = index">
+            <tr>
+              <td>{{ item.name }}</td>
+              <td class="text-center">
+                <button class="btn btn-dark custom-btn ml-2" (click)="wishListService.getWishListProducts(item.id)">
+                  Prodotti
+                </button>
+              </td>
+            </tr>
+            <tr *ngIf="wishListService.showProductsMap[item.id]">
+              <td colspan="2">
+                <p *ngIf="wishListService.emptyList">L'utente {{this.userService.nomeProfilo}} non ha ancora aggiunto prodotti a questa lista</p>
+                <div *ngFor="let product of wishListService.wishListProductsMap[item.id]?.singleWishListProductDTOS">
+                  <p class="prodottoOi" (click)="productService.prendiDatiProdotto(product.productId)">
+                    {{ product.productName }} - {{ product.price }} €
+                  </p>
+                </div>
+              </td>
+            </tr>
+          </ng-container>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+</div>
+
+
+<div class="container-fluidos regLog" *ngIf="popUpService.wichComponent === 15" [ngClass]="{'other': !popUpService.isOther}">
+<div class="container">
+  <div class="d-flex flex-column align-items-center">
+    <strong>Taglie e quantità disponibili:</strong>
+
+    <h3 class="messaggio" >{{this.cartService.stringaDisponibilita}}</h3>
+    <div *ngIf="this.popUpService.isAvviso">
+      <button id="confirma" class="btn btn-dark custom-btn mb-3" (click)="ok()">Ok</button>
+    </div>
+  </div>
+</div>
+</div>
+
+
+<div class="container-fluidos regLog" *ngIf="popUpService.wichComponent === 16" [ngClass]="{'other': !popUpService.isOther}">
+  <div class="container">
+    <div class="d-flex flex-column align-items-center">
+      <h3>Sei sicuro di voler bannare l'utente {{this.userService.username}} ?</h3>
+
+      <div class="form-group gruppo d-flex flex-column align-items-center">
+        <label for="descBan">Motivo del ban</label>
+        <textarea id="descBan" class="form-control gruppoInputDesc" minlength="5" maxlength="500" [(ngModel)]="adminService.descrizioneSegnalazione"></textarea>
+      </div>
+      <div>
+        <button id="si" class="btn btn-dark custom-btn mr-3 mb-3 " (click)="this.adminService.banUtente()">Si</button>
+        <button id="no" class="btn btn-dark custom-btn mb-3" (click)="this.popUpService.closePopup()">No</button>
+      </div>
+    </div>
+  </div>
+</div>
 </body>
 
 </html>

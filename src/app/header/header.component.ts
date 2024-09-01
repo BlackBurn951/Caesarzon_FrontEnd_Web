@@ -1,4 +1,4 @@
-import {Component, OnDestroy} from '@angular/core';
+import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
 import {DatePipe, NgClass, NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
 import {Event, Router} from "@angular/router";
 import {PopupService} from "../services/popUpService";
@@ -10,7 +10,11 @@ import {MatIconButton} from "@angular/material/button";
 import {MatList, MatListItem} from "@angular/material/list";
 import {MatBadge} from "@angular/material/badge";
 import {Notifications} from "../entities/Notification";
-import {Subscription} from "rxjs";
+import {count, Subscription} from "rxjs";
+import {ProductService} from "../services/productService";
+import {FormsModule} from "@angular/forms";
+import {FriendFollowerService} from "../services/friendFollowerService";
+import {UserService} from "../services/userService";
 
 
 @Component({
@@ -28,21 +32,21 @@ import {Subscription} from "rxjs";
     MatListItem,
     MatBadge,
     DatePipe,
-    NgOptimizedImage
+    NgOptimizedImage,
+    FormsModule
   ],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css', '../../styles.css']
 })
-export class HeaderComponent implements OnDestroy{
+export class HeaderComponent implements OnDestroy, OnInit{
 
   isMenuOpen = false;
 
-  menuOpen = false;
 
   notifyCount = 0;
   private notifyCountSubscription!: Subscription;
 
-  constructor(public popupService:PopupService, private router: Router, protected keyCloak:KeyCloakService, private adminService: AdminService){
+  constructor(protected friendFollow: FriendFollowerService, protected productService: ProductService, public popupService:PopupService, private router: Router, protected keyCloak:KeyCloakService, private adminService: AdminService){
     this.notifyCountSubscription = this.keyCloak.notifyCount$.subscribe(count => {
       this.notifyCount = count;
     });
@@ -51,9 +55,20 @@ export class HeaderComponent implements OnDestroy{
   ngOnDestroy() {
     this.notifyCountSubscription.unsubscribe();
   }
+
   goHomepage(){
     this.router.navigate(['']);
   }
+
+  @HostListener('document:click', ['$event'])
+  onClickOutside(event: MouseEvent) {
+    const target = event.target as HTMLElement;
+    if (!target.closest('.notifications-container')) {
+      this.keyCloak.menuOpen = false;
+    }
+  }
+
+
   toggleMenu(): void {
     this.isMenuOpen = !this.isMenuOpen;
   }
@@ -66,6 +81,30 @@ export class HeaderComponent implements OnDestroy{
     this.router.navigate([page]);
   }
 
+  addProduct(event: MouseEvent,page:string) {
+    if(page === "admin-area")
+      this.adminService.section = 0
+    event.preventDefault()
+    this.productService.resetFields()
+    this.router.navigate([page]);
+  }
+
+  changeSection(event: MouseEvent, num:number, page:string, numResult: number){
+    if(num === 0){
+      this.adminService.getUsers(false)
+      this.goToAdminArea(event, page, numResult)
+    }else if(num === 1){
+      this.adminService.getReports(false)
+      this.goToAdminArea(event, page, numResult)
+    }else if(num === 2){
+      this.adminService.getSupports(false)
+      this.goToAdminArea(event, page, numResult)
+    }else if(num === 3){
+      this.adminService.getBans(false)
+      this.goToAdminArea(event, page, numResult)
+    }
+  }
+
   goToAdminArea(event: MouseEvent, page:string, num: number){
     this.adminService.section = num;
     event.preventDefault()
@@ -73,8 +112,10 @@ export class HeaderComponent implements OnDestroy{
   }
 
   toggleMenus(): void {
-    this.keyCloak.markRead().subscribe();
-    this.menuOpen = !this.menuOpen;
+    setTimeout(() => {
+      this.keyCloak.markRead().subscribe();
+    }, 2000);
+    this.keyCloak.menuOpen = !this.keyCloak.menuOpen;
   }
 
   removeNotification(notification: Notifications): void {
@@ -83,6 +124,12 @@ export class HeaderComponent implements OnDestroy{
 
   toggleDescription(notification: Notifications): void {
     notification.showDescription = !notification.showDescription;
+  }
+
+  ngOnInit(): void {
+    this.keyCloak.getNotify().subscribe(notifies => {
+      this.keyCloak.notifications = notifies;
+    })
   }
 
 

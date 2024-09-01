@@ -19,18 +19,17 @@
        <h1 class="title" >RICHIEDI ASSISTENZA</h1>
 
        <label>Motivo della richiesta:</label>
-          <select class="form-select selectionIn btn btn-dark custom-bln" [ngModel]="motivoRichiesta" name="where">
-            <option>Ordine</option>
-            <option>Spedizione</option>
-            <option>Resi e rimborsi</option>
-            <option>Domande sui prodotti</option>
-            <option>Assistenza post-vendita</option>
-            <option>Problemi tecnici</option>
-            <option>Modifiche dell'account</option>
-            <option>Promozioni e sconti</option>
-            <option>Feedback e suggerimenti</option>
-            <option>Assistenza personalizzata</option>
-            <!-- ATTENZIONE L'ADMIN AVRà LA POSSIBILITA DI MODIFICARE I SUOI DATI-->
+          <select class="form-select selectionIn btn btn-dark custom-bln" [(ngModel)]="adminService.motivoRichiesta" name="where">
+            <option value="Ordine">Ordine</option>
+            <option value="Spedizione">Spedizione</option>
+            <option value="Resi e rimborsi">Resi e rimborsi</option>
+            <option value="Domande sui prodotti">Domande sui prodotti</option>
+            <option value="Assistenza post-vendita">Assistenza post-vendita</option>
+            <option value="Problemi tecnici">Problemi tecnici</option>
+            <option value="Modifiche dell'account">Modifiche dell'account</option>
+            <option value="Promozioni e sconti">Promozioni e sconti</option>
+            <option value="Feedback e suggerimenti">Feedback e suggerimenti</option>
+            <option value="Assistenza personalizzata">Assistenza personalizzata</option>
           </select>
         </div>
 
@@ -39,16 +38,16 @@
 
         <div class="d-flex flex-column align-items-center">
           <label>Oggetto:</label>
-          <input class="form-control"  type="text" id="oggetto" minlength="5" maxlength="50" [ngModel]="oggetto">
+          <input class="form-control"  type="text" id="oggetto" minlength="5" maxlength="50" [(ngModel)]="adminService.oggetto">
 
           <div class="form-group d-flex flex-column align-items-center">
             <label>Descrizione:</label>
-            <textarea class="form-control"  id="descrizione" rows="6" cols="50" minlength="5" maxlength="500" [ngModel]="descrizioneRichiesta"></textarea>
+            <textarea class="form-control"  id="descrizione" rows="6" cols="50" minlength="5" maxlength="500" [(ngModel)]="adminService.descrizioneRichiesta"></textarea>
           </div>
         </div>
 
       </div>
-      <button type="button" class="btn btn-dark custom-btn" (click)="sendHelpRequest()" [disabled]="!isFormValid()" >Invia richiesta</button>
+      <button type="button" class="btn btn-dark custom-btn" (click)="sendHelpRequest()" [disabled]="!isFormValid()">Invia richiesta</button>
 
     </section>
 

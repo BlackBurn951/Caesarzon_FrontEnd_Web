@@ -15,17 +15,20 @@ export class FormService {
 
   protected formCaesarzon!: FormGroup;
 
-  constructor(private fb: FormBuilder, private popUpService: PopupService) {
+  constructor(private fb: FormBuilder) {
     this.createForm();
+  }
+
+  cifraDigitata(event: KeyboardEvent): void {
+    const charCode = event.key;
+
+    if (isNaN(Number(charCode)) && charCode !== 'Backspace' && charCode !== 'Tab' ) {
+      event.preventDefault();
+    }
   }
 
   setFormData(formData: any) {
     this.datiForm = { ...this.datiForm, ...formData };
-  }
-
-
-  getFormData() {
-    return this.datiForm;
   }
 
 
@@ -53,12 +56,12 @@ export class FormService {
       nome: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(100)]],
       marca: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(30)]],
       descrizione: ['', [Validators.required, Validators.minLength(20), Validators.maxLength(1000)]],
-      sconto: ['', [Validators.required, Validators.min(0), Validators.max(50)]],
-      prezzo: ['', [Validators.required, Validators.min(0), Validators.max(1000000)]],
+      sconto: ['', [Validators.required, Validators.min(1), Validators.max(50)]],
+      prezzo: ['', [Validators.required, Validators.min(1), Validators.max(1000000)]],
       coloreP: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
       coloreS: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
-      sport: ['', [Validators.required, Validators.minLength(4) , Validators.maxLength(20)]],
-      categoria: ['', [Validators.required, Validators.minLength(12), Validators.maxLength(13)]]
+      sport: ['', [Validators.required, Validators.minLength(3) , Validators.maxLength(20)]],
+      categoria: ['', [Validators.required, Validators.pattern(/^(true|false)$/)]]
     });
   }
 
@@ -147,7 +150,7 @@ export class FormService {
   }
 
   //Metodo per la validazione della data di scadenza
-  expirationDateValidator(control: any): { [key: string]: boolean } | null {
+  expirationDateValidator = (control: AbstractControl): { [key: string]: boolean } | null => {
     if (control.value) {
       const [year, month] = control.value.split('-').map((val: string) => parseInt(val, 10));
       if (!this.isExpirationDateValid(month, year)) {
@@ -157,7 +160,8 @@ export class FormService {
     return null;
   }
 
-  //Metodo per la validazione della data di scadenza
+
+  // Funzione di utilità per la validazione della data di scadenza
   isExpirationDateValid(month: number, year: number): boolean {
     const currentDate = new Date();
     const currentMonth = currentDate.getMonth() + 1;
@@ -170,9 +174,24 @@ export class FormService {
     }
 
     return true;
-
-
   }
+
+  resetFormErrors(formGroup: FormGroup): void {
+    Object.keys(formGroup.controls).forEach((key) => {
+      const control = formGroup.get(key);
+      if (control instanceof FormGroup) {
+        // Se il controllo è un FormGroup, esegui il reset in modo ricorsivo
+        this.resetFormErrors(control);
+      } else if (control instanceof AbstractControl) {
+        // Resetta gli errori del controllo
+        control.setErrors(null);
+        control.markAsPristine();  // Opzionale: imposta il controllo come non modificato
+        control.markAsUntouched(); // Opzionale: imposta il controllo come non toccato
+      }
+    });
+  }
+
+
 
 }
 

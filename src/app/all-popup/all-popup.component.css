@@ -7,8 +7,9 @@
 .error-message {
   color: #ff0a00;
   position: absolute;
-
 }
+
+
 .err{
   font-weight: normal;
 }
@@ -80,16 +81,20 @@ html{
 
 .table-cell {
   border: 1px solid black;
-  border-radius: 1.5vh;
+  border-radius: 0.5vh;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
+.useeeer{
+  cursor: pointer;
+}
 
 
 .barraRicerca{
   margin-top: -3vh;
+  width: 15vw;
 }
 
 .container-fluidos {
@@ -164,7 +169,7 @@ label {
   height: 25vh;
 }
 
-.container-fluidoss {
+.container-fluidosst {
   position: fixed;
   top: 50%;
   left: 50%;
@@ -178,12 +183,12 @@ label {
   z-index: 1000;
 }
 
-.container-fluidoss.other{
+.container-fluidosst.other{
   max-height: 80vh;
 
 }
 
-.container-fluidoss.Add{
+.container-fluidosst.Add{
   max-height: 90vh;
   max-width: 25%;
 
@@ -192,3 +197,145 @@ label {
   right: 5.5vw;
 }
 
+
+
+.uSpinner {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.user-row {
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.user-row.highlighted {
+  background-color: #f0f0f0; /* Colore di sfondo quando si passa il mouse */
+}
+
+
+
+
+
+
+
+
+
+.userInput {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+
+div.error-message {
+  color: #ff0a00;
+  text-align: center;
+}
+
+
+input{
+  margin: 10px;
+  height: 35px;
+  width: 65px;
+  border:none;
+  border-radius: 5px;
+  text-align: center;
+  font-size: 1.2rem;
+  background: #eef2f3;
+}
+
+.messaggio {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+.wider-input {
+  width: 130%;
+  max-width: 500px;
+}
+
+.spaced-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  text-align: left;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+#descrizione {
+  width: 150%;
+}
+
+.row {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+
+
+
+.container-fluidoss {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 70%;
+  max-width: 35%;
+  max-height: 50vh;
+  min-height: 50vh;
+  overflow-y: auto;
+  background-color: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+
+.container-fluidoss.other {
+  max-height: 50vh;
+  min-height: 50vh;
+}
+
+.container-fluidoss.Add {
+  max-height: 50vh;
+  max-width: 60%;
+  min-height: 50vh;
+}
+
+
+.container-fluidosss {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 70%;
+  max-width: 50%;
+  max-height: 50vh;
+  min-height: 50vh;
+  overflow-y: auto;
+  background-color: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+
+.container-fluidosss.other {
+  max-height: 50vh;
+  min-height: 50vh;
+}
+
+.container-fluidosss.Add {
+  max-height: 50vh;
+  max-width: 60%;
+  min-height: 50vh;
+}

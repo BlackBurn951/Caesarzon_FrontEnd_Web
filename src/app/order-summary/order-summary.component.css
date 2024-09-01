@@ -1,0 +1,40 @@
+
+.aldo{
+  gap: 4vh;
+  margin-top: 2%;
+}
+
+
+
+.table-container{
+  border: 1px solid black;
+  width: 50vw;
+  height: 20vw;
+  overflow: auto;
+
+}
+footer {
+  background-color: #352244;
+  text-align: center;
+  color: white;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
+
+.visibility{
+  display: flex;
+}
+.titless{
+  font-weight: bold;
+  font-size: 2rem;
+  margin-right: 3vw;
+}
+.prodottoOi{
+  cursor: pointer;
+}
+
+.prodottoOi:hover{
+  background-color: lightgray;
+}

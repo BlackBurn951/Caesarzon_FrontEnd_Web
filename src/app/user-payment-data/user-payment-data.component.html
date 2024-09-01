@@ -19,38 +19,47 @@
       <h1 class="title">METODI DI PAGAMENTO</h1>
 
 
-      <div class="form-group d-flex flex-column align-items-center aldos">
+      <div *ngIf="cardService.cardsName && cardService.cardsName.length > 0" class="form-group d-flex flex-column align-items-center aldos">
         <label>Seleziona una carta:</label>
         <select class="form-select selectionIn btn btn-dark custom-bln" (change)="onCardChange($event)">
-          <option *ngFor="let cardId of cardService.cardsName" [value]="cardId">
+          <option *ngFor="let cardId of cardService?.cardsName" [value]="cardId">
             {{ cardService.cardsMap[cardId] }}
           </option>
         </select>
       </div>
 
-      <section class="form-group d-flex flex-column align-items-center">
+      <div *ngIf="cardService.cardsName && cardService.cardsName.length === 0 && !this.keyCloak.getAdmin()" class="form-group d-flex flex-column align-items-center aldos">
+        <label>Non hai ancora aggiunto una carta</label>
+      </div>
+
+    <div *ngIf="cardService.cardsName && cardService.cardsName.length === 0 && this.keyCloak.getAdmin()" class="form-group d-flex flex-column align-items-center aldos">
+      <label>L'utente non ha ancora aggiunto una carta</label>
+    </div>
+
+
+    <section class="form-group d-flex flex-column align-items-center">
         <div class="d-flex flex-column align-items-center">
 
           <div class="d-flex flex-row align-items-center">
             <div class="form-group">
               <label for="cardNumber">Numero della carta:</label>
-              <input type="text" class="form-control textBoxAggiunta" id="cardNumber" [placeholder]="cardService.cartaCorrente?.cardNumber" readonly>
+              <input type="text" class="form-control textBoxAggiunta" id="cardNumber" [placeholder]="formatCardNumber(cardService.cartaCorrente?.cardNumber) ?? ''" readonly>
             </div>
 
             <div class="form-group ml-3">
               <label for="cardHolderName">Titolare della carta:</label>
-              <input type="text" class="form-control textBoxAggiunta" id="cardHolderName" [placeholder]="cardService.cartaCorrente?.owner" readonly>
+              <input type="text" class="form-control textBoxAggiunta" id="cardHolderName" [placeholder]="cardService.cartaCorrente?.owner ?? ''" readonly>
             </div>
           </div>
 
           <div class="d-flex flex-row align-items-center">
             <div class="form-group">
               <label for="expirationDate">Data di scadenza:</label>
-              <input type="text" class="form-control textBoxAggiunta" id="expirationDate" [placeholder]="cardService.cartaCorrente?.expiryDate"  readonly>
+              <input type="text" class="form-control textBoxAggiunta" id="expirationDate" [placeholder]="cardService.cartaCorrente?.expiryDate ?? ''"  readonly>
             </div>
             <div class="form-group ml-3">
               <label for="cvv">Codice di sicurezza (CVV):</label>
-              <input type="text" class="form-control" id="cvv" [placeholder]="cardService.cartaCorrente?.cvv" readonly>
+              <input type="text" class="form-control" id="cvv" [placeholder]="cardService.cartaCorrente?.cvv ?? ''" readonly>
             </div>
           </div>
 

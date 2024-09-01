@@ -8,6 +8,8 @@
 </head>
 <body>
 
+<mat-progress-spinner class="uSpinner" *ngIf="this.keycloakService.loading" mode="indeterminate" color="primary"></mat-progress-spinner>
+
 <div class="container-fluidos regLog">
   <div *ngIf="popupService.isLogin" >
     <div class="form-group">
@@ -17,32 +19,28 @@
       <button (click)="popupService.closePopup()" class="btn btn-dark ics">X</button>
     </div>
     <div class="form-group formos">
-      <label for="usernameL">Username o e-mail:</label>
-      <input type="text" class="form-control inputLogin" id="usernameL" [(ngModel)]="username">
+      <label for="usernameL">Username:</label>
+      <input type="text" class="form-control inputLogin" id="usernameL" [(ngModel)]="this.userService.username">
     </div>
     <div class="form-group formos">
       <label for="passwordR">Password:</label>
       <div class="password-input-container">
         <input type="password" class="form-control inputLogin" id="password" [(ngModel)]="password">
-        <span class="toggle-password" (click)="togglePassword('password')">
-          <img class="iconaOcchio" src="assets/images/icons/view.png" *ngIf="mostraPassword['password']" alt="" width="20">
-          <img class="iconaOcchio" src="assets/images/icons/hide.png" *ngIf="!mostraPassword['password']" alt="" width="20">
-        </span>
+
       </div>
 
-      <a href="#">Ho dimenticato la password.</a>
+      <a href="#" (click)="this.userService.forgotPass($event)">Ho dimenticato la password.</a>
 
     </div>
 
 
 
     <div class="d-flex flex-column align-items-center">
-      <button type="submit" class="btn btn-dark custom-btn" (click)="keycloakService.login(username, password)">Accedi</button>
+      <button type="submit" class="btn btn-dark custom-btn" (click)="keycloakService.login(this.userService.username, password)">Accedi</button>
     </div>
 
     <div class="form-group formos">
       <a href="#" (click)="popupService.toggleLoginR($event); cambiaLarghezza(1)" id="registrati-link">Sei nuovo su Caesarzon? Registrati.</a>
-<!--      <a href="#" (click)="keycloakService.prova($event)" id="registrati-link">Sei nuovo su Caesarzon? Registrati.</a>-->
     </div>
 
 
@@ -93,10 +91,7 @@
           <label for="passwordR">Password:</label>
           <div class="password-input-container">
             <input type="password" class="form-control inputRA" id="passwordR" formControlName="password" minlength="8" maxlength="20">
-            <span class="toggle-password" (click)="togglePassword('passwordR')">
-              <img class="iconaOcchio" src="assets/images/icons/view.png" *ngIf="mostraPassword['passwordR']" alt="" width="20">
-              <img class="iconaOcchio" src="assets/images/icons/hide.png" *ngIf="!mostraPassword['passwordR']" alt="" width="20">
-            </span>
+
           </div>
           <div *ngIf="formService.campoNonCorretto('formRegistrazione.password')" class="error-message" >
             Formato incorretto: es. CiaoCiao69!
@@ -104,13 +99,10 @@
         </div>
 
         <div class="form-group formoss">
-          <label for="passwordR">Conferma password:</label>
+          <label for="passwordCR">Conferma password:</label>
           <div class="password-input-container">
-            <input type="password" class="form-control inputRA" id="passwordCR" formControlName="confermaPassword" minlength="8" maxlength="20" (input)="comparaPassword()">
-            <span class="toggle-password" (click)="togglePassword('passwordCR')">
-              <img class="iconaOcchio" src="assets/images/icons/view.png" *ngIf="mostraPassword['passwordCR']" alt="" width="20">
-              <img class="iconaOcchio" src="assets/images/icons/hide.png" *ngIf="!mostraPassword['passwordCR']" alt="" width="20">
-            </span>
+            <input type="password" class="form-control inputRA" id="passwordCR" minlength="8" formControlName="confermaPassword" maxlength="20" (input)="comparaPassword()">
+
           </div>
           <div *ngIf="passwordDifferenti" class="error-message">
             Le password non corrispondono.

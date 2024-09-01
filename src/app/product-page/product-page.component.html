@@ -15,15 +15,8 @@
 
       <div class="col-md">   <!--SEZIONE DELLE IMMAGINI DEL PRODOTTO -->
         <div id="left-col-container">
-          <div id="image-array">
-            <button type="button" class="btn btn-light little-image"><img src="assets/images/image-array-ex.png" width="75px" height="55px"> </button>
-            <button type="button" class="btn btn-light little-image"><img src="assets/images/image-array-ex.png" width="75px" height="55px"> </button>
-            <button type="button" class="btn btn-light little-image"><img src="assets/images/image-array-ex.png" width="75px" height="55px"> </button>
-            <button type="button" class="btn btn-light little-image"><img src="assets/images/image-array-ex.png" width="75px" height="55px"> </button>
-          </div>
-
           <div>
-            <img src="assets/images/image-array-ex.png" width="550px" height="530px">
+            <img id="preview" [src]="this.productService.imageUrl" alt="" width="700px" height="700px">
           </div>
         </div>
       </div>
@@ -31,23 +24,35 @@
       <div class="col-md">  <!--SEZIONE NOME E DESCRIZIONE PRODOTTO -->
         <div class="row">
           <div class="col-md">
-            <p id="product-name"><b>{{this.prodotto.name}}</b></p>
-            <p id="product-descr">{{this.prodotto.description}}</p>
-            <p id="product-brand"><b class="bolds">Marca: </b>{{this.prodotto.brand}}</p>
-            <p id="product-primary"><b class="bolds">Colore primario: </b>{{this.prodotto.primaryColor}}</p>
-            <p id="product-secondary"><b class="bolds">Colore secondario: </b>{{this.prodotto.secondaryColor}}</p>
-            <p id="product-sport"><b class="bolds">Sport: </b>{{this.prodotto.sport}}</p>
+            <p id="product-name"><b>{{this.productService.prodotto?.name}}</b></p>
+            <p id="product-descr">{{this.productService.prodotto?.description}}</p>
+            <p id="product-brand"><b class="bolds">Marca: </b>{{this.productService.prodotto?.brand}}</p>
+            <p id="product-primary"><b class="bolds">Colore primario: </b>{{this.productService.prodotto?.primaryColor}}</p>
+            <p id="product-secondary"><b class="bolds">Colore secondario: </b>{{this.productService.prodotto?.secondaryColor}}</p>
+            <p id="product-sport"><b class="bolds">Sport: </b>{{this.productService.prodotto?.sport}}</p>
+            <div *ngIf="this.productService.prodotto?.is_clothing && !this.keyCloak.getAdmin()" class="row pl-2">
+              <p>Seleziona la taglia desiderata:</p>
+              <select class="ml-4" name="quantity-selection" (change)="updateSize($event)">
+                <option value=""></option>
+                <option value="XS">XS</option>
+                <option value="S">S</option>
+                <option value="M">M</option>
+                <option value="L">L</option>
+                <option value="XL">XL</option>
+              </select>
+            </div>
           </div>
 
         <div class="col-md mt-5"> <!--SEZIONE DATI ACQUISTO -->
           <div class="container buy-section mt-5">
 
-              <div class="row pt-4 pl-2">
+              <div *ngIf="!this.keyCloak.getAdmin()" class="row pt-4 pl-2">
                 <p id="order-delivery">Consegna prevista entro il {{this.day}}/{{this.month}}/{{this.year}}</p>
               </div>
 
-              <div class="row pl-2">
-                  <select name ="quantity-selection" id="quantity">
+              <div *ngIf="!this.keyCloak.getAdmin()" class="row pl-2">
+                <p>Seleziona la quantità desiderata:</p>
+                <select name="quantity-selection" id="quantity" (change)="updateQuantity($event)">
                   <option value="1">1</option>
                   <option value="2">2</option>
                   <option value="3">3</option>
@@ -58,29 +63,34 @@
                   <option value="8">8</option>
                   <option value="9">9</option>
                   <option value="10">10</option>
-                  </select>
+                </select>
               </div>
 
-              <div class="row pt-4 pl-2">
-                <p id="price"><b>{{this.prodotto.price}}€</b></p>
+
+            <div class="row pt-4 pl-2">
+                <p id="price">Prezzo: <b>{{this.productService.prodotto?.price}}€</b></p>
+              </div>
+
+            <div class="row pl-2">
+              <p id="discount">Sconto: {{this.productService.prodotto?.discount}}%</p>
+            </div>
+
+              <div class="row d-flex flex-column align-items-center">
+                <button *ngIf="!keyCloak.getAdmin()" type="button" class="btn btn-dark btn-buy mb-2" (click)="addProductToCart(1)">Acquista</button>
+                <button *ngIf="keyCloak.getAdmin()" type="button" class="btn btn-dark btn-custom mb-5 mt 5" (click)="this.productService.modificaProdotto()">Modifica prodotto</button>
               </div>
 
               <div class="row d-flex flex-column align-items-center">
-                <button *ngIf="!keyCloak.getAdmin()" type="button" class="btn btn-dark btn-buy mb-2" (click)="instaBuy($event)">Acquista</button>
-                <button *ngIf="keyCloak.getAdmin()" type="button" class="btn btn-dark btn-buy mb-2" (click)="instaBuy($event)">Modifica prodotto</button>
+                <button *ngIf="!keyCloak.getAdmin()" type="button" class="btn btn-dark btn-custom mb-2" (click)="addProductToCart(0)">Aggiungi al carrello</button>
+                <button *ngIf="keyCloak.getAdmin()" type="button" class="btn btn-danger modifica mb-2
+" (click)="rimozioneProdotto()">Rimuovi prodotto</button>
               </div>
 
               <div class="row d-flex flex-column align-items-center">
-                <button *ngIf="!keyCloak.getAdmin()" type="button" class="btn btn-dark btn-custom mb-2">Aggiungi al carrello</button>
-                <button *ngIf="keyCloak.getAdmin()" type="button" class="btn btn-dark btn-custom mb-2">Rimuovi prodotto</button>
+                <button *ngIf="!keyCloak.getAdmin()" type="button" class="btn btn-dark btn-custom" (click)="addProductWishList()">Aggiungi alla lista desideri</button>
               </div>
 
-              <div class="row d-flex flex-column align-items-center">
-                <button *ngIf="!keyCloak.getAdmin()" type="button" class="btn btn-dark btn-custom" (click)="popUpService.openPopups(5, true)">Aggiungi alla lista desideri</button>
-                <button *ngIf="keyCloak.getAdmin()" type="button" class="btn btn-dark btn-custom" (click)="popUpService.openPopups(5, true)">Aggiungi disponibilità</button>
-              </div>
-
-              <div class="row pt-4 pl-2">
+              <div *ngIf="!this.keyCloak.getAdmin()" class="row pt-4 pl-2">
                 <p>Reso disponibile entro 30 giorni dall'acquisto</p>
               </div>
             </div>
@@ -99,152 +109,74 @@
         </div>
 
         <div class="row">
-          <p>Stelline</p>
+          <p>Media voto: {{this.productService.mediaRecensioni}}/5</p>
         </div>
 
         <div class="row">
-          <p>numero recensioni</p>
+          <p>Numero recensioni: {{this.productService.numeroRecensioni}}</p>
         </div>
 
         <div class="row">
-          <table id="review-histogram">
-            <tr>
-              <td>5 stelle</td>
-              <td><canvas id="5-star-graph" width="200" height="25"></canvas></td>
-              <td id="5-star-perc">75%</td>
-            </tr>
-
-            <tr>
-              <td>4 stelle</td>
-              <td><canvas id="4-star-graph" width="200" height="25"></canvas></td>
-              <td id="4-star-perc"></td>
-            </tr>
-
-            <tr>
-              <td>3 stelle</td>
-              <td><canvas id="3-star-graph" width="200" height="25"></canvas></td>
-              <td id="3-star-perc"></td>
-            </tr>
-
-            <tr>
-              <td>2 stelle</td>
-              <td><canvas id="2-star-graph" width="200" height="25"></canvas></td>
-              <td id="2-star-perc"></td>
-            </tr>
-
-            <tr>
-              <td>1 stelle</td>
-              <td><canvas id="1-star-graph" width="200" height="25"></canvas></td>
-              <td id="1-star-perc"></td>
-            </tr>
-          </table>
+          <p>{{this.productService.scoreRecensioni[4]}} recensioni 5 stelle</p>
+        </div>
+        <div class="row">
+          <p>{{this.productService.scoreRecensioni[3]}} recensioni 4 stelle</p>
+        </div>
+        <div class="row">
+          <p>{{this.productService.scoreRecensioni[2]}} recensioni 3 stelle</p>
+        </div>
+        <div class="row">
+          <p>{{this.productService.scoreRecensioni[1]}} recensioni 2 stelle</p>
+        </div>
+        <div class="row">
+          <p>{{this.productService.scoreRecensioni[0]}} recensioni 1 stelle</p>
         </div>
       </div>
 
 
-      <div class="col">  <!--SEZIONE SINGOLE RECENSIONI-->
-
-        <div class="row">
-
-          <div class="card mb-2">
+      <div class="col"><!--SEZIONE SINGOLE RECENSIONI-->
+        <div class="row" *ngIf="productService.recensioni.length===0">
+          <div *ngIf="!this.keyCloak.getAdmin()" class="card mb-2">
             <div class="card-header">
-              <b>Nome utente</b>
+              <b></b>
             </div>
-            <div class="card-body">
+            <div  class="card-body">
               <blockquote class="blockquote mb-0">
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
+                <p>Il prodotto non ha ancora recensioni <br>Lasciaci la tua!</p>
                 <footer class="blockquote-footer">
-                  Publicato in data: <cite title="Source Title">24/02/2024</cite>
-                  <button *ngIf="!keyCloak.getAdmin()" class="btn btn-danger ml-2">Segnala</button>
-                  <button *ngIf="keyCloak.getAdmin()" class="btn btn-danger ml-2">Rimuovi</button>
                 </footer>
               </blockquote>
             </div>
           </div>
-
         </div>
 
-        <div class="row">
-
+        <div class="row" *ngFor="let item of productService.recensioni; let i=index">
           <div class="card mb-2">
             <div class="card-header">
-              <b>Nome utente</b>
+              <b>{{item.username}}</b>
             </div>
             <div class="card-body">
               <blockquote class="blockquote mb-0">
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
+                <p>{{item.text}}</p>
                 <footer class="blockquote-footer">
-                  Publicato in data: <cite title="Source Title">24/02/2024</cite>
-                  <button class="btn btn-danger ml-2">Segnala</button>
+                  Publicato in data: <cite title="Source Title">{{item.date}}</cite>
+                  <button *ngIf="!keyCloak.getAdmin() && (item.username != this.keyCloak.getUsername())" class="btn btn-danger ml-2" (click)="segnala(item.username, item.id)">Segnala</button>
+                  <button *ngIf="item.username === this.keyCloak.getUsername()" class="btn btn-danger ml-2" (click)="eliminaRecensione(item.productID, item.username)">Rimuovi</button>
                 </footer>
               </blockquote>
             </div>
           </div>
-
-        </div>
-
-        <div class="row">
-
-          <div class="card">
-            <div class="card-header">
-              <b>Nome utente</b>
-            </div>
-            <div class="card-body">
-              <blockquote class="blockquote mb-0">
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
-                <footer class="blockquote-footer">
-                  Publicato in data: <cite title="Source Title">24/02/2024</cite>
-                  <button class="btn btn-danger ml-2" (click)="popUpService.openPopups(1, true)">Segnala</button>
-                </footer>
-              </blockquote>
-            </div>
-          </div>
-
         </div>
 
         <div class="row mt-2">
-            <button class="btn btn-primary mr-2" (click)="this.getProductData()">Up</button>
-            <button class="btn btn-primary">Down</button>
+            <button class="btn btn-dark btn-custom mr-2" *ngIf="productService.recensioni.length>9" (click)="productService.avanzaRecensioni()">Carica altre</button>
+            <button *ngIf="!keyCloak.getAdmin()" class="btn btn-dark btn-buy" (click)="popUpService.openPopups(2, true)">Aggiungi recensione</button>
         </div>
       </div>
 
     </div>
   </div>
 
-    <div class="container mt-5 mb-5  pt-5">
-      <div class="row">
-        <div class="col">
-          <div class="card">
-            <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
-            <div class="card-body">
-              <h5 class="card-title">Prodotto 2</h5>
-              <p class="card-text">Descrizione breve del prodotto.</p>
-              <a href="#" class="btn btn-dark">Dettagli</a>
-            </div>
-          </div>
-        </div>
-        <div class="col">
-          <div class="card">
-            <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
-            <div class="card-body">
-              <h5 class="card-title">Prodotto 2</h5>
-              <p class="card-text">Descrizione breve del prodotto.</p>
-              <a href="#" class="btn btn-dark">Dettagli</a>
-            </div>
-          </div>
-        </div>
-        <div class="col">
-          <div class="card">
-            <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
-            <div class="card-body">
-              <h5 class="card-title">Prodotto 2</h5>
-              <p class="card-text">Descrizione breve del prodotto.</p>
-              <a href="#" class="btn btn-dark">Dettagli</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
   </div>
 </body>
 <footer>

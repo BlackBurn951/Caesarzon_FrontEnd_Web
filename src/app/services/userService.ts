@@ -1,16 +1,12 @@
-import {Injectable, numberAttribute} from "@angular/core";
+import {Injectable} from "@angular/core";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {UserRegistration} from "../entities/UserRegistration";
 import {Observable} from "rxjs";
 import {KeyCloakService} from "./keyCloakService";
 import {User} from "../entities/User";
 import {PopupService} from "./popUpService";
-import {Reports} from "../entities/Report";
-import {Reviews} from "../entities/Review";
-import {Supports} from "../entities/Supports";
-import {UserSearch} from "../entities/UserSearch";
-import {Bans} from "../entities/Bans";
-import {Returns} from "../entities/Returns";
+import {PasswordChange} from "../entities/PasswordChange";
+import {OtpDTO} from "../entities/OtpDTO";
 
 
 @Injectable({
@@ -19,47 +15,59 @@ import {Returns} from "../entities/Returns";
 export class UserService {
 
   testoButton: string = "Modifica dati";
+
   inputAbilitato: boolean = false;
 
-  loading: boolean = false;
+  cambioPasswordLogged: boolean = false
 
-  accept!: boolean;
+  codice: string[] = ['', '', '', '', ''];
+
+  newPassword: string = '';
+  confirmPassword: string = '';
+
+  lunghezzaCodice!:boolean;
+
+  username: string = "";
+
+  stringaOtp: string = ""
+
+  nomeProfilo: string = ""
+
+  otpSbagliato!:boolean;
 
 
   private manageUserDataURL = 'http://localhost:8090/user-api/user';
 
+  private managePasswordURL = 'http://localhost:8090/user-api/password';
+
   private manageProfilePicURL = 'http://localhost:8090/user-api/image';
 
-  private reviewURL = 'http://localhost:8090/notify-api/review';
+  private otpURL = 'http://localhost:8090/user-api/otp/';
+
 
 
   constructor( private http: HttpClient, private keycloakService: KeyCloakService, private popUp: PopupService) { }
 
 
-  sendReviews(numStelle: number, descrizione: string) {
-    const review: Reviews = {
-      numStelle: numStelle,
-      descrizione: descrizione,
-      dataRecensione: ""
+
+  cambioPassword(password: string){
+    const passwordChange: PasswordChange = {
+      username: this.username,
+      password: password
     };
 
-    this.sendReview(review).subscribe(
+    this.sendPasswordChange(passwordChange).subscribe(
       response => {
-        this.popUp.updateStringa("Recensione inviata correttamente!")
-        this.popUp.openPopups(10, true)
+        if(response === "Password cambiata")
+        this.popUp.updateStringa("Password cambiata correttamente!")
+        this.popUp.openPopups(10345, true)
       },
       error => {
-        this.popUp.updateStringa("Problemi nell'invio della recensione!.")
-        this.popUp.openPopups(10, true)
+        this.popUp.updateStringa("Problemi nel cambio della password.")
+        this.popUp.openPopups(10435, true)
       }
     );
   }
-
-  sendReview(reviews: Reviews): Observable<any> {
-    const headers = this.keycloakService.permaHeader()
-    return this.http.post<any>(this.reviewURL, reviews, { headers, responseType: 'text' as 'json' });
-  }
-
 
 
   sendUser(username: string, email:string, firstName:string, lastName: string, credentialValue: string) {
@@ -74,14 +82,14 @@ export class UserService {
     this.sendUserData(userData).subscribe(
       response => {
         this.popUp.updateStringa("Account creato correttamente! Verrai reinderizzato")
-        this.popUp.openPopups(10, true)
+        this.popUp.openPopups(103, true)
         setTimeout(() => {
           this.keycloakService.login(username, credentialValue);
         }, 3000);
       },
       error => {
         this.popUp.updateStringa("Problemi nella creazione dell'account, riprova più tardi.")
-        this.popUp.openPopups(10, true)
+        this.popUp.openPopups(1034, true)
         console.error('Error sending user data:', error);
       }
     );
@@ -93,7 +101,6 @@ export class UserService {
     this.http.delete<string>(this.manageUserDataURL, { headers , responseType: 'text' as 'json' })
       .subscribe({
         next: (response) => {
-          console.log('User eliminato con successo:', response);
           this.popUp.updateStringa(response)
           this.popUp.openPopups(10, true)
           this.keycloakService.setLoggedStatus()
@@ -107,6 +114,14 @@ export class UserService {
           console.error('Errore durante l\'eliminazione dell\'account', error);
         }
       });
+  }
+
+  recoveryPass: boolean = false
+
+  sendPasswordChange(passwordChange: PasswordChange): Observable<any> {
+    const headers = this.keycloakService.permaHeader()
+    const customUrl = this.managePasswordURL+"?recovery="+this.recoveryPass
+    return this.http.put<any>(customUrl, passwordChange, { headers, responseType: 'text' as 'json' });
   }
 
   sendUserData(userData: UserRegistration): Observable<any> {
@@ -128,7 +143,6 @@ export class UserService {
   getUserProfilePicByUser(username: string): Observable<Blob> {
     const headers = this.keycloakService.permaHeader()
     const customUrl = this.manageProfilePicURL + '/' + username;
-    console.log("url completo: " + customUrl)
     return this.http.get(customUrl, {headers, responseType: 'blob' });
   }
 
@@ -145,7 +159,7 @@ export class UserService {
     this.modifyUserData(userData).subscribe(
       response => {
         this.popUp.updateStringa("Dati modificati con successo!")
-        this.popUp.openPopups(10, true)
+        this.popUp.openPopups(1450, true)
         this.testoButton = "Modifica dati"
         this.inputAbilitato = false
       },
@@ -158,7 +172,7 @@ export class UserService {
 
   modifyUserData(userData: User): Observable<any> {
     const headers = this.keycloakService.permaHeader()
-    return this.http.put<any>(this.manageUserDataURL, userData, { headers, responseType: 'text' as 'json' });
+    return this.http.put<string>(this.manageUserDataURL, userData, { headers, responseType: 'text' as 'json' });
   }
 
   uploadImage(file: File): Observable<any> {
@@ -169,9 +183,81 @@ export class UserService {
       'Authorization': 'Bearer ' + this.keycloakService.getAccessToken()
     });
 
+    let customURL;
+    if(!this.keycloakService.getAdmin()){
+      customURL = this.manageProfilePicURL
+    }else{
+      customURL = this.manageProfilePicURL+'/admin/'+this.username
+    }
 
-    return this.http.put(this.manageProfilePicURL, formData, { headers, responseType: 'text'});
+    return this.http.put(customURL, formData, { headers, responseType: 'text'});
   }
+
+
+  passwordDimenticata(passwordChange: PasswordChange){
+    const headers = this.keycloakService.permaHeader()
+    const customUrl = this.managePasswordURL+"?recovery=true"
+    return this.http.put<string>(customUrl, passwordChange, { headers, responseType: 'text' as 'json' });
+  }
+
+
+  sendOTP(){
+    const headers = this.keycloakService.permaHeader()
+    let codiceCompleto = this.codice[0]+this.codice[1]+this.codice[2]+this.codice[3]+this.codice[4];
+    const customUrl = this.otpURL+codiceCompleto
+    const otp: OtpDTO = {
+      username: this.username,
+      password: this.newPassword
+    };
+    return this.http.put<string>(customUrl, otp,{ headers, responseType: 'text' as 'json' }).subscribe(response => {
+      if(response === "Password cambiata"){
+        this.recoveryPass = false
+        this.codice =  ['', '', '', '', ''];
+        this.popUp.closePopup()
+        this.popUp.updateStringa("Password cambiata con successo!")
+        this.popUp.openPopups(104, true)
+
+      }else{
+        this.otpSbagliato = true
+        this.popUp.updateStringa(response)
+        this.popUp.openPopups(104, true)
+      }
+    })
+
+  }
+
+  forgotPass(event: Event) {
+    event.preventDefault()
+    if(this.username === ""){
+      this.popUp.updateStringa("Inserisci prima un username!")
+      this.popUp.openPopups(104, true);
+    }else{
+      this.keycloakService.loading = true
+      const passwordChange: PasswordChange = {
+        username: this.username,
+        password: ""
+      };
+      this.passwordDimenticata(passwordChange).subscribe(response => {
+        if(response === "Problemi nell'invio dell'otp..."){
+          this.keycloakService.loading = false
+          this.popUp.updateStringa(response)
+          this.popUp.openPopups(104, true);
+        }else if(response === "Utente non trovato..."){
+          this.keycloakService.loading = false
+          this.popUp.updateStringa(response)
+          this.popUp.openPopups(104, true);
+        }else{
+          this.popUp.closePopup()
+          this.stringaOtp = response
+          this.keycloakService.loading = false
+          this.popUp.updateStringa(response)
+          this.popUp.openPopups(12, true);
+        }
+
+      })
+    }
+  }
+
 
 
 

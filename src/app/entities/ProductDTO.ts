@@ -1,6 +1,6 @@
 //DTO relativo ai dati del prodotto da mostrare sulla pagine del prodottoù
 
-import {Availabilities} from "./Availabilities";
+import {AvailabilitiesSingle} from "./AvaibilitiesSingle";
 
 export interface ProductDTO {
   id: string
@@ -11,7 +11,10 @@ export interface ProductDTO {
   discount: number
   primaryColor: string
   secondaryColor: string
-  is_clothing: boolean
-  availabilities: Availabilities[]
+  is_clothing: Boolean
+  availabilities: AvailabilitiesSingle[]
   sport: string
+  lastModified: string
+
+
 }

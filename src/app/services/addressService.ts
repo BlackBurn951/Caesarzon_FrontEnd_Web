@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
-import {Observable, tap} from 'rxjs';
+import {Injectable, OnInit} from '@angular/core';
+import { HttpClient} from '@angular/common/http';
+import {forkJoin, Observable} from 'rxjs';
 import { Address } from "../entities/Address";
 import { KeyCloakService } from "./keyCloakService";
 import { FormGroup } from "@angular/forms";
@@ -8,19 +8,25 @@ import { FormService } from "./formService";
 import { City } from "../entities/City";
 import {PopupService} from "./popUpService";
 import {Router} from "@angular/router";
-import {UserService} from "./userService";
+
 
 @Injectable({
   providedIn: 'root'
 })
-export class AddressService {
+export class AddressService implements OnInit{
 
-  indirizzoCorrente!: Address;
+  ngOnInit(): void {
+  }
+
+  indirizzoCorrente: Address | null = null;
 
   addressesName: string[] = [];
+
+  addresses: Address[] = [];
+
   addressMap: { [key: string]: string } = {};
 
-  nomeIndirizzo!: string;
+  nomeIndirizzo: string = ""
 
   formCaesarzon!: FormGroup;
 
@@ -29,24 +35,56 @@ export class AddressService {
   private getAddressNamesURL = 'http://localhost:8090/user-api/addresses';
 
 
-  constructor(private userService: UserService, private router: Router, private popUp: PopupService, private http: HttpClient, private keycloakService: KeyCloakService, private formService: FormService) {
+  constructor(private router: Router, private popUp: PopupService, private http: HttpClient, private keycloakService: KeyCloakService, private formService: FormService) {
     this.formCaesarzon = formService.getForm();
   }
 
 
   //Metodo per prendere il singolo indirizzo
-  getAddresses(idAddress: string): Observable<Address> {
+  getAddress(idAddress: string): Observable<Address> {
     const urlWithParams = `${this.manageAddressURL}?address_id=${idAddress}`;
     const headers = this.keycloakService.permaHeader()
-
     return this.http.get<Address>(urlWithParams, { headers });
   }
+
+  getAddressesNamePayment() {
+    const headers = this.keycloakService.permaHeader();
+
+    this.http.get<string[]>(this.getAddressNamesURL, { headers }).subscribe({
+      next: (response) => {
+        this.addressesName = response;
+
+        // Creo un array di observable per ogni chiamata a getAddress
+        const requests = this.addressesName.map(addr => this.getAddress(addr));
+
+        // Utilizzo forkJoin per eseguire tutte le richieste in parallelo
+        forkJoin(requests).subscribe(
+          (addresses: Address[]) => {
+            this.addresses = addresses; // Assegno tutti gli indirizzi alla lista addresses
+          },
+          (error) => {
+            console.error('Error fetching addresses:', error);
+          }
+        );
+      },
+      error: (error) => {
+        console.error('Error fetching address names:', error);
+      }
+    });
+  }
+
 
   //Metodo per prende la lista degli indirizzi dell'utente
   getAddressesName() {
     const headers = this.keycloakService.permaHeader();
+    let urlWithParams;
+    if (this.keycloakService.getAdmin()) {
+      urlWithParams = this.getAddressNamesURL+'/'+this.keycloakService.getUsername()
+    }else{
+      urlWithParams = this.getAddressNamesURL
+    }
 
-    this.http.get<string[]>(this.getAddressNamesURL, { headers }).subscribe({
+    this.http.get<string[]>(urlWithParams, { headers }).subscribe({
       next: (response) => {
         this.addressesName = response;
         this.generateAddressMap();
@@ -54,22 +92,26 @@ export class AddressService {
         this.nomeIndirizzo = this.addressesName[0];
 
         if (this.addressesName.length > 0) {
-          this.getAddresses(this.addressesName[0]).subscribe({
+          this.getAddress(this.addressesName[0]).subscribe({
             next: (response: Address) => {
-              this.userService.loading = false;
+              this.keycloakService.loading = false;
               this.indirizzoCorrente = response;
               this.router.navigate(['address-data']);
             },
             error: (error: any) => {
-              this.userService.loading = false;
+              this.keycloakService.loading = false;
               if (error.status === 404) {
                 this.router.navigate(['address-data']);
               } else {
-                this.userService.loading = false;
+                this.keycloakService.loading = false;
                 console.error('Error fetching address:', error);
               }
             }
           });
+        }else{
+          this.keycloakService.loading = false
+          this.router.navigate(['address-data']);
+
         }
       },
       error: (error) => {
@@ -89,19 +131,17 @@ export class AddressService {
   //Metodo per eliminare l'indirizzo attualmente selezionato
   deleteAddress(){
     const urlWithParams = `${this.manageAddressURL}?address_id=${this.nomeIndirizzo}`;
-
     const headers = this.keycloakService.permaHeader()
 
     this.http.delete<string>(urlWithParams, { headers , responseType: 'text' as 'json' })
       .subscribe({
         next: (response) => {
-          console.log('Indirizzo eliminato con successo:', response);
           this.popUp.updateStringa(response)
-          this.popUp.openPopups(13, true)
+          this.popUp.openPopups(104, true)
+          this.clearFields()
           setTimeout(()=>{
             window.location.reload()
-
-          }, 1000);
+          }, 1500);
 
         },
         error: (error) => {
@@ -143,14 +183,16 @@ export class AddressService {
       response => {
         this.popUp.closePopup()
         this.popUp.updateStringa("Indirizzo aggiunto con successo!")
-        this.popUp.openPopups(10, true)
+        this.popUp.openPopups(134, true)
         this.clearFields()
-        window.location.reload()
+        setTimeout(()=>{
+          window.location.reload()
+        }, 2000);
       },
       error => {
         this.popUp.closePopup()
         this.popUp.updateStringa("Errore nell'aggiunta dell'indirizzo!")
-        this.popUp.openPopups(10, true)
+        this.popUp.openPopups(1234, true)
         this.clearFields()
       }
     );
@@ -158,13 +200,20 @@ export class AddressService {
 
   sendAddressData(addressData: Address): Observable<string> {
     const headers = this.keycloakService.permaHeader()
-    return this.http.post(this.manageAddressURL, addressData, { headers, responseType: 'text' }) as Observable<string>;
+    if (this.keycloakService.getAdmin()) {
+    const customURL = this.manageAddressURL + '/' + this.keycloakService.getUsername()
+    return this.http.post(customURL, addressData, {headers, responseType: 'text'}) as Observable<string>;
+    }
+    else{
+      return this.http.post(this.manageAddressURL, addressData, { headers, responseType: 'text' }) as Observable<string>;
+    }
+
   }
 
   //Metodo per pulire i campi
   clearFields(){
-    const formCarta = this.formCaesarzon.get('formIndirizzo') as FormGroup;
-    formCarta.patchValue({
+    const formIndirizzo = this.formCaesarzon.get('formIndirizzo') as FormGroup;
+    formIndirizzo.patchValue({
       id: '',
       tipologiaStrada: '',
       nomeStrada: '',
@@ -175,6 +224,10 @@ export class AddressService {
       regione: '',
 
     });
+    this.formService.resetFormErrors(formIndirizzo)
+
   }
+
+
 
 }

@@ -6,70 +6,65 @@ import {FormService} from "../services/formService";
 import {AddressService} from "../services/addressService";
 import {CardsService} from "../services/cardsService";
 import {UserService} from "../services/userService";
-import {BehaviorSubject, Subscription} from "rxjs";
 import {AdminService} from "../services/adminService";
 import {ProductService} from "../services/productService";
+import {WishListService} from "../services/wishListService";
+import {KeyCloakService} from "../services/keyCloakService";
+import {FriendFollowerService} from "../services/friendFollowerService";
+import {UserSearch} from "../entities/UserSearch";
+import {MatDialogRef} from "@angular/material/dialog";
+import {CartService} from "../services/cartService";
 
 @Component({
   selector: 'app-all-popup',
   templateUrl: './all-popup.component.html',
   styleUrls: ['./all-popup.component.css', '../../styles.css']
 })
-export class AllPopupComponent{
+export class AllPopupComponent implements OnInit{
 
   section:number = 0
   sectionLabel:string = "Cerca utenti"
-
-  ratingSubject = new BehaviorSubject<number>(0);
 
   rispostaAdminValida: boolean = false;
 
   //Creazione delle variabili base da utilizzare per inviare i dati al server
 
-  motivoSegnalazione!: string;
-  descrizioneSegnalazione!: string;
-  usernameSegnalato!: string;
-
-  valutazione: number = 0;
-  descrizioneRecensione!: string;
-
-  newPassword: string = '';
   pass: string = '';
-  confirmPassword: string = '';
   newPasswordError: string = '';
   confirmPasswordError: string = '';
+  searchTerm: string = ''; // Holds the search term entered by the user
 
 
-  mostraPassword: { [key: string]: boolean } = { password: false, confermaPassword: false };
+  mostraPassword: { [key: string]: boolean } = { password: false, confermaPassword: false};
 
-  users = [
-    { name: 'Mario Rossi', imgPath: 'path-to-image-1.jpg' },
-    { name: 'Giulia Bianchi', imgPath: 'path-to-image-2.jpg' },
-    { name: 'Luca Verdi', imgPath: 'path-to-image-3.jpg' }
-  ];
-
-  usersFollow = [
-    { name: 'Anna Gialli', imgPath: 'path-to-image-4.jpg' },
-    { name: 'Paolo Neri', imgPath: 'path-to-image-5.jpg' },
-    { name: 'Sara Marroni', imgPath: 'path-to-image-6.jpg' }
-  ];
-
-  usersFriend = [
-    { name: 'Giovanni Celesti', imgPath: 'path-to-image-7.jpg' },
-    { name: 'Eleonora Rosa', imgPath: 'path-to-image-8.jpg' },
-    { name: 'Marco Blu', imgPath: 'path-to-image-9.jpg' }
-  ];
 
   formCaesarzon!: FormGroup;
 
 
-  constructor(protected productService: ProductService, private addressService: AddressService, private cardService: CardsService, public popUpService:PopupService, protected ottieniCittaService: ottieniCittaService, protected formService: FormService, protected userService: UserService, protected adminService: AdminService){
+  constructor(protected cartService: CartService, private dialogError: MatDialogRef<AllPopupComponent>, protected friendFollow: FriendFollowerService, protected keyCloak: KeyCloakService, protected wishListService:WishListService, protected productService: ProductService, private addressService: AddressService, private cardService: CardsService, public popUpService:PopupService, protected ottieniCittaService: ottieniCittaService, protected formService: FormService, protected userService: UserService, protected adminService: AdminService){
     this.formCaesarzon= this.formService.getForm();
-
   }
 
-  rate(rating: number) {
-    this.ratingSubject.next(rating);
+  resetVariables(){
+    this.userService.newPassword = ''
+    this.pass = ''
+    this.userService.confirmPassword = ''
+    this.newPasswordError = ''
+    this.confirmPasswordError = ''
+    this.mostraPassword = {password: false, confermaPassword: false}
+  }
+
+  openChangePassword(){
+    this.popUpService.openPopups(8, false)
+  }
+  ok(){
+    if(this.productService.acquistoRapido){
+      if(this.productService.prodotto)
+        this.cartService.removeFromCart(this.productService.prodotto.id)
+      this.dialogError.close();
+    }
+    this.dialogError.close();
+
   }
 
   aggiungiIndirizzo(){
@@ -83,55 +78,123 @@ export class AllPopupComponent{
   changeSection(numb: number, label: string) {
     this.section = numb
     this.sectionLabel = label;
+    this.friendFollow.salvaCambiamenti()
   }
 
 
+  apriListe(username: string){
 
-  //Metodo per cambiare la visibilità della text field della password
-  togglePassword(fieldName: string) {
-    const passwordField = document.getElementById(fieldName) as HTMLInputElement;
-    this.mostraPassword[fieldName] = !this.mostraPassword[fieldName];
+    this.userService.nomeProfilo = username
+    this.wishListService.getUserWishList(0, username)
+    this.popUpService.openPopups(13, false)
+  }
 
-    if (this.mostraPassword[fieldName]) {
-      passwordField.type = 'text';
+  creaNuovalista(num: number){
+    this.wishListService.creazioneListaValue = num
+    this.popUpService.openPopups(4, true)
+  }
+
+  back(){
+    this.popUpService.closePopup()
+    this.popUpService.openPopups(0, false)
+  }
+
+  chiudiPopUpESalvaUtenti(){
+    this.popUpService.closePopup()
+    this.friendFollow.salvaCambiamenti()
+  }
+
+  isUserInFollow(user: UserSearch): boolean {
+    if(this.friendFollow.usersFollow)
+      return this.friendFollow.usersFollow.some(followedUser => followedUser.username === user.username);
+    else
+      return false
+  }
+
+  isUserInFriend(user: UserSearch): boolean {
+    if(this.friendFollow.usersFriend && this.friendFollow.usersFriend.length > 0)
+      return this.friendFollow.usersFriend.some(friendsUser => friendsUser.username === user.username);
+    else{
+      return false
+    }
+  }
+
+  updateCodice(index: number, event: Event): void {
+    const inputElement = event.target as HTMLInputElement;
+    this.userService.codice[index] = inputElement.value;
+
+    const spaziVuoti = this.userService.codice.filter(val => val === '').length;
+    this.userService.lunghezzaCodice = spaziVuoti === 0;
+
+    if (inputElement.value === '' && index > 0) {
+      const prevIndex = index - 1;
+      const prevInput = document.getElementById(`input${prevIndex}`) as HTMLInputElement | null;
+      if (prevInput) {
+        prevInput.focus();
+      }
     } else {
-      passwordField.type = 'password';
+      const nextIndex = index + 1;
+      if (nextIndex < this.userService.codice.length) {
+        const nextInput = document.getElementById(`input${nextIndex}`) as HTMLInputElement | null;
+        if (nextInput) {
+          nextInput.focus();
+        }
+      }
     }
   }
 
 
+  ngOnInit(): void {
+    this.keyCloak.loading = false
+    this.resetVariables()
+    this.keyCloak.getNotify().subscribe(notifies => {
+      this.keyCloak.notifications = notifies;
+    })
+    this.productService.ricerca =""
 
-  //Metodo che dopo aver validato al password chiama il server che effettuare il cambio
+  }
+
   validatePassword(): void {
     this.newPasswordError = '';
     this.confirmPasswordError = '';
     const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@$#%^&*()_+]).{8,16}$/;
 
 
-    if (!passwordPattern.test(this.newPassword)) {
+    if (!passwordPattern.test(this.userService.newPassword)) {
       this.newPasswordError = 'Formato incorretto: es. CiaoCiao69!'
 
       return;
     }
 
 
-    if (this.confirmPassword.trim() === '') {
+    if (this.userService.confirmPassword.trim() === '') {
       this.confirmPasswordError = 'Si prega di confermare la password';
       return;
     }
 
-    if (this.newPassword !== this.confirmPassword) {
+    if (this.userService.newPassword !== this.userService.confirmPassword) {
       this.confirmPasswordError = 'Le password non corrispondono';
       return;
     }
-    //this.utente.cambiaPassword(this.formService.username, this.newPassword);
-    this.popUpService.updateStringa('Cambio password avvenuto con successo')
-    this.popUpService.openPopups(141, true);
+    if(this.userService.cambioPasswordLogged){
+      this.userService.cambioPassword(this.userService.newPassword);
+      this.popUpService.updateStringa('Cambio password avvenuto con successo')
+      this.popUpService.openPopups(141, true);
+      this.confirmPasswordError = '';
+      this.newPasswordError = '';
+      this.popUpService.closePopup()
+    }else{
+      this.userService.sendOTP()
+      this.confirmPasswordError = '';
+      this.newPasswordError = '';
+    }
 
-    this.confirmPasswordError = '';
-    this.newPasswordError = '';
+  }
+
+  closePopUpAddressCard(){
+    this.addressService.clearFields()
+    this.cardService.clearFields()
     this.popUpService.closePopup()
-
 
   }
 
@@ -155,14 +218,17 @@ export class AllPopupComponent{
     this.userService.deleteUser()
   }
 
+  rate(value: number) {
+    this.productService.valutazioneRecensione = value;
+  }
 
   //Metodi per la validazione dei campi
   isFormReportValid(): boolean {
-    return !!this.descrizioneSegnalazione && this.descrizioneSegnalazione.length >= 5 && this.descrizioneSegnalazione.length <= 500;
+    return !!this.adminService.descrizioneSegnalazione && this.adminService.descrizioneSegnalazione.length >= 5 && this.adminService.descrizioneSegnalazione.length <= 500;
   }
 
   isFormReviewValid(): boolean {
-    return !!this.descrizioneRecensione && this.descrizioneRecensione.length >= 5 && this.descrizioneRecensione.length <= 500 && this.valutazione > 0 && this.valutazione <=5 ;
+    return !!this.productService.descrizioneRecensione && this.productService.descrizioneRecensione.length >= 5 && this.productService.descrizioneRecensione.length <= 500 && this.productService.valutazioneRecensione > 0 && this.productService.valutazioneRecensione <=5 ;
   }
 
   checkValid() {
@@ -170,20 +236,14 @@ export class AllPopupComponent{
   }
 
 
-
-
-
-  //Metodi per inviare recensioni e segnalazioni al server previa validazione dei campi
-  sendReview(){
-    if(this.isFormReviewValid()){
-      this.userService.sendReviews(this.valutazione, this.descrizioneRecensione)
-    }
-  }
-
   sendReport(){
     if(this.isFormReportValid()) {
-      this.adminService.sendReports(this.motivoSegnalazione, this.descrizioneSegnalazione, this.usernameSegnalato)
+      this.adminService.sendReports()
     }
   }
+
+
+  highlightedRow: number = -1;
+
 
 }

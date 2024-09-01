@@ -1,33 +1,34 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormGroup} from "@angular/forms";
 import {FormService} from "../services/formService";
 import {PopupService} from "../services/popUpService";
 import {KeyCloakService} from "../services/keyCloakService";
 import {UserService} from "../services/userService";
 
-
 @Component({
   selector: 'app-registration',
   templateUrl: './registration.component.html',
   styleUrls: ['./registration.component.css', '../../styles.css']
-
 })
-export class RegistrationComponent {
+
+export class RegistrationComponent implements OnInit{
 
   protected formCaesarzon!: FormGroup;
 
-  password! : string;
-  username!: string;
-
-  mostraPassword: { [key: string]: boolean } = { password: false, confermaPassword: false };
+  password : string = ''
 
   passwordDifferenti: boolean = false;
 
-
-  constructor(public formService: FormService, public popupService: PopupService, public keycloakService: KeyCloakService, private userService: UserService) {
+  constructor(public formService: FormService, public popupService: PopupService, public keycloakService: KeyCloakService, protected userService: UserService) {
     this.formCaesarzon = formService.getForm();
   }
 
+  ngOnInit(): void {
+    this.password = ''
+    this.keycloakService.getNotify().subscribe(notifies => {
+      this.keycloakService.notifications = notifies;
+    })
+  }
 
   //Metodo per modificare la grandezza del popUp a seconda se si è nel login o nella registrazione di un nuovo utente
   cambiaLarghezza(num: number) {
@@ -61,17 +62,8 @@ export class RegistrationComponent {
     this.passwordDifferenti = confermaPasswordValue !== passwordValue;
   }
 
-  //Metodo per cambiare la visibilità del campo relativo alla password
-  togglePassword(fieldName: string) {
-    const passwordField = document.getElementById(fieldName) as HTMLInputElement;
-    this.mostraPassword[fieldName] = !this.mostraPassword[fieldName];
 
-    if (this.mostraPassword[fieldName]) {
-      passwordField.type = 'text';
-    } else {
-      passwordField.type = 'password';
-    }
-  }
+
 
 
 

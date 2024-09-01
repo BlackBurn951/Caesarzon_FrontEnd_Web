@@ -8,11 +8,9 @@ import {FormService} from "../services/formService";
 import {UserService} from "../services/userService";
 import {User} from "../entities/User";
 import {KeyCloakService} from "../services/keyCloakService";
-import {resolve} from "@angular/compiler-cli";
 import {DomSanitizer, SafeUrl} from "@angular/platform-browser";
-import {Observable} from "rxjs";
-import {HttpClient} from "@angular/common/http";
-import {ActivatedRoute} from "@angular/router";
+import {AdminService} from "../services/adminService";
+import {ProductService} from "../services/productService";
 
 @Component({
   selector: 'app-personal-data',
@@ -33,12 +31,11 @@ export class PersonalDataComponent implements OnInit{
   formCaesarzon!: FormGroup;
 
   //Creazione dei campi necessari alla visualizzazione dei dati utente
-  nome!: string;
-  cognome!: string;
-  email!: string ;
-  username!: string;
-
-  numero!: string;
+  nome: string = ''
+  cognome: string = ''
+  email: string  = ''
+  username: string = ''
+  numero: string = ''
 
   selectedFile!: File;
 
@@ -47,62 +44,105 @@ export class PersonalDataComponent implements OnInit{
   paypalURL: string = 'http://localhost:8090/product-api/success'
 
 
-  constructor(private route: ActivatedRoute, private http: HttpClient, private sanitizer: DomSanitizer, protected formService: FormService, protected userService: UserService, protected popUpService: PopupService, private keycloakService: KeyCloakService) {
+  constructor(private productService: ProductService, private adminService: AdminService, private sanitizer: DomSanitizer, protected formService: FormService, protected userService: UserService, protected popUpService: PopupService, protected keycloakService: KeyCloakService) {
     this.formCaesarzon = formService.getForm()
-
   }
 
-  getSuccess(paymentID: string | null, token: string | null, payerID: string | null): Observable<string> {
-    const headers = this.keycloakService.permaHeader();
-    const customURL = `${this.paypalURL}?paymentId=${paymentID}&token=${token}&PayerID=${payerID}`;
-    return this.http.get(customURL, { headers, responseType: 'text' });
+  resetVaraibles(){
+    this.nome = ''
+    this.cognome = ''
+    this.numero = ''
+    this.email = ''
+    this.username = ''
+  }
+
+
+  eliminaProfiloUtente(){
+    this.popUpService.operazione = 11
+    if(this.keycloakService.getAdmin()){
+      this.popUpService.updateStringa("Sei sicuro di voler eliminare l'account dell'utente: " + this.userService.username+'?')
+    }else{
+      this.popUpService.updateStringa("Sei sicuro di voler eliminare il tuo account?")
+    }
+    this.popUpService.openPopups(140, false)
   }
 
 
   //All'inizializzazione della pagina vengono caricati tutti i dati relativi all'utente
   ngOnInit(): void {
-    const paymentID = this.route.snapshot.queryParamMap.get('paymentId');
-    const token = this.route.snapshot.queryParamMap.get('token');
-    const payerID = this.route.snapshot.queryParamMap.get('PayerID');
-    console.log(paymentID);
-    console.log(token);
-    console.log(payerID)
+    this.productService.ricerca =""
 
-    this.userService.getUserData().subscribe(
-      (userData: User) => {
-        this.formCaesarzon.get('formDatipersonali.nome')?.setValue(userData.firstName);
-        this.formCaesarzon.get('formDatipersonali.cognome')?.setValue(userData.lastName);
-        this.formCaesarzon.get('formDatipersonali.email')?.setValue(userData.email);
-        this.formCaesarzon.get('formDatipersonali.username')?.setValue(userData.username);
-        this.formCaesarzon.get('formDatipersonali.cellulare')?.setValue(userData.phoneNumber);
+    this.resetVaraibles()
+    if(this.keycloakService.getAdmin()){
+      this.keycloakService.loading = true
+      this.adminService.getUserData(this.userService.username).subscribe(
+        (userData: User) => {
+          this.setFormValue(userData)
+          this.keycloakService.loading = false
 
-      },
-      error => {
-        console.error('Error fetching user data:', error);
-      }
-    );
+        },
+        error => {
+          console.error('Error fetching user data:', error);
+        }
+      );
+    }else{
+      this.keycloakService.loading = true
+      this.userService.getUserData().subscribe(
+        (userData: User) => {
+          this.setFormValue(userData)
+          this.keycloakService.loading = false
+
+        },
+        error => {
+          console.error('Error fetching user data:', error);
+        }
+      );
+    }
     this.loadImage()
-    this.getSuccess(paymentID, token, payerID).subscribe(
-      success => {
-        console.log('Success response:', success);
-      },
-      error => {
-        console.error('Error fetching success response:', error);
-      }
-    );
+
+
+
+  }
+
+  setFormValue(userData: User){
+    this.formCaesarzon.get('formDatipersonali.nome')?.setValue(userData.firstName);
+    this.formCaesarzon.get('formDatipersonali.cognome')?.setValue(userData.lastName);
+    this.formCaesarzon.get('formDatipersonali.email')?.setValue(userData.email);
+    this.formCaesarzon.get('formDatipersonali.username')?.setValue(userData.username);
+    this.formCaesarzon.get('formDatipersonali.cellulare')?.setValue(userData.phoneNumber);
+  }
+
+
+
+  cambiaPass(){
+    this.userService.cambioPasswordLogged = true
+    this.popUpService.openPopups(8, false)
   }
 
   //Metodo per caricare l'immagine di profilo dal DB
   loadImage(): void {
-    this.userService.getUserProfilePic().subscribe(
-      response => {
-        const url = URL.createObjectURL(response);
-        this.imageUrl = this.sanitizer.bypassSecurityTrustUrl(url);
-      },
-      error => {
-        console.error('Errore nel caricamento dell\'immagine', error);
-      }
-    );
+    if(this.keycloakService.getAdmin()){
+      this.adminService.getUserProfilePic(this.userService.username).subscribe(
+        response => {
+          const url = URL.createObjectURL(response);
+          this.imageUrl = this.sanitizer.bypassSecurityTrustUrl(url);
+        },
+        error => {
+          console.error('Errore nel caricamento dell\'immagine', error);
+        }
+      );
+    }else{
+      this.userService.getUserProfilePic().subscribe(
+        response => {
+          const url = URL.createObjectURL(response);
+          this.imageUrl = this.sanitizer.bypassSecurityTrustUrl(url);
+        },
+        error => {
+          console.error('Errore nel caricamento dell\'immagine', error);
+        }
+      );
+    }
+
   }
 
 
@@ -113,7 +153,6 @@ export class PersonalDataComponent implements OnInit{
     this.selectedFile = event.target.files[0];
     const reader = new FileReader();
     const maxSize = 3 * 1024 * 1024; // 6 MB
-
 
     if (file) {
       if (file.size > maxSize) {
@@ -147,7 +186,6 @@ export class PersonalDataComponent implements OnInit{
 
         },
         error => {
-          console.log(error);
            }
       );
     }
@@ -208,7 +246,12 @@ export class PersonalDataComponent implements OnInit{
   //Metodo per mandare le modifiche apportate ai dati dell'utente
   mandaModifiche(){
     this.setValuess()
-    this.userService.modifyUser(this.username, this.email, this.nome, this.cognome, this.numero)
+    if(this.keycloakService.getAdmin()){
+      this.adminService.adminModifyUser(this.username, this.email, this.nome, this.cognome, this.numero)
+    }else{
+      this.userService.modifyUser(this.username, this.email, this.nome, this.cognome, this.numero)
+
+    }
   }
 
   //Metodo per verificare la validità del numero di cellulare che si sta cercando di aggiungere
@@ -219,7 +262,9 @@ export class PersonalDataComponent implements OnInit{
       return true;
     }
     const numeroPattern = /^\d{10}$/;
-    return numeroPattern.test(numero);
+    return numero === "Inserisci un numero di telefono" || numeroPattern.test(numero);
+
+
   }
 
 

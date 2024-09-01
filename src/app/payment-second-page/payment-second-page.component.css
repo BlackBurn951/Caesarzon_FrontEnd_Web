@@ -130,7 +130,6 @@ body{margin-top:20px;
 
 .avatar-group .avatar-group-item:hover {
   position: relative;
-  -webkit-transform: translateY(-2px);
   transform: translateY(-2px)
 }
 
@@ -222,7 +221,6 @@ a {
   position: absolute;
   right: -26px;
   top: 20px;
-  -webkit-transform: rotate(45deg);
   transform: rotate(45deg);
   color: #fff;
   font-size: 13px;
@@ -232,4 +230,30 @@ a {
 
 .text-start{
   text-align: left;
+}
+
+
+.table {
+  width: 100%;
+  table-layout: fixed;
+}
+
+.table td, .table th {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.checkout-order-summary {
+  width: 100%;
+  overflow-x: hidden;
+}
+
+
+footer {
+  background-color: #352244;
+  text-align: center;
+  color: white;
+  bottom: 0;
+  width: 100%;
 }

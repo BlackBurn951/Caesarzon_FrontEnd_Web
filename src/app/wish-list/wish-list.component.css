@@ -7,12 +7,17 @@
 
 
 .table-container{
-
   border: 1px solid black;
   width: 50vw;
   height: 20vw;
   overflow: auto;
 
+}
+
+.titless{
+  font-weight: bold;
+  font-size: 2rem;
+  margin-right: 3vw;
 }
 footer {
   background-color: #352244;
@@ -22,9 +27,16 @@ footer {
   bottom: 0;
   width: 100%;
 }
-.table-cell {
-  border: 1px solid black;
+
+
+.visibility{
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+}
+
+.prodottoOi{
+  cursor: pointer;
+}
+
+.prodottoOi:hover{
+  background-color: lightgray;
 }

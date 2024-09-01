@@ -182,6 +182,24 @@ header{
 
 
 
+/* Aggiungi questo stile al tuo file CSS */
+.unread-notification {
+  background-color: #f9f9f9; /* Colore di sfondo per le notifiche non lette */
+  border-left: 15px solid #FF9C00; /* Barra laterale colorata per le notifiche non lette */
+}
+
+.notification-item {
+  padding: 10px;
+}
+
+.notification-item p {
+  margin: 0;
+}
+
+.notification-body {
+  padding: 10px;
+  border-top: 1px solid #ddd;
+}
 
 
 
