@@ -44,7 +44,6 @@ export class UserService {
 
   private otpURL = 'http://localhost:8090/user-api/otp/';
 
-  private reviewURL = 'http://localhost:8090/notify-api/review';
 
 
   constructor( private http: HttpClient, private keycloakService: KeyCloakService, private popUp: PopupService) { }
@@ -102,7 +101,6 @@ export class UserService {
     this.http.delete<string>(this.manageUserDataURL, { headers , responseType: 'text' as 'json' })
       .subscribe({
         next: (response) => {
-          console.log('User eliminato con successo:', response);
           this.popUp.updateStringa(response)
           this.popUp.openPopups(10, true)
           this.keycloakService.setLoggedStatus()
@@ -145,7 +143,6 @@ export class UserService {
   getUserProfilePicByUser(username: string): Observable<Blob> {
     const headers = this.keycloakService.permaHeader()
     const customUrl = this.manageProfilePicURL + '/' + username;
-    console.log("url completo: " + customUrl)
     return this.http.get(customUrl, {headers, responseType: 'blob' });
   }
 

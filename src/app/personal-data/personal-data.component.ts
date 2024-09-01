@@ -9,9 +9,6 @@ import {UserService} from "../services/userService";
 import {User} from "../entities/User";
 import {KeyCloakService} from "../services/keyCloakService";
 import {DomSanitizer, SafeUrl} from "@angular/platform-browser";
-import {Observable} from "rxjs";
-import {HttpClient} from "@angular/common/http";
-import {ActivatedRoute} from "@angular/router";
 import {AdminService} from "../services/adminService";
 import {ProductService} from "../services/productService";
 
@@ -62,7 +59,11 @@ export class PersonalDataComponent implements OnInit{
 
   eliminaProfiloUtente(){
     this.popUpService.operazione = 11
-    this.popUpService.updateStringa("Sei sicuro di voler eliminare l'account dell'utente: " + this.userService.username+'?')
+    if(this.keycloakService.getAdmin()){
+      this.popUpService.updateStringa("Sei sicuro di voler eliminare l'account dell'utente: " + this.userService.username+'?')
+    }else{
+      this.popUpService.updateStringa("Sei sicuro di voler eliminare il tuo account?")
+    }
     this.popUpService.openPopups(140, false)
   }
 
@@ -185,7 +186,6 @@ export class PersonalDataComponent implements OnInit{
 
         },
         error => {
-          console.log(error);
            }
       );
     }

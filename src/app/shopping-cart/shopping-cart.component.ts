@@ -1,11 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from "@angular/router";
-import { PopupService } from "../services/popUpService";
 import { KeyCloakService } from "../services/keyCloakService";
 import { CartService } from "../services/cartService";
 import {ChangeCart} from "../entities/ChangeCart";
-import {Unvailable} from "../entities/Unvaiable";
-import {Availabilities} from "../entities/Availabilities";
 import {ProductService} from "../services/productService";
 
 @Component({
@@ -33,7 +29,6 @@ export class ShoppingCartComponent implements OnInit {
 
     this.cartService.updateProductInCart(item.id, 1, changeCartDTO).subscribe(
       response => {
-        console.log('Quantità aggiornata con successo', response);
       },
       error => {
         console.error('Errore nell\'aggiornamento della quantità', error);
@@ -49,7 +44,6 @@ export class ShoppingCartComponent implements OnInit {
 
     this.cartService.updateProductInCart(item.id, 1, changeCartDTO).subscribe(
       response => {
-        console.log('Taglia aggiornata con successo', response);
       },
       error => {
         console.error('Errore nell\'aggiornamento della taglia', error);

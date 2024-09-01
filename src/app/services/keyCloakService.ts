@@ -183,7 +183,6 @@ export class KeyCloakService {
           this.router.navigate(['']);
 
         }else{
-          console.log("Logout failed");
 
         }
       }
@@ -230,7 +229,6 @@ export class KeyCloakService {
     return this.http.post(this.accessTokenUrl, body.toString(), { headers }).pipe(
       tap((response: any) => {
         this.setTokens(response.access_token, response.refresh_token);
-        console.log("TOKEN AGGIORNATO: " + this.getAccessToken())
       }),
       catchError((error) => {
         console.error('Error during token refresh:', error);
@@ -246,10 +244,8 @@ export class KeyCloakService {
     setInterval(() => {
       this.refreshToken().subscribe(
         () => {
-          console.log("Token refreshed successfully.");
         },
         (error) => {
-          console.error("Error refreshing token:", error);
         }
       );
     }, refreshInterval);

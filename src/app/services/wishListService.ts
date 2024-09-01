@@ -215,12 +215,10 @@ export class WishListService{
   updateWishListID(event: Event) {
     const selectElement = event.target as HTMLSelectElement;
     const selectedId = selectElement.value;
-    console.log("Selected Wish List ID: ", selectedId); // Aggiungi questo per vedere se viene chiamato
     this.setWishListID(selectedId);
   }
 
   setWishListID(id: string) {
-    console.log("Setting Wish List ID: ", id); // Aggiungi questo per vedere se l'ID viene settato
     this.wishListToAddProduct = id;
   }
 

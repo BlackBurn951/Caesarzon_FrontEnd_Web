@@ -78,12 +78,8 @@ export class CartService {
 
   resetDispo() {
 
-    this.productIds.forEach(a =>{
-      console.log(a)
-    })
     const headers = this.keyCloakService.permaHeader();
     this.http.post<string>(this.resetAvaURL, this.productIds,{headers}).subscribe( a =>{
-      console.log('Successo:', a);
     });
   }
 
@@ -174,9 +170,7 @@ export class CartService {
     }
     return this.http.put<string>(customURL, changeCart,{ headers }).subscribe(response => {
       if (response === "Ordine modificato con successo!") {
-        console.log(response)
       }else{
-        console.log(response)
       }
     });
 
@@ -188,9 +182,7 @@ export class CartService {
     const customURL = this.getCartURL+'/'+idProdotto
     return this.http.delete<string>(customURL,{ headers }).subscribe(response => {
       if (response === "Prodotto cancellato con successo") {
-        console.log(response)
       }else{
-        console.log(response)
       }
     });
 
@@ -210,9 +202,7 @@ export class CartService {
         this.productLater = []
         this.popUp.updateStringa(response)
         this.popUp.openPopups(123, true)
-        console.log(response)
       }else{
-        console.log(response)
       }
     });
   }
@@ -304,11 +294,6 @@ export class CartService {
         return;
       }
 
-      console.log("NEL DO SUCCESS")
-      console.log("ADDRESS ID: " + this.buy.addressID)
-      console.log("CARD ID: " + this.buy.cardID)
-      this.buy.productsIds.forEach(productId => {console.log("PRODUCTID: " + productId)})
-      console.log("TOTALE: " + this.buy.total)
 
       const pay: PayPal = {
         paymentId: paymentId,
@@ -317,13 +302,11 @@ export class CartService {
         buyDTO: this.buy
       };
 
-      console.log('PayPal details:', pay);
       this.addressService.getAddress(this.addressId).subscribe( response =>{
         this.addressService.indirizzoCorrente = response
       })
       const headers = this.keyCloakService.permaHeader();
       this.http.post<string>(this.doSuccesURL, pay, { headers , responseType: 'text' as 'json' }).subscribe(response => {
-        console.log('Success response:', response);
         if(response === "Ordine effettuato con successo!"){
           this.ordineInviato = true
           this.router.navigate(['order-final']);

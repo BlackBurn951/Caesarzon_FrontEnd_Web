@@ -1,4 +1,4 @@
-import {booleanAttribute, Injectable} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {Reports} from "../entities/Report";
 import {Supports} from "../entities/Supports";
 import {Bans} from "../entities/Bans";
@@ -73,6 +73,8 @@ export class AdminService {
   private getReviewURL = 'http://localhost:8090/product-api/review';
 
   private manageUserDataURL = 'http://localhost:8090/user-api/user/';
+
+  private adminDeleteUserAndUser = 'http://localhost:8090/user-api/user'
 
   private manageProfilePicURL = 'http://localhost:8090/user-api/image/';
 
@@ -153,19 +155,19 @@ export class AdminService {
 
   adminDeleteUser(){
     const headers = this.keycloakService.permaHeader()
-    const customURL = this.manageUserDataURL+'/'+this.userService.username
+    let customURL;
+    if(this.keycloakService.getAdmin()){
+      customURL = this.adminDeleteUserAndUser+'/'+this.userService.username
+    }else{
+      customURL = this.adminDeleteUserAndUser
+    }
 
     this.http.delete<string>(customURL, { headers , responseType: 'text' as 'json' })
       .subscribe({
         next: (response) => {
-          console.log('User eliminato con successo:', response);
           this.popUp.updateStringa(response)
-          this.popUp.openPopups(10, true)
-          this.keycloakService.setLoggedStatus()
-          setTimeout(()=>{
-            window.location.reload()
-          }, 2000);
-
+          this.popUp.openPopups(1550, true)
+          this.router.navigate([''])
 
         },
         error: (error) => {
@@ -198,8 +200,7 @@ export class AdminService {
 
   sendResponse(){
     const headers = this.keycloakService.permaHeader()
-    console.log(this.idSupport)
-    console.log(this.rispostaAdmin)
+
     const urlWithParams = `${this.supportURL}?support-id=${this.idSupport}&explain=${this.rispostaAdmin}`;
     return this.http.delete<string>(urlWithParams, {headers, responseType: "text" as 'json'});
   }
@@ -213,7 +214,6 @@ export class AdminService {
 
 
   sendReports() {
-    console.log("SOno nella funzione")
     const reports: Reports = {
       id: "",
       reason: this.motivoSegnalazione,
@@ -249,7 +249,6 @@ export class AdminService {
   }
 
   sendReport(report: Reports): Observable<any> {
-    console.log("SOno nella chiamata")
 
     const headers = this.keycloakService.permaHeader()
     return this.http.post<any>(this.reportURL, report, { headers, responseType: 'text' as 'json' });

@@ -4,9 +4,8 @@ import { KeyCloakService } from "./keyCloakService";
 import {PopupService} from "./popUpService";
 import {UserSearch} from "../entities/UserSearch";
 
-import {DomSanitizer, SafeUrl} from "@angular/platform-browser";
-import {User} from "../entities/User";
-import {UserService} from "./userService";
+import {DomSanitizer} from "@angular/platform-browser";
+
 import {AdminService} from "./adminService";
 
 @Injectable({
@@ -142,44 +141,34 @@ export class FriendFollowerService {
   addFollowersOrFriends(index: number, cerca: boolean) {
     if (cerca) {
       const selectedUser = this.users[index];
-      console.log('Utente selezionato da "Cerca utenti":', selectedUser);
 
-      console.log('Array users dopo la rimozione:', this.users);
 
       if (!this.usersFollow) {
         this.usersFollow = [];
       }
       this.usersFollow.push(selectedUser);
-      console.log('Array usersFollow dopo l\'aggiunta:', this.usersFollow);
 
       if (!this.usersFriendFollowBuffer) {
         this.usersFriendFollowBuffer = [];
       }
       this.usersFriendFollowBuffer.push(selectedUser);
-      console.log('Array usersFriendFollowBuffer dopo l\'aggiunta:', this.usersFriendFollowBuffer);
     } else {
       const selectedUser = this.usersFollow[index];
-      console.log('Utente selezionato da "Seguiti":', selectedUser);
 
       if (selectedUser) {
         selectedUser.friend = true;
-        console.log('Flag "friend" impostato a true per l\'utente:', selectedUser);
 
-        console.log('Array usersFollow dopo la rimozione:', this.usersFollow);
 
         if (!this.usersFriend) {
           this.usersFriend = [];
         }
         this.usersFriend.push(selectedUser);
-        console.log('Array usersFriend dopo l\'aggiunta:', this.usersFriend);
 
         if (!this.usersFriendFollowBuffer) {
           this.usersFriendFollowBuffer = [];
         }
         this.usersFriendFollowBuffer.push(selectedUser);
-        console.log('Array usersFriendFollowBuffer dopo l\'aggiunta:', this.usersFriendFollowBuffer);
       } else {
-        console.error('Utente selezionato non trovato in usersFollow');
       }
     }
   }
@@ -192,11 +181,9 @@ export class FriendFollowerService {
         .subscribe(
           response => {
             this.usersFriendFollowBuffer = []
-            console.log('Successo:', response);
           },
           error => {
             this.usersFriendFollowBuffer = []
-            console.error('Errore:', error);
           }
         );
     }
@@ -220,10 +207,8 @@ export class FriendFollowerService {
 
       // Effettua la richiesta DELETE
       this.http.delete<string>(customUrl, { headers, responseType: 'text' as 'json' }).subscribe(response => {
-        console.log(response);
       });
     } else {
-      console.log("Utente non trovato");
     }
   }
 
@@ -238,11 +223,9 @@ export class FriendFollowerService {
       .subscribe(
         response => {
           this.usersFriendFollowBuffer = []
-          console.log('Successo:', response);
         },
         error => {
           this.usersFriendFollowBuffer = []
-          console.error('Errore:', error);
         }
       );
   }

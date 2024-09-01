@@ -156,7 +156,6 @@ export class ProductService {
   }
 
   uploadImage(file: File, id: string): Observable<any> {
-    console.log(file)
     const formData = new FormData();
     formData.append('file', file, file.name);
 
@@ -241,7 +240,6 @@ export class ProductService {
         ids = ""
       }
     }
-    console.log("ID PRODOTTO PRESO DALLA CACHE: " + ids)
 
     const sendProduct: ProductDTO = {
       id: ids,
@@ -398,12 +396,9 @@ export class ProductService {
         this.getProductImage(prod.productId).subscribe(
           response => {
             const url = URL.createObjectURL(response);
-            console.log("URL IMMAGINE: " + url)
             prod.image = this.sanitizer.bypassSecurityTrustUrl(url);
-            console.log("IMMAGINE PRODOTTO: " + prod.image)
           },
           error => {
-            console.error('Errore nel caricamento dell\'immagine', error);
           }
         );
       })
@@ -512,9 +507,7 @@ export class ProductService {
     this.getProductImage(id).subscribe(
       response => {
         const url = URL.createObjectURL(response);
-        console.log("URL IMMAGINE: " + url)
         this.imageUrl = this.sanitizer.bypassSecurityTrustUrl(url);
-        console.log("IMMAGINE PRODOTTO: " + this.imageUrl)
       },
       error => {
         console.error('Errore nel caricamento dell\'immagine', error);
@@ -530,7 +523,6 @@ export class ProductService {
         if(response != null)
           var uuid = response.replace(/"/g, "");
           if(this.selectedFile) {
-            console.log("UFILEEEEEEEEEE" + this.selectedFile.name)
             this.uploadImage(this.selectedFile, uuid).subscribe(response => {
                 if (response === "Immagine caricata con successo!") {
                   this.popUpService.updateStringa("Prodotto aggiunto o modificato con successo!")

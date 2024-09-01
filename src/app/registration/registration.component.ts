@@ -58,8 +58,6 @@ export class RegistrationComponent implements OnInit{
   comparaPassword() {
     const confermaPasswordValue = this.formCaesarzon.get('formRegistrazione.confermaPassword')?.value;
     const passwordValue = this.formCaesarzon.get('formRegistrazione.password')?.value;
-    console.log("PASSWORDCONFERMA: "+ confermaPasswordValue)
-    console.log("PASSWORDVALUE: "+ passwordValue)
 
     this.passwordDifferenti = confermaPasswordValue !== passwordValue;
   }

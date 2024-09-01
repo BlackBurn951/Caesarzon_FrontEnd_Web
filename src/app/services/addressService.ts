@@ -8,7 +8,6 @@ import { FormService } from "./formService";
 import { City } from "../entities/City";
 import {PopupService} from "./popUpService";
 import {Router} from "@angular/router";
-import {UserService} from "./userService";
 
 
 @Injectable({
@@ -53,7 +52,6 @@ export class AddressService implements OnInit{
 
     this.http.get<string[]>(this.getAddressNamesURL, { headers }).subscribe({
       next: (response) => {
-        console.log("Address id: " + response);
         this.addressesName = response;
 
         // Creo un array di observable per ogni chiamata a getAddress
@@ -62,7 +60,6 @@ export class AddressService implements OnInit{
         // Utilizzo forkJoin per eseguire tutte le richieste in parallelo
         forkJoin(requests).subscribe(
           (addresses: Address[]) => {
-            console.log("Addresses fetched:", addresses);
             this.addresses = addresses; // Assegno tutti gli indirizzi alla lista addresses
           },
           (error) => {

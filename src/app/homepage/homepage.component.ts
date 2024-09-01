@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {KeyCloakService} from "../services/keyCloakService";
 import {ProductService} from "../services/productService";
 import {UserService} from "../services/userService";
-import {DomSanitizer, SafeUrl} from "@angular/platform-browser";
+import {DomSanitizer} from "@angular/platform-browser";
 
 
 @Component({
@@ -17,7 +17,7 @@ export class HomepageComponent implements OnInit{
   indexNovita: number = 0;
   indexOfferte: number = 0;
 
-  constructor(private sanitizer: DomSanitizer, protected key: KeyCloakService, protected productService: ProductService, protected userService: UserService) {
+  constructor(protected key: KeyCloakService, protected productService: ProductService, protected userService: UserService) {
 
   }
 
@@ -46,7 +46,6 @@ export class HomepageComponent implements OnInit{
   nextData(id: string) {
 
     if(id === 'novita'){
-      console.log('sono in novità')
       if (this.productService.newProducts.length === 0)
         return;
 

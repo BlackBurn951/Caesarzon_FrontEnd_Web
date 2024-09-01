@@ -40,7 +40,6 @@ export class CardsService {
     const headers = this.keyCloakService.permaHeader();
     this.http.get<string[]>(this.getCardsNameURL, { headers }).subscribe({
       next: (response) => {
-        console.log("Card ids: ", response);
         this.cardsName = response;
 
         // Creo un array di observable per ogni chiamata a getCards
@@ -49,7 +48,6 @@ export class CardsService {
         // Utilizzo forkJoin per eseguire tutte le richieste in parallelo
         forkJoin(requests).subscribe(
           (cards: Card[]) => {
-            console.log("Cards fetched:", cards);
 
             // Modifico il numero della carta per nascondere le prime 8 cifre
             cards.forEach(card => {
@@ -81,7 +79,6 @@ export class CardsService {
     this.http.delete<string>(urlWithParams, { headers , responseType: 'text' as 'json' })
       .subscribe({
         next: (response) => {
-          console.log('Carta eliminato con successo:', response);
           this.popUp.updateStringa(response)
           this.popUp.openPopups(18, true)
           if(!this.keyCloakService.getAdmin()){
@@ -165,10 +162,6 @@ export class CardsService {
     const cvv = indirizzoForm?.get("cvv")?.value;
 
 
-    console.log("numero carta: " + numeroCarta)
-    console.log("Titolare carta: " + titolareCarta)
-    console.log("data: " + dataScadenza)
-    console.log("cvv: " + cvv)
 
     const cardData: Card = {
       id: "",

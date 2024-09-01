@@ -382,24 +382,6 @@
   </div>
 </div>
 
-<div class="container-fluidoss regLog" *ngIf="popUpService.wichComponent === 9" [ngClass]="{'Add': popUpService.isAdd}">
-  <div class="form-group d-flex flex-column align-items-center">
-    <div class="d-flex flex-column align-items-center">
-      <h1 class="accediLabel">Elimina account</h1>
-    </div>
-    <button (click)="popUpService.closePopup()" class="btn btn-dark ics">X</button>
-    <div class="d-flex flex-row align-items-center">
-      <div class="form-group">
-        <label for="verifyPassword">Password:</label>
-        <input type="password" id="verifyPassword" class="form-control mb-2" style="width: 15vw" [(ngModel)]="pass" >
-      </div>
-
-
-    </div>
-
-    <button class="btn btn-danger modifica" style="border: black solid 1px" (click)="eliminaAccount()">Elimina account</button>
-  </div>
-</div>
 
 <div class="container-fluidos regLog" *ngIf="popUpService.wichComponent === 10" [ngClass]="{'other': !popUpService.isOther}">
   <div class="form-group">
